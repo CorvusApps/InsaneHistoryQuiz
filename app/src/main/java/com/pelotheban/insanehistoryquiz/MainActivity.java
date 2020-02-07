@@ -3,7 +3,9 @@ package com.pelotheban.insanehistoryquiz;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
             ImageView imgGoogleLogoOverlayX;
             TextView txtGoogleLoginOverlayTextX;
 
+            // For login success snackbar
+            ConstraintLayout loutMainActivityX;
 
     TextView txtFBtestX;
 
@@ -80,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                Toast.makeText(MainActivity.this, "in google", Toast.LENGTH_SHORT).show();
+
                 googleSignIn();
 
             }
@@ -93,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 btnGoogleLoginX.performClick();
+                Toast.makeText(MainActivity.this, "in overlay", Toast.LENGTH_SHORT).show();
+                googleSignIn();
 
             }
         });
@@ -102,13 +110,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                btnGoogleLoginX.performClick();
+                btnGoogleLoginX.performClick(); // the perfomrm clicks don't work - may have to be in the same view as the button but no need to expertiment as can call google directly
+                googleSignIn();
 
             }
         });
 
-
-
+        // For login success snackbar
+        loutMainActivityX = findViewById(R.id.loutMainActivity);
 
 
         //////// TESTING STUFF ////////////////////////////////////////////////////////////////////////////////
@@ -165,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
 //
 //                    }
 //                });
+
+                ///////////// END of testing stuff in oncreate //////////////////////////////////////////
 
             }
         });
@@ -240,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
 
                         email = authResult.getUser().getEmail();
 
-                       // loginSnackbar();
+                        loginSnackbar();
 
                         transitionToHome();
 
@@ -272,6 +283,32 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }.start();
+
+    }
+
+    @Override
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
+    public void onBackPressed() {
+
+
+
+    }
+
+    private void loginSnackbar(){
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutMainActivityX, "Welcome: " + email, Snackbar.LENGTH_INDEFINITE);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorPrimaryDark));
+
+        snackbar.show();
+
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
 
     }
 
