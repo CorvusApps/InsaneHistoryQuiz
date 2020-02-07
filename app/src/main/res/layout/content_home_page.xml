@@ -12,15 +12,30 @@
     tools:context=".MainActivity">
 
     <ImageView
+        android:id="@+id/imageView3"
         android:layout_width="@dimen/_500sdp"
+
+
         android:layout_height="@dimen/_500sdp"
 
-
         android:src="@drawable/iconv2background"
-
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+
+        android:layout_marginTop="8dp"
+        android:text="History was not made by the meek..."
+        android:layout_marginLeft="@dimen/_8sdp"
+        app:layout_goneMarginTop="@dimen/_30sdp"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView3"
+
+        />
 
     <ImageView
         android:id="@+id/imgBtnAdmin"

@@ -1,6 +1,7 @@
 package com.pelotheban.insanehistoryquiz;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -13,17 +14,24 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class HomePage extends AppCompatActivity {
 
     AlertDialog dialog;
+
+    //Admin Button
+
+    ImageView imgBtnAdminX;
+
+    //User Buttons
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-
+        // Not used but keeping just in case
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,6 +40,20 @@ public class HomePage extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        //Admin Button
+
+        imgBtnAdminX = findViewById(R.id.imgBtnAdmin);
+        imgBtnAdminX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(HomePage.this, AdminDir.class);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     @Override

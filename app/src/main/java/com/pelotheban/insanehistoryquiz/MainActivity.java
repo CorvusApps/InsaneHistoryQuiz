@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(MainActivity.this, "in google", Toast.LENGTH_SHORT).show();
 
                 googleSignIn();
 
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 btnGoogleLoginX.performClick();
-                Toast.makeText(MainActivity.this, "in overlay", Toast.LENGTH_SHORT).show();
+
                 googleSignIn();
 
             }
@@ -193,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
 
             if (currentUser != null) {
 
-                // Toast.makeText(Login.this, currentUser.toString(), Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(MainActivity.this, HomePage.class);
                 startActivity(intent);
