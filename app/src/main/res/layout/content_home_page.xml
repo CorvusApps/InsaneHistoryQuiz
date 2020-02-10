@@ -5,6 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loutHomePage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -27,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
 
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="30dp"
         android:text="History was not made by the meek..."
         android:layout_marginLeft="@dimen/_8sdp"
         app:layout_goneMarginTop="@dimen/_30sdp"

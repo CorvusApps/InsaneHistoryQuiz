@@ -6,24 +6,102 @@
     android:layout_height="match_parent"
     tools:context=".HomePage">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
 
-
-
-    </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_home_page" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fabPopUpHP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_gravity="top|end"
+        android:outlineProvider="none"
+        app:rippleColor="@color/colorPrimary"
+
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+
+        android:src="@drawable/menu_white" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPopUpCollHP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        app:rippleColor="@color/colorPrimary"
+
+        android:backgroundTint="@color/colorPrimaryDark"
+
+        app:borderWidth="0dp"
         android:visibility="gone"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:src="@drawable/collapse_white"/>
+
+
+    <TextView
+        android:id="@+id/txtFAQButtonHP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="90dp"
+        android:layout_marginRight="70dp"
+        android:text="FAQ"
+        android:gravity="right"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:textColor="#FFFFFF"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPopUpFAQminiHP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="80dp"
+        android:layout_marginRight="24dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/faq"/>
+
+    <TextView
+        android:id="@+id/txtLogoutButtonHP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="130dp"
+        android:layout_marginRight="70dp"
+        android:text="Logout"
+        android:gravity="right"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:textColor="#FFFFFF"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPopUpLogOutminiHP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="120dp"
+        android:layout_marginRight="24dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/logout"/>
+
+
+    <View
+        android:id="@+id/shade"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primaryShadow"
+        android:visibility="invisible"/>
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

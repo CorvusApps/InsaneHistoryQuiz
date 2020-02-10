@@ -129,29 +129,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
-
-
-                DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("questions");
-                DatabaseReference dbPushReference = dbReference.push();
-
-                HashMap<String, Object> dataMap = new HashMap<>();
-
-                dataMap.put("ask", "what the fuck");
-                dataMap.put("answer", "fuck you");
-
-                dbPushReference.setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-
-
-                        Toast.makeText(MainActivity.this,"question added", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-
-
-//                Query query = dbReference.orderByChild("questions");
+                //Query query = dbReference.orderByChild("questions");
 //
 //                query.addListenerForSingleValueEvent(new ValueEventListener() {
 //                    @Override

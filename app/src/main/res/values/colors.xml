@@ -5,4 +5,6 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="colorDialog">#000000</color>
+    <color name="primaryShadow">#75000000</color>
+
 </resources>
