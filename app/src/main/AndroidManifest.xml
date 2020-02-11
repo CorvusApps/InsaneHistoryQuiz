@@ -9,7 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ManualQInput"></activity>
+        <activity
+            android:name=".Excel"
+            android:label="@string/title_activity_excel"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+        <activity
+            android:name=".QuestionList"
+            android:label="@string/title_activity_question_list"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity android:name=".ManualQInput" />
         <activity android:name=".AdminDir" />
         <activity
             android:name=".HomePage"

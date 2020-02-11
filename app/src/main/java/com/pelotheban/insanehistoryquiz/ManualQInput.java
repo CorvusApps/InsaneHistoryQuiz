@@ -3,6 +3,7 @@ package com.pelotheban.insanehistoryquiz;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -106,6 +107,7 @@ public class ManualQInput extends AppCompatActivity {
 
                 DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("questions");
                 DatabaseReference dbPushReference = dbReference.push();
+                String questionUidX = dbPushReference.getKey(); // this then is the key for the coin
 
                 String QuestionNumberZ = edtQuestionNumberX.getText().toString();
                 QuestionNumberY = Integer.parseInt(QuestionNumberZ);
@@ -121,15 +123,16 @@ public class ManualQInput extends AppCompatActivity {
 
                 HashMap<String, Object> dataMap = new HashMap<>();
 
-                dataMap.put("1qno", QuestionNumberY);
-                dataMap.put("2category", CategoryY);
-                dataMap.put("3question", QuestionY);
-                dataMap.put("4correctansw", CorrectAnswerY);
-                dataMap.put("5wrongans1", WrongAnswer1Y);
-                dataMap.put("6wrongans2", WrongAnswer2Y);
-                dataMap.put("7wrongans3", WrongAnswer3Y);
-                dataMap.put("8wrongans4", WrongAnswer4Y);
-                dataMap.put("9expanded", ExpandedAnswerY);
+                dataMap.put("aaaqno", QuestionNumberY);
+                dataMap.put("bbbcategory", CategoryY);
+                dataMap.put("cccquestion", QuestionY);
+                dataMap.put("dddcorrectansw", CorrectAnswerY);
+                dataMap.put("eeewrongans1", WrongAnswer1Y);
+                dataMap.put("fffwrongans2", WrongAnswer2Y);
+                dataMap.put("gggwrongans3", WrongAnswer3Y);
+                dataMap.put("hhhwrongans4", WrongAnswer4Y);
+                dataMap.put("iiiexpanded", ExpandedAnswerY);
+                dataMap.put("jjjquid", questionUidX);
 
                 dbPushReference.setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -137,6 +140,18 @@ public class ManualQInput extends AppCompatActivity {
 
 
                         Toast.makeText(ManualQInput.this,"question added", Toast.LENGTH_SHORT).show();
+
+                        edtQuestionNumberX.setText("");
+                        edtCategoryX.setText("");
+                        edtQuestionX.setText("");
+                        edtCorrectAnswerX.setText("");
+                        edtWrongAnswer1X.setText("");
+                        edtWrongAnswer2X.setText("");
+                        edtWrongAnswer3X.setText("");
+                        edtWrongAnswer4X.setText("");
+                        edtExpandedAnswerX.setText("");
+
+
                     }
                 });
 

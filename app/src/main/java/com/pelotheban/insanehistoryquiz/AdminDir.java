@@ -10,7 +10,7 @@ import android.widget.Button;
 public class AdminDir extends AppCompatActivity {
 
 
-    Button btnManualX;
+    Button btnManualX, btnExcelX, btnReviewX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,28 @@ public class AdminDir extends AppCompatActivity {
 
                 Intent intent = new Intent(AdminDir.this, ManualQInput.class);
                 startActivity(intent);
+            }
+        });
+
+        btnExcelX = findViewById(R.id.btnExcel);
+        btnExcelX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(AdminDir.this, Excel.class);
+                startActivity(intent);
+
+            }
+        });
+
+        btnReviewX = findViewById(R.id.btnReview);
+        btnReviewX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(AdminDir.this, QuestionList.class);
+                startActivity(intent);
+
             }
         });
 
