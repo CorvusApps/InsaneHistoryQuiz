@@ -375,16 +375,17 @@ public class Excel extends AppCompatActivity {
                 String gggwrongans3 = columns[6];
                 String hhhwrongans4 = columns[7];
                 String iiiexpanded = columns[8];
+                String kkkanstoggle = columns[9];
 
 
-                String cellInfo = "(aaaqno, bbbcategory, cccquestion, dddcorrectansw, eeewrongans1, fffwrongans2, gggwrongans3, hhhwrongans4, iiiexpanded)" +
+                String cellInfo = "(aaaqno, bbbcategory, cccquestion, dddcorrectansw, eeewrongans1, fffwrongans2, gggwrongans3, hhhwrongans4, iiiexpanded, kkkanstoggle)" +
                         ": (" + aaaqno + "," + bbbcategory + ", " + cccquestion + ", " + dddcorrectansw + ", " + eeewrongans1 + ", " + fffwrongans2 + ", " + gggwrongans3 + ", " + hhhwrongans4 + "" +
-                        ", " + iiiexpanded + ",)";
+                        ", " + iiiexpanded + ", " + kkkanstoggle + ")";
 
                 Log.d(TAG, "ParseStringBuilder: Data from row: " + cellInfo);
 
                 //add the the uploadData ArrayList
-                uploadData.add(new ZZZjcExcel(aaaqno, bbbcategory, cccquestion, dddcorrectansw, eeewrongans1,fffwrongans2, gggwrongans3, hhhwrongans4, iiiexpanded));
+                uploadData.add(new ZZZjcExcel(aaaqno, bbbcategory, cccquestion, dddcorrectansw, eeewrongans1,fffwrongans2, gggwrongans3, hhhwrongans4, iiiexpanded, kkkanstoggle));
 
             }catch (NumberFormatException e){
 
@@ -411,13 +412,14 @@ public class Excel extends AppCompatActivity {
             String gggwrongans3 = uploadData.get(i).getGggwrongans3();
             String hhhwrongans4 = uploadData.get(i).getHhhwrongans4();
             String iiiexpanded = uploadData.get(i).getIiiexpanded();
+            String kkkanstoggle = uploadData.get(i).getKkkanstoggle();
 
 
             final int questionCounter = i +1; //coin counter for toast
 
 
             Log.d(TAG, "printDataToLog: (aaaqno, bbbcategory, cccquestion, dddcorrectansw, eeewrongans1, fffwrongans2, gggwrongans3, hhhwrongans4, iiiexpanded): (" + aaaqno + "," + bbbcategory + ", " + cccquestion + ", " + dddcorrectansw + ", " + eeewrongans1 + ", " + fffwrongans2 + ", " + gggwrongans3 + ", " + hhhwrongans4 + "" +
-                    ", " + iiiexpanded + ")");
+                    ", " + iiiexpanded + " , " + iiiexpanded + ")");
 
             String uid = FirebaseAuth.getInstance().getUid();
 
@@ -446,6 +448,8 @@ public class Excel extends AppCompatActivity {
             dataMap.put("gggwrongans3", gggwrongans3);
             dataMap.put("hhhwrongans4", hhhwrongans4);
             dataMap.put("iiiexpanded", iiiexpanded);
+
+            dataMap.put("kkkanstoggle", kkkanstoggle);
 
 
 

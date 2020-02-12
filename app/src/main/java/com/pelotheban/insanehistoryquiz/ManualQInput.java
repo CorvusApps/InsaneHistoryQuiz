@@ -26,7 +26,7 @@ public class ManualQInput extends AppCompatActivity {
     // UI Elements
 
     EditText edtQuestionNumberX, edtCategoryX, edtQuestionX, edtCorrectAnswerX, edtWrongAnswer1X, edtWrongAnswer2X, edtWrongAnswer3X
-            ,edtWrongAnswer4X, edtExpandedAnswerX;
+            ,edtWrongAnswer4X, edtExpandedAnswerX, edtAnsToggleX;
 
     LinearLayout loutManualQInputX;
 
@@ -36,7 +36,7 @@ public class ManualQInput extends AppCompatActivity {
 
     int QuestionNumberY;
 
-    String CategoryY, QuestionY, CorrectAnswerY, WrongAnswer1Y, WrongAnswer2Y, WrongAnswer3Y, WrongAnswer4Y, ExpandedAnswerY;
+    String CategoryY, QuestionY, CorrectAnswerY, WrongAnswer1Y, WrongAnswer2Y, WrongAnswer3Y, WrongAnswer4Y, ExpandedAnswerY, AnsToggleY;
 
 
     @Override
@@ -77,8 +77,12 @@ public class ManualQInput extends AppCompatActivity {
         edtWrongAnswer4X.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
         edtExpandedAnswerX = findViewById(R.id.edtExpandedAnswer);
-        edtExpandedAnswerX.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        edtExpandedAnswerX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         edtExpandedAnswerX.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+        edtAnsToggleX = findViewById(R.id.edtAnswerToggle);
+        edtAnsToggleX.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        edtAnsToggleX.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
         //setting up keyboard hiding when tapping outside of edttext
 
@@ -120,6 +124,7 @@ public class ManualQInput extends AppCompatActivity {
                 WrongAnswer3Y = edtWrongAnswer3X.getText().toString();
                 WrongAnswer4Y = edtWrongAnswer4X.getText().toString();
                 ExpandedAnswerY = edtExpandedAnswerX.getText().toString();
+                AnsToggleY = edtAnsToggleX.getText().toString();
 
                 HashMap<String, Object> dataMap = new HashMap<>();
 
@@ -133,6 +138,7 @@ public class ManualQInput extends AppCompatActivity {
                 dataMap.put("hhhwrongans4", WrongAnswer4Y);
                 dataMap.put("iiiexpanded", ExpandedAnswerY);
                 dataMap.put("jjjquid", questionUidX);
+                dataMap.put("kkkanstoggle", AnsToggleY);
 
                 dbPushReference.setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -150,6 +156,7 @@ public class ManualQInput extends AppCompatActivity {
                         edtWrongAnswer3X.setText("");
                         edtWrongAnswer4X.setText("");
                         edtExpandedAnswerX.setText("");
+                        edtAnsToggleX.setText("");
 
 
                     }
