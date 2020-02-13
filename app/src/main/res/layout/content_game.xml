@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="6"
             android:textSize="@dimen/_15sdp"
-            android:text="0" />
+            android:text="" />
 
         <TextView
             android:id="@+id/txtCoinCounter"
@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
             android:text="0" />
     </LinearLayout>

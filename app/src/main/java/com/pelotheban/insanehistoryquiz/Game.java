@@ -2,6 +2,7 @@ package com.pelotheban.insanehistoryquiz;
 
 import android.os.Bundle;
 
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +36,7 @@ public class Game extends AppCompatActivity {
     private int randAnswer;
     private Button btnCorrectX, btnWrongX;
     private TextView txtCoinCounterX;
+    private String coinGrantToggle;
 
     private TextView txtGameQuestionX, txtGameAnswerDisplayX, txtGameExpandedAnswerX;
 
@@ -72,12 +74,10 @@ public class Game extends AppCompatActivity {
         uid = FirebaseAuth.getInstance().getUid();
         userReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
 
-//        Toast.makeText(Game.this, uid, Toast.LENGTH_LONG).show();
-         userReference.getRef().child("coins").setValue(80);
          userReference.getRef().child("user").setValue(uid);
 
 
-        // add coins to account for now without checking if any there now
+        ////// add coins to account IF FIRST TIME /////////////////////////////////////////////////////////////
 
         sortUsersQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(uid);
         sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -86,14 +86,111 @@ public class Game extends AppCompatActivity {
 
 
                 for (DataSnapshot userDs: dataSnapshot.getChildren()) {
+                    // need the try because if new account will return null
+                    try {
+                        coinsOwnedString = userDs.child("coins").getValue().toString();
 
-                    coinsOwnedString = userDs.child("coins").getValue().toString();
+                        coinsOwned = Double.valueOf(coinsOwnedString);
 
-                    coinsOwned = Double.valueOf(coinsOwnedString);
+
+
+                        coinGrantToggle = userDs.child("coinsgranttoggle").getValue().toString();
+                    } catch (Exception e) {
+
+
+                         Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+
 
                 }
 
-                Toast.makeText(Game.this, coinsOwnedString + " Coins", Toast.LENGTH_LONG).show();
+                txtCoinCounterX.setText(coinsOwnedString); // IF there are any coins in the account will set the counter
+
+                try {
+                        if (coinsOwned > 0 | coinGrantToggle.equals("yes")) {
+
+                            Toast.makeText(Game.this, "NOT GRANTING", Toast.LENGTH_SHORT).show();
+
+                        } else { // setting up grant if conditions for NOT GRANTING are unmet - BUT probably never invoked because
+                                 // if conditions unmet that just means that the "if" goes null gets caught by try and bounced to error
+                                 // before invoking the else - So.... repeating this AGAIN in the catch of the if
+
+                            Toast.makeText(Game.this, "Granting", Toast.LENGTH_SHORT).show();
+
+                            userReference.getRef().child("coins").setValue(80);
+                            userReference.getRef().child("coinsgranttoggle").setValue("yes");
+                            sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    for (DataSnapshot userDs: dataSnapshot.getChildren()) {
+
+                                        try {
+                                            coinsOwnedString = userDs.child("coins").getValue().toString();
+
+                                            coinsOwned = Double.valueOf(coinsOwnedString);
+
+                                            coinGrantToggle = userDs.child("coinsgranttoggle").getValue().toString();
+                                        } catch (Exception e) {
+
+                                            Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                        }
+
+                                    }
+
+                                    txtCoinCounterX.setText(coinsOwnedString);
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                        }
+
+                    } catch (Exception e) { // this is the catch of the if above and repeating the initial coin grant query as per notes above
+
+                    Toast.makeText(Game.this, "Granting", Toast.LENGTH_SHORT).show();
+
+                    userReference.getRef().child("coins").setValue(80);
+                    userReference.getRef().child("coinsgranttoggle").setValue("yes");
+                    sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            for (DataSnapshot userDs: dataSnapshot.getChildren()) {
+
+                                try {
+                                    coinsOwnedString = userDs.child("coins").getValue().toString();
+
+                                    coinsOwned = Double.valueOf(coinsOwnedString);
+
+                                    coinGrantToggle = userDs.child("coinsgranttoggle").getValue().toString();
+                                } catch (Exception e) {
+
+                                    Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+
+                            txtCoinCounterX.setText(coinsOwnedString);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
+                    //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
             }
 
             @Override
@@ -103,8 +200,9 @@ public class Game extends AppCompatActivity {
         });
 
 
+        //// END OF INITIAL COIN GRANT SECTION //////////////////////////////////////////////////////////////////////////////////
 
-        // Firebase game
+        // Firebase game SECTION BEGINS /////////////////////////////////////////////////////////////////////////////////////////
 
         gameReference = FirebaseDatabase.getInstance().getReference().child("questions");
         sortGameQueryQuestions = gameReference.orderByChild("aaaqno").equalTo(randQuestion);
@@ -114,9 +212,6 @@ public class Game extends AppCompatActivity {
         sortGameQueryQuestions.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
-
 
                 for (DataSnapshot gameQs: dataSnapshot.getChildren()) {
 
@@ -137,8 +232,6 @@ public class Game extends AppCompatActivity {
 
                         displayAnswer = GameCorrectAnswerZ;
 
-
-
                     }else if(randAnswer == 2){
 
                         displayAnswer = GameWrongAnswer1Z;
@@ -157,8 +250,6 @@ public class Game extends AppCompatActivity {
                     }else if(randAnswer == 5){
 
                         displayAnswer = GameWrongAnswer1Z;
-
-
                     }
 
 
@@ -190,12 +281,25 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
                 if (randAnswer == answerCounter) {
 
                     Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
+                    coinsOwned = coinsOwned + 5;
+                    String coinsOwedZ = Double.toString(coinsOwned);
+                    txtCoinCounterX.setText(coinsOwedZ);
+                    userReference.getRef().child("coins").setValue(coinsOwned);
+                    nextQuestions ();
+
+
                 } else {
 
                     Toast.makeText(Game.this, "WRONG", Toast.LENGTH_LONG).show();
+                    coinsOwned = coinsOwned - 10;
+                    String coinsOwedZ = Double.toString(coinsOwned);
+                    txtCoinCounterX.setText(coinsOwedZ);
+                    userReference.getRef().child("coins").setValue(coinsOwned);
+                    nextQuestions ();
                 }
             }
         });
@@ -209,9 +313,15 @@ public class Game extends AppCompatActivity {
                 if (randAnswer == answerCounter) {
 
                     Toast.makeText(Game.this, "WRONG", Toast.LENGTH_LONG).show();
+                    coinsOwned = coinsOwned - 10;
+                    String coinsOwedZ = Double.toString(coinsOwned);
+                    txtCoinCounterX.setText(coinsOwedZ);
+                    userReference.getRef().child("coins").setValue(coinsOwned);
+                    nextQuestions ();
                 } else {
 
                     Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
+                    nextQuestions ();
                 }
 
             }
@@ -317,6 +427,104 @@ public class Game extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void nextQuestions (){
+
+        answerCounter = answerCounter + 1;
+
+        sortGameQueryQuestions.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                for (DataSnapshot gameQs: dataSnapshot.getChildren()) {
+
+
+//                            String GameQuestionZ = gameQs.child("cccquestion").getValue().toString();
+//                            txtGameQuestionX.setText(GameQuestionZ);
+
+                    String GameCorrectAnswerZ = gameQs.child("dddcorrectansw").getValue().toString();
+                    String GameWrongAnswer1Z = gameQs.child("eeewrongans1").getValue().toString();
+                    String GameWrongAnswer2Z = gameQs.child("fffwrongans2").getValue().toString();
+                    String GameWrongAnswer3Z = gameQs.child("gggwrongans3").getValue().toString();
+                    String GameWrongAnswer4Z = gameQs.child("hhhwrongans4").getValue().toString();
+
+
+                    if(randAnswer == 1){
+
+                        displayAnswer = GameCorrectAnswerZ;
+                        displayAnswer2 = GameWrongAnswer1Z;
+                        displayAnswer3 = GameWrongAnswer4Z;
+                        displayAnswer4 = GameWrongAnswer2Z;
+                        displayAnswer5 = GameWrongAnswer3Z;
+
+
+                    }else if(randAnswer == 2){
+
+                        displayAnswer = GameWrongAnswer1Z;
+                        displayAnswer2 = GameCorrectAnswerZ;
+                        displayAnswer3 = GameWrongAnswer2Z;
+                        displayAnswer4 = GameWrongAnswer3Z;
+                        displayAnswer5 = GameWrongAnswer4Z;
+
+                    }else if(randAnswer == 3){
+
+                        displayAnswer = GameWrongAnswer4Z;
+                        displayAnswer2 = GameWrongAnswer3Z;
+                        displayAnswer3 = GameCorrectAnswerZ;
+                        displayAnswer4 = GameWrongAnswer1Z;
+                        displayAnswer5 = GameWrongAnswer2Z;
+
+                    }else if(randAnswer == 4){
+
+                        displayAnswer = GameWrongAnswer3Z;
+                        displayAnswer2 = GameWrongAnswer4Z;
+                        displayAnswer3 = GameWrongAnswer2Z;
+                        displayAnswer4 = GameCorrectAnswerZ;
+                        displayAnswer5 = GameWrongAnswer1Z;
+
+                    }else if(randAnswer == 5){
+
+                        displayAnswer = GameWrongAnswer1Z;
+                        displayAnswer2 = GameWrongAnswer2Z;;
+                        displayAnswer3 = GameWrongAnswer4Z;
+                        displayAnswer4 = GameWrongAnswer3Z;
+                        displayAnswer5 = GameCorrectAnswerZ;
+
+                    }
+
+
+                    if (answerCounter == 1) {
+                        txtGameAnswerDisplayX.setText(displayAnswer);
+
+                    } else if (answerCounter == 2) {
+                        txtGameAnswerDisplayX.setText(displayAnswer2);
+                    } else if (answerCounter == 3) {
+                        txtGameAnswerDisplayX.setText(displayAnswer3);
+                    } else if (answerCounter == 4) {
+                        txtGameAnswerDisplayX.setText(displayAnswer4);
+                    } else if (answerCounter == 5) {
+                        txtGameAnswerDisplayX.setText(displayAnswer5);
+                    } else {
+
+                        Toast.makeText(Game.this, "Out of numbers", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
     }
 
 }
