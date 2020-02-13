@@ -3,4 +3,5 @@
     <string name="title_activity_home_page">HomePage</string>
     <string name="title_activity_question_list">QuestionList</string>
     <string name="title_activity_excel">Excel</string>
+    <string name="title_activity_game">Game</string>
 </resources>

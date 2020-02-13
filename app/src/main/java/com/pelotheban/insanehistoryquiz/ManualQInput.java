@@ -111,7 +111,7 @@ public class ManualQInput extends AppCompatActivity {
 
                 DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("questions");
                 DatabaseReference dbPushReference = dbReference.push();
-                String questionUidX = dbPushReference.getKey(); // this then is the key for the coin
+                String questionUidX = dbPushReference.getKey(); // this then is the key for the question
 
                 String QuestionNumberZ = edtQuestionNumberX.getText().toString();
                 QuestionNumberY = Integer.parseInt(QuestionNumberZ);

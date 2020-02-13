@@ -27,9 +27,9 @@ public class HomePage extends AppCompatActivity {
     AlertDialog dialog;
     ConstraintLayout loutHomePageX;
 
-    //Admin Button
+    //Buttons
 
-    ImageView imgBtnAdminX;
+    ImageView imgBtnAdminX, imgBtnPlayX;
 
     //User Buttons
 
@@ -75,6 +75,17 @@ public class HomePage extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(HomePage.this, AdminDir.class);
+                startActivity(intent);
+
+            }
+        });
+
+        imgBtnPlayX = findViewById(R.id.imgBtnPlay);
+        imgBtnPlayX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(HomePage.this, Game.class);
                 startActivity(intent);
 
             }
