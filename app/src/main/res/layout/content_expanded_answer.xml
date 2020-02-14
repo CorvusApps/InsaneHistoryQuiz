@@ -6,6 +6,25 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ExpandedAnswer"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:showIn="@layout/activity_expanded_answer">
 
+    <TextView
+        android:id="@+id/txtExpandedAnswerShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_15sdp"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:layout_weight="6"
+        android:text="TextView" />
+
+    <ImageButton
+        android:id="@+id/btnPlayAgain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@drawable/admin" />
 </LinearLayout>

@@ -28,10 +28,20 @@
         android:layout_weight="1"
         >
         <TextView
+            android:id="@+id/txtConStreak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="@dimen/_15sdp"
+            android:text="0" />
+
+        <TextView
             android:id="@+id/txtSpacer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="6"
+            android:layout_weight="5"
             android:textSize="@dimen/_15sdp"
             android:text="" />
 
