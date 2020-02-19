@@ -13,6 +13,7 @@ public class ZZZjcQuestions {
     private String iiiexpanded;
     private String jjjquid;
     private String kkkanstoggle;
+    private String lllepoch;
 
 
 
@@ -20,7 +21,7 @@ public class ZZZjcQuestions {
 
     public ZZZjcQuestions(int aaaqno, String bbbcategory, String cccquestion, String dddcorrectansw, String eeewrongans1,
                          String fffwrongans2, String gggwrongans3, String hhhwrongans4, String iiiexpanded, String jjjquid,
-                          String kkkanstoggle) {
+                          String kkkanstoggle, String lllepoch) {
         this.aaaqno = aaaqno;
         this.bbbcategory = bbbcategory;
         this.cccquestion = cccquestion;
@@ -32,6 +33,7 @@ public class ZZZjcQuestions {
         this.iiiexpanded = iiiexpanded;
         this.jjjquid = jjjquid;
         this.kkkanstoggle = kkkanstoggle;
+        this.lllepoch = lllepoch;
 
 
     }
@@ -120,6 +122,14 @@ public class ZZZjcQuestions {
 
     public void setKkkanstoggle(String kkkanstoggle) {
         this.kkkanstoggle = kkkanstoggle;
+
+    }
+
+    public String getLllepoch() {
+        return lllepoch;    }
+
+    public void setLllepoch(String lllepoch) {
+        this.lllepoch = lllepoch;
 
     }
 

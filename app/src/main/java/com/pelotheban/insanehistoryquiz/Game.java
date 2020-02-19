@@ -30,21 +30,55 @@ import java.util.Random;
 
 public class Game extends AppCompatActivity {
 
-    // Game play variables, toggles, etc.
+    // Game play UI elements and variables
 
     private int randQuestion;
     private String displayAnswer, displayAnswer2, displayAnswer3, displayAnswer4, displayAnswer5; // will be randomly assigned to the answer options in each question
     private int answerCounter; // scrolls through how many answers options to a question the player has seen
     private int randAnswer;
     private Button btnCorrectX, btnWrongX;
-    private TextView txtCoinCounterX, txtConStreakX;
-    private String coinGrantToggle;
 
-    private String ExpandedAnswerPut; // making this class variable so can go to expanded answer screen
+    private String ExpandedAnswerPut, ExpAnsCategoryPut, ExpAnsEpochPut; // making this class variable so can go to expanded answer screen
 
     private TextView txtGameQuestionX, txtGameAnswerDisplayX, txtGameExpandedAnswerX;
 
     private CountDownTimer countDownTimer;
+
+    //.............//// various score counters
+
+    private TextView txtCoinCounterX, txtConStreakX;
+    private String coinGrantToggle;
+
+    private String coinsOwnedString;
+    private double coinsOwned;
+
+    private String consStreetString;
+    private int consStreak;
+
+    private String longestStreakString;
+    private int longestStreak;
+
+    private String totalAnsweredString;
+    private int totalAnswered;
+
+    private String totalQuestionString;
+    private int totalQuestions;
+
+    private String categoryAnsweredAntiquityString;
+    private String categoryAsweredMiddleAgesString;
+    private String categoryAnsweredRenaissanceString;
+    private String categoryAnsweredEnlightenmentString;
+    private String categoryAnsweredEarlyModernString;
+    private String categoryAnsweredModernString;
+
+    private int categoryAnsweredAntiquity;
+    private int categoryAsweredMiddleAges;
+    private int categoryAnsweredRenaissance;
+    private int categoryAnsweredEnlightenment;
+    private int categoryAnsweredEarlyModern;
+    private int categoryAnsweredModern;
+
+
 
     // Firebase
 
@@ -55,14 +89,6 @@ public class Game extends AppCompatActivity {
     private DatabaseReference userReference;
     private Query sortUsersQuery;
 
-    private String coinsOwnedString;
-    private double coinsOwned;
-    private String consStreetString;
-    private int consStreak;
-    private String longestStreakString;
-    private int longestStreak;
-    private String totalAnsweredString;
-    private int totalAnswered;
 
     String GameCorrectAnswerY;
     String test;
@@ -77,19 +103,17 @@ public class Game extends AppCompatActivity {
         answerCounter = 1;
         randQuestion = new Random().nextInt(5) + 1; // random question number to be displayed
 
+        //...... displayed outputs
         txtGameQuestionX = findViewById(R.id.txtGameQuestion);
         txtGameAnswerDisplayX = findViewById(R.id.txtGameAnswerDisplay);
         txtCoinCounterX = findViewById(R.id.txtCoinCounter);
         txtConStreakX = findViewById(R.id.txtConStreak);
 
-
-
         //Firebase user
 
         uid = FirebaseAuth.getInstance().getUid();
         userReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
-
-         userReference.getRef().child("user").setValue(uid);
+        userReference.getRef().child("user").setValue(uid);
 
 
         ////// add coins to account IF FIRST TIME /////////////////////////////////////////////////////////////
@@ -294,9 +318,10 @@ public class Game extends AppCompatActivity {
                     String GameWrongAnswer4Z = gameQs.child("hhhwrongans4").getValue().toString();
 
                     ExpandedAnswerPut = gameQs.child("iiiexpanded").getValue().toString();
+                    ExpAnsCategoryPut = gameQs.child("bbbcategory").getValue().toString();
+                    ExpAnsEpochPut = gameQs.child("lllepoch").getValue().toString();
 
                     randAnswer = new Random().nextInt(5) + 1;
-                    //Toast.makeText(Game.this, randAnswer + "", Toast.LENGTH_LONG).show();
 
                     if(randAnswer == 1){
 
@@ -326,18 +351,19 @@ public class Game extends AppCompatActivity {
                     if (answerCounter == 1) {
                         txtGameAnswerDisplayX.setText(displayAnswer);
 
-                    } else if (answerCounter == 2) {
-                        txtGameAnswerDisplayX.setText(displayAnswer2);
-                    } else {
+//                    } else if (answerCounter == 2) {
+//                        txtGameAnswerDisplayX.setText(displayAnswer2);
+
+                        // probably don't need the above because there is no value in 2 but keeping for now just in case
+                   }
+                     else {
 
                         Toast.makeText(Game.this, "Out of numbers", Toast.LENGTH_SHORT).show();
 
                     }
-
                 }
 
                 startTimer();
-
             }
 
 
@@ -359,6 +385,7 @@ public class Game extends AppCompatActivity {
                     stopTimer();
 
                     Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
+
                     coinsOwned = coinsOwned + 5;
                     String coinsOwedZ = Double.toString(coinsOwned);
                     txtCoinCounterX.setText(coinsOwedZ);
@@ -379,10 +406,10 @@ public class Game extends AppCompatActivity {
                     }
                     userReference.getRef().child("longeststreak").setValue(longestStreak);
 
-
-
                     Intent intent = new Intent(Game.this, ExpandedAnswer.class);
                     intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
+                    intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                    intent.putExtra("lllepoch", ExpAnsEpochPut);
                     startActivity(intent);
 
 
@@ -391,6 +418,7 @@ public class Game extends AppCompatActivity {
                     stopTimer();
 
                     Toast.makeText(Game.this, "WRONG", Toast.LENGTH_LONG).show();
+
                     coinsOwned = coinsOwned - 10;
                     String coinsOwedZ = Double.toString(coinsOwned);
                     txtCoinCounterX.setText(coinsOwedZ);
@@ -401,10 +429,10 @@ public class Game extends AppCompatActivity {
                     txtConStreakX.setText(conStreakZ);
                     userReference.getRef().child("constreak").setValue(consStreak);
 
-
-
                     Intent intent = new Intent(Game.this, ExpandedAnswer.class);
                     intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
+                    intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                    intent.putExtra("lllepoch", ExpAnsEpochPut);
                     startActivity(intent);
                 }
             }
@@ -421,6 +449,7 @@ public class Game extends AppCompatActivity {
                     stopTimer();
 
                     Toast.makeText(Game.this, "WRONG", Toast.LENGTH_LONG).show();
+
                     coinsOwned = coinsOwned - 10;
                     String coinsOwedZ = Double.toString(coinsOwned);
                     txtCoinCounterX.setText(coinsOwedZ);
@@ -432,14 +461,16 @@ public class Game extends AppCompatActivity {
                     userReference.getRef().child("constreak").setValue(consStreak);
 
 
-
                     Intent intent = new Intent(Game.this, ExpandedAnswer.class);
                     intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
+                    intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                    intent.putExtra("lllepoch", ExpAnsEpochPut);
                     startActivity(intent);
+
                 } else {
 
                     Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
-                    stopTimer();
+                    stopTimer(); // need to start and reset timer as not entering the oncreate  and need to transition from one answer to next
                     startTimer();
                     nextQuestions ();
                 }
@@ -447,12 +478,14 @@ public class Game extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void nextQuestions (){
 
         answerCounter = answerCounter + 1;
+
+        //This second query is probably unnecessary as could have gotten all these variables and sequences in on create only ran the
+        // what to display ifs here without further firebase access
 
         sortGameQueryQuestions.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -462,16 +495,13 @@ public class Game extends AppCompatActivity {
                 for (DataSnapshot gameQs: dataSnapshot.getChildren()) {
 
 
-//                            String GameQuestionZ = gameQs.child("cccquestion").getValue().toString();
-//                            txtGameQuestionX.setText(GameQuestionZ);
-
                     String GameCorrectAnswerZ = gameQs.child("dddcorrectansw").getValue().toString();
                     String GameWrongAnswer1Z = gameQs.child("eeewrongans1").getValue().toString();
                     String GameWrongAnswer2Z = gameQs.child("fffwrongans2").getValue().toString();
                     String GameWrongAnswer3Z = gameQs.child("gggwrongans3").getValue().toString();
                     String GameWrongAnswer4Z = gameQs.child("hhhwrongans4").getValue().toString();
 
-
+                    /// set out sequences in which answers will be shown for each randanswer1
                     if(randAnswer == 1){
 
                         displayAnswer = GameCorrectAnswerZ;
@@ -515,7 +545,7 @@ public class Game extends AppCompatActivity {
 
                     }
 
-
+                    // executes showing the different answers as the user gests things right on previous question
                     if (answerCounter == 1) {
                         txtGameAnswerDisplayX.setText(displayAnswer);
 
@@ -557,7 +587,7 @@ public class Game extends AppCompatActivity {
             }
 
             public void onFinish() {
-                // Here do what you like...
+                // other than the toast treats this as a wrong answer, makes streak deductions and sends to expanded answer
                 Toast.makeText(Game.this, "TIME OUT", Toast.LENGTH_LONG).show();
 
                 coinsOwned = coinsOwned - 10;
@@ -573,6 +603,8 @@ public class Game extends AppCompatActivity {
 
                 Intent intent = new Intent(Game.this, ExpandedAnswer.class);
                 intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                intent.putExtra("lllepoch", ExpAnsEpochPut);
                 startActivity(intent);
             }
         }.start();

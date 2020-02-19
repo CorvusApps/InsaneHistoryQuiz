@@ -14,12 +14,14 @@ public class ZZZjcExcel {
 
     private String kkkanstoggle;
 
+    private String lllepoch;
+
 
 
 
 
     public ZZZjcExcel(String aaaqno, String bbbcategory, String cccquestion, String dddcorrectansw, String eeewrongans1,
-                      String fffwrongans2, String gggwrongans3, String hhhwrongans4, String iiiexpanded, String kkkanstoggle) {
+                      String fffwrongans2, String gggwrongans3, String hhhwrongans4, String iiiexpanded, String kkkanstoggle, String lllepoch) {
 
         this.aaaqno = aaaqno;
         this.bbbcategory = bbbcategory;
@@ -31,6 +33,8 @@ public class ZZZjcExcel {
         this.hhhwrongans4 = hhhwrongans4;
         this.iiiexpanded = iiiexpanded;
         this.kkkanstoggle = kkkanstoggle;
+        this.lllepoch = lllepoch;
+
 
     }
 
@@ -113,6 +117,15 @@ public class ZZZjcExcel {
         this.kkkanstoggle = kkkanstoggle;
 
     }
+
+    public String getLllepoch() {
+        return lllepoch;    }
+
+    public void setLllepoch(String lllepoch) {
+        this.lllepoch = lllepoch;
+
+    }
+
 
 
 

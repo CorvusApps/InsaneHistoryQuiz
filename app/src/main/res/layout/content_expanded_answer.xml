@@ -11,6 +11,27 @@
     tools:showIn="@layout/activity_expanded_answer">
 
     <TextView
+        android:id="@+id/txtExpAnsCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_15sdp"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:layout_weight="1"
+        android:visibility="visible"
+        android:text="Category" />
+
+    <TextView
+        android:id="@+id/txtExpAnsEpoch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_15sdp"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:layout_weight="1"
+        android:visibility="visible"
+        android:text="Epoch" />
+    <TextView
         android:id="@+id/txtExpandedAnswerShow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

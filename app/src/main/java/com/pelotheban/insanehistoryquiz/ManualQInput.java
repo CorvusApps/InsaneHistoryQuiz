@@ -25,7 +25,7 @@ public class ManualQInput extends AppCompatActivity {
 
     // UI Elements
 
-    EditText edtQuestionNumberX, edtCategoryX, edtQuestionX, edtCorrectAnswerX, edtWrongAnswer1X, edtWrongAnswer2X, edtWrongAnswer3X
+    EditText edtQuestionNumberX, edtCategoryX, edtEpochX, edtEraX, edtQuestionX, edtCorrectAnswerX, edtWrongAnswer1X, edtWrongAnswer2X, edtWrongAnswer3X
             ,edtWrongAnswer4X, edtExpandedAnswerX, edtAnsToggleX;
 
     LinearLayout loutManualQInputX;
@@ -36,7 +36,7 @@ public class ManualQInput extends AppCompatActivity {
 
     int QuestionNumberY;
 
-    String CategoryY, QuestionY, CorrectAnswerY, WrongAnswer1Y, WrongAnswer2Y, WrongAnswer3Y, WrongAnswer4Y, ExpandedAnswerY, AnsToggleY;
+    String CategoryY, EpochY, EraY, QuestionY, CorrectAnswerY, WrongAnswer1Y, WrongAnswer2Y, WrongAnswer3Y, WrongAnswer4Y, ExpandedAnswerY, AnsToggleY;
 
 
     @Override
@@ -49,6 +49,14 @@ public class ManualQInput extends AppCompatActivity {
         edtQuestionNumberX.setRawInputType(InputType.TYPE_CLASS_NUMBER);// this plus textMultiline in XML allows for wraping text but provides a next button on keyboard to tab over
 
         edtCategoryX = findViewById(R.id.edtCategory);
+        edtCategoryX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        edtCategoryX.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+        edtEpochX = findViewById(R.id.edtEpoch);
+        edtCategoryX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        edtCategoryX.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+        edtEraX = findViewById(R.id.edtEra);
         edtCategoryX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         edtCategoryX.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
@@ -117,6 +125,8 @@ public class ManualQInput extends AppCompatActivity {
                 QuestionNumberY = Integer.parseInt(QuestionNumberZ);
 
                 CategoryY = edtCategoryX.getText().toString();
+                EpochY = edtEpochX.getText().toString();
+                EraY = edtEraX.getText().toString();
                 QuestionY = edtQuestionX.getText().toString();
                 CorrectAnswerY = edtCorrectAnswerX.getText().toString();
                 WrongAnswer1Y = edtWrongAnswer1X.getText().toString();
@@ -130,6 +140,7 @@ public class ManualQInput extends AppCompatActivity {
 
                 dataMap.put("aaaqno", QuestionNumberY);
                 dataMap.put("bbbcategory", CategoryY);
+
                 dataMap.put("cccquestion", QuestionY);
                 dataMap.put("dddcorrectansw", CorrectAnswerY);
                 dataMap.put("eeewrongans1", WrongAnswer1Y);
@@ -140,6 +151,10 @@ public class ManualQInput extends AppCompatActivity {
                 dataMap.put("jjjquid", questionUidX);
                 dataMap.put("kkkanstoggle", AnsToggleY);
 
+                dataMap.put("lllepoch", EpochY);
+                dataMap.put("mmmera", EraY);
+
+
                 dbPushReference.setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -149,6 +164,8 @@ public class ManualQInput extends AppCompatActivity {
 
                         edtQuestionNumberX.setText("");
                         edtCategoryX.setText("");
+                        edtEpochX.setText("");
+                        edtEraX.setText("");
                         edtQuestionX.setText("");
                         edtCorrectAnswerX.setText("");
                         edtWrongAnswer1X.setText("");

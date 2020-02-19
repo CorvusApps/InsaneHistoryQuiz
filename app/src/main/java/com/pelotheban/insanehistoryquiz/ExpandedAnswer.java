@@ -21,8 +21,9 @@ public class ExpandedAnswer extends AppCompatActivity {
 
    private ImageButton btnPlayAgainX;
    private AlertDialog dialog;
-   private String ExpandedAnswerGet;
-   private TextView txtExpandedAnswerShowX;
+   private String ExpandedAnswerGet, ExpAnsCategoryGet, ExpAnsEpochGet;
+   private TextView txtExpandedAnswerShowX, txtExpAnsCategoryX, txtExpAnsEpochX;
+   private int expAnsBacgroundNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +38,32 @@ public class ExpandedAnswer extends AppCompatActivity {
             }
         });
 
-        ExpandedAnswerGet = getIntent().getStringExtra("iiiexpanded");
+        expAnsBacgroundNo = 1; //default setting for background in case we miss a category or don't have a pic for it
 
+        ExpandedAnswerGet = getIntent().getStringExtra("iiiexpanded");
         txtExpandedAnswerShowX = findViewById(R.id.txtExpandedAnswerShow);
         txtExpandedAnswerShowX.setText(ExpandedAnswerGet);
+
+        ExpAnsCategoryGet = getIntent().getStringExtra("bbbcategory");
+        txtExpAnsCategoryX = findViewById(R.id.txtExpAnsCategory);
+        txtExpAnsCategoryX.setText(ExpAnsCategoryGet);
+
+        ExpAnsEpochGet = getIntent().getStringExtra("lllepoch");
+        txtExpAnsEpochX = findViewById(R.id.txtExpAnsEpoch);
+        txtExpAnsEpochX.setText(ExpAnsEpochGet);
+
+        //////// Logic for background picture based on mix of cateogy and epoch //////////////////////////
+
+        if (ExpAnsEpochGet.equals("Hellenistic") && ExpAnsCategoryGet.equals("Roman")) {
+
+            expAnsBacgroundNo = 2;
+
+        }
+
+        // use the No to select a pic which is then set
+
+        ////// end of logic for background pics ///////////////////////////////////////////
+
 
         btnPlayAgainX = findViewById(R.id.btnPlayAgain);
         btnPlayAgainX.setOnClickListener(new View.OnClickListener() {

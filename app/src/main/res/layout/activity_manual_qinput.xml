@@ -46,11 +46,45 @@
             android:id="@+id/edtCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nextFocusForward="@+id/edtQuestion"
+            android:nextFocusForward="@+id/edtEpoch"
             android:inputType="textMultiLine"
 
             />
 
+    </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:hint="Epoch">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtEpoch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nextFocusForward="@+id/edtEra"
+                    android:inputType="textMultiLine"
+
+                    />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:hint="Era">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtEra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nextFocusForward="@+id/edtQuestion"
+            android:inputType="textMultiLine"
+
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

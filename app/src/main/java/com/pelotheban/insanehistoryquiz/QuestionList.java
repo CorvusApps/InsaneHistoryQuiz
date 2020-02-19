@@ -73,7 +73,7 @@ public class QuestionList extends AppCompatActivity {
 
     //creating instance variables that can be used to pass info to the coin modify screen
 
-    private String categoryY, questionY, correctAnswerY, wrongAnswer1Y, wrongAnswer2Y, wrongAnswer3Y, wrongAnswer4Y, extentendedAnswerY, questionUidY, answerToggleY;
+    private String categoryY, epochY, questionY, correctAnswerY, wrongAnswer1Y, wrongAnswer2Y, wrongAnswer3Y, wrongAnswer4Y, extentendedAnswerY, questionUidY, answerToggleY;
     private int questionNumberY;
 
 
@@ -151,6 +151,7 @@ public class QuestionList extends AppCompatActivity {
                 viewHolder.setIiiexpanded(model.getIiiexpanded());
                 viewHolder.setJjjquid(model.getJjjquid());
                 viewHolder.setKkkanstoggle(model.getKkkanstoggle());
+                viewHolder.setLllepoch(model.getLllepoch());
 
             }
 
@@ -299,6 +300,11 @@ public class QuestionList extends AppCompatActivity {
         public void setKkkanstoggle(String kkkanstoggle) {
             TextView txtAnswerToggleX = (TextView)mView.findViewById(R.id.txtAnswerToggle);
             txtAnswerToggleX.setText(kkkanstoggle);
+        }
+
+        public void setLllepoch(String lllepoch) {
+            TextView txtEpochX = (TextView)mView.findViewById(R.id.txtEpoch);
+            txtEpochX.setText(lllepoch);
         }
 
 
