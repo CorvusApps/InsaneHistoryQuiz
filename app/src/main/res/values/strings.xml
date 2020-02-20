@@ -5,4 +5,5 @@
     <string name="title_activity_excel">Excel</string>
     <string name="title_activity_game">Game</string>
     <string name="title_activity_expanded_answer">ExpandedAnswer</string>
+    <string name="title_activity_profile_view">ProfileView</string>
 </resources>

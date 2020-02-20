@@ -39,6 +39,7 @@ public class Game extends AppCompatActivity {
     private Button btnCorrectX, btnWrongX;
 
     private String ExpandedAnswerPut, ExpAnsCategoryPut, ExpAnsEpochPut; // making this class variable so can go to expanded answer screen
+    private String era; // pulls in era so we know which counter to grow when user answers question correctly
 
     private TextView txtGameQuestionX, txtGameAnswerDisplayX, txtGameExpandedAnswerX;
 
@@ -61,22 +62,22 @@ public class Game extends AppCompatActivity {
     private String totalAnsweredString;
     private int totalAnswered;
 
-    private String totalQuestionString;
+    private String totalQuestionsString;
     private int totalQuestions;
 
-    private String categoryAnsweredAntiquityString;
-    private String categoryAsweredMiddleAgesString;
-    private String categoryAnsweredRenaissanceString;
-    private String categoryAnsweredEnlightenmentString;
-    private String categoryAnsweredEarlyModernString;
-    private String categoryAnsweredModernString;
+    private String eraAnsweredAntiquityString;
+    private String eraAnsweredMiddleAgesString;
+    private String eraAnsweredRenaissanceString;
+    private String eraAnsweredEnlightenmentString;
+    private String eraAnsweredEarlyModernString;
+    private String eraAnsweredModernString;
 
-    private int categoryAnsweredAntiquity;
-    private int categoryAsweredMiddleAges;
-    private int categoryAnsweredRenaissance;
-    private int categoryAnsweredEnlightenment;
-    private int categoryAnsweredEarlyModern;
-    private int categoryAnsweredModern;
+    private int eraAnsweredAntiquity;
+    private int eraAnsweredMiddleAges;
+    private int eraAnsweredRenaissance;
+    private int eraAnsweredEnlightenment;
+    private int eraAnsweredEarlyModern;
+    private int eraAnsweredModern;
 
 
 
@@ -117,6 +118,7 @@ public class Game extends AppCompatActivity {
 
 
         ////// add coins to account IF FIRST TIME /////////////////////////////////////////////////////////////
+        // also using this section to pull in all the user variables like counters of questions answered etc.
 
         sortUsersQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(uid);
         sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -126,18 +128,22 @@ public class Game extends AppCompatActivity {
 
                 for (DataSnapshot userDs: dataSnapshot.getChildren()) {
                     // need the try because if new account will return null
+
                     try {
-                        coinsOwnedString = userDs.child("coins").getValue().toString();
-                        coinsOwned = Double.valueOf(coinsOwnedString);
-
-                        coinGrantToggle = userDs.child("coinsgranttoggle").getValue().toString();
-
                         consStreetString = userDs.child("constreak").getValue().toString();
                         consStreak = Integer.valueOf(consStreetString);
+                    } catch (Exception e) {
 
+                    }
+
+                    try {
                         totalAnsweredString = userDs.child("totalanswered").getValue().toString();
                         totalAnswered = Integer.valueOf(totalAnsweredString);
+                    } catch (Exception e) {
 
+                    }
+
+                    try {
                         longestStreakString = userDs.child("longeststreak").getValue().toString();
                         longestStreak = Integer.valueOf(longestStreakString);
 
@@ -147,10 +153,78 @@ public class Game extends AppCompatActivity {
 
                         }
 
-                        Toast.makeText(Game.this, longestStreak + " is longesst", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(Game.this, longestStreak + " is longesst", Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        totalQuestionsString = userDs.child("totalquestions").getValue().toString();
+                        totalQuestions = Integer.valueOf(totalQuestionsString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        eraAnsweredAntiquityString = userDs.child("eraansantiquity").getValue().toString();
+                        eraAnsweredAntiquity = Integer.valueOf(eraAnsweredAntiquityString);
 
                     } catch (Exception e) {
 
+                    }
+
+                    try {
+                        eraAnsweredMiddleAgesString = userDs.child("eraansmiddle").getValue().toString();
+                        eraAnsweredMiddleAges = Integer.valueOf(eraAnsweredMiddleAgesString);
+
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        eraAnsweredRenaissanceString = userDs.child("eraansrenaissance").getValue().toString();
+                        eraAnsweredRenaissance = Integer.valueOf(eraAnsweredRenaissanceString);
+
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        eraAnsweredEnlightenmentString = userDs.child("eraanselight").getValue().toString();
+                        eraAnsweredEnlightenment = Integer.valueOf(eraAnsweredEnlightenmentString);
+
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        eraAnsweredEarlyModernString = userDs.child("eraansearlymod").getValue().toString();
+                        eraAnsweredEarlyModern = Integer.valueOf(eraAnsweredEarlyModernString);
+
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        eraAnsweredModernString = userDs.child("eraansmodern").getValue().toString();
+                        eraAnsweredModern = Integer.valueOf(eraAnsweredModernString);
+
+                    } catch (Exception e) {
+
+                    }
+
+
+                    try {
+                        coinsOwnedString = userDs.child("coins").getValue().toString();
+                        coinsOwned = Double.valueOf(coinsOwnedString);
+
+                        coinGrantToggle = userDs.child("coinsgranttoggle").getValue().toString();
+
+
+                        Toast.makeText(Game.this, "here  " + eraAnsweredAntiquityString + "  " + eraAnsweredAntiquity, Toast.LENGTH_LONG).show();
+
+
+                    } catch (Exception e) {
 
                          //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -175,53 +249,72 @@ public class Game extends AppCompatActivity {
 
                             userReference.getRef().child("coins").setValue(80);
                             userReference.getRef().child("coinsgranttoggle").setValue("yes");
-                            sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                    for (DataSnapshot userDs: dataSnapshot.getChildren()) {
-
-                                        try {
-                                            coinsOwnedString = userDs.child("coins").getValue().toString();
-                                            coinsOwned = Double.valueOf(coinsOwnedString);
-
-                                            coinGrantToggle = userDs.child("coinsgranttoggle").getValue().toString();
-
-                                            consStreetString = userDs.child("constreak").getValue().toString();
-                                            consStreak = Integer.valueOf(consStreetString);
-
-                                            totalAnsweredString = userDs.child("totalanswered").getValue().toString();
-                                            totalAnswered = Integer.valueOf(totalAnsweredString);
-
-                                            longestStreakString = userDs.child("longeststreak").getValue().toString();
-                                            longestStreak = Integer.valueOf(longestStreakString);
-
-                                            if (longestStreak < consStreak){
-
-                                                longestStreak = consStreak;
-
-                                            }
-
-                                            Toast.makeText(Game.this, longestStreak + " is longesst", Toast.LENGTH_LONG).show();
-
-
-                                        } catch (Exception e) {
-
-                                           // Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                        }
-
-                                    }
-
-                                    txtCoinCounterX.setText(coinsOwnedString);
-                                    txtConStreakX.setText(consStreetString);
-
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
+//                            sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                                    for (DataSnapshot userDs: dataSnapshot.getChildren()) {
+//
+//                                        try {
+//                                            coinsOwnedString = userDs.child("coins").getValue().toString();
+//                                            coinsOwned = Double.valueOf(coinsOwnedString);
+//
+//                                            coinGrantToggle = userDs.child("coinsgranttoggle").getValue().toString();
+//
+//                                            consStreetString = userDs.child("constreak").getValue().toString();
+//                                            consStreak = Integer.valueOf(consStreetString);
+//
+//                                            totalAnsweredString = userDs.child("totalanswered").getValue().toString();
+//                                            totalAnswered = Integer.valueOf(totalAnsweredString);
+//
+//                                            longestStreakString = userDs.child("longeststreak").getValue().toString();
+//                                            longestStreak = Integer.valueOf(longestStreakString);
+//
+//                                            if (longestStreak < consStreak){
+//
+//                                                longestStreak = consStreak;
+//
+//                                            }
+//
+//                                           // Toast.makeText(Game.this, longestStreak + " is longesst", Toast.LENGTH_LONG).show();
+//
+//                                            totalQuestionsString = userDs.child("totalquestions").getValue().toString();
+//                                            totalQuestions = Integer.valueOf(totalQuestionsString);
+//
+//                                            eraAnsweredAntiquityString = userDs.child("eraansantiquity").getValue().toString();
+//                                            eraAnsweredMiddleAgesString = userDs.child("eraansmiddle").getValue().toString();
+//                                            eraAnsweredRenaissanceString = userDs.child("eraansrenaissance").getValue().toString();
+//                                            eraAnsweredEnlightenmentString = userDs.child("eraanselight").getValue().toString();
+//                                            eraAnsweredEarlyModernString = userDs.child("eraansearlymod").getValue().toString();
+//                                            eraAnsweredModernString = userDs.child("eraansmodern").getValue().toString();
+//
+//                                            eraAnsweredAntiquity = Integer.valueOf(eraAnsweredAntiquityString);
+//                                            eraAnsweredMiddleAges = Integer.valueOf(eraAnsweredMiddleAgesString);
+//                                            eraAnsweredRenaissance = Integer.valueOf(eraAnsweredRenaissanceString);
+//                                            eraAnsweredEnlightenment = Integer.valueOf(eraAnsweredEnlightenmentString);
+//                                            eraAnsweredEarlyModern = Integer.valueOf(eraAnsweredEarlyModernString);
+//                                            eraAnsweredModern = Integer.valueOf(eraAnsweredModernString);
+//
+//                                            Toast.makeText(Game.this, "here  " + eraAnsweredAntiquityString + "  " + eraAnsweredAntiquity, Toast.LENGTH_LONG).show();
+//
+//
+//                                        } catch (Exception e) {
+//
+//                                           // Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
+//                                        }
+//
+//                                    }
+//
+//                                    txtCoinCounterX.setText(coinsOwnedString);
+//                                    txtConStreakX.setText(consStreetString);
+//
+//                                }
+//
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                                }
+//                            });
 
                         }
 
@@ -231,52 +324,73 @@ public class Game extends AppCompatActivity {
 
                     userReference.getRef().child("coins").setValue(80);
                     userReference.getRef().child("coinsgranttoggle").setValue("yes");
-                    sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            for (DataSnapshot userDs: dataSnapshot.getChildren()) {
-
-                                try {
-                                    coinsOwnedString = userDs.child("coins").getValue().toString();
-                                    coinsOwned = Double.valueOf(coinsOwnedString);
-
-                                    coinGrantToggle = userDs.child("coinsgranttoggle").getValue().toString();
-
-                                    consStreetString = userDs.child("constreak").getValue().toString();
-                                    consStreak = Integer.valueOf(consStreetString);
-
-                                    totalAnsweredString = userDs.child("totalanswered").getValue().toString();
-                                    totalAnswered = Integer.valueOf(totalAnsweredString);
-
-                                    longestStreakString = userDs.child("longeststreak").getValue().toString();
-                                    longestStreak = Integer.valueOf(longestStreakString);
-
-                                    if (longestStreak < consStreak){
-
-                                        longestStreak = consStreak;
-
-                                    }
-
-                                    Toast.makeText(Game.this, longestStreak + " is longesst", Toast.LENGTH_LONG).show();
-
-                                } catch (Exception e) {
-
-                                   // Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-
-                            }
-
-                            txtCoinCounterX.setText(coinsOwnedString);
-                            txtConStreakX.setText(consStreetString);
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+//                    sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                            for (DataSnapshot userDs: dataSnapshot.getChildren()) {
+//
+//
+//
+//                                try {
+//                                    coinsOwnedString = userDs.child("coins").getValue().toString();
+//                                    coinsOwned = Double.valueOf(coinsOwnedString);
+//
+//                                    coinGrantToggle = userDs.child("coinsgranttoggle").getValue().toString();
+//
+//                                    consStreetString = userDs.child("constreak").getValue().toString();
+//                                    consStreak = Integer.valueOf(consStreetString);
+//
+//                                    totalAnsweredString = userDs.child("totalanswered").getValue().toString();
+//                                    totalAnswered = Integer.valueOf(totalAnsweredString);
+//
+//                                    longestStreakString = userDs.child("longeststreak").getValue().toString();
+//                                    longestStreak = Integer.valueOf(longestStreakString);
+//
+//                                    if (longestStreak < consStreak){
+//
+//                                        longestStreak = consStreak;
+//
+//                                    }
+//
+//                                    //Toast.makeText(Game.this, longestStreak + " is longesst", Toast.LENGTH_LONG).show();
+//
+//                                    totalQuestionsString = userDs.child("totalquestions").getValue().toString();
+//                                    totalQuestions = Integer.valueOf(totalQuestionsString);
+//
+//                                    eraAnsweredAntiquityString = userDs.child("eraansantiquity").getValue().toString();
+//                                    eraAnsweredMiddleAgesString = userDs.child("eraansmiddle").getValue().toString();
+//                                    eraAnsweredRenaissanceString = userDs.child("eraansrenaissance").getValue().toString();
+//                                    eraAnsweredEnlightenmentString = userDs.child("eraanselight").getValue().toString();
+//                                    eraAnsweredEarlyModernString = userDs.child("eraansearlymod").getValue().toString();
+//                                    eraAnsweredModernString = userDs.child("eraansmodern").getValue().toString();
+//
+//                                    eraAnsweredAntiquity = Integer.valueOf(eraAnsweredAntiquityString);
+//                                    eraAnsweredMiddleAges = Integer.valueOf(eraAnsweredMiddleAgesString);
+//                                    eraAnsweredRenaissance = Integer.valueOf(eraAnsweredRenaissanceString);
+//                                    eraAnsweredEnlightenment = Integer.valueOf(eraAnsweredEnlightenmentString);
+//                                    eraAnsweredEarlyModern = Integer.valueOf(eraAnsweredEarlyModernString);
+//                                    eraAnsweredModern = Integer.valueOf(eraAnsweredModernString);
+//
+//                                    Toast.makeText(Game.this, "here  " + eraAnsweredAntiquityString + "  " + eraAnsweredAntiquity, Toast.LENGTH_LONG).show();
+//
+//                                } catch (Exception e) {
+//
+//                                   // Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
+//                                }
+//
+//                            }
+//
+//                            txtCoinCounterX.setText(coinsOwnedString);
+//                            txtConStreakX.setText(consStreetString);
+//
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                        }
+//                    });
 
 
 
@@ -307,7 +421,7 @@ public class Game extends AppCompatActivity {
 
                 for (DataSnapshot gameQs: dataSnapshot.getChildren()) {
 
-
+                    // pull in to display in question screen
                     String GameQuestionZ = gameQs.child("cccquestion").getValue().toString();
                     txtGameQuestionX.setText(GameQuestionZ);
 
@@ -317,9 +431,13 @@ public class Game extends AppCompatActivity {
                     String GameWrongAnswer3Z = gameQs.child("gggwrongans3").getValue().toString();
                     String GameWrongAnswer4Z = gameQs.child("hhhwrongans4").getValue().toString();
 
+                    //pull in to put to exapanded answer screen
                     ExpandedAnswerPut = gameQs.child("iiiexpanded").getValue().toString();
                     ExpAnsCategoryPut = gameQs.child("bbbcategory").getValue().toString();
                     ExpAnsEpochPut = gameQs.child("lllepoch").getValue().toString();
+
+                    // pull to figure out which counter to grow when user answers the question
+                    era = gameQs.child("mmmera").getValue().toString();
 
                     randAnswer = new Random().nextInt(5) + 1;
 
@@ -384,7 +502,9 @@ public class Game extends AppCompatActivity {
 
                     stopTimer();
 
-                    Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
+
+                    Toast.makeText(Game.this, "Antiquity  " + eraAnsweredAntiquity + "   Enlight  " + eraAnsweredEnlightenment, Toast.LENGTH_LONG).show();
 
                     coinsOwned = coinsOwned + 5;
                     String coinsOwedZ = Double.toString(coinsOwned);
@@ -405,6 +525,40 @@ public class Game extends AppCompatActivity {
 
                     }
                     userReference.getRef().child("longeststreak").setValue(longestStreak);
+
+                    totalQuestions = totalQuestions + 1;
+                    userReference.getRef().child("totalquestions").setValue(totalQuestions);
+
+                    if (era.equals("Antiquity")){
+                        eraAnsweredAntiquity = eraAnsweredAntiquity + 1;
+                        userReference.getRef().child("eraansantiquity").setValue(eraAnsweredAntiquity);
+                    }
+
+                    if (era.equals("Middle Ages")){
+                        eraAnsweredMiddleAges = eraAnsweredMiddleAges + 1;
+                        userReference.getRef().child("eraansmiddle").setValue(eraAnsweredMiddleAges);
+                    }
+
+                    if (era.equals("Renaissance")){
+                        eraAnsweredRenaissance = eraAnsweredRenaissance + 1;
+                        userReference.getRef().child("eraansrenaissance").setValue(eraAnsweredRenaissance);
+                    }
+
+                    if (era.equals("Enlightenment")){
+                        eraAnsweredEnlightenment = eraAnsweredEnlightenment + 1;
+                        userReference.getRef().child("eraanselight").setValue(eraAnsweredEnlightenment);
+                    }
+
+                    if (era.equals("Early Modern")){
+                        eraAnsweredEarlyModern = eraAnsweredEarlyModern + 1;
+                        userReference.getRef().child("eraansearlymod").setValue(eraAnsweredEarlyModern);
+                    }
+
+                    if (era.equals("Modern")){
+                        eraAnsweredModern = eraAnsweredModern + 1;
+                        userReference.getRef().child("eraansmodern").setValue(eraAnsweredModern);
+                    }
+
 
                     Intent intent = new Intent(Game.this, ExpandedAnswer.class);
                     intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
@@ -428,6 +582,9 @@ public class Game extends AppCompatActivity {
                     String conStreakZ = Integer.toString(consStreak);
                     txtConStreakX.setText(conStreakZ);
                     userReference.getRef().child("constreak").setValue(consStreak);
+
+                    totalQuestions = totalQuestions + 1;
+                    userReference.getRef().child("totalquestions").setValue(totalQuestions);
 
                     Intent intent = new Intent(Game.this, ExpandedAnswer.class);
                     intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
@@ -460,6 +617,8 @@ public class Game extends AppCompatActivity {
                     txtConStreakX.setText(conStreakZ);
                     userReference.getRef().child("constreak").setValue(consStreak);
 
+                    totalQuestions = totalQuestions + 1;
+                    userReference.getRef().child("totalquestions").setValue(totalQuestions);
 
                     Intent intent = new Intent(Game.this, ExpandedAnswer.class);
                     intent.putExtra("iiiexpanded" , ExpandedAnswerPut);

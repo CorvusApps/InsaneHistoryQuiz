@@ -73,7 +73,7 @@ public class QuestionList extends AppCompatActivity {
 
     //creating instance variables that can be used to pass info to the coin modify screen
 
-    private String categoryY, epochY, questionY, correctAnswerY, wrongAnswer1Y, wrongAnswer2Y, wrongAnswer3Y, wrongAnswer4Y, extentendedAnswerY, questionUidY, answerToggleY;
+    private String categoryY, epochY, eraY, questionY, correctAnswerY, wrongAnswer1Y, wrongAnswer2Y, wrongAnswer3Y, wrongAnswer4Y, extentendedAnswerY, questionUidY, answerToggleY;
     private int questionNumberY;
 
 
@@ -152,6 +152,7 @@ public class QuestionList extends AppCompatActivity {
                 viewHolder.setJjjquid(model.getJjjquid());
                 viewHolder.setKkkanstoggle(model.getKkkanstoggle());
                 viewHolder.setLllepoch(model.getLllepoch());
+                viewHolder.setMmmera(model.getMmmera());
 
             }
 
@@ -307,7 +308,10 @@ public class QuestionList extends AppCompatActivity {
             txtEpochX.setText(lllepoch);
         }
 
-
+        public void setMmmera(String mmmera) {
+            TextView txtEraX = (TextView)mView.findViewById(R.id.txtEra);
+            txtEraX.setText(mmmera);
+        }
 
 
         // Custom built onItemClickListener for the recycler view; seems to cover LongClick as well

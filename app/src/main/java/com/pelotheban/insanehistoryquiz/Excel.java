@@ -377,16 +377,17 @@ public class Excel extends AppCompatActivity {
                 String iiiexpanded = columns[8];
                 String kkkanstoggle = columns[9];
                 String lllepoch = columns[10];
+                String mmmera = columns[11];
 
 
-                String cellInfo = "(aaaqno, bbbcategory, cccquestion, dddcorrectansw, eeewrongans1, fffwrongans2, gggwrongans3, hhhwrongans4, iiiexpanded, kkkanstoggle, lllepoch)" +
+                String cellInfo = "(aaaqno, bbbcategory, cccquestion, dddcorrectansw, eeewrongans1, fffwrongans2, gggwrongans3, hhhwrongans4, iiiexpanded, kkkanstoggle, lllepoch, mmmera)" +
                         ": (" + aaaqno + "," + bbbcategory + ", " + cccquestion + ", " + dddcorrectansw + ", " + eeewrongans1 + ", " + fffwrongans2 + ", " + gggwrongans3 + ", " + hhhwrongans4 + "" +
-                        ", " + iiiexpanded + ", " + kkkanstoggle + " , " + lllepoch + ")";
+                        ", " + iiiexpanded + ", " + kkkanstoggle + " , " + lllepoch + ", " + mmmera + ")";
 
                 Log.d(TAG, "ParseStringBuilder: Data from row: " + cellInfo);
 
                 //add the the uploadData ArrayList
-                uploadData.add(new ZZZjcExcel(aaaqno, bbbcategory, cccquestion, dddcorrectansw, eeewrongans1,fffwrongans2, gggwrongans3, hhhwrongans4, iiiexpanded, kkkanstoggle, lllepoch));
+                uploadData.add(new ZZZjcExcel(aaaqno, bbbcategory, cccquestion, dddcorrectansw, eeewrongans1,fffwrongans2, gggwrongans3, hhhwrongans4, iiiexpanded, kkkanstoggle, lllepoch, mmmera));
 
             }catch (NumberFormatException e){
 
@@ -415,13 +416,14 @@ public class Excel extends AppCompatActivity {
             String iiiexpanded = uploadData.get(i).getIiiexpanded();
             String kkkanstoggle = uploadData.get(i).getKkkanstoggle();
             String lllepoch = uploadData.get(i).getLllepoch();
+            String mmmera = uploadData.get(i).getMmmera();
 
 
             final int questionCounter = i +1; //coin counter for toast
 
 
-            Log.d(TAG, "printDataToLog: (aaaqno, bbbcategory, cccquestion, dddcorrectansw, eeewrongans1, fffwrongans2, gggwrongans3, hhhwrongans4, iiiexpanded, kkkanstoggle, lllepoch): (" + aaaqno + "," + bbbcategory + ", " + cccquestion + ", " + dddcorrectansw + ", " + eeewrongans1 + ", " + fffwrongans2 + ", " + gggwrongans3 + ", " + hhhwrongans4 + "" +
-                    ", " + iiiexpanded + " , " + kkkanstoggle + ", " + lllepoch + ")");
+            Log.d(TAG, "printDataToLog: (aaaqno, bbbcategory, cccquestion, dddcorrectansw, eeewrongans1, fffwrongans2, gggwrongans3, hhhwrongans4, iiiexpanded, kkkanstoggle, lllepoch, mmmera): (" + aaaqno + "," + bbbcategory + ", " + cccquestion + ", " + dddcorrectansw + ", " + eeewrongans1 + ", " + fffwrongans2 + ", " + gggwrongans3 + ", " + hhhwrongans4 + "" +
+                    ", " + iiiexpanded + " , " + kkkanstoggle + ", " + lllepoch + ". " + mmmera + ")");
 
             String uid = FirebaseAuth.getInstance().getUid();
 
@@ -454,6 +456,8 @@ public class Excel extends AppCompatActivity {
             dataMap.put("kkkanstoggle", kkkanstoggle);
 
             dataMap.put("lllepoch", lllepoch);
+            dataMap.put("mmmera", mmmera);
+
 
 
 

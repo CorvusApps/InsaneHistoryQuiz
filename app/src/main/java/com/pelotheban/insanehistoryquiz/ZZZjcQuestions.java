@@ -14,6 +14,7 @@ public class ZZZjcQuestions {
     private String jjjquid;
     private String kkkanstoggle;
     private String lllepoch;
+    private String mmmera;
 
 
 
@@ -21,7 +22,7 @@ public class ZZZjcQuestions {
 
     public ZZZjcQuestions(int aaaqno, String bbbcategory, String cccquestion, String dddcorrectansw, String eeewrongans1,
                          String fffwrongans2, String gggwrongans3, String hhhwrongans4, String iiiexpanded, String jjjquid,
-                          String kkkanstoggle, String lllepoch) {
+                          String kkkanstoggle, String lllepoch, String mmmera) {
         this.aaaqno = aaaqno;
         this.bbbcategory = bbbcategory;
         this.cccquestion = cccquestion;
@@ -34,6 +35,7 @@ public class ZZZjcQuestions {
         this.jjjquid = jjjquid;
         this.kkkanstoggle = kkkanstoggle;
         this.lllepoch = lllepoch;
+        this.mmmera = mmmera;
 
 
     }
@@ -133,6 +135,13 @@ public class ZZZjcQuestions {
 
     }
 
+    public String getMmmera() {
+        return mmmera;    }
+
+    public void setMmmera(String mmmera) {
+        this.mmmera = mmmera;
+
+    }
 
 
     public ZZZjcQuestions(){
