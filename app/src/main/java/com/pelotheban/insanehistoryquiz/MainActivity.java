@@ -39,6 +39,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
 
     TextView txtFBtestX;
 
+    /// For default value to be written to Firebase
+
+    private String userUID;
+    private DatabaseReference profileReference;
+
+    StringBuilder randomStringBuilder;
+    TextView txtPlacehoderX;
+    String randomProfileName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        /// For default value to be written to Firebase
+        txtPlacehoderX = findViewById(R.id.txtPlaceholder);
 
         // Configure google sign-in
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -129,30 +141,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
-                //Query query = dbReference.orderByChild("questions");
-//
-//                query.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                        for (DataSnapshot ds: dataSnapshot.getChildren()) {
-//
-//                            ds.getRef().child("ask").setValue("what the fuck?");
-//                            ds.getRef().child("answer").setValue("fuck you");
-//
-//                            Toast.makeText(MainActivity.this,"git2", Toast.LENGTH_SHORT).show();
-//
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
 
-                ///////////// END of testing stuff in oncreate //////////////////////////////////////////
 
             }
         });
@@ -227,9 +216,16 @@ public class MainActivity extends AppCompatActivity {
 
                         email = authResult.getUser().getEmail();
 
-                        loginSnackbar();
+                        ///////////////// START Get a bunch of default values into firebase
 
-                        transitionToHome();
+                          userUID = FirebaseAuth.getInstance().getUid();
+//                        profileReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(userUID);
+//
+
+                        addFirebaseProperties (); // just cleaner to do it in a seperate method
+                        ////////////////  End get a bunch of default values into firebase
+
+                        loginSnackbar();
 
                     }
 
@@ -242,6 +238,55 @@ public class MainActivity extends AppCompatActivity {
                 //Snackbar.make(loutLoginX, e.getMessage(), Snackbar.LENGTH_INDEFINITE).show();
             }
         });
+
+    }
+
+    private void  addFirebaseProperties () {
+
+
+        profileReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(userUID);
+        profileReference.getRef().child("user").setValue(userUID);
+
+        Query loginProfileQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(userUID);
+        loginProfileQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot userLs: dataSnapshot.getChildren()){
+
+                    try { // if this is successful nothing happens (profile already in) if it's null, crashes, gets caught and then a random is generated below
+
+                         String profilenametemp = userLs.child("profilename").getValue().toString();
+                         txtFBtestX.setText(profilenametemp);
+
+                    } catch (Exception e) {
+
+                        Random generator = new Random();
+                        randomStringBuilder = new StringBuilder();
+
+                        char tempChar;
+                        for (int i = 0; i < 15; i++){
+                            tempChar = (char) (generator.nextInt(96) + 32);
+                            randomStringBuilder.append(tempChar).toString();
+                            txtPlacehoderX.setText(randomStringBuilder);
+
+                        }
+                        randomProfileName = txtPlacehoderX.getText().toString();
+                        profileReference.getRef().child("profilename").setValue(randomProfileName); //puts the generated profilename to FB
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        transitionToHome();
+
 
     }
 
