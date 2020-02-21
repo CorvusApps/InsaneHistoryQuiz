@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 public class ExpandedAnswer extends AppCompatActivity {
 
-   private ImageButton btnPlayAgainX, btnEAProfileX;
+   private ImageButton btnPlayAgainX, btnEAProfileX, btnLeadersX;
    private AlertDialog dialog;
    private String ExpandedAnswerGet, ExpAnsCategoryGet, ExpAnsEpochGet;
    private TextView txtExpandedAnswerShowX, txtExpAnsCategoryX, txtExpAnsEpochX;
@@ -83,6 +83,17 @@ public class ExpandedAnswer extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(ExpandedAnswer.this, ProfileView.class);
+                startActivity(intent);
+
+            }
+        });
+
+        btnLeadersX = findViewById(R.id.btnEALeaders);
+        btnLeadersX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(ExpandedAnswer.this, LeaderBoard.class);
                 startActivity(intent);
 
             }

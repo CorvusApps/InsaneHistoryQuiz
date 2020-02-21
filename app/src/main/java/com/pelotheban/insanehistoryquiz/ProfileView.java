@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -30,6 +31,14 @@ public class ProfileView extends AppCompatActivity {
    String userUID, profileName;
    DatabaseReference profileReference;
    Query profileQuery;
+
+   //Badges
+
+    ImageView imgLongStreakBadgeX, imgTotalAnsweredBadgeX, imgTotalQuestionsBadgeX;
+
+    String longestStreakString;
+    int longestStreak;
+    int longestStreakBadgeLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +88,32 @@ public class ProfileView extends AppCompatActivity {
 
                     }
 
+                    try {
 
-                }
+                        longestStreakString = userPs.child("longeststreak").getValue().toString();
+                        longestStreak = Integer.valueOf(longestStreakString);
+
+                        if (longestStreak >4) {
+                            imgLongStreakBadgeX.setImageResource(R.drawable.badgeone);
+                        }
+
+                        if (longestStreak >9) {
+                            imgLongStreakBadgeX.setImageResource(R.drawable.badgetwo);
+                        }
+
+                        if (longestStreak >19) {
+                            imgLongStreakBadgeX.setImageResource(R.drawable.badgethree);
+                        }
+
+                    } catch (Exception e) {
+
+
+                    }
+
+
+
+
+                    }
 
             }
 
@@ -103,6 +136,22 @@ public class ProfileView extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+        imgLongStreakBadgeX = findViewById(R.id.imgLongStreakBadge);
+        imgTotalAnsweredBadgeX = findViewById(R.id.imgTotalAnsweredBadge);
+        imgTotalQuestionsBadgeX = findViewById(R.id.imgTotalQuestionsBadge);
+
+
+
+
+
     }
+
+
+
+
+
+
 
 }

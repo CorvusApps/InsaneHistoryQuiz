@@ -26,4 +26,39 @@
         android:textSize="@dimen/_16sdp"
         android:textStyle="bold"
         android:text="TextView" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgLongStreakBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/badgethree"
+
+            />
+
+        <ImageView
+            android:id="@+id/imgTotalAnsweredBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/badgethree"
+
+            />
+
+        <ImageView
+            android:id="@+id/imgTotalQuestionsBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/badgethree"
+
+            />
+
+
+
+    </LinearLayout>
 </LinearLayout>

@@ -86,7 +86,9 @@ public class QuestionList extends AppCompatActivity {
 
     // card elements for on-click functionality
 
-    // PROBABLY NEED SOMETHING HERE
+    // Test variables
+
+
 
 
 
@@ -95,6 +97,8 @@ public class QuestionList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_list);
+
+        // Test variables
 
 
         // Firebase related
@@ -252,6 +256,7 @@ public class QuestionList extends AppCompatActivity {
         public void setBbbcategory(String bbbcategory){
 
             TextView txtCategoryX = (TextView)mView.findViewById(R.id.txtCategory);
+
             txtCategoryX.setText(bbbcategory);
 
         }
