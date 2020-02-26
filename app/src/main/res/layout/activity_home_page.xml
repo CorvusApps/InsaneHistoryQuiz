@@ -16,13 +16,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"
         android:outlineProvider="none"
+        app:borderWidth="0dp"
         app:rippleColor="@color/colorPrimary"
+        android:elevation="@dimen/_8sdp"
 
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:backgroundTint="@color/colorPrimary"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
 
-        android:src="@drawable/menu_white" />
+        android:src="@drawable/menublack" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabPopUpCollHP"

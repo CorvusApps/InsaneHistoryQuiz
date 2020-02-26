@@ -1,8 +1,14 @@
 package com.pelotheban.insanehistoryquiz;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -19,10 +25,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.CountDownTimer;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,10 +47,13 @@ public class Game extends AppCompatActivity {
     private String displayAnswer, displayAnswer2, displayAnswer3, displayAnswer4, displayAnswer5; // will be randomly assigned to the answer options in each question
     private int answerCounter; // scrolls through how many answers options to a question the player has seen
     private int randAnswer;
-    private Button btnCorrectX, btnWrongX;
+    private ImageButton btnCorrectX, btnWrongX;
 
     private String ExpandedAnswerPut, ExpAnsCategoryPut, ExpAnsEpochPut; // making this class variable so can go to expanded answer screen
     private String era; // pulls in era so we know which counter to grow when user answers question correctly
+
+    private LinearLayout loutGameQuestionX;
+    private ConstraintLayout loutGameAnswerDisplayX;
 
     private TextView txtGameQuestionX, txtGameAnswerDisplayX, txtGameExpandedAnswerX;
 
@@ -79,6 +93,11 @@ public class Game extends AppCompatActivity {
     private int eraAnsweredEarlyModern;
     private int eraAnsweredModern;
 
+    private TextView txtTimerX;
+    private ImageView imgHPTimerX, imgHPTimer2X, imgHPTimer3X, imgHPTimer4X;
+
+    private int timersetting, ticksetting;  // want different setting depending on whether first showing question or just next answer
+    private int tickerToggle;
 
 
     // Firebase
@@ -94,6 +113,11 @@ public class Game extends AppCompatActivity {
     String GameCorrectAnswerY;
     String test;
 
+    // variables for UI placements like centering the displays
+
+    int height2;
+    int width2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,16 +129,46 @@ public class Game extends AppCompatActivity {
         randQuestion = new Random().nextInt(5) + 1; // random question number to be displayed
 
         //...... displayed outputs
+        loutGameQuestionX = findViewById(R.id.loutGameQuestion);
+        loutGameAnswerDisplayX = findViewById(R.id.loutGameAnswerDisplay);
+
         txtGameQuestionX = findViewById(R.id.txtGameQuestion);
         txtGameAnswerDisplayX = findViewById(R.id.txtGameAnswerDisplay);
         txtCoinCounterX = findViewById(R.id.txtCoinCounter);
         txtConStreakX = findViewById(R.id.txtConStreak);
+
+        // timesettings
+
+        txtTimerX = findViewById(R.id.txtTimer);
+        imgHPTimerX = findViewById(R.id.imgHPTimer);
+        imgHPTimer2X = findViewById(R.id.imgHPTimer2);
+        imgHPTimer3X = findViewById(R.id.imgHPTimer3);
+        imgHPTimer4X = findViewById(R.id.imgHPTimer4);
+
+        timersetting = 10000;
+        ticksetting = 5000;
+        tickerToggle = 1;
 
         //Firebase user
 
         uid = FirebaseAuth.getInstance().getUid();
         userReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
         userReference.getRef().child("user").setValue(uid);
+
+        /// sizing the display to have both the question and then the answer mostly in the center
+                /// not used yet but leaving for adjustments to different displays
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        double height = size.y;
+
+        height2 = (int) Math.round(height);
+        width2 = (int) Math.round(width);
+
+
+
+
 
 
         ////// add coins to account IF FIRST TIME /////////////////////////////////////////////////////////////
@@ -220,8 +274,6 @@ public class Game extends AppCompatActivity {
 
                         coinGrantToggle = userDs.child("coinsgranttoggle").getValue().toString();
 
-
-                        Toast.makeText(Game.this, "here  " + eraAnsweredAntiquityString + "  " + eraAnsweredAntiquity, Toast.LENGTH_LONG).show();
 
 
                     } catch (Exception e) {
@@ -373,7 +425,7 @@ public class Game extends AppCompatActivity {
 
                     // Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
 
-                    Toast.makeText(Game.this, "Antiquity  " + eraAnsweredAntiquity + "   Enlight  " + eraAnsweredEnlightenment, Toast.LENGTH_LONG).show();
+                   // Toast.makeText(Game.this, "Antiquity  " + eraAnsweredAntiquity + "   Enlight  " + eraAnsweredEnlightenment, Toast.LENGTH_LONG).show();
 
                     coinsOwned = coinsOwned + 5;
                     String coinsOwedZ = Double.toString(coinsOwned);
@@ -499,6 +551,8 @@ public class Game extends AppCompatActivity {
 
                     Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
                     stopTimer(); // need to start and reset timer as not entering the oncreate  and need to transition from one answer to next
+                    timersetting = 6000;
+                    ticksetting = 1000;
                     startTimer();
                     nextQuestions ();
                 }
@@ -609,8 +663,108 @@ public class Game extends AppCompatActivity {
     public void startTimer(){
 
         // will be called at every 1500 milliseconds i.e. every 1.5 second.
-        countDownTimer = new CountDownTimer(5000, 1000) {
+        countDownTimer = new CountDownTimer(timersetting, 1000) {
             public void onTick(long millisUntilFinished) {
+
+                    String timerCountString = millisUntilFinished / 1000 + "";
+                    txtTimerX.setText(timerCountString);
+                if (ticksetting == 5000 & millisUntilFinished < 6000 & tickerToggle == 1) {
+
+                    tickerToggle = 2;
+                    txtTimerX.setVisibility(View.VISIBLE);
+                    imgHPTimerX.setVisibility(View.VISIBLE);
+
+
+
+                    // we need to only do all the main UI elements movements on ONE tick at 5K while the timer needs to fade in at that time
+                    // AND it needs to count down on every tick...
+                    // so need to get countDowninterval to 1000 but use a toggle to only do the UI fadeins once.
+
+//                    YoYo.with(Techniques.SlideOutUp)
+//                            .delay(0)
+//                            .duration(200)
+//                            .repeat(0)
+//                            .playOn(txtGameQuestionX);
+                    //txtGameQuestionX.setVisibility(View.GONE);
+
+                    if (width2 > 1500) {
+
+                       // Toast.makeText(Game.this, "WIDE WIDE WIDE", Toast.LENGTH_LONG).show();
+
+                        loutGameQuestionX.animate().translationY(-700).setDuration(1);
+
+
+                    } else if (height2 < 1300) {
+
+
+                        loutGameQuestionX.animate().translationY(-200).setDuration(1);
+
+                       // Toast.makeText(Game.this, "SHOOOOOOOOOOOOOOORT  " + height2, Toast.LENGTH_LONG).show();
+
+
+                    } else {
+
+                        ObjectAnimator animatorX = ObjectAnimator.ofFloat(loutGameQuestionX, "y", 400f);
+                        animatorX.setDuration(1000);
+                        AnimatorSet animatorSet = new AnimatorSet();
+                        animatorSet.playTogether(animatorX);
+                        animatorSet.start();
+
+                    }
+
+                   loutGameAnswerDisplayX.setVisibility(View.VISIBLE);
+
+
+                    YoYo.with(Techniques.FadeIn)
+                            .delay(0)
+                            .duration(2000)
+                            .repeat(0)
+                            .playOn(loutGameAnswerDisplayX);
+
+                    if (width2 > 1500) {
+
+                       loutGameAnswerDisplayX.animate().translationY(-400).setDuration(1);
+
+
+
+                       txtGameAnswerDisplayX.setTextSize(28);
+
+
+                    } else if (height2 < 1300){
+
+                      //  loutGameAnswerDisplayX.animate().translationY(-200).setDuration(1);
+
+                    } else {
+
+
+
+                    }
+
+                } else
+
+                if (millisUntilFinished < 5000) {
+
+                   // Toast.makeText(Game.this, "Tick 4",Toast.LENGTH_SHORT).show();
+
+                    imgHPTimerX.setVisibility(View.GONE);
+                    imgHPTimer2X.setVisibility(View.VISIBLE);
+                }
+                if (millisUntilFinished < 4000) {
+
+                    imgHPTimer2X.setVisibility(View.GONE);
+                    imgHPTimer3X.setVisibility(View.VISIBLE);
+                }
+
+                if (millisUntilFinished < 3000) {
+                    imgHPTimer3X.setVisibility(View.GONE);
+                    imgHPTimer4X.setVisibility(View.VISIBLE);
+                }
+
+                if (millisUntilFinished <2000) {
+
+                    imgHPTimer4X.setVisibility(View.GONE);
+                    imgHPTimerX.setVisibility(View.VISIBLE);
+                }
 
             }
 
@@ -643,6 +797,14 @@ public class Game extends AppCompatActivity {
     public void stopTimer() {
 
         countDownTimer.cancel();
+
+    }
+
+    @Override
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
+    public void onBackPressed(){
+
+        // just leaving this blank so back press should just be a nothing
 
     }
 

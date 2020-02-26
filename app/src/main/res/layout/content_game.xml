@@ -5,101 +5,243 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="4000dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Game"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:showIn="@layout/activity_game">
-
-    <TextView
-        android:id="@+id/txtGameQuestion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@color/colorPrimary"
-        android:gravity="center"
-        android:textSize="@dimen/_15sdp"
-        android:text="Question"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_marginTop="@dimen/_16sdp"
         >
-        <TextView
-            android:id="@+id/txtConStreak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="@dimen/_15sdp"
-            android:text="0" />
 
-        <TextView
-            android:id="@+id/txtSpacer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:textSize="@dimen/_15sdp"
-            android:text="" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            app:srcCompat="@drawable/goldcoinsicon" />
 
         <TextView
             android:id="@+id/txtCoinCounter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:text="10"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:textStyle="bold"
+            android:textSize="@dimen/_25sdp"
+            />
+
+        <ImageView
+            android:id="@+id/imgHPstreak"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            app:srcCompat="@drawable/checkicon" />
+
+        <TextView
+            android:id="@+id/txtConStreak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:text="10"
+            android:textStyle="bold"
+            android:textSize="@dimen/_25sdp"
+            />
+        <ImageView
+            android:id="@+id/imgHPTimer"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginLeft="@dimen/_70sdp"
+            app:srcCompat="@drawable/hourglassone"
+            android:visibility="gone"
+            />
+        <ImageView
+            android:id="@+id/imgHPTimer2"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_marginLeft="@dimen/_53sdp"
+            app:srcCompat="@drawable/hourglasstwo"
+            android:visibility="gone"
+            />
+        <ImageView
+            android:id="@+id/imgHPTimer3"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginLeft="@dimen/_70sdp"
+            app:srcCompat="@drawable/hourglassthree"
+            android:visibility="gone"
+            />
+        <ImageView
+            android:id="@+id/imgHPTimer4"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginLeft="@dimen/_70sdp"
+            app:srcCompat="@drawable/hourglassfour"
+            android:visibility="gone"
+            />
+
+
+        <TextView
+            android:id="@+id/txtTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:text="10"
+            android:visibility="gone"
+            android:textStyle="bold"
+            android:textSize="@dimen/_25sdp"
+            />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/loutGameQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/_150sdp"
+        android:layout_gravity="center_vertical"
+
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_3sdp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginLeft="@dimen/_100sdp"
+            android:layout_marginRight="@dimen/_100sdp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_3sdp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginLeft="@dimen/_50sdp"
+            android:layout_marginRight="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            />
+
+        <TextView
+            android:id="@+id/txtGameQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_marginRight="@dimen/_16sdp"
+            android:layout_marginLeft="@dimen/_16sdp"
+
             android:gravity="center"
             android:textSize="@dimen/_15sdp"
-            android:textStyle="bold"
-            android:text="0" />
-    </LinearLayout>
+            android:text="Question"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_weight="1"
-        >
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/txtGameAnswerDisplay"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:layout_marginTop="3dp"
-            android:layout_marginLeft="@dimen/_30sdp"
-            android:layout_marginRight="@dimen/_30sdp"
-            android:textSize="@dimen/_12sdp"
-            android:textAllCaps="false"
-            app:cornerRadius="30dp"
-            android:text="Augustus Denari Part I: Spanish and Gaulish Mints" />
+            android:layout_height="@dimen/_3sdp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginLeft="@dimen/_50sdp"
+            android:layout_marginRight="@dimen/_50sdp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_3sdp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginLeft="@dimen/_100sdp"
+            android:layout_marginRight="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            />
+
 
     </LinearLayout>
 
-    <LinearLayout
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loutGameAnswerDisplay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_marginTop="-125dp"
+        android:visibility="gone"
+
         >
 
+        <TextView
+            android:id="@+id/txtGameAnswerDisplay"
+            android:layout_width="@dimen/_125sdp"
+            android:layout_height="@dimen/_55sdp"
 
-        <Button
+            android:layout_marginTop="8dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="Answer"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+
+
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintEnd_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toStartOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="@dimen/_200sdp"
+
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.477"
+            app:srcCompat="@drawable/questionframe" />
+
+        <ImageButton
             android:id="@+id/btnCorrect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_weight="1"
-            android:text="Correct" />
+            android:translationX="50dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:scaleType="fitCenter"
+            android:src="@drawable/yes"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnWrong"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginBottom="8dp"
             android:layout_weight="1"
-            android:text="Wrong" />
-    </LinearLayout>
+            android:backgroundTint="@color/colorPrimary"
+            android:translationX="-50dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/no"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imageView3" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
 
 </LinearLayout>

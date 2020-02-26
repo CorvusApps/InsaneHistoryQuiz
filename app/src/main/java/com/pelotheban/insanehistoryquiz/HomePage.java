@@ -5,10 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,18 +27,22 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomePage extends AppCompatActivity {
 
     AlertDialog dialog;
-    ConstraintLayout loutHomePageX;
+    LinearLayout loutHomePageX, loutButtonsX;
 
     //Buttons
 
-    ImageView imgBtnAdminX, imgBtnPlayX;
+    ImageButton  imgBtnPlayX, imgBtnProfileX, imgBtnLeadersX;
+
+    ImageView imgBtnAdminX;
 
     //User Buttons
 
@@ -41,12 +54,29 @@ public class HomePage extends AppCompatActivity {
     // Firebase
     FirebaseAuth mAuth;
 
+    private DatabaseReference userReference;
+    private Query sortUsersQuery;
+    private String uid;
+
+
+    //game counters
+
+    private TextView txtCoinCounterX, txtConStreakX;
+    private String coinGrantToggle;
+
+    private String coinsOwnedString;
+    private double coinsOwned;
+
+    private String consStreetString;
+    private int consStreak;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
         loutHomePageX = findViewById(R.id.loutHomePage);
+        loutButtonsX = findViewById(R.id.loutButtons);
 
         fabPopUpHPX = findViewById(R.id.fabPopUpHP);
         fabPopUpHPX.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +97,86 @@ public class HomePage extends AppCompatActivity {
 
         shadeX = findViewById(R.id.shade);
 
+        //game counters
+
+        txtCoinCounterX = findViewById(R.id.hpTxtCoinCounter);
+        txtConStreakX = findViewById(R.id.hpTxtConStreak);
+
+        mAuth = FirebaseAuth.getInstance();
+        uid = mAuth.getUid();
+        userReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
+
+        sortUsersQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(uid);
+        sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot userDs: dataSnapshot.getChildren()) {
+
+                    try {
+                        consStreetString = userDs.child("constreak").getValue().toString();
+                        consStreak = Integer.valueOf(consStreetString);
+                    } catch (Exception e) {
+
+                    }
+
+
+                    try {
+                        coinsOwnedString = userDs.child("coins").getValue().toString();
+                        coinsOwned = Double.valueOf(coinsOwnedString);
+
+                        coinGrantToggle = userDs.child("coinsgranttoggle").getValue().toString();
+
+                       // Toast.makeText(HomePage.this,"Toggle " + coinGrantToggle + "  coins" + coinsOwned, Toast.LENGTH_LONG).show();
+
+
+                    } catch (Exception e) {
+
+                        //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+                    txtCoinCounterX.setText(coinsOwnedString); // IF there are any coins in the account will set the counter
+                    txtConStreakX.setText(consStreetString);
+
+                    try {
+                        if (coinsOwned > 0 | coinGrantToggle.equals("yes")) {
+
+                            // Toast.makeText(Game.this, "NOT GRANTING", Toast.LENGTH_SHORT).show();
+
+                        } else { // setting up grant if conditions for NOT GRANTING are unmet - BUT probably never invoked because
+                            // if conditions unmet that just means that the "if" goes null gets caught by try and bounced to error
+                            // before invoking the else - So.... repeating this AGAIN in the catch of the if
+
+                            // Toast.makeText(Game.this, "Granting", Toast.LENGTH_SHORT).show();
+
+                            userReference.getRef().child("coins").setValue(80);
+                            userReference.getRef().child("coinsgranttoggle").setValue("yes");
+
+
+                        }
+
+                    } catch (Exception e) { // this is the catch of the if above and repeating the initial coin grant query as per notes above
+
+                        //  Toast.makeText(Game.this, "Granting", Toast.LENGTH_SHORT).show();
+
+                        userReference.getRef().child("coins").setValue(80);
+                        userReference.getRef().child("coinsgranttoggle").setValue("yes");
+                        txtCoinCounterX.setText("80");
+
+                        //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
         //Admin Button
 
         imgBtnAdminX = findViewById(R.id.imgBtnAdmin);
@@ -80,20 +190,73 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-        imgBtnPlayX = findViewById(R.id.imgBtnPlay);
+        imgBtnLeadersX = findViewById(R.id.btnLeaders);
+        imgBtnLeadersX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(HomePage.this, LeaderBoard.class);
+                startActivity(intent);
+
+            }
+        });
+
+        imgBtnProfileX = findViewById(R.id.btnProfile);
+        imgBtnProfileX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(HomePage.this, ProfileView.class);
+                startActivity(intent);
+
+            }
+        });
+
+        imgBtnPlayX = findViewById(R.id.btnPlayAgain);
         imgBtnPlayX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(HomePage.this, Game.class);
-                startActivity(intent);
+                YoYo.with(Techniques.SlideOutLeft)
+                        .delay(0)
+                        .duration(100)
+                        .repeat(0)
+                        .playOn(imgBtnProfileX);
+
+                YoYo.with(Techniques.SlideOutRight)
+                        .delay(0)
+                        .duration(100)
+                        .repeat(0)
+                        .playOn(imgBtnLeadersX);
+
+                YoYo.with(Techniques.SlideOutDown)
+                        .delay(110)
+                        .duration(300)
+                        .repeat(0)
+                        .playOn(loutButtonsX);
+
+                new CountDownTimer(450, 500) {
+
+                    public void onTick(long millisUntilFinished) {
+                        // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+                    }
+
+                    public void onFinish() {
+                        Intent intent = new Intent(HomePage.this, Game.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }.start();
+
+
 
             }
         });
 
         //Firebase basics
 
-        mAuth = FirebaseAuth.getInstance();
+
+
 
     }
 
@@ -210,7 +373,7 @@ public class HomePage extends AppCompatActivity {
         txtTitleX.setText("Logout");
 
         TextView txtMsgX = view.findViewById(R.id.txtMsg);
-        txtMsgX.setText("Do you really want to Logout from Corvus?");
+        txtMsgX.setText("Do you really want to Logout?");
 
         Button btnYesX = view.findViewById(R.id.btnYes);
         btnYesX.setOnClickListener(new View.OnClickListener() {

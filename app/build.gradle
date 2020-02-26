@@ -72,6 +72,9 @@ dependencies {
 
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
 
+    implementation 'com.daimajia.easing:library:2.0@aar'
+    implementation 'com.daimajia.androidanimations:library:2.3@aar'
+
 }
 
 repositories {
