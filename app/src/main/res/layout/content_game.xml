@@ -55,7 +55,7 @@
             android:id="@+id/imgHPTimer"
             android:layout_marginTop="@dimen/_2sdp"
             android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_35sdp"
+            android:layout_height="@dimen/_37sdp"
             android:layout_marginLeft="@dimen/_70sdp"
             app:srcCompat="@drawable/hourglassone"
             android:visibility="gone"
@@ -85,6 +85,16 @@
             android:layout_height="@dimen/_35sdp"
             android:layout_marginLeft="@dimen/_70sdp"
             app:srcCompat="@drawable/hourglassfour"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/imgHPTimer5"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginLeft="@dimen/_70sdp"
+            app:srcCompat="@drawable/hourglassfive"
             android:visibility="gone"
             />
 

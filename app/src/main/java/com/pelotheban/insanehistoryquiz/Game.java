@@ -65,7 +65,7 @@ public class Game extends AppCompatActivity {
     private String coinGrantToggle;
 
     private String coinsOwnedString;
-    private double coinsOwned;
+    private int coinsOwned;
 
     private String consStreetString;
     private int consStreak;
@@ -94,7 +94,7 @@ public class Game extends AppCompatActivity {
     private int eraAnsweredModern;
 
     private TextView txtTimerX;
-    private ImageView imgHPTimerX, imgHPTimer2X, imgHPTimer3X, imgHPTimer4X;
+    private ImageView imgHPTimerX, imgHPTimer2X, imgHPTimer3X, imgHPTimer4X, imgHPTimer5X;
 
     private int timersetting, ticksetting;  // want different setting depending on whether first showing question or just next answer
     private int tickerToggle;
@@ -144,6 +144,7 @@ public class Game extends AppCompatActivity {
         imgHPTimer2X = findViewById(R.id.imgHPTimer2);
         imgHPTimer3X = findViewById(R.id.imgHPTimer3);
         imgHPTimer4X = findViewById(R.id.imgHPTimer4);
+        imgHPTimer5X = findViewById(R.id.imgHPTimer5);
 
         timersetting = 10000;
         ticksetting = 5000;
@@ -270,7 +271,7 @@ public class Game extends AppCompatActivity {
 
                     try {
                         coinsOwnedString = userDs.child("coins").getValue().toString();
-                        coinsOwned = Double.valueOf(coinsOwnedString);
+                        coinsOwned = Integer.valueOf(coinsOwnedString);
 
                         coinGrantToggle = userDs.child("coinsgranttoggle").getValue().toString();
 
@@ -428,8 +429,8 @@ public class Game extends AppCompatActivity {
                    // Toast.makeText(Game.this, "Antiquity  " + eraAnsweredAntiquity + "   Enlight  " + eraAnsweredEnlightenment, Toast.LENGTH_LONG).show();
 
                     coinsOwned = coinsOwned + 5;
-                    String coinsOwedZ = Double.toString(coinsOwned);
-                    txtCoinCounterX.setText(coinsOwedZ);
+                    String coinsOwnedZ = Integer.toString(coinsOwned);
+                    txtCoinCounterX.setText(coinsOwnedZ);
                     userReference.getRef().child("coins").setValue(coinsOwned);
 
                     consStreak = consStreak + 1;
@@ -495,7 +496,7 @@ public class Game extends AppCompatActivity {
                     Toast.makeText(Game.this, "WRONG", Toast.LENGTH_LONG).show();
 
                     coinsOwned = coinsOwned - 10;
-                    String coinsOwedZ = Double.toString(coinsOwned);
+                    String coinsOwedZ = Integer.toString(coinsOwned);
                     txtCoinCounterX.setText(coinsOwedZ);
                     userReference.getRef().child("coins").setValue(coinsOwned);
 
@@ -529,7 +530,7 @@ public class Game extends AppCompatActivity {
                     Toast.makeText(Game.this, "WRONG", Toast.LENGTH_LONG).show();
 
                     coinsOwned = coinsOwned - 10;
-                    String coinsOwedZ = Double.toString(coinsOwned);
+                    String coinsOwedZ = Integer.toString(coinsOwned);
                     txtCoinCounterX.setText(coinsOwedZ);
                     userReference.getRef().child("coins").setValue(coinsOwned);
 
@@ -553,6 +554,11 @@ public class Game extends AppCompatActivity {
                     stopTimer(); // need to start and reset timer as not entering the oncreate  and need to transition from one answer to next
                     timersetting = 6000;
                     ticksetting = 1000;
+                    imgHPTimer2X.setVisibility(View.GONE);
+                    imgHPTimer3X.setVisibility(View.GONE);
+                    imgHPTimer4X.setVisibility(View.GONE);
+                    imgHPTimer5X.setVisibility(View.GONE);
+
                     startTimer();
                     nextQuestions ();
                 }
@@ -565,6 +571,7 @@ public class Game extends AppCompatActivity {
     private void nextQuestions (){
 
         answerCounter = answerCounter + 1;
+        imgHPTimerX.setVisibility(View.VISIBLE);
 
         //This second query is probably unnecessary as could have gotten all these variables and sequences in on create only ran the
         // what to display ifs here without further firebase access
@@ -666,7 +673,13 @@ public class Game extends AppCompatActivity {
         countDownTimer = new CountDownTimer(timersetting, 1000) {
             public void onTick(long millisUntilFinished) {
 
-                    String timerCountString = millisUntilFinished / 1000 + "";
+                    double millisleftRough = millisUntilFinished / 1000;
+
+                    int millisleftFinal = (int) Math.round(millisleftRough);
+
+                    Toast.makeText(Game.this, "M = " + millisleftFinal, Toast.LENGTH_SHORT).show();
+
+                    String timerCountString = millisleftFinal + "";
                     txtTimerX.setText(timerCountString);
                 if (ticksetting == 5000 & millisUntilFinished < 6000 & tickerToggle == 1) {
 
@@ -740,30 +753,35 @@ public class Game extends AppCompatActivity {
 
                     }
 
+                } //else
+
+
+
+                if (millisUntilFinished <1000) {
+
+                    imgHPTimer5X.setVisibility(View.GONE);
+                    imgHPTimerX.setVisibility(View.VISIBLE);
                 } else
+                if (millisUntilFinished <2000) {
 
-                if (millisUntilFinished < 5000) {
-
-                   // Toast.makeText(Game.this, "Tick 4",Toast.LENGTH_SHORT).show();
-
-                    imgHPTimerX.setVisibility(View.GONE);
-                    imgHPTimer2X.setVisibility(View.VISIBLE);
-                }
+                    imgHPTimer4X.setVisibility(View.GONE);
+                    imgHPTimer5X.setVisibility(View.VISIBLE);
+                }else
+                if (millisUntilFinished < 3000) {
+                    imgHPTimer3X.setVisibility(View.GONE);
+                    imgHPTimer4X.setVisibility(View.VISIBLE);
+                } else
                 if (millisUntilFinished < 4000) {
 
                     imgHPTimer2X.setVisibility(View.GONE);
                     imgHPTimer3X.setVisibility(View.VISIBLE);
-                }
+                } else
+                if (millisUntilFinished < 5000) {
 
-                if (millisUntilFinished < 3000) {
-                    imgHPTimer3X.setVisibility(View.GONE);
-                    imgHPTimer4X.setVisibility(View.VISIBLE);
-                }
+                    // Toast.makeText(Game.this, "Tick 4",Toast.LENGTH_SHORT).show();
 
-                if (millisUntilFinished <2000) {
-
-                    imgHPTimer4X.setVisibility(View.GONE);
-                    imgHPTimerX.setVisibility(View.VISIBLE);
+                    imgHPTimerX.setVisibility(View.GONE);
+                    imgHPTimer2X.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -773,7 +791,7 @@ public class Game extends AppCompatActivity {
                 Toast.makeText(Game.this, "TIME OUT", Toast.LENGTH_LONG).show();
 
                 coinsOwned = coinsOwned - 10;
-                String coinsOwedZ = Double.toString(coinsOwned);
+                String coinsOwedZ = Integer.toString(coinsOwned);
                 txtCoinCounterX.setText(coinsOwedZ);
                 userReference.getRef().child("coins").setValue(coinsOwned);
 
