@@ -7,4 +7,8 @@
     <color name="colorDialog">#000000</color>
     <color name="primaryShadow">#75000000</color>
 
+    <color name="primaryDarkShadow">#99000000</color>
+
+    <color name="colorHighlight">#CFD8DC</color>
+
 </resources>

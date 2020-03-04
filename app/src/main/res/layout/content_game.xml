@@ -5,11 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="4000dp"
+    android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Game"
     android:orientation="vertical"
     android:background="@color/colorPrimary"
+
     tools:showIn="@layout/activity_game">
 
     <LinearLayout
@@ -123,6 +124,12 @@
         android:layout_gravity="center_vertical"
 
         >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/_3sdp"
@@ -139,6 +146,8 @@
             android:layout_marginRight="@dimen/_50sdp"
             android:layout_marginTop="@dimen/_10sdp"
             />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/txtGameQuestion"
@@ -151,6 +160,12 @@
             android:textSize="@dimen/_15sdp"
             android:text="Question"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/_3sdp"
@@ -167,6 +182,8 @@
             android:layout_marginRight="@dimen/_100sdp"
             android:layout_marginTop="@dimen/_10sdp"
             />
+
+        </LinearLayout>
 
 
     </LinearLayout>
@@ -190,7 +207,7 @@
             android:layout_height="@dimen/_55sdp"
 
             android:layout_marginTop="8dp"
-            android:background="@color/colorPrimary"
+
             android:gravity="center"
             android:text="Answer"
             android:textColor="@color/colorPrimaryDark"

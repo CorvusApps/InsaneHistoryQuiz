@@ -99,6 +99,13 @@ public class Game extends AppCompatActivity {
     private int timersetting, ticksetting;  // want different setting depending on whether first showing question or just next answer
     private int tickerToggle;
 
+    private View shadeX;
+    private ImageView imgCorrectorCheckX, imgCorrectorXmarkX, imgCorrectorTimeoutX;
+    private LinearLayout loutCoinAwardX;
+    private ImageView imgCoinAwardX;
+    private TextView txtCoinAwardX;
+    private int rightAnswerTicker;
+
 
     // Firebase
 
@@ -136,6 +143,15 @@ public class Game extends AppCompatActivity {
         txtGameAnswerDisplayX = findViewById(R.id.txtGameAnswerDisplay);
         txtCoinCounterX = findViewById(R.id.txtCoinCounter);
         txtConStreakX = findViewById(R.id.txtConStreak);
+
+        shadeX = findViewById(R.id.shadeCor);
+        imgCorrectorCheckX = findViewById(R.id.imgCorrectorCheck);
+        imgCorrectorXmarkX = findViewById(R.id.imgCorrectorXmark);
+        imgCorrectorTimeoutX = findViewById(R.id.imgCorrectorTimeout);
+        loutCoinAwardX = findViewById(R.id.loutCoinAward);
+        imgCoinAwardX = findViewById(R.id.imgCoinAward);
+        txtCoinAwardX = findViewById(R.id.txtCoinAward);
+        rightAnswerTicker = 0;
 
         // timesettings
 
@@ -424,95 +440,128 @@ public class Game extends AppCompatActivity {
 
                     stopTimer();
 
-                    // Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
+                    shadeX.setVisibility(View.VISIBLE);
+                    imgCorrectorCheckX.setVisibility(View.VISIBLE);
+                    loutCoinAwardX.setVisibility(View.VISIBLE);
+                    int coinAwardNo = 5 - rightAnswerTicker;
+                    txtCoinAwardX.setText("+" + coinAwardNo);
 
-                   // Toast.makeText(Game.this, "Antiquity  " + eraAnsweredAntiquity + "   Enlight  " + eraAnsweredEnlightenment, Toast.LENGTH_LONG).show();
+                    CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
 
-                    coinsOwned = coinsOwned + 5;
-                    String coinsOwnedZ = Integer.toString(coinsOwned);
-                    txtCoinCounterX.setText(coinsOwnedZ);
-                    userReference.getRef().child("coins").setValue(coinsOwned);
+                        }
 
-                    consStreak = consStreak + 1;
-                    String conStreakZ = Integer.toString(consStreak);
-                    txtConStreakX.setText(conStreakZ);
-                    userReference.getRef().child("constreak").setValue(consStreak);
+                        @Override
+                        public void onFinish() {
 
-                    totalAnswered = totalAnswered + 1;
-                    userReference.getRef().child("totalanswered").setValue(totalAnswered);
+                            coinsOwned = coinsOwned + 5 - rightAnswerTicker;
+                            String coinsOwnedZ = Integer.toString(coinsOwned);
+                            txtCoinCounterX.setText(coinsOwnedZ);
+                            userReference.getRef().child("coins").setValue(coinsOwned);
 
-                    if (longestStreak < consStreak){
+                            consStreak = consStreak + 1;
+                            String conStreakZ = Integer.toString(consStreak);
+                            txtConStreakX.setText(conStreakZ);
+                            userReference.getRef().child("constreak").setValue(consStreak);
 
-                        longestStreak = consStreak;
+                            totalAnswered = totalAnswered + 1;
+                            userReference.getRef().child("totalanswered").setValue(totalAnswered);
 
-                    }
-                    userReference.getRef().child("longeststreak").setValue(longestStreak);
+                            if (longestStreak < consStreak){
 
-                    totalQuestions = totalQuestions + 1;
-                    userReference.getRef().child("totalquestions").setValue(totalQuestions);
+                                longestStreak = consStreak;
 
-                    if (era.equals("Antiquity")){
-                        eraAnsweredAntiquity = eraAnsweredAntiquity + 1;
-                        userReference.getRef().child("eraansantiquity").setValue(eraAnsweredAntiquity);
-                    }
+                            }
+                            userReference.getRef().child("longeststreak").setValue(longestStreak);
 
-                    if (era.equals("Middle Ages")){
-                        eraAnsweredMiddleAges = eraAnsweredMiddleAges + 1;
-                        userReference.getRef().child("eraansmiddle").setValue(eraAnsweredMiddleAges);
-                    }
+                            totalQuestions = totalQuestions + 1;
+                            userReference.getRef().child("totalquestions").setValue(totalQuestions);
 
-                    if (era.equals("Renaissance")){
-                        eraAnsweredRenaissance = eraAnsweredRenaissance + 1;
-                        userReference.getRef().child("eraansrenaissance").setValue(eraAnsweredRenaissance);
-                    }
+                            if (era.equals("Antiquity")){
+                                eraAnsweredAntiquity = eraAnsweredAntiquity + 1;
+                                userReference.getRef().child("eraansantiquity").setValue(eraAnsweredAntiquity);
+                            }
 
-                    if (era.equals("Enlightenment")){
-                        eraAnsweredEnlightenment = eraAnsweredEnlightenment + 1;
-                        userReference.getRef().child("eraanselight").setValue(eraAnsweredEnlightenment);
-                    }
+                            if (era.equals("Middle Ages")){
+                                eraAnsweredMiddleAges = eraAnsweredMiddleAges + 1;
+                                userReference.getRef().child("eraansmiddle").setValue(eraAnsweredMiddleAges);
+                            }
 
-                    if (era.equals("Early Modern")){
-                        eraAnsweredEarlyModern = eraAnsweredEarlyModern + 1;
-                        userReference.getRef().child("eraansearlymod").setValue(eraAnsweredEarlyModern);
-                    }
+                            if (era.equals("Renaissance")){
+                                eraAnsweredRenaissance = eraAnsweredRenaissance + 1;
+                                userReference.getRef().child("eraansrenaissance").setValue(eraAnsweredRenaissance);
+                            }
 
-                    if (era.equals("Modern")){
-                        eraAnsweredModern = eraAnsweredModern + 1;
-                        userReference.getRef().child("eraansmodern").setValue(eraAnsweredModern);
-                    }
+                            if (era.equals("Enlightenment")){
+                                eraAnsweredEnlightenment = eraAnsweredEnlightenment + 1;
+                                userReference.getRef().child("eraanselight").setValue(eraAnsweredEnlightenment);
+                            }
+
+                            if (era.equals("Early Modern")){
+                                eraAnsweredEarlyModern = eraAnsweredEarlyModern + 1;
+                                userReference.getRef().child("eraansearlymod").setValue(eraAnsweredEarlyModern);
+                            }
+
+                            if (era.equals("Modern")){
+                                eraAnsweredModern = eraAnsweredModern + 1;
+                                userReference.getRef().child("eraansmodern").setValue(eraAnsweredModern);
+                            }
 
 
-                    Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                    intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
-                    intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                    intent.putExtra("lllepoch", ExpAnsEpochPut);
-                    startActivity(intent);
+                            Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                            intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
+                            intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                            intent.putExtra("lllepoch", ExpAnsEpochPut);
+                            startActivity(intent);
+
+                        }
+                    }.start();
+
+
 
 
                 } else {
 
                     stopTimer();
 
-                    Toast.makeText(Game.this, "WRONG", Toast.LENGTH_LONG).show();
+                    shadeX.setVisibility(View.VISIBLE);
+                    imgCorrectorXmarkX.setVisibility(View.VISIBLE);
+                    loutCoinAwardX.setVisibility(View.VISIBLE);
+                    txtCoinAwardX.setText("-10");
 
-                    coinsOwned = coinsOwned - 10;
-                    String coinsOwedZ = Integer.toString(coinsOwned);
-                    txtCoinCounterX.setText(coinsOwedZ);
-                    userReference.getRef().child("coins").setValue(coinsOwned);
+                    CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
 
-                    consStreak = 0;
-                    String conStreakZ = Integer.toString(consStreak);
-                    txtConStreakX.setText(conStreakZ);
-                    userReference.getRef().child("constreak").setValue(consStreak);
+                        }
 
-                    totalQuestions = totalQuestions + 1;
-                    userReference.getRef().child("totalquestions").setValue(totalQuestions);
+                        @Override
+                        public void onFinish() {
 
-                    Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                    intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
-                    intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                    intent.putExtra("lllepoch", ExpAnsEpochPut);
-                    startActivity(intent);
+                            coinsOwned = coinsOwned - 10;
+                            String coinsOwedZ = Integer.toString(coinsOwned);
+                            txtCoinCounterX.setText(coinsOwedZ);
+                            userReference.getRef().child("coins").setValue(coinsOwned);
+
+                            consStreak = 0;
+                            String conStreakZ = Integer.toString(consStreak);
+                            txtConStreakX.setText(conStreakZ);
+                            userReference.getRef().child("constreak").setValue(consStreak);
+
+                            totalQuestions = totalQuestions + 1;
+                            userReference.getRef().child("totalquestions").setValue(totalQuestions);
+
+                            Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                            intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
+                            intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                            intent.putExtra("lllepoch", ExpAnsEpochPut);
+                            startActivity(intent);
+
+                        }
+                    }.start();
+
+
                 }
             }
         });
@@ -527,40 +576,87 @@ public class Game extends AppCompatActivity {
 
                     stopTimer();
 
-                    Toast.makeText(Game.this, "WRONG", Toast.LENGTH_LONG).show();
+                    shadeX.setVisibility(View.VISIBLE);
+                    imgCorrectorXmarkX.setVisibility(View.VISIBLE);
+                    loutCoinAwardX.setVisibility(View.VISIBLE);
+                    txtCoinAwardX.setText("-10");
 
-                    coinsOwned = coinsOwned - 10;
-                    String coinsOwedZ = Integer.toString(coinsOwned);
-                    txtCoinCounterX.setText(coinsOwedZ);
-                    userReference.getRef().child("coins").setValue(coinsOwned);
+                    CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
 
-                    consStreak = 0;
-                    String conStreakZ = Integer.toString(consStreak);
-                    txtConStreakX.setText(conStreakZ);
-                    userReference.getRef().child("constreak").setValue(consStreak);
+                        }
 
-                    totalQuestions = totalQuestions + 1;
-                    userReference.getRef().child("totalquestions").setValue(totalQuestions);
+                        @Override
+                        public void onFinish() {
 
-                    Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                    intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
-                    intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                    intent.putExtra("lllepoch", ExpAnsEpochPut);
-                    startActivity(intent);
+                            coinsOwned = coinsOwned - 10;
+                            String coinsOwedZ = Integer.toString(coinsOwned);
+                            txtCoinCounterX.setText(coinsOwedZ);
+                            userReference.getRef().child("coins").setValue(coinsOwned);
+
+                            consStreak = 0;
+                            String conStreakZ = Integer.toString(consStreak);
+                            txtConStreakX.setText(conStreakZ);
+                            userReference.getRef().child("constreak").setValue(consStreak);
+
+                            totalQuestions = totalQuestions + 1;
+                            userReference.getRef().child("totalquestions").setValue(totalQuestions);
+
+                            Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                            intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
+                            intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                            intent.putExtra("lllepoch", ExpAnsEpochPut);
+                            startActivity(intent);
+
+                        }
+                    }.start();
+
+
 
                 } else {
 
-                    Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
                     stopTimer(); // need to start and reset timer as not entering the oncreate  and need to transition from one answer to next
-                    timersetting = 6000;
-                    ticksetting = 1000;
-                    imgHPTimer2X.setVisibility(View.GONE);
-                    imgHPTimer3X.setVisibility(View.GONE);
-                    imgHPTimer4X.setVisibility(View.GONE);
-                    imgHPTimer5X.setVisibility(View.GONE);
 
-                    startTimer();
-                    nextQuestions ();
+                    shadeX.setVisibility(View.VISIBLE);
+                    imgCorrectorCheckX.setVisibility(View.VISIBLE);
+                    loutCoinAwardX.setVisibility(View.VISIBLE);
+                    txtCoinAwardX.setText("+1");
+                    rightAnswerTicker = rightAnswerTicker + 1;
+
+
+                    CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                            shadeX.setVisibility(View.GONE);
+                            imgCorrectorCheckX.setVisibility(View.GONE);
+
+                            coinsOwned = coinsOwned + 1;
+                            String coinsOwnedZ = Integer.toString(coinsOwned);
+                            txtCoinCounterX.setText(coinsOwnedZ);
+                            userReference.getRef().child("coins").setValue(coinsOwned);
+
+                            timersetting = 6000;
+                            ticksetting = 1000;
+                            imgHPTimer2X.setVisibility(View.GONE);
+                            imgHPTimer3X.setVisibility(View.GONE);
+                            imgHPTimer4X.setVisibility(View.GONE);
+                            imgHPTimer5X.setVisibility(View.GONE);
+
+                            startTimer();
+                            nextQuestions ();
+
+                        }
+                    }.start();
+
+
                 }
 
             }
@@ -788,24 +884,43 @@ public class Game extends AppCompatActivity {
 
             public void onFinish() {
                 // other than the toast treats this as a wrong answer, makes streak deductions and sends to expanded answer
-                Toast.makeText(Game.this, "TIME OUT", Toast.LENGTH_LONG).show();
 
-                coinsOwned = coinsOwned - 10;
-                String coinsOwedZ = Integer.toString(coinsOwned);
-                txtCoinCounterX.setText(coinsOwedZ);
-                userReference.getRef().child("coins").setValue(coinsOwned);
+                shadeX.setVisibility(View.VISIBLE);
+                imgCorrectorXmarkX.setVisibility(View.VISIBLE);
+                imgCorrectorTimeoutX.setVisibility(View.VISIBLE);
+                loutCoinAwardX.setVisibility(View.VISIBLE);
+                txtCoinAwardX.setText("-10");
 
-                consStreak = 0;
-                String conStreakZ = Integer.toString(consStreak);
-                txtConStreakX.setText(conStreakZ);
-                userReference.getRef().child("constreak").setValue(consStreak);
+                CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        coinsOwned = coinsOwned - 10;
+                        String coinsOwedZ = Integer.toString(coinsOwned);
+                        txtCoinCounterX.setText(coinsOwedZ);
+                        userReference.getRef().child("coins").setValue(coinsOwned);
+
+                        consStreak = 0;
+                        String conStreakZ = Integer.toString(consStreak);
+                        txtConStreakX.setText(conStreakZ);
+                        userReference.getRef().child("constreak").setValue(consStreak);
 
 
-                Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                intent.putExtra("iiiexpanded", ExpandedAnswerPut);
-                intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                intent.putExtra("lllepoch", ExpAnsEpochPut);
-                startActivity(intent);
+                        Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                        intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                        intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                        intent.putExtra("lllepoch", ExpAnsEpochPut);
+                        startActivity(intent);
+
+                    }
+                }.start();
+
+
             }
         }.start();
 

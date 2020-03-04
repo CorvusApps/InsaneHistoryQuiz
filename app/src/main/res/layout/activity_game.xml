@@ -12,11 +12,84 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_gravity="center"
         android:layout_margin="@dimen/fab_margin"
         android:visibility="gone"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/playlarge" />
+
+    <LinearLayout
+        android:id="@+id/loutCoinAward"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/_28sdp"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imgCoinAward"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            app:srcCompat="@drawable/goldcoinsicon"
+
+            android:layout_gravity="center"
+
+            />
+
+        <TextView
+            android:id="@+id/txtCoinAward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_25sdp"
+            />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgCorrectorCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/check"
+        android:elevation="@dimen/_28sdp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/imgCorrectorXmark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/xmark"
+        android:elevation="@dimen/_28sdp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/imgCorrectorTimeout"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_200sdp"
+        app:srcCompat="@drawable/hourglassone"
+        android:elevation="@dimen/_14sdp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
+
+
+
+
+    <View
+        android:id="@+id/shadeCor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:visibility="gone"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
