@@ -9,6 +9,13 @@ import android.os.Bundle;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -37,9 +44,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Random;
+import org.w3c.dom.Text;
 
-public class Game extends AppCompatActivity {
+import java.util.Random;
+import java.util.Timer;
+
+public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
     // Game play UI elements and variables
 
@@ -47,7 +57,7 @@ public class Game extends AppCompatActivity {
     private String displayAnswer, displayAnswer2, displayAnswer3, displayAnswer4, displayAnswer5; // will be randomly assigned to the answer options in each question
     private int answerCounter; // scrolls through how many answers options to a question the player has seen
     private int randAnswer;
-    private ImageButton btnCorrectX, btnWrongX;
+    private ImageView btnCorrectX, btnWrongX;
 
     private String ExpandedAnswerPut, ExpAnsCategoryPut, ExpAnsEpochPut; // making this class variable so can go to expanded answer screen
     private String era; // pulls in era so we know which counter to grow when user answers question correctly
@@ -125,11 +135,35 @@ public class Game extends AppCompatActivity {
     int height2;
     int width2;
 
+    // adMob
+
+    RewardedVideoAd mRewardedAdGameScreenCoins;
+    TextView txtAdMessageX;
+    int adMobToggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        //Firebase user
+
+        uid = FirebaseAuth.getInstance().getUid();
+        userReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
+        userReference.getRef().child("user").setValue(uid);
+
+        //ad mob initialize
+        adMobToggle = 0;
+
+        MobileAds.initialize(this, "ca-app-pub-1744081621312112~9212279801");
+        mRewardedAdGameScreenCoins = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedAdGameScreenCoins.setRewardedVideoAdListener(this);
+        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
+
+        txtAdMessageX = findViewById(R.id.txtAdMessage);
+
+        shadeX = findViewById(R.id.shadeCor);
 
         // Game play
         answerCounter = 1;
@@ -144,7 +178,7 @@ public class Game extends AppCompatActivity {
         txtCoinCounterX = findViewById(R.id.txtCoinCounter);
         txtConStreakX = findViewById(R.id.txtConStreak);
 
-        shadeX = findViewById(R.id.shadeCor);
+
         imgCorrectorCheckX = findViewById(R.id.imgCorrectorCheck);
         imgCorrectorXmarkX = findViewById(R.id.imgCorrectorXmark);
         imgCorrectorTimeoutX = findViewById(R.id.imgCorrectorTimeout);
@@ -166,14 +200,9 @@ public class Game extends AppCompatActivity {
         ticksetting = 5000;
         tickerToggle = 1;
 
-        //Firebase user
-
-        uid = FirebaseAuth.getInstance().getUid();
-        userReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
-        userReference.getRef().child("user").setValue(uid);
 
         /// sizing the display to have both the question and then the answer mostly in the center
-                /// not used yet but leaving for adjustments to different displays
+        /// not used yet but leaving for adjustments to different displays
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -182,11 +211,6 @@ public class Game extends AppCompatActivity {
 
         height2 = (int) Math.round(height);
         width2 = (int) Math.round(width);
-
-
-
-
-
 
         ////// add coins to account IF FIRST TIME /////////////////////////////////////////////////////////////
         // also using this section to pull in all the user variables like counters of questions answered etc.
@@ -197,7 +221,7 @@ public class Game extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-                for (DataSnapshot userDs: dataSnapshot.getChildren()) {
+                for (DataSnapshot userDs : dataSnapshot.getChildren()) {
                     // need the try because if new account will return null
 
                     try {
@@ -218,7 +242,7 @@ public class Game extends AppCompatActivity {
                         longestStreakString = userDs.child("longeststreak").getValue().toString();
                         longestStreak = Integer.valueOf(longestStreakString);
 
-                        if (longestStreak < consStreak){
+                        if (longestStreak < consStreak) {
 
                             longestStreak = consStreak;
 
@@ -291,13 +315,15 @@ public class Game extends AppCompatActivity {
 
                         coinGrantToggle = userDs.child("coinsgranttoggle").getValue().toString();
 
+                       // Toast.makeText(Game.this, "query complete", Toast.LENGTH_SHORT).show();
+
+
 
 
                     } catch (Exception e) {
 
-                         //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
-
 
 
                 }
@@ -306,34 +332,38 @@ public class Game extends AppCompatActivity {
                 txtConStreakX.setText(consStreetString);
 
                 try {
-                        if (coinsOwned > 0 | coinGrantToggle.equals("yes")) {
+                    if (coinsOwned > 0 | coinGrantToggle.equals("yes")) {
 
-                           // Toast.makeText(Game.this, "NOT GRANTING", Toast.LENGTH_SHORT).show();
+                        if (coinsOwned<0) {
 
-                        } else { // setting up grant if conditions for NOT GRANTING are unmet - BUT probably never invoked because
-                                 // if conditions unmet that just means that the "if" goes null gets caught by try and bounced to error
-                                 // before invoking the else - So.... repeating this AGAIN in the catch of the if
-
-                           // Toast.makeText(Game.this, "Granting", Toast.LENGTH_SHORT).show();
-
-                            userReference.getRef().child("coins").setValue(80);
-                            userReference.getRef().child("coinsgranttoggle").setValue("yes");
-
+                            gotoAd();
 
                         }
 
-                    } catch (Exception e) { // this is the catch of the if above and repeating the initial coin grant query as per notes above
+                    } else { // setting up grant if conditions for NOT GRANTING are unmet - BUT probably never invoked because
+                        // if conditions unmet that just means that the "if" goes null gets caught by try and bounced to error
+                        // before invoking the else - So.... repeating this AGAIN in the catch of the if
 
-                  //  Toast.makeText(Game.this, "Granting", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(Game.this, "Granting", Toast.LENGTH_SHORT).show();
+
+                        userReference.getRef().child("coins").setValue(80);
+                        userReference.getRef().child("coinsgranttoggle").setValue("yes");
+
+
+                    }
+
+                } catch (Exception e) { // this is the catch of the if above and repeating the initial coin grant query as per notes above
+
+                    //  Toast.makeText(Game.this, "Granting", Toast.LENGTH_SHORT).show();
 
                     userReference.getRef().child("coins").setValue(80);
                     userReference.getRef().child("coinsgranttoggle").setValue("yes");
 
 
-
-
                     //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
+
+                //Toast.makeText(Game.this, coinsOwned+"  coins", Toast.LENGTH_LONG).show();
 
             }
 
@@ -341,326 +371,387 @@ public class Game extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
+
         });
 
 
         //// END OF INITIAL COIN GRANT SECTION //////////////////////////////////////////////////////////////////////////////////
 
-        // Firebase game SECTION BEGINS /////////////////////////////////////////////////////////////////////////////////////////
-
-        gameReference = FirebaseDatabase.getInstance().getReference().child("questions");
-        sortGameQueryQuestions = gameReference.orderByChild("aaaqno").equalTo(randQuestion);
-
-        // First firebase pull is on create showing the question and first answer (will add a time delay on the answer)
-
-        sortGameQueryQuestions.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot gameQs: dataSnapshot.getChildren()) {
-
-                    // pull in to display in question screen
-                    String GameQuestionZ = gameQs.child("cccquestion").getValue().toString();
-                    txtGameQuestionX.setText(GameQuestionZ);
-
-                    String GameCorrectAnswerZ = gameQs.child("dddcorrectansw").getValue().toString();
-                    String GameWrongAnswer1Z = gameQs.child("eeewrongans1").getValue().toString();
-                    String GameWrongAnswer2Z = gameQs.child("fffwrongans2").getValue().toString();
-                    String GameWrongAnswer3Z = gameQs.child("gggwrongans3").getValue().toString();
-                    String GameWrongAnswer4Z = gameQs.child("hhhwrongans4").getValue().toString();
-
-                    //pull in to put to exapanded answer screen
-                    ExpandedAnswerPut = gameQs.child("iiiexpanded").getValue().toString();
-                    ExpAnsCategoryPut = gameQs.child("bbbcategory").getValue().toString();
-                    ExpAnsEpochPut = gameQs.child("lllepoch").getValue().toString();
-
-                    // pull to figure out which counter to grow when user answers the question
-                    era = gameQs.child("mmmera").getValue().toString();
-
-                    randAnswer = new Random().nextInt(5) + 1;
-
-                    if(randAnswer == 1){
-
-                        displayAnswer = GameCorrectAnswerZ;
-
-                    }else if(randAnswer == 2){
-
-                        displayAnswer = GameWrongAnswer1Z;
 
 
-                    }else if(randAnswer == 3){
-
-                        displayAnswer = GameWrongAnswer4Z;
 
 
-                    }else if(randAnswer == 4){
-
-                        displayAnswer = GameWrongAnswer3Z;
 
 
-                    }else if(randAnswer == 5){
-
-                        displayAnswer = GameWrongAnswer1Z;
-                    }
 
 
-                    if (answerCounter == 1) {
-                        txtGameAnswerDisplayX.setText(displayAnswer);
+
+
+
+            // Firebase game SECTION BEGINS /////////////////////////////////////////////////////////////////////////////////////////
+
+            gameReference = FirebaseDatabase.getInstance().getReference().child("questions");
+            sortGameQueryQuestions = gameReference.orderByChild("aaaqno").equalTo(randQuestion);
+
+            // First firebase pull is on create showing the question and first answer (will add a time delay on the answer)
+
+            sortGameQueryQuestions.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    for (DataSnapshot gameQs : dataSnapshot.getChildren()) {
+
+                        // pull in to display in question screen
+                        String GameQuestionZ = gameQs.child("cccquestion").getValue().toString();
+                        txtGameQuestionX.setText(GameQuestionZ);
+
+                        String GameCorrectAnswerZ = gameQs.child("dddcorrectansw").getValue().toString();
+                        String GameWrongAnswer1Z = gameQs.child("eeewrongans1").getValue().toString();
+                        String GameWrongAnswer2Z = gameQs.child("fffwrongans2").getValue().toString();
+                        String GameWrongAnswer3Z = gameQs.child("gggwrongans3").getValue().toString();
+                        String GameWrongAnswer4Z = gameQs.child("hhhwrongans4").getValue().toString();
+
+                        //pull in to put to exapanded answer screen
+                        ExpandedAnswerPut = gameQs.child("iiiexpanded").getValue().toString();
+                        ExpAnsCategoryPut = gameQs.child("bbbcategory").getValue().toString();
+                        ExpAnsEpochPut = gameQs.child("lllepoch").getValue().toString();
+
+                        // pull to figure out which counter to grow when user answers the question
+                        era = gameQs.child("mmmera").getValue().toString();
+
+                        randAnswer = new Random().nextInt(5) + 1;
+
+                        if (randAnswer == 1) {
+
+                            displayAnswer = GameCorrectAnswerZ;
+
+                        } else if (randAnswer == 2) {
+
+                            displayAnswer = GameWrongAnswer1Z;
+
+
+                        } else if (randAnswer == 3) {
+
+                            displayAnswer = GameWrongAnswer4Z;
+
+
+                        } else if (randAnswer == 4) {
+
+                            displayAnswer = GameWrongAnswer3Z;
+
+
+                        } else if (randAnswer == 5) {
+
+                            displayAnswer = GameWrongAnswer1Z;
+                        }
+
+
+                        if (answerCounter == 1) {
+                            txtGameAnswerDisplayX.setText(displayAnswer);
 
 //                    } else if (answerCounter == 2) {
 //                        txtGameAnswerDisplayX.setText(displayAnswer2);
 
-                        // probably don't need the above because there is no value in 2 but keeping for now just in case
-                   }
-                     else {
+                            // probably don't need the above because there is no value in 2 but keeping for now just in case
+                        } else {
 
-                        Toast.makeText(Game.this, "Out of numbers", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Game.this, "Out of numbers", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+
+                    startTimer();
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+            btnCorrectX = findViewById(R.id.btnCorrect);
+            btnCorrectX.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    if (randAnswer == answerCounter) {
+
+                        stopTimer();
+
+                        shadeX.setVisibility(View.VISIBLE);
+                        imgCorrectorCheckX.setVisibility(View.VISIBLE);
+                        loutCoinAwardX.setVisibility(View.VISIBLE);
+                        int coinAwardNo = 5 - rightAnswerTicker;
+                        txtCoinAwardX.setText("+" + coinAwardNo);
+
+                        CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                                coinsOwned = coinsOwned + 5 - rightAnswerTicker;
+                                String coinsOwnedZ = Integer.toString(coinsOwned);
+                                txtCoinCounterX.setText(coinsOwnedZ);
+                                userReference.getRef().child("coins").setValue(coinsOwned);
+
+                                consStreak = consStreak + 1;
+                                String conStreakZ = Integer.toString(consStreak);
+                                txtConStreakX.setText(conStreakZ);
+                                userReference.getRef().child("constreak").setValue(consStreak);
+
+                                totalAnswered = totalAnswered + 1;
+                                userReference.getRef().child("totalanswered").setValue(totalAnswered);
+
+                                if (longestStreak < consStreak) {
+
+                                    longestStreak = consStreak;
+
+                                }
+                                userReference.getRef().child("longeststreak").setValue(longestStreak);
+
+                                totalQuestions = totalQuestions + 1;
+                                userReference.getRef().child("totalquestions").setValue(totalQuestions);
+
+                                if (era.equals("Antiquity")) {
+                                    eraAnsweredAntiquity = eraAnsweredAntiquity + 1;
+                                    userReference.getRef().child("eraansantiquity").setValue(eraAnsweredAntiquity);
+                                }
+
+                                if (era.equals("Middle Ages")) {
+                                    eraAnsweredMiddleAges = eraAnsweredMiddleAges + 1;
+                                    userReference.getRef().child("eraansmiddle").setValue(eraAnsweredMiddleAges);
+                                }
+
+                                if (era.equals("Renaissance")) {
+                                    eraAnsweredRenaissance = eraAnsweredRenaissance + 1;
+                                    userReference.getRef().child("eraansrenaissance").setValue(eraAnsweredRenaissance);
+                                }
+
+                                if (era.equals("Enlightenment")) {
+                                    eraAnsweredEnlightenment = eraAnsweredEnlightenment + 1;
+                                    userReference.getRef().child("eraanselight").setValue(eraAnsweredEnlightenment);
+                                }
+
+                                if (era.equals("Early Modern")) {
+                                    eraAnsweredEarlyModern = eraAnsweredEarlyModern + 1;
+                                    userReference.getRef().child("eraansearlymod").setValue(eraAnsweredEarlyModern);
+                                }
+
+                                if (era.equals("Modern")) {
+                                    eraAnsweredModern = eraAnsweredModern + 1;
+                                    userReference.getRef().child("eraansmodern").setValue(eraAnsweredModern);
+                                }
+
+
+                                Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                                intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                                intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                                intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                startActivity(intent);
+
+                            }
+                        }.start();
+
+
+                    } else {
+
+                        stopTimer();
+
+                        shadeX.setVisibility(View.VISIBLE);
+                        imgCorrectorXmarkX.setVisibility(View.VISIBLE);
+                        loutCoinAwardX.setVisibility(View.VISIBLE);
+                        txtCoinAwardX.setText("-10");
+
+                        CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                                coinsOwned = coinsOwned - 10;
+                                String coinsOwedZ = Integer.toString(coinsOwned);
+                                txtCoinCounterX.setText(coinsOwedZ);
+                                userReference.getRef().child("coins").setValue(coinsOwned);
+
+                                consStreak = 0;
+                                String conStreakZ = Integer.toString(consStreak);
+                                txtConStreakX.setText(conStreakZ);
+                                userReference.getRef().child("constreak").setValue(consStreak);
+
+                                totalQuestions = totalQuestions + 1;
+                                userReference.getRef().child("totalquestions").setValue(totalQuestions);
+
+                                if (coinsOwned < 1) {
+
+                                    imgCorrectorXmarkX.setVisibility(View.GONE);
+                                    txtAdMessageX.setVisibility(View.VISIBLE);
+
+                                    CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            if (mRewardedAdGameScreenCoins.isLoaded()) {
+                                                mRewardedAdGameScreenCoins.show();
+                                            }
+
+                                        }
+                                    }.start();
+
+
+                                } else {
+
+                                    Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                                    intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                                    intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                                    intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                    startActivity(intent);
+
+                                }
+
+                            }
+                        }.start();
+
 
                     }
                 }
-
-                startTimer();
-            }
+            });
 
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            btnWrongX = findViewById(R.id.btnWrong);
+            btnWrongX.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-            }
-        });
+                    if (randAnswer == answerCounter) {
 
+                        stopTimer();
 
-        btnCorrectX = findViewById(R.id.btnCorrect);
-        btnCorrectX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                        shadeX.setVisibility(View.VISIBLE);
+                        imgCorrectorXmarkX.setVisibility(View.VISIBLE);
+                        loutCoinAwardX.setVisibility(View.VISIBLE);
+                        txtCoinAwardX.setText("-10");
 
-
-                if (randAnswer == answerCounter) {
-
-                    stopTimer();
-
-                    shadeX.setVisibility(View.VISIBLE);
-                    imgCorrectorCheckX.setVisibility(View.VISIBLE);
-                    loutCoinAwardX.setVisibility(View.VISIBLE);
-                    int coinAwardNo = 5 - rightAnswerTicker;
-                    txtCoinAwardX.setText("+" + coinAwardNo);
-
-                    CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-
-                            coinsOwned = coinsOwned + 5 - rightAnswerTicker;
-                            String coinsOwnedZ = Integer.toString(coinsOwned);
-                            txtCoinCounterX.setText(coinsOwnedZ);
-                            userReference.getRef().child("coins").setValue(coinsOwned);
-
-                            consStreak = consStreak + 1;
-                            String conStreakZ = Integer.toString(consStreak);
-                            txtConStreakX.setText(conStreakZ);
-                            userReference.getRef().child("constreak").setValue(consStreak);
-
-                            totalAnswered = totalAnswered + 1;
-                            userReference.getRef().child("totalanswered").setValue(totalAnswered);
-
-                            if (longestStreak < consStreak){
-
-                                longestStreak = consStreak;
+                        CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
 
                             }
-                            userReference.getRef().child("longeststreak").setValue(longestStreak);
 
-                            totalQuestions = totalQuestions + 1;
-                            userReference.getRef().child("totalquestions").setValue(totalQuestions);
+                            @Override
+                            public void onFinish() {
 
-                            if (era.equals("Antiquity")){
-                                eraAnsweredAntiquity = eraAnsweredAntiquity + 1;
-                                userReference.getRef().child("eraansantiquity").setValue(eraAnsweredAntiquity);
+                                coinsOwned = coinsOwned - 10;
+                                String coinsOwedZ = Integer.toString(coinsOwned);
+                                txtCoinCounterX.setText(coinsOwedZ);
+                                userReference.getRef().child("coins").setValue(coinsOwned);
+
+                                consStreak = 0;
+                                String conStreakZ = Integer.toString(consStreak);
+                                txtConStreakX.setText(conStreakZ);
+                                userReference.getRef().child("constreak").setValue(consStreak);
+
+                                totalQuestions = totalQuestions + 1;
+                                userReference.getRef().child("totalquestions").setValue(totalQuestions);
+
+
+                                if (coinsOwned < 1) {
+
+                                    imgCorrectorXmarkX.setVisibility(View.GONE);
+                                    txtAdMessageX.setVisibility(View.VISIBLE);
+
+                                    CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            if (mRewardedAdGameScreenCoins.isLoaded()) {
+                                                mRewardedAdGameScreenCoins.show();
+                                            }
+
+                                        }
+                                    }.start();
+
+
+                                } else {
+
+                                    Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                                    intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                                    intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                                    intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                    startActivity(intent);
+
+                                }
+
+                            }
+                        }.start();
+
+
+                    } else {
+
+                        //Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
+                        stopTimer(); // need to start and reset timer as not entering the oncreate  and need to transition from one answer to next
+
+                        shadeX.setVisibility(View.VISIBLE);
+                        imgCorrectorCheckX.setVisibility(View.VISIBLE);
+                        loutCoinAwardX.setVisibility(View.VISIBLE);
+                        txtCoinAwardX.setText("+1");
+                        rightAnswerTicker = rightAnswerTicker + 1;
+
+
+                        CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+
                             }
 
-                            if (era.equals("Middle Ages")){
-                                eraAnsweredMiddleAges = eraAnsweredMiddleAges + 1;
-                                userReference.getRef().child("eraansmiddle").setValue(eraAnsweredMiddleAges);
+                            @Override
+                            public void onFinish() {
+
+                                shadeX.setVisibility(View.GONE);
+                                imgCorrectorCheckX.setVisibility(View.GONE);
+
+                                coinsOwned = coinsOwned + 1;
+                                String coinsOwnedZ = Integer.toString(coinsOwned);
+                                txtCoinCounterX.setText(coinsOwnedZ);
+                                userReference.getRef().child("coins").setValue(coinsOwned);
+
+                                timersetting = 6000;
+                                ticksetting = 1000;
+                                imgHPTimer2X.setVisibility(View.GONE);
+                                imgHPTimer3X.setVisibility(View.GONE);
+                                imgHPTimer4X.setVisibility(View.GONE);
+                                imgHPTimer5X.setVisibility(View.GONE);
+
+                                startTimer();
+                                nextQuestions();
+
                             }
-
-                            if (era.equals("Renaissance")){
-                                eraAnsweredRenaissance = eraAnsweredRenaissance + 1;
-                                userReference.getRef().child("eraansrenaissance").setValue(eraAnsweredRenaissance);
-                            }
-
-                            if (era.equals("Enlightenment")){
-                                eraAnsweredEnlightenment = eraAnsweredEnlightenment + 1;
-                                userReference.getRef().child("eraanselight").setValue(eraAnsweredEnlightenment);
-                            }
-
-                            if (era.equals("Early Modern")){
-                                eraAnsweredEarlyModern = eraAnsweredEarlyModern + 1;
-                                userReference.getRef().child("eraansearlymod").setValue(eraAnsweredEarlyModern);
-                            }
-
-                            if (era.equals("Modern")){
-                                eraAnsweredModern = eraAnsweredModern + 1;
-                                userReference.getRef().child("eraansmodern").setValue(eraAnsweredModern);
-                            }
+                        }.start();
 
 
-                            Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                            intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
-                            intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                            intent.putExtra("lllepoch", ExpAnsEpochPut);
-                            startActivity(intent);
-
-                        }
-                    }.start();
-
-
-
-
-                } else {
-
-                    stopTimer();
-
-                    shadeX.setVisibility(View.VISIBLE);
-                    imgCorrectorXmarkX.setVisibility(View.VISIBLE);
-                    loutCoinAwardX.setVisibility(View.VISIBLE);
-                    txtCoinAwardX.setText("-10");
-
-                    CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-
-                            coinsOwned = coinsOwned - 10;
-                            String coinsOwedZ = Integer.toString(coinsOwned);
-                            txtCoinCounterX.setText(coinsOwedZ);
-                            userReference.getRef().child("coins").setValue(coinsOwned);
-
-                            consStreak = 0;
-                            String conStreakZ = Integer.toString(consStreak);
-                            txtConStreakX.setText(conStreakZ);
-                            userReference.getRef().child("constreak").setValue(consStreak);
-
-                            totalQuestions = totalQuestions + 1;
-                            userReference.getRef().child("totalquestions").setValue(totalQuestions);
-
-                            Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                            intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
-                            intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                            intent.putExtra("lllepoch", ExpAnsEpochPut);
-                            startActivity(intent);
-
-                        }
-                    }.start();
-
+                    }
 
                 }
-            }
-        });
+            });
 
-
-        btnWrongX = findViewById(R.id.btnWrong);
-        btnWrongX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (randAnswer == answerCounter) {
-
-                    stopTimer();
-
-                    shadeX.setVisibility(View.VISIBLE);
-                    imgCorrectorXmarkX.setVisibility(View.VISIBLE);
-                    loutCoinAwardX.setVisibility(View.VISIBLE);
-                    txtCoinAwardX.setText("-10");
-
-                    CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-
-                            coinsOwned = coinsOwned - 10;
-                            String coinsOwedZ = Integer.toString(coinsOwned);
-                            txtCoinCounterX.setText(coinsOwedZ);
-                            userReference.getRef().child("coins").setValue(coinsOwned);
-
-                            consStreak = 0;
-                            String conStreakZ = Integer.toString(consStreak);
-                            txtConStreakX.setText(conStreakZ);
-                            userReference.getRef().child("constreak").setValue(consStreak);
-
-                            totalQuestions = totalQuestions + 1;
-                            userReference.getRef().child("totalquestions").setValue(totalQuestions);
-
-                            Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                            intent.putExtra("iiiexpanded" , ExpandedAnswerPut);
-                            intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                            intent.putExtra("lllepoch", ExpAnsEpochPut);
-                            startActivity(intent);
-
-                        }
-                    }.start();
-
-
-
-                } else {
-
-                    //Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
-                    stopTimer(); // need to start and reset timer as not entering the oncreate  and need to transition from one answer to next
-
-                    shadeX.setVisibility(View.VISIBLE);
-                    imgCorrectorCheckX.setVisibility(View.VISIBLE);
-                    loutCoinAwardX.setVisibility(View.VISIBLE);
-                    txtCoinAwardX.setText("+1");
-                    rightAnswerTicker = rightAnswerTicker + 1;
-
-
-                    CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-
-                            shadeX.setVisibility(View.GONE);
-                            imgCorrectorCheckX.setVisibility(View.GONE);
-
-                            coinsOwned = coinsOwned + 1;
-                            String coinsOwnedZ = Integer.toString(coinsOwned);
-                            txtCoinCounterX.setText(coinsOwnedZ);
-                            userReference.getRef().child("coins").setValue(coinsOwned);
-
-                            timersetting = 6000;
-                            ticksetting = 1000;
-                            imgHPTimer2X.setVisibility(View.GONE);
-                            imgHPTimer3X.setVisibility(View.GONE);
-                            imgHPTimer4X.setVisibility(View.GONE);
-                            imgHPTimer5X.setVisibility(View.GONE);
-
-                            startTimer();
-                            nextQuestions ();
-
-                        }
-                    }.start();
-
-
-                }
-
-            }
-        });
 
     }
 
@@ -773,7 +864,7 @@ public class Game extends AppCompatActivity {
 
                     int millisleftFinal = (int) Math.round(millisleftRough);
 
-                    Toast.makeText(Game.this, "M = " + millisleftFinal, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(Game.this, "M = " + millisleftFinal, Toast.LENGTH_SHORT).show();
 
                     String timerCountString = millisleftFinal + "";
                     txtTimerX.setText(timerCountString);
@@ -910,12 +1001,38 @@ public class Game extends AppCompatActivity {
                         txtConStreakX.setText(conStreakZ);
                         userReference.getRef().child("constreak").setValue(consStreak);
 
+                        if (coinsOwned < 1) {
 
-                        Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                        intent.putExtra("iiiexpanded", ExpandedAnswerPut);
-                        intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                        intent.putExtra("lllepoch", ExpAnsEpochPut);
-                        startActivity(intent);
+                            imgCorrectorXmarkX.setVisibility(View.GONE);
+                            imgCorrectorTimeoutX.setVisibility(View.GONE);
+                            txtAdMessageX.setVisibility(View.VISIBLE);
+
+                            CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    if (mRewardedAdGameScreenCoins.isLoaded()) {
+                                        mRewardedAdGameScreenCoins.show();
+                                    }
+
+                                }
+                            }.start();
+
+
+                        } else {
+
+
+                            Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                            intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                            intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                            intent.putExtra("lllepoch", ExpAnsEpochPut);
+                            startActivity(intent);
+
+                        }
 
                     }
                 }.start();
@@ -941,4 +1058,138 @@ public class Game extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onRewardedVideoAdLoaded() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened() {
+
+    }
+
+    @Override
+    public void onRewardedVideoStarted() {
+
+        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed() {
+
+
+
+
+        CountDownTimer rewatchTimer = new CountDownTimer(3000, 500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                if (mRewardedAdGameScreenCoins.isLoaded()) {
+                    mRewardedAdGameScreenCoins.show();
+                }
+
+            }
+        }.start();
+
+    }
+
+    @Override
+    public void onRewarded(RewardItem rewardItem) {
+
+        coinsOwned = coinsOwned + 100;
+        String coinsOwnedZ = Integer.toString(coinsOwned);
+        txtCoinCounterX.setText(coinsOwnedZ);
+        userReference.getRef().child("coins").setValue(coinsOwned);
+
+        if (adMobToggle == 1) {
+
+            shadeX.setVisibility(View.GONE);
+            txtAdMessageX.setVisibility(View.GONE);
+
+            finish();
+            startActivity(getIntent());
+
+        } else {
+
+            Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+            intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+            intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+            intent.putExtra("lllepoch", ExpAnsEpochPut);
+            startActivity(intent);
+
+        }
+
+
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int i) {
+
+    }
+
+    @Override
+    public void onRewardedVideoCompleted() {
+
+    }
+
+    public void gotoAd() {
+
+                if (coinsOwned < 1) {
+
+           Toast.makeText(Game.this, coinsOwned+"", Toast.LENGTH_SHORT).show();
+
+            adMobToggle = 1;
+
+            shadeX.setVisibility(View.VISIBLE);
+            txtAdMessageX.setVisibility(View.VISIBLE);
+
+            CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    if (mRewardedAdGameScreenCoins.isLoaded()) {
+                        mRewardedAdGameScreenCoins.show();
+                    } else {
+
+                        CountDownTimer slowaddLoad = new CountDownTimer(5000, 1000) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                if (mRewardedAdGameScreenCoins.isLoaded()) {
+                                    mRewardedAdGameScreenCoins.show();
+                                }
+
+                            }
+                        }.start();
+
+                    }
+
+                }
+            }.start();
+
+
+              }
+
+
+    }
 }

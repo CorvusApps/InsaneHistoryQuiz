@@ -6,7 +6,15 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -25,6 +33,18 @@ public class ExpandedAnswer extends AppCompatActivity {
    private TextView txtExpandedAnswerShowX, txtExpAnsCategoryX, txtExpAnsEpochX;
    private int expAnsBacgroundNo;
 
+   private TextView txtEACoinCounterX, txtEAConStreakX;
+
+   //Firebase
+
+    private DatabaseReference gameReference;
+
+    private String uid; // this is for the user account side
+    private DatabaseReference userReference;
+    private Query sortUsersQuery;
+    private String coinsOwnedString, consStreakString;
+    private int coinsOwned, consStreak;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +54,48 @@ public class ExpandedAnswer extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+            }
+        });
+
+        txtEACoinCounterX = findViewById(R.id.txtEACoinCounter);
+        txtEAConStreakX = findViewById(R.id.txtEAConStreak);
+
+        uid = FirebaseAuth.getInstance().getUid();
+        sortUsersQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(uid);
+        sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot userDs : dataSnapshot.getChildren()) {
+                    // need the try because if new account will return null
+
+                    try {
+                        coinsOwnedString = userDs.child("coins").getValue().toString();
+                        coinsOwned = Integer.valueOf(coinsOwnedString);
+
+
+                    } catch (Exception e) {
+
+                        //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+
+                    try {
+                        consStreakString = userDs.child("constreak").getValue().toString();
+                        consStreak = Integer.valueOf(consStreakString);
+                    } catch (Exception e) {
+
+                    }
+
+                }
+                txtEACoinCounterX.setText(coinsOwnedString); // IF there are any coins in the account will set the counter
+                txtEAConStreakX.setText(consStreakString);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });

@@ -7,4 +7,13 @@
     <string name="title_activity_expanded_answer">ExpandedAnswer</string>
     <string name="title_activity_profile_view">ProfileView</string>
     <string name="title_activity_leader_board">LeaderBoard</string>
+
+    <string name="ad_mob_id">ca-app-pub-1744081621312112~9212279801</string>
+    <string name="test_reward_ad">ca-app-pub-3940256099942544/5224354917</string>
+
+    <string name="gamescreencoin_reward_ad">ca-app-pub-1744081621312112/9832400365</string>
+
+
+
+
 </resources>

@@ -82,6 +82,23 @@
         android:visibility="gone"
         />
 
+    <TextView
+        android:id="@+id/txtAdMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You are out of coins. Please watch this short add to get 100 coins."
+        android:layout_gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:visibility="gone"
+        android:textSize="@dimen/_20sdp"
+        android:elevation="@dimen/_30sdp"
+        android:gravity="center"
+
+        />
+
 
 
 

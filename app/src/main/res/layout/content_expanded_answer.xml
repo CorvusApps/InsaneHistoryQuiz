@@ -10,6 +10,50 @@
     android:background="@color/colorPrimary"
     tools:showIn="@layout/activity_expanded_answer">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_weight="1"
+        >
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            app:srcCompat="@drawable/goldcoinsicon" />
+
+        <TextView
+            android:id="@+id/txtEACoinCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:textStyle="bold"
+            android:textSize="@dimen/_25sdp"
+            />
+
+        <ImageView
+            android:id="@+id/imgEAstreak"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            app:srcCompat="@drawable/checkicon" />
+
+        <TextView
+            android:id="@+id/txtEAConStreak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:text="10"
+            android:textStyle="bold"
+            android:textSize="@dimen/_25sdp"
+            />
+
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/txtExpAnsCategory"
         android:layout_width="match_parent"
@@ -18,7 +62,8 @@
         android:gravity="center"
         android:background="@color/colorPrimary"
         android:layout_weight="1"
-        android:visibility="visible"
+        android:visibility="gone"
+
         android:text="Category" />
 
     <TextView
@@ -29,14 +74,17 @@
         android:gravity="center"
         android:background="@color/colorPrimary"
         android:layout_weight="1"
-        android:visibility="visible"
+        android:visibility="gone"
         android:text="Epoch" />
     <TextView
         android:id="@+id/txtExpandedAnswerShow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/_15sdp"
+        android:textSize="@dimen/_17sdp"
+        android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_marginRight="@dimen/_30sdp"
         android:gravity="center"
+        android:textStyle="bold"
         android:background="@color/colorPrimary"
         android:layout_weight="6"
         android:text="TextView" />

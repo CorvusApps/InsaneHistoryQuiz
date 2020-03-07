@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10"
-            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
             android:textStyle="bold"
             android:textSize="@dimen/_25sdp"
             />
@@ -233,7 +233,7 @@
             app:layout_constraintVertical_bias="0.477"
             app:srcCompat="@drawable/questionframe" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/btnCorrect"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
@@ -247,7 +247,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/btnWrong"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
