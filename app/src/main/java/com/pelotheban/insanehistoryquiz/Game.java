@@ -57,13 +57,13 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private String displayAnswer, displayAnswer2, displayAnswer3, displayAnswer4, displayAnswer5; // will be randomly assigned to the answer options in each question
     private int answerCounter; // scrolls through how many answers options to a question the player has seen
     private int randAnswer;
-    private ImageView btnCorrectX, btnWrongX;
+    private ImageView btnCorrectX, btnWrongX, btnWrongGlowX;
 
     private String ExpandedAnswerPut, ExpAnsCategoryPut, ExpAnsEpochPut; // making this class variable so can go to expanded answer screen
     private String era; // pulls in era so we know which counter to grow when user answers question correctly
 
     private LinearLayout loutGameQuestionX;
-    private ConstraintLayout loutGameAnswerDisplayX;
+    private LinearLayout loutGameAnswerDisplayX;
 
     private TextView txtGameQuestionX, txtGameAnswerDisplayX, txtGameExpandedAnswerX;
 
@@ -167,7 +167,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         // Game play
         answerCounter = 1;
-        randQuestion = new Random().nextInt(5) + 1; // random question number to be displayed
+        randQuestion = new Random().nextInt(6) + 1; // random question number to be displayed
 
         //...... displayed outputs
         loutGameQuestionX = findViewById(R.id.loutGameQuestion);
@@ -380,15 +380,6 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
 
 
-
-
-
-
-
-
-
-
-
             // Firebase game SECTION BEGINS /////////////////////////////////////////////////////////////////////////////////////////
 
             gameReference = FirebaseDatabase.getInstance().getReference().child("questions");
@@ -477,10 +468,27 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                 @Override
                 public void onClick(View view) {
 
+                    stopTimer();
+
+                    btnCorrectX.setVisibility(View.GONE);
+                    ImageView btnCorrectGlowX = findViewById(R.id.btnCorrectGlow);
+                    btnCorrectGlowX.setVisibility(View.VISIBLE);
+
+                    CountDownTimer glowTimer = new CountDownTimer(550, 50) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+
+
 
                     if (randAnswer == answerCounter) {
 
-                        stopTimer();
+
 
                         shadeX.setVisibility(View.VISIBLE);
                         imgCorrectorCheckX.setVisibility(View.VISIBLE);
@@ -563,7 +571,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     } else {
 
-                        stopTimer();
+
 
                         shadeX.setVisibility(View.VISIBLE);
                         imgCorrectorXmarkX.setVisibility(View.VISIBLE);
@@ -628,18 +636,37 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
 
                     }
+
+                        }
+                    }.start();
                 }
             });
 
-
+            btnWrongGlowX = findViewById(R.id.btnWrongGlow);
             btnWrongX = findViewById(R.id.btnWrong);
             btnWrongX.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
+                    stopTimer();
+
+                    btnWrongX.setVisibility(View.GONE);
+                    btnWrongGlowX.setVisibility(View.VISIBLE);
+
+                    CountDownTimer glowTimer = new CountDownTimer(550, 50) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+
+
                     if (randAnswer == answerCounter) {
 
-                        stopTimer();
+
 
                         shadeX.setVisibility(View.VISIBLE);
                         imgCorrectorXmarkX.setVisibility(View.VISIBLE);
@@ -707,7 +734,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     } else {
 
                         //Toast.makeText(Game.this, "You got it", Toast.LENGTH_LONG).show();
-                        stopTimer(); // need to start and reset timer as not entering the oncreate  and need to transition from one answer to next
+                        //stopTimer(); // need to start and reset timer as not entering the oncreate  and need to transition from one answer to next
 
                         shadeX.setVisibility(View.VISIBLE);
                         imgCorrectorCheckX.setVisibility(View.VISIBLE);
@@ -725,8 +752,12 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             @Override
                             public void onFinish() {
 
+                                btnWrongGlowX.setVisibility(View.GONE);
                                 shadeX.setVisibility(View.GONE);
                                 imgCorrectorCheckX.setVisibility(View.GONE);
+                                loutCoinAwardX.setVisibility(View.GONE);
+                                btnWrongX.setVisibility(View.VISIBLE);
+
 
                                 coinsOwned = coinsOwned + 1;
                                 String coinsOwnedZ = Integer.toString(coinsOwned);
@@ -748,6 +779,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
 
                     }
+
+                        }
+                    }.start();
 
                 }
             });
@@ -850,8 +884,6 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             }
         });
 
-
-
     }
 
     public void startTimer(){
@@ -875,45 +907,28 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     imgHPTimerX.setVisibility(View.VISIBLE);
 
 
-
-                    // we need to only do all the main UI elements movements on ONE tick at 5K while the timer needs to fade in at that time
-                    // AND it needs to count down on every tick...
-                    // so need to get countDowninterval to 1000 but use a toggle to only do the UI fadeins once.
-
-//                    YoYo.with(Techniques.SlideOutUp)
-//                            .delay(0)
-//                            .duration(200)
-//                            .repeat(0)
-//                            .playOn(txtGameQuestionX);
-                    //txtGameQuestionX.setVisibility(View.GONE);
-
                     if (width2 > 1500) {
-
-                       // Toast.makeText(Game.this, "WIDE WIDE WIDE", Toast.LENGTH_LONG).show();
-
-                        loutGameQuestionX.animate().translationY(-700).setDuration(1);
 
 
                     } else if (height2 < 1300) {
 
+                       // loutGameQuestionX.animate().translationY(-200).setDuration(1);
 
-                        loutGameQuestionX.animate().translationY(-200).setDuration(1);
-
-                       // Toast.makeText(Game.this, "SHOOOOOOOOOOOOOOORT  " + height2, Toast.LENGTH_LONG).show();
+                        txtGameAnswerDisplayX.setTextSize(17);
+                        txtGameQuestionX.setTextSize(17);
 
 
                     } else {
 
-                        ObjectAnimator animatorX = ObjectAnimator.ofFloat(loutGameQuestionX, "y", 400f);
-                        animatorX.setDuration(1000);
-                        AnimatorSet animatorSet = new AnimatorSet();
-                        animatorSet.playTogether(animatorX);
-                        animatorSet.start();
+//                        ObjectAnimator animatorX = ObjectAnimator.ofFloat(loutGameQuestionX, "y", 400f);
+//                        animatorX.setDuration(1000);
+//                        AnimatorSet animatorSet = new AnimatorSet();
+//                        animatorSet.playTogether(animatorX);
+//                        animatorSet.start();
 
                     }
 
                    loutGameAnswerDisplayX.setVisibility(View.VISIBLE);
-
 
                     YoYo.with(Techniques.FadeIn)
                             .delay(0)
@@ -921,24 +936,24 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             .repeat(0)
                             .playOn(loutGameAnswerDisplayX);
 
-                    if (width2 > 1500) {
-
-                       loutGameAnswerDisplayX.animate().translationY(-400).setDuration(1);
-
-
-
-                       txtGameAnswerDisplayX.setTextSize(28);
-
-
-                    } else if (height2 < 1300){
-
-                      //  loutGameAnswerDisplayX.animate().translationY(-200).setDuration(1);
-
-                    } else {
-
-
-
-                    }
+//                    if (width2 > 1500) {
+//
+//                       loutGameAnswerDisplayX.animate().translationY(-400).setDuration(1);
+//
+//
+//
+//                       txtGameAnswerDisplayX.setTextSize(28);
+//
+//
+//                    } else if (height2 < 1300){
+//
+//                      //  loutGameAnswerDisplayX.animate().translationY(-200).setDuration(1);
+//
+//                    } else {
+//
+//
+//
+//                    }
 
                 } //else
 

@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loutEApanel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ExpandedAnswer"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/wallbackground"
+
     tools:showIn="@layout/activity_expanded_answer">
 
     <LinearLayout
@@ -77,6 +79,18 @@
         android:visibility="gone"
         android:text="Epoch" />
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/panel"
+        android:layout_weight="4"
+
+        android:gravity="center"
+        android:orientation="vertical">
+    <TextView
         android:id="@+id/txtExpandedAnswerShow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,10 +98,20 @@
         android:layout_marginLeft="@dimen/_30sdp"
         android:layout_marginRight="@dimen/_30sdp"
         android:gravity="center"
+
         android:textStyle="bold"
-        android:background="@color/colorPrimary"
-        android:layout_weight="6"
+
+        android:textColor="@color/colorPrimaryDark"
+        android:elevation="@dimen/_5sdp"
+
         android:text="TextView" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -96,31 +120,49 @@
         android:layout_weight="1"
         >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/btnEAProfile"
-
             android:layout_marginLeft="@dimen/_8sdp"
             android:layout_width="@dimen/_75sdp"
             android:layout_height="@dimen/_75sdp"
             android:layout_weight="1"
             android:scaleType="fitCenter"
             android:layout_gravity="center"
-
-            android:backgroundTint="@color/colorPrimary"
             app:srcCompat="@drawable/profile" />
 
+        <ImageView
+            android:id="@+id/btnEAProfileGlow"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_width="@dimen/_75sdp"
+            android:layout_height="@dimen/_75sdp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:srcCompat="@drawable/profileglow" />
 
-        <ImageButton
+
+        <ImageView
             android:id="@+id/btnPlayAgain"
             android:layout_width="@dimen/_105sdp"
             android:layout_height="@dimen/_105sdp"
             android:layout_weight="1"
             android:scaleType="fitCenter"
             android:layout_gravity="center"
-            android:backgroundTint="@color/colorPrimary"
             app:srcCompat="@drawable/playlarge" />
 
-        <ImageButton
+
+        <ImageView
+            android:id="@+id/btnPlayAgainGlow"
+            android:layout_width="@dimen/_105sdp"
+            android:layout_height="@dimen/_105sdp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:srcCompat="@drawable/playlargeglow" />
+
+        <ImageView
             android:id="@+id/btnEALeaders"
             android:layout_marginRight="@dimen/_8sdp"
             android:layout_width="@dimen/_75sdp"
@@ -128,10 +170,19 @@
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             android:layout_weight="1"
-
-
-            android:backgroundTint="@color/colorPrimary"
+            android:visibility="visible"
             app:srcCompat="@drawable/leaders" />
+
+        <ImageView
+            android:id="@+id/btnELeadersGlow"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_width="@dimen/_75sdp"
+            android:layout_height="@dimen/_75sdp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/leadersglow" />
 
     </LinearLayout>
 

@@ -19,21 +19,26 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ExpandedAnswer extends AppCompatActivity {
 
-   private ImageButton btnPlayAgainX, btnEAProfileX, btnLeadersX;
+   private ImageView btnPlayAgainX, btnEAProfileX, btnLeadersX, btnPlayAgainGlowX, btnEAProfileGlowX, btnELeadersGlowX, btnTestX;
    private AlertDialog dialog;
    private String ExpandedAnswerGet, ExpAnsCategoryGet, ExpAnsEpochGet;
    private TextView txtExpandedAnswerShowX, txtExpAnsCategoryX, txtExpAnsEpochX;
    private int expAnsBacgroundNo;
 
    private TextView txtEACoinCounterX, txtEAConStreakX;
+
+   private LinearLayout loutEApanelX;
 
    //Firebase
 
@@ -44,11 +49,43 @@ public class ExpandedAnswer extends AppCompatActivity {
     private Query sortUsersQuery;
     private String coinsOwnedString, consStreakString;
     private int coinsOwned, consStreak;
+    private FirebaseAuth mAuthEA;
+
+    //pop up
+
+    String popupMenuToggle;
+    FloatingActionButton fabPopUpEAX, fabPopUpCollEAX, fabPopUpFAQminiEAtX, fabPopUpLogOutminiEAX;
+    TextView txtFAQButtonEAX, txtLogoutButtonEAX;
+    private View shadeX; // to shade the background when menu out
+    private AlertDialog dialogEA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expanded_answer);
+
+        // pup up menu
+
+        fabPopUpEAX = findViewById(R.id.fabPopUpEA);
+        fabPopUpEAX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowNewFABbasedEAMenu();
+            }
+        });
+
+        popupMenuToggle = "Not";
+
+        fabPopUpCollEAX = findViewById(R.id.fabPopUpCollEA);
+        fabPopUpFAQminiEAtX = findViewById(R.id.fabPopUpFAQminiEA);
+        fabPopUpLogOutminiEAX = findViewById(R.id.fabPopUpLogOutminiEA);
+
+        txtFAQButtonEAX = findViewById(R.id.txtFAQButtonEA);
+        txtLogoutButtonEAX = findViewById(R.id.txtLogoutButtonEA);
+
+        shadeX = findViewById(R.id.shade);
+
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +97,8 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         txtEACoinCounterX = findViewById(R.id.txtEACoinCounter);
         txtEAConStreakX = findViewById(R.id.txtEAConStreak);
+
+        mAuthEA = FirebaseAuth.getInstance();
 
         uid = FirebaseAuth.getInstance().getUid();
         sortUsersQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(uid);
@@ -114,6 +153,25 @@ public class ExpandedAnswer extends AppCompatActivity {
         txtExpAnsEpochX = findViewById(R.id.txtExpAnsEpoch);
         txtExpAnsEpochX.setText(ExpAnsEpochGet);
 
+        ////////// LOGIC FOR EA PANEL CHOICE /////////////////////////////////////////
+        loutEApanelX = findViewById(R.id.loutEApanel);
+        if (ExpAnsCategoryGet.equals("Roman History") && ExpAnsEpochGet.equals("Post Hellenistic")) {
+
+            loutEApanelX.setBackgroundResource(R.drawable.romphel);
+        }
+
+        if (ExpAnsCategoryGet.equals("Byzantine History") && ExpAnsEpochGet.equals("Early Middle Ages")) {
+
+            loutEApanelX.setBackgroundResource(R.drawable.byzema);
+        }
+
+        if (ExpAnsCategoryGet.equals("Polish History") && ExpAnsEpochGet.equals("Enlightenment")) {
+
+            loutEApanelX.setBackgroundResource(R.drawable.polenl);
+        }
+
+        ///////////// END OF LOGIC FOR EA PANEL CHOICE //////////////////////////////////
+
         //////// Logic for background picture based on mix of cateogy and epoch //////////////////////////
 
         if (ExpAnsEpochGet.equals("Hellenistic") && ExpAnsCategoryGet.equals("Roman")) {
@@ -127,40 +185,95 @@ public class ExpandedAnswer extends AppCompatActivity {
         ////// end of logic for background pics ///////////////////////////////////////////
 
 
+        btnPlayAgainGlowX = findViewById(R.id.btnPlayAgainGlow);
         btnPlayAgainX = findViewById(R.id.btnPlayAgain);
         btnPlayAgainX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(ExpandedAnswer.this, Game.class);
-                startActivity(intent);
+                btnPlayAgainX.setVisibility(View.GONE);
+                btnPlayAgainGlowX.setVisibility(View.VISIBLE);
 
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        Intent intent = new Intent(ExpandedAnswer.this, Game.class);
+                        startActivity(intent);
+
+                    }
+                }.start();
 
             }
         });
 
+        btnEAProfileGlowX = findViewById(R.id.btnEAProfileGlow);
         btnEAProfileX = findViewById(R.id.btnEAProfile);
         btnEAProfileX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(ExpandedAnswer.this, ProfileView.class);
-                startActivity(intent);
+                btnEAProfileX.setVisibility(View.GONE);
+                btnEAProfileGlowX.setVisibility(View.VISIBLE);
+
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        btnEAProfileX.setVisibility(View.VISIBLE);
+                        btnEAProfileGlowX.setVisibility(View.GONE);
+                        Intent intent = new Intent(ExpandedAnswer.this, ProfileView.class);
+                        startActivity(intent);
+
+                    }
+                }.start();
+
+
 
             }
         });
 
+        btnTestX = findViewById(R.id.btnELeadersGlow);
+        //for whatever reason name bthELeaders, EALeaders would not work so using this instead
+
+        //btnELeadersGlowX.findViewById(R.id.btnELeadersGlow);
         btnLeadersX = findViewById(R.id.btnEALeaders);
         btnLeadersX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(ExpandedAnswer.this, LeaderBoard.class);
-                startActivity(intent);
+                btnLeadersX.setVisibility(View.GONE);
+                btnTestX.setVisibility(View.VISIBLE);
+
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        btnLeadersX.setVisibility(View.VISIBLE);
+                        btnTestX.setVisibility(View.GONE);
+                        Intent intent = new Intent(ExpandedAnswer.this, LeaderBoard.class);
+                        startActivity(intent);
+
+                    }
+                }.start();
 
             }
         });
-
 
     }
 
@@ -198,5 +311,144 @@ public class ExpandedAnswer extends AppCompatActivity {
         });
 
     }
+
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
+    private void ShowNewFABbasedEAMenu() {
+
+        popupMenuToggle = "pressed";
+
+        fabPopUpEAX.setVisibility(View.GONE);
+        fabPopUpCollEAX.setVisibility(View.VISIBLE);
+        fabPopUpFAQminiEAtX.setVisibility(View.VISIBLE);
+        fabPopUpLogOutminiEAX.setVisibility(View.VISIBLE);
+
+        txtFAQButtonEAX.setVisibility(View.VISIBLE);
+        txtLogoutButtonEAX.setVisibility(View.VISIBLE);
+
+        fabPopUpLogOutminiEAX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                popupMenuToggle = "Not";
+
+                fabPopUpEAX.setVisibility(View.VISIBLE);
+                fabPopUpCollEAX.setVisibility(View.GONE);
+                fabPopUpFAQminiEAtX.setVisibility(View.GONE);
+                fabPopUpLogOutminiEAX.setVisibility(View.GONE);
+
+                txtFAQButtonEAX.setVisibility(View.GONE);
+                txtLogoutButtonEAX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
+                alertDialogLogOut();
+
+            }
+        });
+
+        shadeX.setVisibility(View.VISIBLE);
+
+        fabPopUpCollEAX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                popupMenuToggle = "Not";
+
+                fabPopUpEAX.setVisibility(View.VISIBLE);
+                fabPopUpCollEAX.setVisibility(View.GONE);
+                fabPopUpFAQminiEAtX.setVisibility(View.GONE);
+                fabPopUpLogOutminiEAX.setVisibility(View.GONE);
+
+                txtFAQButtonEAX.setVisibility(View.GONE);
+                txtLogoutButtonEAX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
+            }
+        });
+
+
+    }
+
+    private void alertDialogLogOut() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_logout, null);
+
+        dialogEA = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialogEA.show();
+
+        ImageView imgIconX = view.findViewById(R.id.imgIcon);
+        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.logout));
+
+        TextView txtTitleX = view.findViewById(R.id.txtTitle);
+        txtTitleX.setText("Logout");
+
+        TextView txtMsgX = view.findViewById(R.id.txtMsg);
+        txtMsgX.setText("Do you really want to Logout?");
+
+        Button btnYesX = view.findViewById(R.id.btnYes);
+        btnYesX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mAuthEA.signOut();
+
+                logoutSnackbar();
+                transitionBackToLogin ();
+            }
+        });
+
+        Button btnNoX = view.findViewById(R.id.btnNo);
+        btnNoX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogEA.dismiss();
+            }
+        });
+
+    }
+
+    //Method called from LogOut to get us back to Login screen
+    private void transitionBackToLogin () {
+
+        new CountDownTimer(1000, 500) {
+
+
+            public void onTick(long millisUntilFinished) {
+                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+            }
+
+            public void onFinish() {
+                Intent intent = new Intent(ExpandedAnswer.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }.start();
+
+    }
+
+    private void logoutSnackbar(){
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutEApanelX, "Good bye", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorPrimaryDark));
+
+        snackbar.show();
+
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+
+    }
+
 
 }

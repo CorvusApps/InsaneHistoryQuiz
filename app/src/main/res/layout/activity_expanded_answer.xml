@@ -19,4 +19,101 @@
         android:visibility="gone"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPopUpEA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:outlineProvider="none"
+        app:borderWidth="0dp"
+        app:rippleColor="@color/colorPrimary"
+        android:elevation="@dimen/_8sdp"
+
+        android:backgroundTint="@color/coltranslucent"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+
+        android:src="@drawable/menublack" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPopUpCollEA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        app:rippleColor="@color/colorPrimary"
+
+        android:backgroundTint="@color/colorPrimaryDark"
+
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/collapse_white"/>
+
+
+    <TextView
+        android:id="@+id/txtFAQButtonEA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="90dp"
+        android:layout_marginRight="70dp"
+        android:text="FAQ"
+        android:gravity="right"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:textColor="#FFFFFF"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPopUpFAQminiEA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="80dp"
+        android:layout_marginRight="24dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:rippleColor="@color/colorPrimary"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/faq"/>
+
+    <TextView
+        android:id="@+id/txtLogoutButtonEA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="130dp"
+        android:layout_marginRight="70dp"
+        android:text="Logout"
+        android:gravity="right"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:textColor="#FFFFFF"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPopUpLogOutminiEA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="120dp"
+        android:layout_marginRight="24dp"
+        app:rippleColor="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/logout"/>
+
+
+    <View
+        android:id="@+id/shade"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primaryShadow"
+        android:visibility="invisible"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

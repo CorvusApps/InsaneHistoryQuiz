@@ -11,4 +11,10 @@
 
     <color name="colorHighlight">#CFD8DC</color>
 
+    <color name ="shieldfont">#FFB300</color>
+
+    <color name ="coltranslucent">#10FFFFFF</color>
+
+
+
 </resources>

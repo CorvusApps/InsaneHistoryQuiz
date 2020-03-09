@@ -35,24 +35,24 @@ import android.widget.Toast;
 
 public class HomePage extends AppCompatActivity {
 
-    AlertDialog dialog;
-    LinearLayout loutHomePageX, loutButtonsX;
+    private AlertDialog dialog;
+    private LinearLayout loutHomePageX, loutButtonsX;
 
     //Buttons
 
-    ImageButton  imgBtnPlayX, imgBtnProfileX, imgBtnLeadersX;
+    private ImageView  imgBtnPlayX, imgBtnProfileX, imgBtnLeadersX, imgBtnPlayGlowX, imgBtnProfileGlowX, imgBtnLeadersGlowX;
 
-    ImageView imgBtnAdminX;
+    private ImageView imgBtnAdminX;
 
     //User Buttons
 
-    String popupMenuToggle;
-    FloatingActionButton fabPopUpHPX, fabPopUpCollHPX, fabPopUpFAQminiHPtX, fabPopUpLogOutminiHPX;
-    TextView txtFAQButtonHPX, txtLogoutButtonHPX;
+    private String popupMenuToggle;
+    private FloatingActionButton fabPopUpHPX, fabPopUpCollHPX, fabPopUpFAQminiHPtX, fabPopUpLogOutminiHPX;
+    private TextView txtFAQButtonHPX, txtLogoutButtonHPX;
     private View shadeX; // to shade the background when menu out
 
     // Firebase
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
     private DatabaseReference userReference;
     private Query sortUsersQuery;
@@ -190,66 +190,125 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+        imgBtnLeadersGlowX = findViewById(R.id.btnLeadersGlow);
         imgBtnLeadersX = findViewById(R.id.btnLeaders);
         imgBtnLeadersX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(HomePage.this, LeaderBoard.class);
-                startActivity(intent);
+                imgBtnLeadersX.setVisibility(View.GONE);
+                imgBtnLeadersGlowX.setVisibility(View.VISIBLE);
 
-            }
-        });
-
-        imgBtnProfileX = findViewById(R.id.btnProfile);
-        imgBtnProfileX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(HomePage.this, ProfileView.class);
-                startActivity(intent);
-
-            }
-        });
-
-        imgBtnPlayX = findViewById(R.id.btnPlayAgain);
-        imgBtnPlayX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                YoYo.with(Techniques.SlideOutLeft)
-                        .delay(0)
-                        .duration(100)
-                        .repeat(0)
-                        .playOn(imgBtnProfileX);
-
-                YoYo.with(Techniques.SlideOutRight)
-                        .delay(0)
-                        .duration(100)
-                        .repeat(0)
-                        .playOn(imgBtnLeadersX);
-
-                YoYo.with(Techniques.SlideOutDown)
-                        .delay(110)
-                        .duration(300)
-                        .repeat(0)
-                        .playOn(loutButtonsX);
-
-                new CountDownTimer(450, 500) {
-
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
                     public void onTick(long millisUntilFinished) {
-                        // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+
                     }
 
+                    @Override
                     public void onFinish() {
-                        Intent intent = new Intent(HomePage.this, Game.class);
+
+                        imgBtnLeadersX.setVisibility(View.VISIBLE);
+                        imgBtnLeadersGlowX.setVisibility(View.GONE);
+                        Intent intent = new Intent(HomePage.this, LeaderBoard.class);
                         startActivity(intent);
-                        finish();
+
                     }
                 }.start();
 
 
 
+            }
+        });
+
+        imgBtnProfileGlowX = findViewById(R.id.btnProfileGlow);
+        imgBtnProfileX = findViewById(R.id.btnProfile);
+        imgBtnProfileX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                imgBtnProfileX.setVisibility(View.GONE);
+                imgBtnProfileGlowX.setVisibility(View.VISIBLE);
+
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        imgBtnProfileX.setVisibility(View.VISIBLE);
+                        imgBtnProfileGlowX.setVisibility(View.GONE);
+
+                        Intent intent = new Intent(HomePage.this, ProfileView.class);
+                        startActivity(intent);
+
+                    }
+                }.start();
+
+
+
+            }
+        });
+
+        imgBtnPlayGlowX = findViewById(R.id.btnPlayAgainGlow);
+        imgBtnPlayX = findViewById(R.id.btnPlayAgain);
+        imgBtnPlayX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                imgBtnPlayX.setVisibility(View.GONE);
+                imgBtnPlayGlowX.setVisibility(View.VISIBLE);
+
+
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        imgBtnPlayX.setVisibility(View.VISIBLE);
+                        imgBtnPlayGlowX.setVisibility(View.GONE);
+
+                        YoYo.with(Techniques.SlideOutLeft)
+                                .delay(0)
+                                .duration(100)
+                                .repeat(0)
+                                .playOn(imgBtnProfileX);
+
+                        YoYo.with(Techniques.SlideOutRight)
+                                .delay(0)
+                                .duration(100)
+                                .repeat(0)
+                                .playOn(imgBtnLeadersX);
+
+                        YoYo.with(Techniques.SlideOutDown)
+                                .delay(110)
+                                .duration(300)
+                                .repeat(0)
+                                .playOn(loutButtonsX);
+
+                        new CountDownTimer(450, 500) {
+
+                            public void onTick(long millisUntilFinished) {
+                                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+                            }
+
+                            public void onFinish() {
+                                Intent intent = new Intent(HomePage.this, Game.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }.start();
+
+
+                    }
+                }.start();
             }
         });
 
