@@ -509,6 +509,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 String coinsOwnedZ = Integer.toString(coinsOwned);
                                 txtCoinCounterX.setText(coinsOwnedZ);
                                 userReference.getRef().child("coins").setValue(coinsOwned);
+                                int coinsOwnedSort = - coinsOwned;
+                                userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
                                 consStreak = consStreak + 1;
                                 String conStreakZ = Integer.toString(consStreak);
@@ -517,6 +519,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                                 totalAnswered = totalAnswered + 1;
                                 userReference.getRef().child("totalanswered").setValue(totalAnswered);
+                                int totalAnsweredSort = -totalAnswered;
+                                userReference.getRef().child("totalansweredsort").setValue(totalAnsweredSort);
 
                                 if (longestStreak < consStreak) {
 
@@ -524,6 +528,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                                 }
                                 userReference.getRef().child("longeststreak").setValue(longestStreak);
+                                int longestStreakSort = -longestStreak;
+                                userReference.getRef().child("longeststreaksort").setValue(longestStreakSort);
+
 
                                 totalQuestions = totalQuestions + 1;
                                 userReference.getRef().child("totalquestions").setValue(totalQuestions);
@@ -591,6 +598,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 String coinsOwedZ = Integer.toString(coinsOwned);
                                 txtCoinCounterX.setText(coinsOwedZ);
                                 userReference.getRef().child("coins").setValue(coinsOwned);
+                                int coinsOwnedSort = - coinsOwned;
+                                userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
                                 consStreak = 0;
                                 String conStreakZ = Integer.toString(consStreak);
@@ -686,6 +695,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 String coinsOwedZ = Integer.toString(coinsOwned);
                                 txtCoinCounterX.setText(coinsOwedZ);
                                 userReference.getRef().child("coins").setValue(coinsOwned);
+                                int coinsOwnedSort = - coinsOwned;
+                                userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
                                 consStreak = 0;
                                 String conStreakZ = Integer.toString(consStreak);
@@ -763,6 +774,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 String coinsOwnedZ = Integer.toString(coinsOwned);
                                 txtCoinCounterX.setText(coinsOwnedZ);
                                 userReference.getRef().child("coins").setValue(coinsOwned);
+                                int coinsOwnedSort = - coinsOwned;
+                                userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
                                 timersetting = 6000;
                                 ticksetting = 1000;
@@ -1013,6 +1026,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         String coinsOwedZ = Integer.toString(coinsOwned);
                         txtCoinCounterX.setText(coinsOwedZ);
                         userReference.getRef().child("coins").setValue(coinsOwned);
+                        int coinsOwnedSort = - coinsOwned;
+                        userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
                         consStreak = 0;
                         String conStreakZ = Integer.toString(consStreak);
@@ -1125,6 +1140,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         String coinsOwnedZ = Integer.toString(coinsOwned);
         txtCoinCounterX.setText(coinsOwnedZ);
         userReference.getRef().child("coins").setValue(coinsOwned);
+        int coinsOwnedSort = - coinsOwned;
+        userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
         if (adMobToggle == 1) {
 

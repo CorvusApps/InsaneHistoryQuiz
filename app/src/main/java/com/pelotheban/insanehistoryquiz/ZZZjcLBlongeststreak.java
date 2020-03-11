@@ -6,6 +6,8 @@ public class ZZZjcLBlongeststreak {
 
     private int longeststreak;
     private String profilename;
+    private int totalanswered;
+    private int coins;
 
 
 
@@ -17,6 +19,8 @@ public class ZZZjcLBlongeststreak {
 
         this.longeststreak = longeststreak;
         this.profilename = profilename;
+        this.totalanswered = totalanswered;
+        this.coins = coins;
 
     }
 
@@ -37,6 +41,24 @@ public class ZZZjcLBlongeststreak {
 
     public void setProfilename(String profilename) {
         this.profilename = profilename;
+    }
+
+    public int getTotalanswered() {
+
+        return totalanswered;
+    }
+
+    public void setTotalanswered (int totalanswered) {
+        this.totalanswered = totalanswered;
+    }
+
+    public int getCoins() {
+
+        return coins;
+    }
+
+    public void setCoins (int coins) {
+        this.coins = coins;
     }
 
 

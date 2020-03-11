@@ -7,32 +7,83 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".LeaderBoard"
     android:orientation="vertical"
+    android:background="@drawable/wallbackground"
     tools:showIn="@layout/activity_leader_board">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        >
 
 
         <Button
             android:id="@+id/btnMostPlayed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
             android:layout_weight="1"
-            android:text="Most Played" />
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:text="Most Gold" />
+
+        <Button
+            android:id="@+id/btnMostPlayed2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/colorAccent"
+            android:visibility="gone"
+            android:text="Most Gold" />
 
         <Button
             android:id="@+id/btnMostRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
             android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:text="Most Right" />
+
+        <Button
+            android:id="@+id/btnMostRight2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/colorAccent"
+            android:visibility="gone"
             android:text="Most Right" />
 
         <Button
             android:id="@+id/btnLongestStreak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
             android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:text="Longest Streak" />
+
+        <Button
+            android:id="@+id/btnLongestStreak2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/colorAccent"
+            android:visibility="gone"
             android:text="Longest Streak" />
     </LinearLayout>
 

@@ -221,7 +221,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("Papacy") && ExpAnsEpochGet.equals("Renaissance")) {
 
-            loutEApanelX.setBackgroundResource(R.drawable.engmod);
+            loutEApanelX.setBackgroundResource(R.drawable.papren);
         }
 
         if (ExpAnsCategoryGet.equals("Polish") && ExpAnsEpochGet.equals("Enlightenment")) {

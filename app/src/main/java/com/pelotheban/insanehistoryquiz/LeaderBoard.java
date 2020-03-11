@@ -1,5 +1,7 @@
 package com.pelotheban.insanehistoryquiz;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -11,6 +13,7 @@ import com.google.firebase.database.Query;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,21 +21,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class LeaderBoard extends AppCompatActivity {
 
     //leader board selector buttons and recycler views
-    Button btnMostPlayedX, btnMostRightX, btnLongestStreakX;
-
-    RecyclerView rcvLongestStreakX;
+    private Button btnMostPlayedX, btnMostRightX, btnLongestStreakX, btnMostPlayed2X, btnMostRight2X, btnLongestStreak2X;
+    private RecyclerView rcvLongestStreakX;
 
     private LinearLayoutManager layoutManagerLeaders;
+
+    private String boardToggle;
 
 
     //Firebase
 
     DatabaseReference  lbReference;
     Query sortLBQuery;
+
+    private SharedPreferences sortSharedPrefLeaders, boardToggleSharedPrefLeaders;
 
 
 
@@ -52,11 +59,54 @@ public class LeaderBoard extends AppCompatActivity {
 
         rcvLongestStreakX = findViewById(R.id.rcvLongestStreak);
 
+        boardToggleSharedPrefLeaders = getSharedPreferences("BoardToggleSetting2", MODE_PRIVATE);
+        boardToggle = boardToggleSharedPrefLeaders.getString("BoardToggle2", "1");
+
+        btnMostPlayedX = findViewById(R.id.btnMostPlayed);
+        btnMostRightX = findViewById(R.id.btnMostRight);
+        btnLongestStreakX = findViewById(R.id.btnLongestStreak);
+
+        btnMostPlayed2X = findViewById(R.id.btnMostPlayed2);
+        btnMostRight2X = findViewById(R.id.btnMostRight2);
+        btnLongestStreak2X = findViewById(R.id.btnLongestStreak2);
+
+
+        if (boardToggle.equals("1")) {
+            btnLongestStreakX.setVisibility(View.GONE);
+            btnLongestStreak2X.setVisibility(View.VISIBLE);
+            btnMostRightX.setVisibility(View.VISIBLE);
+            btnMostRight2X.setVisibility(View.GONE);
+            btnMostPlayedX.setVisibility(View.VISIBLE);
+            btnMostPlayed2X.setVisibility(View.GONE);
+
+        }
+
+        if (boardToggle.equals("2")) {
+            btnLongestStreakX.setVisibility(View.VISIBLE);
+            btnLongestStreak2X.setVisibility(View.GONE);
+            btnMostRightX.setVisibility(View.GONE);
+            btnMostRight2X.setVisibility(View.VISIBLE);
+            btnMostPlayedX.setVisibility(View.VISIBLE);
+            btnMostPlayed2X.setVisibility(View.GONE);
+        }
+        if (boardToggle.equals("3")) {
+            btnLongestStreakX.setVisibility(View.VISIBLE);
+            btnLongestStreak2X.setVisibility(View.GONE);
+            btnMostRightX.setVisibility(View.VISIBLE);
+            btnMostRight2X.setVisibility(View.GONE);
+            btnMostPlayedX.setVisibility(View.GONE);
+            btnMostPlayed2X.setVisibility(View.VISIBLE);
+        }
 
         lbReference = FirebaseDatabase.getInstance().getReference().child("my_users");
         lbReference.keepSynced(true);
 
-        sortLBQuery = lbReference.orderByChild("totalquestions");
+        sortSharedPrefLeaders = getSharedPreferences("SortSetting2", MODE_PRIVATE);
+        String mSorting2 = sortSharedPrefLeaders.getString("Sort2", "longeststreaksort"); // where if no settings
+
+        //sortLBQuery = lbReference.orderByChild("totalquestions");
+        sortLBQuery = lbReference.orderByChild(mSorting2);
+
         layoutManagerLeaders = new LinearLayoutManager(this);
         layoutManagerLeaders.setReverseLayout(false);
 
@@ -64,31 +114,61 @@ public class LeaderBoard extends AppCompatActivity {
         rcvLongestStreakX.setLayoutManager(layoutManagerLeaders);
 
         //leader board selector buttons
-        btnMostPlayedX = findViewById(R.id.btnMostPlayed);
+        // repurposed this one to most gold just didn't change all the names
+
         btnMostPlayedX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                SharedPreferences.Editor editor = sortSharedPrefLeaders.edit();
+                editor.putString("Sort2", "coinsownedsort");
+                editor.apply(); // saves the value
+
+                SharedPreferences.Editor editor2 = boardToggleSharedPrefLeaders.edit();
+                editor2.putString("BoardToggle2", "3");
+                editor2.apply(); // saves the value
+
+                recreate(); // restart activity to take effect
+
             }
         });
 
-        btnMostRightX = findViewById(R.id.btnMostRight);
         btnMostRightX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+
+                SharedPreferences.Editor editor = sortSharedPrefLeaders.edit();
+                editor.putString("Sort2", "totalansweredsort");
+                editor.apply(); // saves the value
+
+                SharedPreferences.Editor editor2 = boardToggleSharedPrefLeaders.edit();
+                editor2.putString("BoardToggle2", "2");
+                editor2.apply(); // saves the value
+
+                recreate(); // restart activity to take effect
+
             }
         });
 
 
-        btnLongestStreakX = findViewById(R.id.btnMostPlayed);
+
         btnLongestStreakX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                rcvLongestStreakX.setVisibility(View.VISIBLE);
 
-                sortLBQuery = lbReference.orderByChild("longeststreak");
+                SharedPreferences.Editor editor = sortSharedPrefLeaders.edit();
+                editor.putString("Sort2", "longeststreaksort");
+                editor.apply(); // saves the value
+
+                SharedPreferences.Editor editor2 = boardToggleSharedPrefLeaders.edit();
+                editor2.putString("BoardToggle2", "1");
+                editor2.apply(); // saves the value
+
+                recreate(); // restart activity to take effect
+
+
 
 
             }
@@ -104,8 +184,24 @@ public class LeaderBoard extends AppCompatActivity {
             @Override
             protected void populateViewHolder(LeaderBoard.ZZZjcLBlongstreakViewHolder viewHolder, ZZZjcLBlongeststreak model, int position) {
 
-                viewHolder.setLongeststreak(model.getLongeststreak());
                 viewHolder.setProfilename(model.getProfilename());
+
+                if (boardToggle.equals("1")) {
+                    viewHolder.setLongeststreak(model.getLongeststreak());
+
+                }
+
+                if (boardToggle.equals("2")) {
+                    viewHolder.setTotalanswered(model.getTotalanswered());
+
+                }
+
+                if (boardToggle.equals("3")) {
+                    viewHolder.setCoins(model.getCoins());
+
+                }
+
+
 
             }
 
@@ -210,6 +306,24 @@ public class LeaderBoard extends AppCompatActivity {
             TextView txtPlayerX = (TextView)mView.findViewById(R.id.txtPlayer);
 
             txtPlayerX.setText(profilename);
+
+        }
+
+        public void setTotalanswered(int totalanswered){
+
+            TextView txtScoreX = (TextView)mView.findViewById(R.id.txtScore);
+            String score2 = String.valueOf(totalanswered);
+
+            txtScoreX.setText(score2);
+
+        }
+
+        public void setCoins(int coins){
+
+            TextView txtScoreX = (TextView)mView.findViewById(R.id.txtScore);
+            String score2 = String.valueOf(coins);
+
+            txtScoreX.setText(score2);
 
         }
 
