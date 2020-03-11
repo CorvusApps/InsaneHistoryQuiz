@@ -82,7 +82,7 @@
 
         android:layout_weight="1"
         android:foreground="?android:attr/selectableItemBackground"
-        android:visibility="gone"
+        android:visibility="visible"
         app:srcCompat="@drawable/play" />
 
     </LinearLayout>

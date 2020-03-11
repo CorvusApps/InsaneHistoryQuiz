@@ -132,8 +132,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
     // variables for UI placements like centering the displays
 
-    int height2;
-    int width2;
+    private int height2;
+    private int width2;
 
     // adMob
 
@@ -167,7 +167,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         // Game play
         answerCounter = 1;
-        randQuestion = new Random().nextInt(6) + 1; // random question number to be displayed
+        randQuestion = new Random().nextInt(16) + 1; // random question number to be displayed
 
         //...... displayed outputs
         loutGameQuestionX = findViewById(R.id.loutGameQuestion);
@@ -202,7 +202,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
 
         /// sizing the display to have both the question and then the answer mostly in the center
-        /// not used yet but leaving for adjustments to different displays
+
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -334,7 +334,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                 try {
                     if (coinsOwned > 0 | coinGrantToggle.equals("yes")) {
 
-                        if (coinsOwned<0) {
+                        if (coinsOwned<1) {
 
                             gotoAd();
 
@@ -912,10 +912,10 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     } else if (height2 < 1300) {
 
-                       // loutGameQuestionX.animate().translationY(-200).setDuration(1);
+                       loutGameQuestionX.animate().translationY(-30).setDuration(300);
 
-                        txtGameAnswerDisplayX.setTextSize(17);
-                        txtGameQuestionX.setTextSize(17);
+                        txtGameAnswerDisplayX.setTextSize(16);
+                        loutGameAnswerDisplayX.animate().translationY(-40).setDuration(1);
 
 
                     } else {
@@ -991,6 +991,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             public void onFinish() {
                 // other than the toast treats this as a wrong answer, makes streak deductions and sends to expanded answer
 
+                btnCorrectX.setVisibility(View.GONE);
+                btnWrongX.setVisibility(View.GONE);
                 shadeX.setVisibility(View.VISIBLE);
                 imgCorrectorXmarkX.setVisibility(View.VISIBLE);
                 imgCorrectorTimeoutX.setVisibility(View.VISIBLE);
@@ -1005,6 +1007,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     @Override
                     public void onFinish() {
+
 
                         coinsOwned = coinsOwned - 10;
                         String coinsOwedZ = Integer.toString(coinsOwned);
@@ -1161,9 +1164,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
     public void gotoAd() {
 
-                if (coinsOwned < 1) {
+        if (coinsOwned < 1) {
 
-           Toast.makeText(Game.this, coinsOwned+"", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Game.this, coinsOwned+"", Toast.LENGTH_SHORT).show();
 
             adMobToggle = 1;
 
@@ -1203,7 +1206,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             }.start();
 
 
-              }
+        }
 
 
     }

@@ -2,6 +2,7 @@ package com.pelotheban.insanehistoryquiz;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.CountDownTimer;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +41,9 @@ public class ExpandedAnswer extends AppCompatActivity {
    private TextView txtEACoinCounterX, txtEAConStreakX;
 
    private LinearLayout loutEApanelX;
+
+    private int height2;
+    private int width2;
 
    //Firebase
 
@@ -63,6 +68,17 @@ public class ExpandedAnswer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expanded_answer);
+
+        /// sizing the display to have both the question and then the answer mostly in the center
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        double height = size.y;
+
+        height2 = (int) Math.round(height);
+        width2 = (int) Math.round(width);
 
         // pup up menu
 
@@ -145,6 +161,17 @@ public class ExpandedAnswer extends AppCompatActivity {
         txtExpandedAnswerShowX = findViewById(R.id.txtExpandedAnswerShow);
         txtExpandedAnswerShowX.setText(ExpandedAnswerGet);
 
+        if (width2 > 1500) {
+
+        txtExpandedAnswerShowX.setTextSize(30);
+        } else if (height2 < 1300) {
+
+            txtExpandedAnswerShowX.setTextSize(17);
+
+
+
+        }
+
         ExpAnsCategoryGet = getIntent().getStringExtra("bbbcategory");
         txtExpAnsCategoryX = findViewById(R.id.txtExpAnsCategory);
         txtExpAnsCategoryX.setText(ExpAnsCategoryGet);
@@ -155,17 +182,49 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         ////////// LOGIC FOR EA PANEL CHOICE /////////////////////////////////////////
         loutEApanelX = findViewById(R.id.loutEApanel);
-        if (ExpAnsCategoryGet.equals("Roman History") && ExpAnsEpochGet.equals("Post Hellenistic")) {
+        if (ExpAnsCategoryGet.equals("Persian") && ExpAnsEpochGet.equals("Middle Empire")) {
 
-            loutEApanelX.setBackgroundResource(R.drawable.romphel);
+            loutEApanelX.setBackgroundResource(R.drawable.permemp);
+        }
+        if (ExpAnsCategoryGet.equals("Greek") && ExpAnsEpochGet.equals("Hellenistic")) {
+
+            loutEApanelX.setBackgroundResource(R.drawable.grehel);
+        }
+        if (ExpAnsCategoryGet.equals("Roman") && ExpAnsEpochGet.equals("Early Empire")) {
+
+            loutEApanelX.setBackgroundResource(R.drawable.romeemp);
         }
 
-        if (ExpAnsCategoryGet.equals("Byzantine History") && ExpAnsEpochGet.equals("Early Middle Ages")) {
+        if (ExpAnsCategoryGet.equals("Roman") && ExpAnsEpochGet.equals("Middle Empire")) {
 
-            loutEApanelX.setBackgroundResource(R.drawable.byzema);
+            loutEApanelX.setBackgroundResource(R.drawable.rommemp);
+        }
+        if (ExpAnsCategoryGet.equals("Roman") && ExpAnsEpochGet.equals("Late Antiquity")) {
+
+            loutEApanelX.setBackgroundResource(R.drawable.romlatan);
         }
 
-        if (ExpAnsCategoryGet.equals("Polish History") && ExpAnsEpochGet.equals("Enlightenment")) {
+        if (ExpAnsCategoryGet.equals("Byzantine") && ExpAnsEpochGet.equals("Dark Ages")) {
+
+            loutEApanelX.setBackgroundResource(R.drawable.byzdark);
+        }
+
+        if (ExpAnsCategoryGet.equals("English") && ExpAnsEpochGet.equals("Modern")) {
+
+            loutEApanelX.setBackgroundResource(R.drawable.engmod);
+        }
+
+        if (ExpAnsCategoryGet.equals("Spanish") && ExpAnsEpochGet.equals("Enlightenment")) {
+
+            loutEApanelX.setBackgroundResource(R.drawable.spaenl);
+        }
+
+        if (ExpAnsCategoryGet.equals("Papacy") && ExpAnsEpochGet.equals("Renaissance")) {
+
+            loutEApanelX.setBackgroundResource(R.drawable.engmod);
+        }
+
+        if (ExpAnsCategoryGet.equals("Polish") && ExpAnsEpochGet.equals("Enlightenment")) {
 
             loutEApanelX.setBackgroundResource(R.drawable.polenl);
         }

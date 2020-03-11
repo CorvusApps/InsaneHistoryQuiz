@@ -98,9 +98,9 @@
         android:layout_marginLeft="@dimen/_30sdp"
         android:layout_marginRight="@dimen/_30sdp"
         android:gravity="center"
-
+        android:fontFamily="@font/almendra_sc"
         android:textStyle="bold"
-
+        android:lineSpacingMultiplier="1.15"
         android:textColor="@color/colorPrimaryDark"
         android:elevation="@dimen/_5sdp"
 
