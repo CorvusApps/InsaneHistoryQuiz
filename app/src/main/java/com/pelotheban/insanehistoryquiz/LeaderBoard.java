@@ -1,5 +1,7 @@
 package com.pelotheban.insanehistoryquiz;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -7,23 +9,37 @@ import android.os.Bundle;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.CountDownTimer;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class LeaderBoard extends AppCompatActivity {
+
+
+    private AlertDialog dialog;
+    private LinearLayout loutLeaderBoardX;
 
     //leader board selector buttons and recycler views
     private Button btnMostPlayedX, btnMostRightX, btnLongestStreakX, btnMostPlayed2X, btnMostRight2X, btnLongestStreak2X;
@@ -33,13 +49,35 @@ public class LeaderBoard extends AppCompatActivity {
 
     private String boardToggle;
 
+    //popUp Menu
+
+    private String popupMenuToggle;
+    private FloatingActionButton fabPopUpLBX, fabPopUpCollLBX, fabPopUpFAQminiLBtX, fabPopUpLogOutminiLBX;
+    private TextView txtFAQButtonLBX, txtLogoutButtonLBX;
+    private View shadeX; // to shade the background when menu out
+
 
     //Firebase
 
+    private FirebaseAuth mAuthLB;
     DatabaseReference  lbReference;
     Query sortLBQuery;
 
     private SharedPreferences sortSharedPrefLeaders, boardToggleSharedPrefLeaders;
+
+    //For score counters
+
+    Query sortUserLBQuery;
+
+    String coinsOwnedString, totalAnsweredString, longestStreakString;
+
+    TextView lbTxtCoinCounterX, lbTxtMostRightX, lbTxtLongestStreak;
+
+    String uid;
+
+    // To identify user in the recyclerview
+
+    String profileName;
 
 
 
@@ -47,6 +85,99 @@ public class LeaderBoard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
+
+        loutLeaderBoardX = findViewById(R.id.loutLeaderBoard);
+
+        // firebase and sorting
+        lbReference = FirebaseDatabase.getInstance().getReference().child("my_users");
+        lbReference.keepSynced(true);
+
+        mAuthLB = FirebaseAuth.getInstance();
+
+        sortSharedPrefLeaders = getSharedPreferences("SortSetting2", MODE_PRIVATE);
+        String mSorting2 = sortSharedPrefLeaders.getString("Sort2", "longeststreaksort"); // where if no settings
+
+        //sortLBQuery = lbReference.orderByChild("totalquestions");
+        sortLBQuery = lbReference.orderByChild(mSorting2);
+
+        //counters
+
+        lbTxtCoinCounterX = findViewById(R.id.lbTxtCoinCounter);
+        lbTxtMostRightX = findViewById(R.id.lbTxtMostRight);
+        lbTxtLongestStreak = findViewById(R.id.lbTxtLongestStreak);
+
+        uid = mAuthLB.getUid();
+        sortUserLBQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(uid);
+        sortUserLBQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot userDs: dataSnapshot.getChildren()){
+
+                    try {
+                        coinsOwnedString = userDs.child("coins").getValue().toString();
+
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        totalAnsweredString = userDs.child("totalanswered").getValue().toString();
+
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        longestStreakString = userDs.child("longeststreak").getValue().toString();
+
+                    } catch (Exception e) {
+
+                    }
+
+                    lbTxtCoinCounterX.setText(coinsOwnedString);
+                    lbTxtMostRightX.setText(totalAnsweredString);
+                    lbTxtLongestStreak.setText(longestStreakString);
+
+                    try {
+                        profileName = userDs.child("profilename").getValue().toString();
+
+                    } catch (Exception e) {
+
+                    }
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //pop up
+        fabPopUpLBX = findViewById(R.id.fabPopUpLB);
+        fabPopUpLBX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowNewFABbasedMenu();
+            }
+        });
+
+        popupMenuToggle = "Not";
+
+        fabPopUpCollLBX = findViewById(R.id.fabPopUpCollLB);
+        fabPopUpFAQminiLBtX = findViewById(R.id.fabPopUpFAQminiLB);
+        fabPopUpLogOutminiLBX = findViewById(R.id.fabPopUpLogOutminiLB);
+
+        txtFAQButtonLBX = findViewById(R.id.txtFAQButtonLB);
+        txtLogoutButtonLBX = findViewById(R.id.txtLogoutButtonLB);
+
+        shadeX = findViewById(R.id.shade);
+
+        /// end of pop up
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -98,14 +229,7 @@ public class LeaderBoard extends AppCompatActivity {
             btnMostPlayed2X.setVisibility(View.VISIBLE);
         }
 
-        lbReference = FirebaseDatabase.getInstance().getReference().child("my_users");
-        lbReference.keepSynced(true);
 
-        sortSharedPrefLeaders = getSharedPreferences("SortSetting2", MODE_PRIVATE);
-        String mSorting2 = sortSharedPrefLeaders.getString("Sort2", "longeststreaksort"); // where if no settings
-
-        //sortLBQuery = lbReference.orderByChild("totalquestions");
-        sortLBQuery = lbReference.orderByChild(mSorting2);
 
         layoutManagerLeaders = new LinearLayoutManager(this);
         layoutManagerLeaders.setReverseLayout(false);
@@ -184,7 +308,8 @@ public class LeaderBoard extends AppCompatActivity {
             @Override
             protected void populateViewHolder(LeaderBoard.ZZZjcLBlongstreakViewHolder viewHolder, ZZZjcLBlongeststreak model, int position) {
 
-                viewHolder.setProfilename(model.getProfilename());
+                viewHolder.setRank(position);
+                viewHolder.setProfilename(model.getProfilename(), profileName);
 
                 if (boardToggle.equals("1")) {
                     viewHolder.setLongeststreak(model.getLongeststreak());
@@ -289,7 +414,11 @@ public class LeaderBoard extends AppCompatActivity {
 
 
 
+        public void setRank (int position) {
 
+            TextView txtRankX = (TextView)mView.findViewById(R.id.txtRank);
+            txtRankX.setText(String.valueOf(position + 1));
+        }
 
 
         public void setLongeststreak(int longstreak){
@@ -301,11 +430,18 @@ public class LeaderBoard extends AppCompatActivity {
 
         }
 
-        public void setProfilename(String profilename){
+        public void setProfilename(String profilename, String profileName){
 
             TextView txtPlayerX = (TextView)mView.findViewById(R.id.txtPlayer);
 
             txtPlayerX.setText(profilename);
+
+            if (profileName.equals(profilename)){
+
+                LinearLayout loutRankItemX = (LinearLayout) mView.findViewById(R.id.loutRankItem);
+                loutRankItemX.setBackgroundResource(R.color.colorAccent);
+
+            }
 
         }
 
@@ -352,5 +488,143 @@ public class LeaderBoard extends AppCompatActivity {
     }
 
     //////////////////////// END -------->>> RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
+
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
+    private void ShowNewFABbasedMenu() {
+
+        popupMenuToggle = "pressed";
+
+        fabPopUpLBX.setVisibility(View.GONE);
+        fabPopUpCollLBX.setVisibility(View.VISIBLE);
+        fabPopUpFAQminiLBtX.setVisibility(View.VISIBLE);
+        fabPopUpLogOutminiLBX.setVisibility(View.VISIBLE);
+
+        txtFAQButtonLBX.setVisibility(View.VISIBLE);
+        txtLogoutButtonLBX.setVisibility(View.VISIBLE);
+
+        fabPopUpLogOutminiLBX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                popupMenuToggle = "Not";
+
+                fabPopUpLBX.setVisibility(View.VISIBLE);
+                fabPopUpCollLBX.setVisibility(View.GONE);
+                fabPopUpFAQminiLBtX.setVisibility(View.GONE);
+                fabPopUpLogOutminiLBX.setVisibility(View.GONE);
+
+                txtFAQButtonLBX.setVisibility(View.GONE);
+                txtLogoutButtonLBX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
+                alertDialogLogOut();
+
+            }
+        });
+
+        shadeX.setVisibility(View.VISIBLE);
+
+        fabPopUpCollLBX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                popupMenuToggle = "Not";
+
+                fabPopUpLBX.setVisibility(View.VISIBLE);
+                fabPopUpCollLBX.setVisibility(View.GONE);
+                fabPopUpFAQminiLBtX.setVisibility(View.GONE);
+                fabPopUpLogOutminiLBX.setVisibility(View.GONE);
+
+                txtFAQButtonLBX.setVisibility(View.GONE);
+                txtLogoutButtonLBX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
+            }
+        });
+
+
+    }
+
+    private void alertDialogLogOut() {
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_logout, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        ImageView imgIconX = view.findViewById(R.id.imgIcon);
+        imgIconX.setImageDrawable(getResources().getDrawable(R.drawable.logout));
+
+        TextView txtTitleX = view.findViewById(R.id.txtTitle);
+        txtTitleX.setText("Logout");
+
+        TextView txtMsgX = view.findViewById(R.id.txtMsg);
+        txtMsgX.setText("Do you really want to Logout?");
+
+        Button btnYesX = view.findViewById(R.id.btnYes);
+        btnYesX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mAuthLB.signOut();
+
+                logoutSnackbar();
+                transitionBackToLogin ();
+            }
+        });
+
+        Button btnNoX = view.findViewById(R.id.btnNo);
+        btnNoX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+    }
+    //Method called from LogOut to get us back to Login screen
+    private void transitionBackToLogin () {
+
+        new CountDownTimer(1000, 500) {
+
+
+            public void onTick(long millisUntilFinished) {
+                // imgCoverR.animate().rotation(360).setDuration(500); // why only turned once?
+            }
+
+            public void onFinish() {
+                Intent intent = new Intent(LeaderBoard.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }.start();
+
+    }
+
+    private void logoutSnackbar(){
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutLeaderBoardX, "Good bye", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorPrimaryDark));
+
+        snackbar.show();
+
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+
+    }
+
 
 }
