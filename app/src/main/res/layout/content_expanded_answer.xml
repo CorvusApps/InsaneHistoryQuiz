@@ -31,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10"
+            android:fontFamily="@font/almendra_sc"
             android:layout_marginLeft="@dimen/_8sdp"
             android:textStyle="bold"
             android:textSize="@dimen/_25sdp"
@@ -49,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_2sdp"
             android:text="10"
+            android:fontFamily="@font/almendra_sc"
             android:textStyle="bold"
             android:textSize="@dimen/_25sdp"
             />

@@ -26,14 +26,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
 public class ProfileView extends AppCompatActivity {
 
+   // Basic set up
+
+    private LinearLayout loutProfileViewX;
+
     private TextView txtUIDX, txtProfileNameX;
 
-    ///Firebase
+   ///Firebase
 
    private String userUID, profileName;
    private DatabaseReference profileReference;
@@ -44,20 +49,23 @@ public class ProfileView extends AppCompatActivity {
    // PopUp
 
     private AlertDialog dialog;
-    private LinearLayout loutProfileViewX;
 
     private String popupMenuToggle;
     private FloatingActionButton fabPopUpPFX, fabPopUpCollPFX, fabPopUpFAQminiPFtX, fabPopUpLogOutminiPFX;
     private TextView txtFAQButtonPFX, txtLogoutButtonPFX;
     private View shadeX; // to shade the background when menu out
 
+    // Tracker panel UI Elements
+
+    private TextView pfTxtCoinCounterX, pfTxtConStreakX, pfTxtTotalAnswersX, pfTxtLongestStreakX, pfTxtTotalQuestionsX, pfCorrectPercentX;
+    private String coinCounterString, conStreakString, totalAnswersString, longestStreakString, totalQuestionsString, correctPercentString;
+    private int coinCounter, conStreak, totalAnswers, longestStreak, totalQuestions;
+    Double correctPercent;
 
    //Badges
 
     ImageView imgLongStreakBadgeX, imgTotalAnsweredBadgeX, imgTotalQuestionsBadgeX;
 
-    String longestStreakString;
-    int longestStreak;
     int longestStreakBadgeLevel;
 
     @Override
@@ -65,10 +73,20 @@ public class ProfileView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);//pop up
 
+        // Basic Set Up
         loutProfileViewX = findViewById(R.id.loutProfileView);
         mAuthPF = FirebaseAuth.getInstance();
-        //pop-up
 
+        // Tracker panel UI Elements
+
+        pfTxtCoinCounterX = findViewById(R.id.pfTxtCoinCounter);
+        pfTxtConStreakX = findViewById(R.id.pfTxtConStreak);
+        pfTxtTotalAnswersX = findViewById(R.id.pfTxtTotalAnswers);
+        pfTxtLongestStreakX = findViewById(R.id.pfTxtLongestStreak);
+        pfTxtTotalQuestionsX = findViewById(R.id.pfTxtTotalQuestions);
+        pfCorrectPercentX = findViewById(R.id.pfCorrectPercent);
+
+        //pop-up
         fabPopUpPFX = findViewById(R.id.fabPopUpPF);
         fabPopUpPFX.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,9 +113,10 @@ public class ProfileView extends AppCompatActivity {
 
         userUID = FirebaseAuth.getInstance().getUid();
         profileReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(userUID);
+
         //txtUIDX.setText(userUID);
 
-
+        // This is not really used for anything anymore but keeping for now
             Random generator = new Random();
             StringBuilder randomStringBuilder = new StringBuilder();
 
@@ -125,8 +144,6 @@ public class ProfileView extends AppCompatActivity {
 
                     } catch (Exception e) {
 
-
-
                         profileName = "Serbitar"; // for now generates static profile name will set to random; happens only if one does not already exist
                         txtProfileNameX.setText(profileName); // populates the text box
                         profileReference.getRef().child("profilename").setValue(profileName); //puts the generated profile name to FB so it will have it next time around
@@ -134,31 +151,59 @@ public class ProfileView extends AppCompatActivity {
                     }
 
                     try {
+                        coinCounterString = userPs.child("coins").getValue().toString();
+                        coinCounter = Integer.valueOf(coinCounterString);
+                    } catch (Exception e) {
+                        coinCounterString = "";
+                    }
 
+                    try {
+                        conStreakString = userPs.child("constreak").getValue().toString();
+                        conStreak = Integer.valueOf(conStreakString);
+                    } catch (Exception e) {
+                        conStreakString = "";
+                    }
+
+                    try {
+                        totalAnswersString = userPs.child("totalanswered").getValue().toString();
+                        totalAnswers = Integer.valueOf(totalAnswersString);
+                    } catch (Exception e) {
+                        totalAnswersString = "";
+                    }
+
+                    try {
                         longestStreakString = userPs.child("longeststreak").getValue().toString();
                         longestStreak = Integer.valueOf(longestStreakString);
+                    } catch (Exception e) {
+                        longestStreakString = "";
+                    }
 
-                        if (longestStreak >4) {
-                            imgLongStreakBadgeX.setImageResource(R.drawable.badgeone);
-                        }
+                    try {
+                        totalQuestionsString = userPs.child("totalquestions").getValue().toString();
+                        totalQuestions = Integer.valueOf(totalQuestionsString);
+                    } catch (Exception e) {
+                        totalQuestionsString ="";
+                    }
 
-                        if (longestStreak >9) {
-                            imgLongStreakBadgeX.setImageResource(R.drawable.badgetwo);
-                        }
+                    try {
 
-                        if (longestStreak >19) {
-                            imgLongStreakBadgeX.setImageResource(R.drawable.badgethree);
-                        }
+                        correctPercent = ( (double) totalAnswers / totalQuestions)*100;
+                        int correctPercent2 = (int) Math.round(correctPercent);
+                        correctPercentString = correctPercent2 +"%";
+                        pfCorrectPercentX.setText(correctPercentString);
 
                     } catch (Exception e) {
-
-
+                        correctPercentString = "";
                     }
 
+                }
 
-
-
-                    }
+                pfTxtCoinCounterX.setText(coinCounterString);
+                pfTxtConStreakX.setText(conStreakString);
+                pfTxtTotalAnswersX.setText(totalAnswersString);
+                pfTxtLongestStreakX.setText(longestStreakString);
+                pfTxtTotalQuestionsX.setText(totalQuestionsString);
+                pfCorrectPercentX.setText(correctPercentString);
 
             }
 
@@ -169,28 +214,9 @@ public class ProfileView extends AppCompatActivity {
         });
 
 
-
-
-
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-
         imgLongStreakBadgeX = findViewById(R.id.imgLongStreakBadge);
         imgTotalAnsweredBadgeX = findViewById(R.id.imgTotalAnsweredBadge);
         imgTotalQuestionsBadgeX = findViewById(R.id.imgTotalQuestionsBadge);
-
-
-
-
-
     }
 
 
