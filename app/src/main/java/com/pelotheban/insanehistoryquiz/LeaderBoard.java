@@ -60,24 +60,24 @@ public class LeaderBoard extends AppCompatActivity {
     //Firebase
 
     private FirebaseAuth mAuthLB;
-    DatabaseReference  lbReference;
-    Query sortLBQuery;
+    private DatabaseReference  lbReference;
+    private Query sortLBQuery;
 
     private SharedPreferences sortSharedPrefLeaders, boardToggleSharedPrefLeaders;
 
     //For score counters
 
-    Query sortUserLBQuery;
+    private Query sortUserLBQuery;
 
-    String coinsOwnedString, totalAnsweredString, longestStreakString;
+    private String coinsOwnedString, totalAnsweredString, longestStreakString;
 
-    TextView lbTxtCoinCounterX, lbTxtMostRightX, lbTxtLongestStreak;
+    private TextView lbTxtCoinCounterX, lbTxtMostRightX, lbTxtLongestStreak;
 
-    String uid;
+    private String uid;
 
     // To identify user in the recyclerview
 
-    String profileName;
+    private String profileName;
 
 
 
