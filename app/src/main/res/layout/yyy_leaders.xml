@@ -36,13 +36,29 @@
         android:gravity="right"
         android:text="10" />
 
-    <ImageView
-        android:layout_width="@dimen/_25sdp"
-        android:layout_height="@dimen/_25sdp"
-        android:layout_weight="1"
-        android:scaleType="fitCenter"
-        android:src="@drawable/profile"
-        />
+
+        <com.github.florent37.shapeofview.shapes.CircleView
+            android:id="@+id/circleViewProfile"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:elevation="5dp"
+            android:layout_weight="1"
+
+            android:clipToPadding="false"
+            >
+
+            <ImageView
+                android:id="@+id/imgRVProfile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/profile"
+
+                android:scaleType="centerCrop"
+                />
+
+
+        </com.github.florent37.shapeofview.shapes.CircleView>
+
 
     <TextView
         android:id="@+id/txtPlayer"
@@ -55,10 +71,11 @@
         android:text="Player" />
 
     <ImageView
+        android:id="@+id/imgRVFlag"
         android:layout_width="@dimen/_24sdp"
         android:layout_height="@dimen/_16sdp"
         android:layout_weight="1"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:src="@drawable/unflag"
         />
 

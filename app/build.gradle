@@ -76,6 +76,8 @@ dependencies {
     implementation 'com.daimajia.easing:library:2.0@aar'
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
 
+    implementation 'com.github.mukeshsolanki:country-picker-android:1.2.4'
+
 }
 
 repositories {

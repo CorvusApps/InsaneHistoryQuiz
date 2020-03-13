@@ -19,10 +19,12 @@
         <activity
             android:name=".LeaderBoard"
             android:label="@string/title_activity_leader_board"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
         <activity
             android:name=".ProfileView"
             android:label="@string/title_activity_profile_view"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
             android:name=".ExpandedAnswer"

@@ -8,19 +8,23 @@ public class ZZZjcLBlongeststreak {
     private String profilename;
     private int totalanswered;
     private int coins;
+    private String imagelink;
+    private String imageflaglink;
 
 
 
 
 
 
-    public ZZZjcLBlongeststreak(int longeststreak, String profilename) {
+    public ZZZjcLBlongeststreak(int longeststreak, String profilename, int totalanswered, int coins, String imagelink, String imageflaglink) {
 
 
         this.longeststreak = longeststreak;
         this.profilename = profilename;
         this.totalanswered = totalanswered;
         this.coins = coins;
+        this.imagelink = imagelink;
+        this.imageflaglink = imageflaglink;
 
     }
 
@@ -59,6 +63,22 @@ public class ZZZjcLBlongeststreak {
 
     public void setCoins (int coins) {
         this.coins = coins;
+    }
+
+    public String getImagelink() {
+        return imagelink;
+    }
+
+    public void setImagelink(String imagelink) {
+        this.imagelink = imagelink;
+    }
+
+    public String getImageflaglink() {
+        return imageflaglink;
+    }
+
+    public void setImageflaglink(String imageflaglink) {
+        this.imageflaglink = imageflaglink;
     }
 
 

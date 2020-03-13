@@ -10,6 +10,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ProfileView"
     android:orientation="vertical"
+    android:onClick="loginLayoutTapped"
     android:background="@drawable/wallbackground"
     tools:showIn="@layout/activity_profile_view">
 
@@ -42,48 +43,68 @@
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_100sdp"
                 android:elevation="5dp"
+                app:shape_circle_borderColor="@color/primaryDarkShadow"
+                app:shape_circle_borderWidth="@dimen/_2sdp"
                 android:clipToPadding="false"
                 >
 
-            <ImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/profile"
-                android:scaleType="centerCrop"
-                />
+                <ImageView
+                    android:id="@+id/imgProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/profile"
 
-            <ImageView
-                android:id="@+id/imgProfileGlow"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/profileglow"
-                android:visibility="gone"
-                android:scaleType="centerCrop"
-                />
+                    android:scaleType="centerCrop"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgProfileGlow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/profileglow"
+                    android:visibility="gone"
+                    android:scaleType="centerCrop"
+                    />
 
             </com.github.florent37.shapeofview.shapes.CircleView>
 
             <TextView
                 android:id="@+id/txtProfileName"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/_100sdp"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_12sdp"
+                android:textSize="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginLeft="@dimen/_2sdp"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimaryDark"
                 android:fontFamily="@font/almendra_sc"
                 android:gravity="center_vertical"
-                android:text="TextViewhow" />
+                android:visibility="visible"
+                android:text="Smeagol" />
+
+            <EditText
+                android:id="@+id/edtProfileName"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:hint="Profile Name"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:textSize="@dimen/_13sdp"
+                android:fontFamily="@font/almendra_sc"
+                app:hintEnabled="true"
+                android:visibility="gone"
+                android:maxLength="12"
+                />
 
 
 
             <ImageView
+                android:id="@+id/imgFlag"
                 android:layout_width="@dimen/_96sdp"
                 android:layout_height="@dimen/_50sdp"
                 app:srcCompat="@drawable/unflag"
                 android:scaleType="centerCrop"
+                android:elevation="@dimen/_20sdp"
                 android:layout_gravity="center"
                 />
 
@@ -91,6 +112,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_200sdp"
+                android:layout_marginLeft="@dimen/_4sdp"
+                android:elevation="@dimen/_20sdp"
                 android:orientation="vertical"
                 >
 
@@ -104,6 +127,16 @@
                     />
 
                 <ImageView
+                    android:id="@+id/imgProfilePicSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/save"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/_45sdp"
+                    />
+
+                <ImageView
                     android:id="@+id/imgProfileNameEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -113,11 +146,31 @@
                     />
 
                 <ImageView
+                    android:id="@+id/imgProfileNameSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/save"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/_45sdp"
+                    />
+
+                <ImageView
                     android:id="@+id/imgFlagEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/edit"
                     android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgFlagSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/save"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/_25sdp"
                     />
 

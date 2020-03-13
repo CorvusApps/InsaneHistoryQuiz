@@ -1,6 +1,7 @@
 package com.pelotheban.insanehistoryquiz;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -16,6 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.mukesh.countrypicker.OnCountryPickerListener;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -326,6 +329,9 @@ public class LeaderBoard extends AppCompatActivity {
 
                 }
 
+                viewHolder.setImage(getApplicationContext(),model.getImagelink());
+                viewHolder.setImageflag(getApplicationContext(),model.getImageflaglink());
+
 
 
             }
@@ -460,6 +466,36 @@ public class LeaderBoard extends AppCompatActivity {
             String score2 = String.valueOf(coins);
 
             txtScoreX.setText(score2);
+
+        }
+
+        public void setImage(Context ctx, final String imageLink){
+
+            if (imageLink != "" && imageLink != null) {
+                ImageView imgRVProfileX = (ImageView) mView.findViewById(R.id.imgRVProfile);
+                Picasso.get().load(imageLink).into(imgRVProfileX); //tutorial had with which got renamed to get but with took ctx as parameter...
+            } else {
+
+                ImageView imgRVProfileX = (ImageView) mView.findViewById(R.id.imgRVProfile);
+                imgRVProfileX.setBackgroundResource(R.drawable.profile);
+
+
+            }
+
+        }
+
+        public void setImageflag(Context ctx, final String imageflagLink){
+
+            if (imageflagLink != "" && imageflagLink != null) {
+                ImageView imgRVFlagX = (ImageView) mView.findViewById(R.id.imgRVFlag);
+                Picasso.get().load(imageflagLink).into(imgRVFlagX); //tutorial had with which got renamed to get but with took ctx as parameter...
+            } else {
+
+                ImageView imgRVFlagX = (ImageView) mView.findViewById(R.id.imgRVFlag);
+                imgRVFlagX.setBackgroundResource(R.drawable.unflag);
+
+
+            }
 
         }
 
