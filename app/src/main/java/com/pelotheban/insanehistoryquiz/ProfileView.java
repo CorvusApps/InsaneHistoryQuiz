@@ -1,7 +1,16 @@
 package com.pelotheban.insanehistoryquiz;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,8 +27,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
 import android.os.CountDownTimer;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +39,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.Random;
 
 public class ProfileView extends AppCompatActivity {
@@ -60,13 +72,19 @@ public class ProfileView extends AppCompatActivity {
     private TextView pfTxtCoinCounterX, pfTxtConStreakX, pfTxtTotalAnswersX, pfTxtLongestStreakX, pfTxtTotalQuestionsX, pfCorrectPercentX;
     private String coinCounterString, conStreakString, totalAnswersString, longestStreakString, totalQuestionsString, correctPercentString;
     private int coinCounter, conStreak, totalAnswers, longestStreak, totalQuestions;
-    Double correctPercent;
+    private Double correctPercent;
+
+    //Profile inputs and outputs
+
+    private ImageView imgProfileX, imgProfileGlowX, imgProfilePicEditX;
+    private Bitmap recievedProfileImageBitmap;
+
 
    //Badges
 
-    ImageView imgLongStreakBadgeX, imgTotalAnsweredBadgeX, imgTotalQuestionsBadgeX;
+    private ImageView imgLongStreakBadgeX, imgTotalAnsweredBadgeX, imgTotalQuestionsBadgeX;
 
-    int longestStreakBadgeLevel;
+    private int longestStreakBadgeLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +104,65 @@ public class ProfileView extends AppCompatActivity {
         pfTxtTotalQuestionsX = findViewById(R.id.pfTxtTotalQuestions);
         pfCorrectPercentX = findViewById(R.id.pfCorrectPercent);
 
-        //pop-up
+        //Profile inputs and outputs
+
+        imgProfileGlowX = findViewById(R.id.imgProfileGlow);
+        imgProfileX = findViewById(R.id.imgProfile);
+        imgProfileX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgProfileX.setVisibility(View.GONE);
+                imgProfileGlowX.setVisibility(View.VISIBLE);
+
+                CountDownTimer profileTimer = new CountDownTimer(300, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+
+                        imgProfileGlowX.setVisibility(View.GONE);
+                        imgProfileX.setVisibility(View.VISIBLE);
+                        addImage();
+                    }
+                }.start();
+
+
+            }
+        });
+
+        imgProfilePicEditX = findViewById(R.id.imgProfilePicEdit);
+        imgProfilePicEditX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgProfileX.setVisibility(View.GONE);
+                imgProfileGlowX.setVisibility(View.VISIBLE);
+
+                CountDownTimer profileTimer = new CountDownTimer(300, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+
+                        imgProfileGlowX.setVisibility(View.GONE);
+                        imgProfileX.setVisibility(View.VISIBLE);
+                        addImage();
+                    }
+                }.start();
+            }
+        });
+
+
+       //pop-up
         fabPopUpPFX = findViewById(R.id.fabPopUpPF);
         fabPopUpPFX.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,8 +351,125 @@ public class ProfileView extends AppCompatActivity {
             }
         });
 
+    }
+
+    //////////////////Profile Edit and Display Methods BEGIN /////////////////////////////////////////////////
+
+    private void addImage() {
+
+        //Toast.makeText(ProfileView.this, "Here", Toast.LENGTH_SHORT).show();
+
+        if(ActivityCompat.checkSelfPermission(ProfileView.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(new String[]
+                            {Manifest.permission.READ_EXTERNAL_STORAGE},
+                    1000);
+        }else {
+
+            getChosenImage();
+
+        }
 
     }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == 1000) {
+
+            if(grantResults.length >0 && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED){
+
+                getChosenImage();
+
+            }
+        }
+    }
+
+    private void getChosenImage() {
+
+        // gets image from internal storage - GALLERY
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 2000);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 2000) {
+
+            if(resultCode == Activity.RESULT_OK) {
+
+                //Do something with captured image
+
+                try {
+
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(selectedImage,
+                            filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex); // path to the Bitmap created from pulled image
+                    cursor.close();
+                    recievedProfileImageBitmap = BitmapFactory.decodeFile(picturePath);
+
+                    // getting to the rotation wierdness from large files using the picturePath to id the file
+                    int degree = 0;
+                    ExifInterface exif = null;
+                    try {
+                        exif = new ExifInterface(picturePath);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    if (exif != null) {
+                        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
+                        if (orientation != -1) {
+                            // We only recognise a subset of orientation tag values.
+                            switch (orientation) {
+                                case ExifInterface.ORIENTATION_ROTATE_90:
+                                    degree = 90;
+                                    break;
+                                case ExifInterface.ORIENTATION_ROTATE_180:
+                                    degree = 180;
+                                    break;
+                                case ExifInterface.ORIENTATION_ROTATE_270:
+                                    degree = 270;
+                                    break;
+                            }
+
+                        }
+                    }
+
+                    // resizing the image to a standard size that is easy on the storage
+                    recievedProfileImageBitmap = Bitmap.createScaledBitmap(recievedProfileImageBitmap, 400,400,true);
+
+                    // correcting the rotation on the resized file using the degree variable of how much to fix we got above
+                    Bitmap bitmap = recievedProfileImageBitmap;
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(degree);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0,bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+
+                    imgProfileX.setImageBitmap(bitmap);
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+
+    }
+
+    //////////////////Profile Edit and Display Methods ENDS /////////////////////////////////////////////////
 
     private void alertDialogLogOut() {
 

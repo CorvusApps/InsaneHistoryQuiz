@@ -53,6 +53,15 @@
                 android:scaleType="centerCrop"
                 />
 
+            <ImageView
+                android:id="@+id/imgProfileGlow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/profileglow"
+                android:visibility="gone"
+                android:scaleType="centerCrop"
+                />
+
             </com.github.florent37.shapeofview.shapes.CircleView>
 
             <TextView
@@ -86,6 +95,7 @@
                 >
 
                 <ImageView
+                    android:id="@+id/imgProfilePicEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/edit"
@@ -94,6 +104,7 @@
                     />
 
                 <ImageView
+                    android:id="@+id/imgProfileNameEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/edit"
@@ -102,6 +113,7 @@
                     />
 
                 <ImageView
+                    android:id="@+id/imgFlagEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/edit"
