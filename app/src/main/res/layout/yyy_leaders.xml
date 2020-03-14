@@ -7,13 +7,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginTop="@dimen/_3sdp"
+    android:layout_marginTop="@dimen/_1sdp"
     android:layout_marginBottom="0dp"
-    android:layout_marginLeft="@dimen/_50sdp"
-    android:layout_marginRight="@dimen/_60sdp"
+    android:layout_marginLeft="@dimen/_40sdp"
+    android:layout_marginRight="@dimen/_30sdp"
     android:backgroundTint="@color/coltranslucent"
-
+    android:elevation="0dp"
     card_view:cardUseCompatPadding="false"
+
 
 
     >
@@ -24,6 +25,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+
         >
 
     <TextView
@@ -31,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/_11sdp"
         android:gravity="right"
         android:text="10" />
@@ -65,7 +67,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="13"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/_11sdp"
         android:paddingRight="@dimen/_3sdp"
         android:text="Player" />
@@ -84,7 +86,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="3"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/_11sdp"
         android:gravity="right"
         android:paddingRight="@dimen/_3sdp"

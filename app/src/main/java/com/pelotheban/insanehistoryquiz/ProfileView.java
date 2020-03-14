@@ -72,7 +72,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
    ///Firebase
 
-   private String userUID, profileName;
+   private String userUID, profileName, countryName;
    private DatabaseReference profileReference;
    private Query profileQuery;
 
@@ -113,6 +113,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
     private ImageView imgFlagX, imgFlagEditX, imgFlagSaveX;
     private String imageFlagIdentifier, imageFlagLink, imageFlagLinkToDelete;
     private String imageFlagPresentToggle, alteredFlagPicToggle;
+    private TextView txtCountryX;
 
 
 
@@ -275,6 +276,8 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             }
         });
 
+        txtCountryX = findViewById(R.id.txtCountry);
+
         imgFlagEditX = findViewById(R.id.imgFlagEdit);
         imgFlagEditX.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -436,8 +439,15 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                         imageFlagPresentToggle = "no";
                     }
 
-                    //Toast.makeText(ProfileView.this, imagePresentToggle, Toast.LENGTH_LONG).show();
+                    try {
 
+                        countryName = userPs.child("countryname").getValue().toString();
+                        txtCountryX.setText(countryName);
+
+                    } catch (Exception e) {
+
+                        txtCountryX.setText("Global Citizen"); // populates the text box
+                    }
                 }
 
                 pfTxtCoinCounterX.setText(coinCounterString);
@@ -480,6 +490,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
     @Override
     public  void onSelectCountry (Country country) {
         imgFlagX.setImageResource(country.getFlag());
+        txtCountryX.setText(country.getName());
         alteredFlagPicToggle = "yes";
 
     }
@@ -497,8 +508,8 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         fabPopUpFAQminiPFtX.setVisibility(View.VISIBLE);
         fabPopUpLogOutminiPFX.setVisibility(View.VISIBLE);
 
-        txtFAQButtonPFX.setVisibility(View.VISIBLE);
-        txtLogoutButtonPFX.setVisibility(View.VISIBLE);
+       // txtFAQButtonPFX.setVisibility(View.VISIBLE);
+       // txtLogoutButtonPFX.setVisibility(View.VISIBLE);
 
         fabPopUpLogOutminiPFX.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -765,6 +776,9 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         pd.setCancelable(false);
         pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
         pd.show();
+
+        //First upload name which is much simpler
+        profileReference.getRef().child("countryname").setValue(txtCountryX.getText().toString());
 
         // Get the data from an ImageView as bytes; does not crash when user does not select and image because takes default image provided by the app
         imgFlagX.setDrawingCacheEnabled(true);

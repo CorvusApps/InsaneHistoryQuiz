@@ -24,8 +24,10 @@
         android:text="TextView" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        >
 
         <LinearLayout
             android:layout_width="@dimen/_100sdp"
@@ -97,16 +99,35 @@
                 />
 
 
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                >
             <ImageView
                 android:id="@+id/imgFlag"
-                android:layout_width="@dimen/_96sdp"
-                android:layout_height="@dimen/_50sdp"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_20sdp"
+
                 app:srcCompat="@drawable/unflag"
                 android:scaleType="centerCrop"
                 android:elevation="@dimen/_20sdp"
-                android:layout_gravity="center"
+                android:layout_gravity="left"
                 />
+
+            <TextView
+                android:id="@+id/txtCountry"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginLeft="@dimen/_2sdp"
+                android:textSize="@dimen/_8sdp"
+                android:fontFamily="@font/almendra_sc"
+                android:text="United States of America"
+                android:textColor="@color/colorPrimaryDark"
+
+                />
+
+            </LinearLayout>
 
         </LinearLayout>
             <LinearLayout
@@ -194,7 +215,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_38sdp"
                 >
 
                 <ImageView
@@ -219,7 +240,7 @@
                     android:id="@+id/imageView2"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginLeft="0dp"
                     app:srcCompat="@drawable/checkicon" />
 
                 <TextView
@@ -238,7 +259,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_30sdp"
                 >
 
                 <ImageView
@@ -263,7 +284,7 @@
                     android:id="@+id/imageView4"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginLeft="0dp"
                     app:srcCompat="@drawable/longeststreak" />
 
                 <TextView
@@ -282,7 +303,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_13sdp"
                 >
 
                 <ImageView
@@ -307,7 +328,7 @@
                     android:id="@+id/imageView6"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginLeft="0dp"
                     app:srcCompat="@drawable/answerrate" />
 
                 <TextView

@@ -11,222 +11,271 @@
     android:background="@drawable/wallbackground"
     tools:showIn="@layout/activity_leader_board">
 
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:background="@color/colorPrimary"
+       >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_35sdp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    app:srcCompat="@drawable/goldcoinsicon"
+                    android:gravity="bottom"
+                    />
+
+                <TextView
+                    android:id="@+id/lbTxtCoinCounter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:fontFamily="@font/almendra_sc"
+                    android:gravity="bottom"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_18sdp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    app:srcCompat="@drawable/leaders"
+                    android:gravity="bottom"
+                    />
+
+                <TextView
+                    android:id="@+id/lbTxtMostRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:fontFamily="@font/almendra_sc"
+                    android:gravity="bottom"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_18sdp">
+
+                </TextView>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    app:srcCompat="@drawable/checkicon"
+                    android:gravity="bottom"
+                    />
+
+                <TextView
+                    android:id="@+id/lbTxtLongestStreak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:fontFamily="@font/almendra_sc"
+                    android:gravity="bottom"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_18sdp"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+
+            <Button
+                android:id="@+id/btnMostPlayed"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="Most Gold" />
+
+            <Button
+                android:id="@+id/btnMostPlayed2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/colorAccent"
+                android:visibility="gone"
+                android:text="Most Gold" />
+
+            <Button
+                android:id="@+id/btnMostRight"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="Most Right" />
+
+            <Button
+                android:id="@+id/btnMostRight2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/colorAccent"
+                android:visibility="gone"
+                android:text="Most Right" />
+
+            <Button
+                android:id="@+id/btnLongestStreak"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="Longest Streak" />
+
+            <Button
+                android:id="@+id/btnLongestStreak2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/colorAccent"
+                android:visibility="gone"
+                android:text="Longest Streak" />
+        </LinearLayout>
+
+   </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_2sdp"
+        android:background="@color/colorPrimaryDark"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_35sdp">
+        android:layout_height="@dimen/_52sdp"
+        android:background="@drawable/leaderboardtoptwo"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:layout_marginLeft="@dimen/_9sdp"
+        android:layout_marginRight="@dimen/_9sdp"
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            >
-
-            <ImageView
-                android:layout_width="@dimen/_18sdp"
-                android:layout_height="@dimen/_18sdp"
-                app:srcCompat="@drawable/goldcoinsicon"
-                android:gravity="bottom"
-                />
-
-            <TextView
-                android:id="@+id/lbTxtCoinCounter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10"
-                android:gravity="bottom"
-                android:textStyle="bold"
-                android:textSize="@dimen/_18sdp"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            >
-
-            <ImageView
-                android:layout_width="@dimen/_18sdp"
-                android:layout_height="@dimen/_18sdp"
-                app:srcCompat="@drawable/leaders"
-                android:gravity="bottom"
-                />
-
-            <TextView
-                android:id="@+id/lbTxtMostRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10"
-                android:gravity="bottom"
-                android:textStyle="bold"
-                android:textSize="@dimen/_18sdp">
-
-            </TextView>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-
-            >
-
-            <ImageView
-                android:layout_width="@dimen/_18sdp"
-                android:layout_height="@dimen/_18sdp"
-                app:srcCompat="@drawable/checkicon"
-                android:gravity="bottom"
-                />
-
-            <TextView
-                android:id="@+id/lbTxtLongestStreak"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10"
-                android:gravity="bottom"
-                android:textStyle="bold"
-                android:textSize="@dimen/_18sdp"
-                />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:orientation="vertical"
 
         >
 
-
-        <Button
-            android:id="@+id/btnMostPlayed"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:text="Most Gold" />
-
-        <Button
-            android:id="@+id/btnMostPlayed2"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/colorAccent"
-            android:visibility="gone"
-            android:text="Most Gold" />
-
-        <Button
-            android:id="@+id/btnMostRight"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:text="Most Right" />
-
-        <Button
-            android:id="@+id/btnMostRight2"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/colorAccent"
-            android:visibility="gone"
-            android:text="Most Right" />
-
-        <Button
-            android:id="@+id/btnLongestStreak"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:text="Longest Streak" />
-
-        <Button
-            android:id="@+id/btnLongestStreak2"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/colorAccent"
-            android:visibility="gone"
-            android:text="Longest Streak" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:background="@drawable/leaderboardtop"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_gravity="bottom"
-
-        >
-
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Rank"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textSize="@dimen/_18sdp"
+            android:fontFamily="@font/almendra_sc"
+            android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:layout_marginLeft="@dimen/_50sdp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_12sdp"
-
+            android:text="Leaderboard"
+            android:gravity="center"
             />
 
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="13"
-            android:text="Player"
-            android:textStyle="bold"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_12sdp"
 
-            />
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_marginLeft="@dimen/_9sdp"
+            android:layout_marginRight="@dimen/_9sdp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Score"
-            android:textStyle="bold"
-            android:gravity="right"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:layout_marginRight="@dimen/_60sdp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_12sdp"
+            >
 
-            />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Rank"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginLeft="@dimen/_36sdp"
+                android:fontFamily="@font/almendra_sc"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/_12sdp"
+
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="13"
+                android:text="Player"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:fontFamily="@font/almendra_sc"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/_12sdp"
+
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Score"
+                android:textStyle="bold"
+                android:gravity="right"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_25sdp"
+                android:fontFamily="@font/almendra_sc"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/_12sdp"
+
+                />
 
 
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -239,7 +288,9 @@
 
         android:scrollbars="vertical"
         android:visibility="visible"
-        android:background="@drawable/leaderboard"
+        android:background="@drawable/leaderboardtwo"
+        android:layout_marginLeft="@dimen/_6sdp"
+        android:layout_marginRight="@dimen/_9sdp"
         >
 
 

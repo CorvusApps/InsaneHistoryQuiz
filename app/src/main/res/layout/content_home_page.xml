@@ -13,10 +13,16 @@
     tools:context=".MainActivity">
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_16sdp"
+        android:background="@color/colorPrimary"
+        />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_height="@dimen/_45sdp"
+
+        android:background="@color/colorPrimary"
         >
 
         <ImageView
@@ -56,6 +62,11 @@
             />
 
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_2sdp"
+        android:background="@color/colorPrimaryDark"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
