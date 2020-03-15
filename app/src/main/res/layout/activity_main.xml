@@ -24,11 +24,11 @@
         android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-
+        android:fontFamily="@font/almendra_sc"
         android:layout_marginTop="@dimen/_30sdp"
-        android:text="History was not made by the meek..."
+        android:text="...Because history is stranger, bloodier and crazier then fiction!"
         android:layout_marginLeft="@dimen/_8sdp"
-
+        android:textSize="@dimen/_18sdp"
         android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView2"

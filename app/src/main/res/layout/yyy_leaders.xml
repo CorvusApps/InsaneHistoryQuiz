@@ -34,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/almendra_sc"
         android:textSize="@dimen/_11sdp"
         android:gravity="right"
         android:text="10" />
@@ -68,6 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="13"
         android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/almendra_sc"
         android:textSize="@dimen/_11sdp"
         android:paddingRight="@dimen/_3sdp"
         android:text="Player" />
@@ -87,6 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/almendra_sc"
         android:textSize="@dimen/_11sdp"
         android:gravity="right"
         android:paddingRight="@dimen/_3sdp"

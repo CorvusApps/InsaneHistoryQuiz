@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
             // For login success snackbar
             ConstraintLayout loutMainActivityX;
 
+
+    // Place holder test stuff - not used for anything right now
     TextView txtFBtestX;
 
     /// For default value to be written to Firebase
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private String userUID;
     private DatabaseReference profileReference;
 
-    StringBuilder randomStringBuilder;
+    StringBuilder randomStringBuilder; // needed to generate random user name
     TextView txtPlacehoderX;
     String randomProfileName;
 
@@ -109,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                btnGoogleLoginX.performClick();
+                btnGoogleLoginX.performClick(); // this doesn't really work so doing it directly below by just going to googlesignin
 
                 googleSignIn();
 
@@ -147,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
+// The onStart test to see if already logged in and if so goes straight to home page
     @Override
     protected void onStart() {
         super.onStart();
@@ -171,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+///////////////////// BEGIN GOOGLE SIGN IN METHODS ///////////////////////////////////
     private void googleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, 101);
@@ -235,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
 
-                //Snackbar.make(loutLoginX, e.getMessage(), Snackbar.LENGTH_INDEFINITE).show();
+
             }
         });
 
@@ -273,7 +275,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                         randomProfileName = txtPlacehoderX.getText().toString();
                         profileReference.getRef().child("profilename").setValue(randomProfileName); //puts the generated profilename to FB
-
+                        // in theory could have added the initial coin donation and sort settings here but originally done
+                        // in homepage so kept it there to avoid complications of moving it
                     }
                 }
 
@@ -307,14 +310,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
-    public void onBackPressed() {
-
-
-
-    }
-
     private void loginSnackbar(){
 
         Snackbar snackbar;
@@ -332,6 +327,18 @@ public class MainActivity extends AppCompatActivity {
         textView.setTextSize(18);
 
     }
+
+    ////// END OF GOOGLE LOGIN METHODS //////////////////////////////////////////////////////////////
+
+    @Override
+    @SuppressLint("RestrictedApi") // apparently onBackPressed is depricated but this suppresses the error
+    public void onBackPressed() {
+
+    // basically makes the back arrow non-functional
+
+    }
+
+
 
 
 }

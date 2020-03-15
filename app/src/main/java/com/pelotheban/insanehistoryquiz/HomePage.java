@@ -151,7 +151,10 @@ public class HomePage extends AppCompatActivity {
 
                             userReference.getRef().child("coins").setValue(80);
                             userReference.getRef().child("coinsgranttoggle").setValue("yes");
-
+                            userReference.getRef().child("totalansweredsort").setValue(1000);
+                            userReference.getRef().child("longeststreaksort").setValue(1000);
+                            userReference.getRef().child("coinsownedsort").setValue(-80);
+                            txtCoinCounterX.setText("80");
 
                         }
 
@@ -162,6 +165,10 @@ public class HomePage extends AppCompatActivity {
                         userReference.getRef().child("coins").setValue(80);
                         userReference.getRef().child("coinsgranttoggle").setValue("yes");
                         txtCoinCounterX.setText("80");
+                        userReference.getRef().child("totalansweredsort").setValue(1000);
+                        userReference.getRef().child("longeststreaksort").setValue(1000);
+                        userReference.getRef().child("coinsownedsort").setValue(-80);
+
 
                         //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }

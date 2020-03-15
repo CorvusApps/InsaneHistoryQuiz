@@ -536,8 +536,8 @@ public class LeaderBoard extends AppCompatActivity {
         fabPopUpFAQminiLBtX.setVisibility(View.VISIBLE);
         fabPopUpLogOutminiLBX.setVisibility(View.VISIBLE);
 
-        txtFAQButtonLBX.setVisibility(View.VISIBLE);
-        txtLogoutButtonLBX.setVisibility(View.VISIBLE);
+        txtFAQButtonLBX.setVisibility(View.GONE);
+        txtLogoutButtonLBX.setVisibility(View.GONE);
 
         fabPopUpLogOutminiLBX.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -15,7 +15,7 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:orientation="vertical"
-       android:background="@color/colorPrimary"
+       android:background="@drawable/beveledbackground"
        >
 
         <LinearLayout
@@ -126,6 +126,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/colorPrimaryDark"
+                android:fontFamily="@font/almendra_sc"
                 android:text="Most Gold" />
 
             <Button
@@ -137,6 +138,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/colorAccent"
+                android:fontFamily="@font/almendra_sc"
                 android:visibility="gone"
                 android:text="Most Gold" />
 
@@ -149,6 +151,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/colorPrimaryDark"
+                android:fontFamily="@font/almendra_sc"
                 android:text="Most Right" />
 
             <Button
@@ -160,6 +163,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/colorAccent"
+                android:fontFamily="@font/almendra_sc"
                 android:visibility="gone"
                 android:text="Most Right" />
 
@@ -172,6 +176,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/colorPrimaryDark"
+                android:fontFamily="@font/almendra_sc"
                 android:text="Longest Streak" />
 
             <Button
@@ -183,6 +188,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/colorAccent"
+                android:fontFamily="@font/almendra_sc"
                 android:visibility="gone"
                 android:text="Longest Streak" />
         </LinearLayout>
