@@ -16,11 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".AddPanels"></activity>
+        <activity android:name=".AddBadges" />
         <activity
             android:name=".LeaderBoard"
             android:label="@string/title_activity_leader_board"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
             android:name=".ProfileView"
             android:label="@string/title_activity_profile_view"
@@ -62,7 +64,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
