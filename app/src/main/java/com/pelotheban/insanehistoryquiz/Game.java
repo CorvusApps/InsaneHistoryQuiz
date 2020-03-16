@@ -112,6 +112,21 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private int eraAnsweredEarlyModern;
     private int eraAnsweredModern;
 
+            //// badges starte
+
+            private String badgesupString, badgestrString, badgetrtString, badgewinString;
+            private int badgesup, badgestr, badgetrt, badgewin; // badge level already in firebase
+            private int badgesuplev, badgestrlev, badgetrtlev, badgewinlev; // badge level user is entitled to based on latest right answer
+            private int newbadgesup, newbadgestr, newbadgetrt, newbadgewin; // badge level that will get written to FB (only a number if bigger than current)
+
+            private String badgexantString, badgexmedString, badgexrenString, badgexenlString, badgexmodString, badgexconString;
+            private int badgexant, badgexmed, badgexren, badgexenl, badgexmod, badgexcon;
+            private int badgexantlev, badgexmedlev, badgexrenlev, badgexenllev, badgexmodlev, badgexconlev;
+            private int newbadgexant, newadgexmed, newbadgexren, newbadgexenl, newbadgexmod, newbadgexcon;
+
+
+            //// badges end
+
     private TextView txtTimerX;
     private ImageView imgHPTimerX, imgHPTimer2X, imgHPTimer3X, imgHPTimer4X, imgHPTimer5X;
 
@@ -320,13 +335,66 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                        // Toast.makeText(Game.this, "query complete", Toast.LENGTH_SHORT).show();
 
-
-
-
                     } catch (Exception e) {
 
                         //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
+
+                    //// CURRENT badge checks - get value in firebase for later comparison to what uwer should have after last right answer
+
+                    try {
+                        badgesupString = userDs.child("badgesup").getValue().toString();
+                        badgesup = Integer.valueOf(badgesupString);
+                    } catch (Exception e) {
+                    }
+                    try {
+                        badgestrString = userDs.child("badgestr").getValue().toString();
+                        badgestr = Integer.valueOf(badgestrString);
+                    } catch (Exception e) {
+                    }
+                    try {
+                        badgetrtString = userDs.child("badgetrt").getValue().toString();
+                        badgetrt = Integer.valueOf(badgetrtString);
+                    } catch (Exception e) {
+                    }
+                    try {
+                        badgewinString = userDs.child("badgewin").getValue().toString();
+                        badgewin = Integer.valueOf(badgewinString);
+                    } catch (Exception e) {
+                    }
+
+                    try {
+                        badgexantString = userDs.child("badgexant").getValue().toString();
+                        badgexant = Integer.valueOf(badgexantString);
+                    } catch (Exception e) {
+                    }
+                    try {
+                        badgexmedString = userDs.child("badgexmed").getValue().toString();
+                        badgexmed = Integer.valueOf(badgexmedString);
+                    } catch (Exception e) {
+                    }
+                    try {
+                        badgexrenString = userDs.child("badgexren").getValue().toString();
+                        badgexren = Integer.valueOf(badgexrenString);
+                    } catch (Exception e) {
+                    }
+                    try {
+                        badgexenlString = userDs.child("badgexenl").getValue().toString();
+                        badgexenl = Integer.valueOf(badgexenlString);
+                    } catch (Exception e) {
+                    }
+                    try {
+                        badgexmodString = userDs.child("badgexmod").getValue().toString();
+                        badgexmod = Integer.valueOf(badgexmodString);
+                    } catch (Exception e) {
+                    }
+                    try {
+                        badgexconString = userDs.child("badgexcon").getValue().toString();
+                        badgexcon = Integer.valueOf(badgexconString);
+                    } catch (Exception e) {
+                    }
+
+
 
 
                 }
@@ -564,12 +632,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 userReference.getRef().child("eraansmodern").setValue(eraAnsweredModern);
                             }
 
-                            // takes user to expanded answer page carrying over values needed to determing right screen to use and the actual expanded answer
-                            Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                            intent.putExtra("iiiexpanded", ExpandedAnswerPut);
-                            intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                            intent.putExtra("lllepoch", ExpAnsEpochPut);
-                            startActivity(intent);
+                            badgeAward();
+
+
 
                         }
                     }.start();
@@ -807,6 +872,99 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
 
     }  // END OF ON CREATE ///////////////////////////////////////////////////////////////////////////////////
+
+    private void badgeAward() {
+
+       //// checks to see what level of badge the user is entitled to now
+        if (coinsOwned > 999) {
+            badgesuplev = 5;
+        } else if (coinsOwned > 499) {
+            badgesuplev = 4;
+        } else if (coinsOwned > 224) {
+            badgesuplev = 3;
+        } else if (coinsOwned > 174) {
+            badgesuplev = 2;
+        } else if (coinsOwned > 124) {
+            badgesuplev = 1;
+        } else {
+            badgesuplev = 0;
+        }
+
+        if (longestStreak > 49) {
+            badgestrlev = 5;
+        } else if (longestStreak > 29) {
+            badgestrlev = 4;
+        } else if (longestStreak > 19) {
+            badgestrlev = 3;
+        } else if (longestStreak > 9) {
+            badgestrlev = 2;
+        } else if (longestStreak > 2) {
+            badgestrlev = 1;
+        } else {
+            badgestrlev = 0;
+        }
+
+        if (totalAnswered > 499) {
+            badgetrtlev = 5;
+        } else if (totalAnswered > 249) {
+            badgetrtlev = 4;
+        } else if (totalAnswered > 99) {
+            badgetrtlev = 3;
+        } else if (totalAnswered > 24) {
+            badgetrtlev = 2;
+        } else if (totalAnswered > 4) {
+            badgetrtlev = 1;
+        } else {
+            badgetrtlev = 0;
+        }
+
+        if (totalQuestions > 50){
+            double winrate = totalAnswered / totalQuestions;
+
+            if (winrate > .89) {
+                badgewinlev = 5;
+            } else if (winrate > .79) {
+                badgewinlev = 4;
+            } else if (winrate > .69) {
+                badgewinlev = 3;
+            } else if (winrate > .59) {
+                badgewinlev = 2;
+            } else if (winrate > .49) {
+                badgewinlev = 1;
+            } else {
+                badgewinlev = 0;
+            }
+
+        }
+
+        /// checks to see if current badge level is more than in Firebase and if so write that new level and pass on to expanded answer
+        try {
+            if (badgetrtlev > badgetrt) {
+                newbadgetrt = badgetrtlev;
+                userReference.getRef().child("badgetrt").setValue(newbadgetrt);
+            }
+        } catch (Exception e) {
+        }
+
+
+        /// trainsition to extended answer section
+
+        // takes user to expanded answer page carrying over values needed to determing right screen to use and the actual expanded answer
+        Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+        intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+        intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+        intent.putExtra("lllepoch", ExpAnsEpochPut);
+
+        /// badge components
+
+        if (newbadgetrt > 0) {
+            intent.putExtra("newbadgetrt", newbadgetrt);
+        }
+
+        startActivity(intent);
+
+
+    }
 
     private void nextQuestions (){
 

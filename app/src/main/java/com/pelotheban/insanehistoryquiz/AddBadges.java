@@ -18,8 +18,11 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -47,7 +50,7 @@ public class AddBadges extends AppCompatActivity {
     private ProgressDialog pd;
     private String badgeImageIdentifier;
     private String badgeImageLink;
-    //DatabaseReference badgeReference;
+    private EditText edtBadgeNameX;
 
 
 
@@ -74,6 +77,10 @@ public class AddBadges extends AppCompatActivity {
                 uploadBadgeImageToServer ();
             }
         });
+
+        edtBadgeNameX = findViewById(R.id.edtBadgeName);
+        edtBadgeNameX.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        edtBadgeNameX.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
 
     }
@@ -263,11 +270,13 @@ public class AddBadges extends AppCompatActivity {
 
         //Toast.makeText(AddBadges.this,badgeImageIdentifier, Toast.LENGTH_LONG).show();
 
+        String badgeName = edtBadgeNameX.getText().toString();
+
         HashMap<String, Object> dataMap = new HashMap<>();
 
         dataMap.put("badgeimagelink", badgeImageLink);
         dataMap.put("badgeimageidentifier", badgeImageIdentifier);
-       // dataMap.put("badgeuidx", badgeUidX);
+        dataMap.put("badgename", badgeName);
 
         dbPushReference.setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

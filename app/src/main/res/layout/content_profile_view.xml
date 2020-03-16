@@ -312,6 +312,7 @@
                     android:id="@+id/imageView5"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_30sdp"
+                    android:scaleType="centerCrop"
                     android:layout_marginLeft="@dimen/_2sdp"
                     app:srcCompat="@drawable/totalquestions" />
 
@@ -428,7 +429,7 @@
                         />
 
                     <ImageView
-                        android:id="@+id/imgTotalQuestionsBadge"
+                        android:id="@+id/imgWinPercentageBadge"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -466,7 +467,7 @@
 
                     >
                     <ImageView
-                        android:id="@+id/imgSupporterBadge2"
+                        android:id="@+id/imgAntiquityBadge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -477,7 +478,7 @@
                         />
 
                     <ImageView
-                        android:id="@+id/imgLongStreakBadge2"
+                        android:id="@+id/imgMedievalBadge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -487,18 +488,18 @@
                         />
 
                     <ImageView
-                        android:id="@+id/imgTotalAnsweredBadge2"
+                        android:id="@+id/imgRenaissanceBadge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginLeft="@dimen/_1sdp"
                         android:layout_marginRight="@dimen/_1sdp"
-                        app:srcCompat="@drawable/xbbabadgemedieval"
+                        app:srcCompat="@drawable/xccabadgerenaissance"
 
                         />
 
                     <ImageView
-                        android:id="@+id/imgTotalQuestionsBadge2"
+                        android:id="@+id/imgEnlightenmentBadge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -519,7 +520,7 @@
                     >
 
                     <ImageView
-                        android:id="@+id/imgLongStreakBadgeblank"
+                        android:id="@+id/imgSpaceHolderBadge1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -527,14 +528,14 @@
                         android:layout_marginLeft="@dimen/_1sdp"
                         android:layout_marginRight="@dimen/_1sdp"
                         android:visibility="invisible"
-                        app:srcCompat="@drawable/xeeabadgemodern"
+                        app:srcCompat="@drawable/badgeblank"
 
                         />
 
 
 
                     <ImageView
-                        android:id="@+id/imgLongStreakBadge3"
+                        android:id="@+id/imgModernBadge"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -546,7 +547,7 @@
                         />
 
                     <ImageView
-                        android:id="@+id/imgTotalAnsweredBadge3"
+                        android:id="@+id/imgContemporaryBadge"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -558,7 +559,7 @@
                         />
 
                     <ImageView
-                        android:id="@+id/imgLongStreakBadgeblank2"
+                        android:id="@+id/imgSpaceHolderBadge2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

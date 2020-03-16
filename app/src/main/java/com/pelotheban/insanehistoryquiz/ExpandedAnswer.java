@@ -29,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ExpandedAnswer extends AppCompatActivity {
 
@@ -57,6 +58,10 @@ public class ExpandedAnswer extends AppCompatActivity {
     private int coinsOwned, consStreak;
     private FirebaseAuth mAuthEA;
 
+    // badges
+
+    private int newbadgetrt;
+
     //pop up
 
     String popupMenuToggle;
@@ -69,6 +74,11 @@ public class ExpandedAnswer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expanded_answer);
+
+        //badges - happen first
+
+        newbadgetrt = getIntent().getIntExtra("newbadgetrt", 0);
+        Toast.makeText(ExpandedAnswer.this, "Your new trtbadge is:  " + newbadgetrt, Toast.LENGTH_LONG).show();
 
         /// sizing the display to have both the question and then the answer mostly in the center
 

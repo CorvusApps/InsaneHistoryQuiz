@@ -119,7 +119,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
    //Badges
 
-    private ImageView imgLongStreakBadgeX, imgTotalAnsweredBadgeX, imgTotalQuestionsBadgeX;
+    private ImageView imgSupporterBadgeX, imgLongStreakBadgeX, imgTotalAnsweredBadgeX, imgTotalQuestionsBadgeX;
 
     private int longestStreakBadgeLevel;
 
@@ -453,10 +453,10 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
         //////////////// POPULATING ALL COUNTERS ENDS ///////////////////////////////////////////
 
-
+        imgSupporterBadgeX = findViewById(R.id.imgSupporterBadge);
         imgLongStreakBadgeX = findViewById(R.id.imgLongStreakBadge);
         imgTotalAnsweredBadgeX = findViewById(R.id.imgTotalAnsweredBadge);
-        imgTotalQuestionsBadgeX = findViewById(R.id.imgTotalQuestionsBadge);
+        imgTotalQuestionsBadgeX = findViewById(R.id.imgWinPercentageBadge);
     }
 
     /////////////////////////////////////////END OF ONCREAT /////////////////////////////////////////////////////////
