@@ -41,7 +41,7 @@ import android.widget.Toast;
 
 public class LeaderBoard extends AppCompatActivity {
 
-
+    // basic UI set up
     private AlertDialog dialog;
     private LinearLayout loutLeaderBoardX;
 
@@ -104,7 +104,7 @@ public class LeaderBoard extends AppCompatActivity {
         //sortLBQuery = lbReference.orderByChild("totalquestions");
         sortLBQuery = lbReference.orderByChild(mSorting2);
 
-        //counters
+        //counters for the current user that go on top of buttons - NOT the ones in recyclerview
 
         lbTxtCoinCounterX = findViewById(R.id.lbTxtCoinCounter);
         lbTxtMostRightX = findViewById(R.id.lbTxtMostRight);
@@ -149,10 +149,7 @@ public class LeaderBoard extends AppCompatActivity {
                     } catch (Exception e) {
 
                     }
-
                 }
-
-
             }
 
             @Override
@@ -160,6 +157,8 @@ public class LeaderBoard extends AppCompatActivity {
 
             }
         });
+
+        ///// END OF COUNTERS SECTION /////////////////////////////////////////////////////
 
         //pop up
         fabPopUpLBX = findViewById(R.id.fabPopUpLB);
@@ -183,14 +182,7 @@ public class LeaderBoard extends AppCompatActivity {
 
         /// end of pop up
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        /////////////////////////// RECYCLER VIEW SECTION BEGINS - includes buttons to select recycler views //////////////
 
         rcvLongestStreakX = findViewById(R.id.rcvLongestStreak);
 
@@ -205,7 +197,7 @@ public class LeaderBoard extends AppCompatActivity {
         btnMostRight2X = findViewById(R.id.btnMostRight2);
         btnLongestStreak2X = findViewById(R.id.btnLongestStreak2);
 
-
+        /// these button visibility combos play off the shared pref so work when user comes back to this screen at a later time
         if (boardToggle.equals("1")) {
             btnLongestStreakX.setVisibility(View.GONE);
             btnLongestStreak2X.setVisibility(View.VISIBLE);
@@ -279,8 +271,6 @@ public class LeaderBoard extends AppCompatActivity {
             }
         });
 
-
-
         btnLongestStreakX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -296,14 +286,12 @@ public class LeaderBoard extends AppCompatActivity {
 
                 recreate(); // restart activity to take effect
 
-
-
-
             }
         });
 
-
-
+        /// note - eventhough rv called longstreak actually covers all the views - legacy name from earlier approach
+        //////////////////////// START ------> ACTUAL RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
+        /////////////////// includes: viewholder, sort, expoloding card view dialog, functions from dialog //////////////////
         final FirebaseRecyclerAdapter<ZZZjcLBlongeststreak, LeaderBoard.ZZZjcLBlongstreakViewHolder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<ZZZjcLBlongeststreak, LeaderBoard.ZZZjcLBlongstreakViewHolder>
                 (ZZZjcLBlongeststreak.class,R.layout.yyy_leaders, LeaderBoard.ZZZjcLBlongstreakViewHolder.class,sortLBQuery) {
@@ -358,9 +346,6 @@ public class LeaderBoard extends AppCompatActivity {
                     @Override
                     public void onItemClick(View view, int position) {
 
-
-
-
                     }
 
                 });
@@ -375,11 +360,7 @@ public class LeaderBoard extends AppCompatActivity {
         // The onclick methods were in the broader recycler view methods - this calls for the adapter on everything
         rcvLongestStreakX.setAdapter(firebaseRecyclerAdapter);
 
-
     }
-
-    //////////////////////// START ------> LONG STREAK RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
-    /////////////////// includes: viewholder, sort, expoloding card view dialog, functions from dialog //////////////////
 
 
     // View holder for the recycler view
@@ -418,7 +399,6 @@ public class LeaderBoard extends AppCompatActivity {
         }
 
         //setting all the info from collection add to cardview;some will be hidden and passed on to expanded coin view or other activities
-
 
 
         public void setRank (int position) {
@@ -480,7 +460,6 @@ public class LeaderBoard extends AppCompatActivity {
                 ImageView imgRVProfileX = (ImageView) mView.findViewById(R.id.imgRVProfile);
                 imgRVProfileX.setBackgroundResource(R.drawable.profile);
 
-
             }
 
         }
@@ -495,13 +474,9 @@ public class LeaderBoard extends AppCompatActivity {
                 ImageView imgRVFlagX = (ImageView) mView.findViewById(R.id.imgRVFlag);
                 imgRVFlagX.setBackgroundResource(R.drawable.unflag);
 
-
             }
 
         }
-
-
-
 
         // Custom built onItemClickListener for the recycler view; seems to cover LongClick as well
         ////////////////////////////////////////////////////////////////////////////////////////
@@ -525,6 +500,8 @@ public class LeaderBoard extends AppCompatActivity {
     }
 
     //////////////////////// END -------->>> RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
+
+   //// POP UP and downstream methods like log out //////////////////////////////////////////////////////////
 
     @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     private void ShowNewFABbasedMenu() {
@@ -662,6 +639,9 @@ public class LeaderBoard extends AppCompatActivity {
         textView.setTextSize(18);
 
     }
+
+
+    /////////////////////////////// END OF POP and downstream methods like logout /////////////////////////
 
 
 }

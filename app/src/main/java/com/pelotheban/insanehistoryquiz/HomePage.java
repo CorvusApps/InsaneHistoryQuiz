@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 public class HomePage extends AppCompatActivity {
 
+    // Basic UI components
     private AlertDialog dialog;
     private LinearLayout loutHomePageX, loutButtonsX;
 
@@ -44,7 +45,7 @@ public class HomePage extends AppCompatActivity {
 
     private ImageView imgBtnAdminX;
 
-    //User Buttons
+    //Pop-up Menu
 
     private String popupMenuToggle;
     private FloatingActionButton fabPopUpHPX, fabPopUpCollHPX, fabPopUpFAQminiHPtX, fabPopUpLogOutminiHPX;
@@ -53,7 +54,6 @@ public class HomePage extends AppCompatActivity {
 
     // Firebase
     private FirebaseAuth mAuth;
-
     private DatabaseReference userReference;
     private Query sortUsersQuery;
     private String uid;
@@ -70,13 +70,18 @@ public class HomePage extends AppCompatActivity {
     private String consStreetString;
     private int consStreak;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
+        // Basic UI components
         loutHomePageX = findViewById(R.id.loutHomePage);
         loutButtonsX = findViewById(R.id.loutButtons);
+
+        //Pop-up Menu
 
         fabPopUpHPX = findViewById(R.id.fabPopUpHP);
         fabPopUpHPX.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +102,9 @@ public class HomePage extends AppCompatActivity {
 
         shadeX = findViewById(R.id.shade);
 
-        //game counters
+        /////////////////game counters functionality - BEGINS //////////////////////////////////////////
+        // This is mostly about the initial coin grand and populing sort fields so does not sku leaderboard before these are created in Game
+        // Also setting coin and streak counters
 
         txtCoinCounterX = findViewById(R.id.hpTxtCoinCounter);
         txtConStreakX = findViewById(R.id.hpTxtConStreak);
@@ -183,6 +190,8 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+        /////////////////game counters functionality - BEGINS //////////////////////////////////////////
+
 
         //Admin Button
 
@@ -196,6 +205,9 @@ public class HomePage extends AppCompatActivity {
 
             }
         });
+
+        // Main user buttons functionality - includes the custom built pressed button effects by flipping out the buttons for
+        // a different version when pressed
 
         imgBtnLeadersGlowX = findViewById(R.id.btnLeadersGlow);
         imgBtnLeadersX = findViewById(R.id.btnLeaders);
@@ -320,14 +332,14 @@ public class HomePage extends AppCompatActivity {
         });
 
         //Firebase basics
-
+        // all the firebase stuff wound up above as need within the functionality to populat counters
 
 
 
     }
 
     @Override
-    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
+    @SuppressLint("RestrictedApi") // suppresses the issue with on back pressed depricated
     public void onBackPressed() {
 
         //Everything in this method is code for a custom dialog
@@ -362,6 +374,8 @@ public class HomePage extends AppCompatActivity {
 
 
     }
+
+    ///////////////////////// POP UP Menu BEGINS ////////////////////////////////////////////////
     @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     private void ShowNewFABbasedMenu() {
 
@@ -499,6 +513,6 @@ public class HomePage extends AppCompatActivity {
 
     }
 
-
+/////////////////// END of POP UP MENU ///////////////////////////////////////////////////
 
 }

@@ -141,7 +141,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         pfTxtTotalQuestionsX = findViewById(R.id.pfTxtTotalQuestions);
         pfCorrectPercentX = findViewById(R.id.pfCorrectPercent);
 
-        //Profile inputs and outputs
+        // ////////////////// Profile inputs and outputs  BEGINS ///////////////////////////////////////////////////
 
         alteredPicToggle = "no";
         alteredNameToggle = "no";
@@ -300,10 +300,11 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             }
         });
 
+        // ////////////////// Profile inputs and outputs  ENDS ///////////////////////////////////////////////////
 
 
 
-       //pop-up
+        //////////// pop-up
         fabPopUpPFX = findViewById(R.id.fabPopUpPF);
         fabPopUpPFX.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -325,27 +326,12 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
         //// end of pop-up
 
-        txtUIDX = findViewById(R.id.txtUID);
-
 
         userUID = FirebaseAuth.getInstance().getUid();
         profileReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(userUID);
 
-        //txtUIDX.setText(userUID);
 
-        // This is not really used for anything anymore but keeping for now
-            Random generator = new Random();
-            StringBuilder randomStringBuilder = new StringBuilder();
-
-            char tempChar;
-            for (int i = 0; i < 15; i++){
-                tempChar = (char) (generator.nextInt(96) + 32);
-                randomStringBuilder.append(tempChar).toString();
-
-                txtUIDX.setText(randomStringBuilder);
-            }
-            //return randomStringBuilder.toString();
-
+        ///// POPULATING ALL THE COUNTERS BEGINS ////////////////////////////////////////////////////
 
         profileQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(userUID);
         profileQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -464,6 +450,8 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
             }
         });
+
+        //////////////// POPULATING ALL COUNTERS ENDS ///////////////////////////////////////////
 
 
         imgLongStreakBadgeX = findViewById(R.id.imgLongStreakBadge);

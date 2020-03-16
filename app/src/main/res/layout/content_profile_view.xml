@@ -204,6 +204,8 @@
             android:background="@color/colorPrimaryDark"
             />
 
+
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_200sdp"
@@ -223,7 +225,7 @@
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginLeft="@dimen/_2sdp"
-                    app:srcCompat="@drawable/goldcoinsicon" />
+                    app:srcCompat="@drawable/goldcoinsicontwo" />
 
                 <TextView
                     android:id="@+id/pfTxtCoinCounter"
@@ -356,115 +358,360 @@
         android:background="@color/colorPrimaryDark"
         />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:layout_marginLeft="@dimen/_5sdp"
-        android:layout_marginRight="@dimen/_5sdp"
-
-
+        android:layout_height="match_parent"
         >
-        <ImageView
-            android:id="@+id/imgSupporterBadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/_1sdp"
-            android:layout_marginRight="@dimen/_1sdp"
-            app:srcCompat="@drawable/aaabadgesupporterzero"
 
-            />
-
-        <ImageView
-            android:id="@+id/imgLongStreakBadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/_1sdp"
-            android:layout_marginRight="@dimen/_1sdp"
-            app:srcCompat="@drawable/bbabadgestreakzero"
-
-            />
-
-        <ImageView
-            android:id="@+id/imgTotalAnsweredBadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/_1sdp"
-            android:layout_marginRight="@dimen/_1sdp"
-            app:srcCompat="@drawable/ccabadgetotalrightzero"
-
-            />
-
-        <ImageView
-            android:id="@+id/imgTotalQuestionsBadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/_1sdp"
-            android:layout_marginRight="@dimen/_1sdp"
-            app:srcCompat="@drawable/ddabadgetotalplayzero"
-
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_marginLeft="@dimen/_5sdp"
-        android:layout_marginRight="@dimen/_5sdp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
 
 
-        >
-        <ImageView
-            android:id="@+id/imgSupporterBadge2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/_1sdp"
-            android:layout_marginRight="@dimen/_1sdp"
-            app:srcCompat="@drawable/aaabadgesupporterzero"
+            <TextView
 
-            />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_15sdp"
 
-        <ImageView
-            android:id="@+id/imgLongStreakBadge2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/_1sdp"
-            android:layout_marginRight="@dimen/_1sdp"
-            app:srcCompat="@drawable/bbabadgestreakzero"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/almendra_sc"
+                android:gravity="center_vertical"
+                android:visibility="visible"
+                android:text="Overall Performance badges" />
 
-            />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-15dp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:orientation="horizontal"
 
-        <ImageView
-            android:id="@+id/imgTotalAnsweredBadge2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/_1sdp"
-            android:layout_marginRight="@dimen/_1sdp"
-            app:srcCompat="@drawable/ccabadgetotalrightzero"
+                    >
+                    <ImageView
+                        android:id="@+id/imgSupporterBadge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        app:srcCompat="@drawable/aaabadgesupporterzero"
 
-            />
+                        />
 
-        <ImageView
-            android:id="@+id/imgTotalQuestionsBadge2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/_1sdp"
-            android:layout_marginRight="@dimen/_1sdp"
-            app:srcCompat="@drawable/ddabadgetotalplayzero"
+                    <ImageView
+                        android:id="@+id/imgLongStreakBadge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        app:srcCompat="@drawable/bbabadgestreakzero"
 
-            />
+                        />
 
-    </LinearLayout>
+                    <ImageView
+                        android:id="@+id/imgTotalAnsweredBadge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        app:srcCompat="@drawable/ccabadgetotalrightzero"
+
+                        />
+
+                    <ImageView
+                        android:id="@+id/imgTotalQuestionsBadge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        app:srcCompat="@drawable/ddabadgewinningpc"
+
+                        />
+
+                </LinearLayout>
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_15sdp"
+
+                    android:layout_marginTop="-15dp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:fontFamily="@font/almendra_sc"
+                    android:gravity="center_vertical"
+                    android:visibility="visible"
+                    android:text="Category Master Badges" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-15dp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+
+
+                    >
+                    <ImageView
+                        android:id="@+id/imgSupporterBadge2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        app:srcCompat="@drawable/xaaabadgeantiquity"
+
+                        />
+
+                    <ImageView
+                        android:id="@+id/imgLongStreakBadge2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        app:srcCompat="@drawable/xbbabadgemedieval"
+                        />
+
+                    <ImageView
+                        android:id="@+id/imgTotalAnsweredBadge2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        app:srcCompat="@drawable/xbbabadgemedieval"
+
+                        />
+
+                    <ImageView
+                        android:id="@+id/imgTotalQuestionsBadge2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        app:srcCompat="@drawable/xddabadgeenight"
+
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_marginTop="-30dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/imgLongStreakBadgeblank"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        android:visibility="invisible"
+                        app:srcCompat="@drawable/xeeabadgemodern"
+
+                        />
+
+
+
+                    <ImageView
+                        android:id="@+id/imgLongStreakBadge3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        app:srcCompat="@drawable/xeeabadgemodern"
+
+                        />
+
+                    <ImageView
+                        android:id="@+id/imgTotalAnsweredBadge3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/xffabadgecontemp"
+
+                        />
+
+                    <ImageView
+                        android:id="@+id/imgLongStreakBadgeblank2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        android:visibility="invisible"
+                        app:srcCompat="@drawable/xeeabadgemodern"
+
+                        />
+
+
+
+                </LinearLayout>
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_15sdp"
+
+                android:layout_marginTop="-15dp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/almendra_sc"
+                android:gravity="center_vertical"
+                android:visibility="visible"
+                android:text="Other Badges" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-15dp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+
+
+                >
+                <ImageView
+                    android:id="@+id/imgBlankBadge1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/_1sdp"
+                    android:layout_marginRight="@dimen/_1sdp"
+                    app:srcCompat="@drawable/badgeblank"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/imgBlankBadge2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/_1sdp"
+                    android:layout_marginRight="@dimen/_1sdp"
+                    app:srcCompat="@drawable/badgeblank"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgBlankBadge3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/_1sdp"
+                    android:layout_marginRight="@dimen/_1sdp"
+                    app:srcCompat="@drawable/badgeblank"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/imgBlankBadge4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/_1sdp"
+                    android:layout_marginRight="@dimen/_1sdp"
+                    app:srcCompat="@drawable/badgeblank"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginTop="-30dp"
+                >
+
+                <ImageView
+                    android:id="@+id/imgBlankBadge5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_1sdp"
+                    android:layout_marginRight="@dimen/_1sdp"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/badgeblank"
+
+                    />
+
+
+
+                <ImageView
+                    android:id="@+id/imgBlankBadge6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_1sdp"
+                    android:layout_marginRight="@dimen/_1sdp"
+                    app:srcCompat="@drawable/badgeblank"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/imgBlankBadge7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/_1sdp"
+                    android:layout_marginRight="@dimen/_1sdp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/badgeblank"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/imgBlankBadge8"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_1sdp"
+                    android:layout_marginRight="@dimen/_1sdp"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/badgeblank"
+
+                    />
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>

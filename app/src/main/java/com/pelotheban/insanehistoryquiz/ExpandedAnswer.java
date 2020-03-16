@@ -32,15 +32,16 @@ import android.widget.TextView;
 
 public class ExpandedAnswer extends AppCompatActivity {
 
-   private ImageView btnPlayAgainX, btnEAProfileX, btnLeadersX, btnPlayAgainGlowX, btnEAProfileGlowX, btnELeadersGlowX, btnTestX;
-   private AlertDialog dialog;
-   private String ExpandedAnswerGet, ExpAnsCategoryGet, ExpAnsEpochGet;
-   private TextView txtExpandedAnswerShowX, txtExpAnsCategoryX, txtExpAnsEpochX;
-   private int expAnsBacgroundNo;
+   // Primary UI components
+    private ImageView btnPlayAgainX, btnEAProfileX, btnLeadersX, btnPlayAgainGlowX, btnEAProfileGlowX, btnELeadersGlowX, btnTestX;
+    private AlertDialog dialog;
+    private String ExpandedAnswerGet, ExpAnsCategoryGet, ExpAnsEpochGet;
+    private TextView txtExpandedAnswerShowX, txtExpAnsCategoryX, txtExpAnsEpochX;
+    private int expAnsBacgroundNo;
 
-   private TextView txtEACoinCounterX, txtEAConStreakX;
+    private TextView txtEACoinCounterX, txtEAConStreakX;
 
-   private LinearLayout loutEApanelX;
+    private LinearLayout loutEApanelX;
 
     private int height2;
     private int width2;
@@ -101,16 +102,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         shadeX = findViewById(R.id.shade);
 
-
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
+        ///// Initialize and populate counters and expanded answer BEGINS /////////////////////////////////////
         txtEACoinCounterX = findViewById(R.id.txtEACoinCounter);
         txtEAConStreakX = findViewById(R.id.txtEAConStreak);
 
@@ -155,20 +147,19 @@ public class ExpandedAnswer extends AppCompatActivity {
             }
         });
 
-        expAnsBacgroundNo = 1; //default setting for background in case we miss a category or don't have a pic for it
+        // This was old code i believe so commenting but keeping to avoid surprises for now
+      // expAnsBacgroundNo = 1; //default setting for background in case we miss a category or don't have a pic for it
 
         ExpandedAnswerGet = getIntent().getStringExtra("iiiexpanded");
         txtExpandedAnswerShowX = findViewById(R.id.txtExpandedAnswerShow);
         txtExpandedAnswerShowX.setText(ExpandedAnswerGet);
 
-        if (width2 > 1500) {
+        if (width2 > 1500) { // changes in fot for tablet and then small format phone
 
         txtExpandedAnswerShowX.setTextSize(30);
         } else if (height2 < 1300) {
 
             txtExpandedAnswerShowX.setTextSize(17);
-
-
 
         }
 
@@ -231,19 +222,20 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         ///////////// END OF LOGIC FOR EA PANEL CHOICE //////////////////////////////////
 
+
         //////// Logic for background picture based on mix of cateogy and epoch //////////////////////////
-
-        if (ExpAnsEpochGet.equals("Hellenistic") && ExpAnsCategoryGet.equals("Roman")) {
-
-            expAnsBacgroundNo = 2;
-
-        }
+        // This was old code i believe so commenting but keeping to avoid surprises for now
+//        if (ExpAnsEpochGet.equals("Hellenistic") && ExpAnsCategoryGet.equals("Roman")) {
+//
+//            expAnsBacgroundNo = 2;
+//
+//        }
 
         // use the No to select a pic which is then set
 
         ////// end of logic for background pics ///////////////////////////////////////////
 
-
+        // BUTTONS FOR GOING TO DIFFERENT SCREENS BEGINS //////////////////////////////////
         btnPlayAgainGlowX = findViewById(R.id.btnPlayAgainGlow);
         btnPlayAgainX = findViewById(R.id.btnPlayAgain);
         btnPlayAgainX.setOnClickListener(new View.OnClickListener() {
@@ -334,7 +326,13 @@ public class ExpandedAnswer extends AppCompatActivity {
             }
         });
 
+        // BUTTONS FOR GOING TO DIFFERENT SCREENS BEGINS //////////////////////////////////
+
     }
+
+    //////////////////////////////////////////// END OF ONCREATE ////////////////////////////////////////////////
+
+    /// on back pressed given choice to log out or go back
 
     @Override
     @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
@@ -370,6 +368,8 @@ public class ExpandedAnswer extends AppCompatActivity {
         });
 
     }
+
+    /// POP UP BEGINS /////////////////////////////////////////////////////////////////////////
 
     @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     private void ShowNewFABbasedEAMenu() {
@@ -509,5 +509,6 @@ public class ExpandedAnswer extends AppCompatActivity {
 
     }
 
+    ////////////////////// END OF POP UP and downstream methods like log out ///////////////////////////////////
 
 }
