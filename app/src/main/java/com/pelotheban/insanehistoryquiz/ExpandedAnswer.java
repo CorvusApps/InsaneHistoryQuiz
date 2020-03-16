@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -60,7 +61,15 @@ public class ExpandedAnswer extends AppCompatActivity {
 
     // badges
 
-    private int newbadgetrt;
+    private int newbadgesup, newbadgestr, newbadgetrt, newbadgewin;
+    private int newbadgexant, newbadgexmed, newbadgexren, newbadgexenl, newbadgexmod, newbadgexcon;
+    private LinearLayout loutBadgesX;
+    private ImageView imgBadgeAwardX;
+
+    private DatabaseReference badgeReference;
+    private Query badgeQuery;
+    private String badgeImageLink;
+    private String badgeSortKey;
 
     //pop up
 
@@ -75,10 +84,223 @@ public class ExpandedAnswer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expanded_answer);
 
-        //badges - happen first
+        /////////////////badges - happen first //////////////////////////////////
+        loutBadgesX = findViewById(R.id.loutBadges);
+        imgBadgeAwardX = findViewById(R.id.imgBadgeAward);
 
+        newbadgesup = getIntent().getIntExtra("newbadgesup", 0);
+        newbadgestr = getIntent().getIntExtra("newbadgestr", 0);
         newbadgetrt = getIntent().getIntExtra("newbadgetrt", 0);
-        Toast.makeText(ExpandedAnswer.this, "Your new trtbadge is:  " + newbadgetrt, Toast.LENGTH_LONG).show();
+        newbadgewin = getIntent().getIntExtra("newbadgewin", 0);
+
+        newbadgexant = getIntent().getIntExtra("newbadgexant", 0);
+        newbadgexmed = getIntent().getIntExtra("newbadgexmed", 0);
+        newbadgexren = getIntent().getIntExtra("newbadgexren", 0);
+        newbadgexenl = getIntent().getIntExtra("newbadgexenl", 0);
+        newbadgexmod = getIntent().getIntExtra("newbadgexmod", 0);
+        newbadgexcon = getIntent().getIntExtra("newbadgexcon", 0);
+
+        // this assigns the badge to award assuming there are any
+
+        if (newbadgesup == 1){
+            badgeSortKey = "sup1";
+        }
+        if (newbadgesup == 2){
+            badgeSortKey = "sup2";
+        }
+        if (newbadgesup == 3){
+            badgeSortKey = "sup3";
+        }
+        if (newbadgesup == 4){
+            badgeSortKey = "sup4";
+        }
+        if (newbadgesup == 5){
+            badgeSortKey = "sup5";
+        }
+
+        if (newbadgestr == 1){
+            badgeSortKey = "str1";
+        }
+        if (newbadgestr == 2){
+            badgeSortKey = "str2";
+        }
+        if (newbadgestr == 3){
+            badgeSortKey = "str3";
+        }
+        if (newbadgestr == 4){
+            badgeSortKey = "str4";
+        }
+        if (newbadgestr == 5){
+            badgeSortKey = "str5";
+        }
+
+
+        if (newbadgetrt == 1){
+            badgeSortKey = "trt1";
+        }
+        if (newbadgetrt == 2){
+            badgeSortKey = "trt2";
+        }
+        if (newbadgetrt == 3){
+            badgeSortKey = "trt3";
+        }
+        if (newbadgetrt == 4){
+            badgeSortKey = "trt4";
+        }
+        if (newbadgetrt == 5){
+            badgeSortKey = "trt5";
+        }
+
+        if (newbadgewin == 1){
+            badgeSortKey = "win1";
+        }
+        if (newbadgewin == 2){
+            badgeSortKey = "win2";
+        }
+        if (newbadgewin == 3){
+            badgeSortKey = "win3";
+        }
+        if (newbadgewin == 4){
+            badgeSortKey = "win4";
+        }
+        if (newbadgewin == 5){
+            badgeSortKey = "win5";
+        }
+
+        if (newbadgexant == 1){
+            badgeSortKey = "xant1";
+        }
+        if (newbadgexant == 2){
+            badgeSortKey = "xant2";
+        }
+        if (newbadgexant == 3){
+            badgeSortKey = "xant3";
+        }
+        if (newbadgexant == 4){
+            badgeSortKey = "xant4";
+        }
+        if (newbadgexant == 5){
+            badgeSortKey = "xant5";
+        }
+
+        if (newbadgexmed == 1){
+            badgeSortKey = "xmed1";
+        }
+        if (newbadgexmed == 2){
+            badgeSortKey = "xmed2";
+        }
+        if (newbadgexmed == 3){
+            badgeSortKey = "xmed3";
+        }
+        if (newbadgexmed == 4){
+            badgeSortKey = "xmed4";
+        }
+        if (newbadgexmed == 5){
+            badgeSortKey = "xmed5";
+        }
+
+        if (newbadgexren == 1){
+            badgeSortKey = "xren1";
+        }
+        if (newbadgexren == 2){
+            badgeSortKey = "xren2";
+        }
+        if (newbadgexren == 3){
+            badgeSortKey = "xren3";
+        }
+        if (newbadgexren == 4){
+            badgeSortKey = "xren4";
+        }
+        if (newbadgexren == 5){
+            badgeSortKey = "xren5";
+        }
+
+        if (newbadgexenl == 1){
+            badgeSortKey = "xenl1";
+        }
+        if (newbadgexenl == 2){
+            badgeSortKey = "xenl2";
+        }
+        if (newbadgexenl == 3){
+            badgeSortKey = "xenl3";
+        }
+        if (newbadgexenl == 4){
+            badgeSortKey = "xenl4";
+        }
+        if (newbadgexenl == 5){
+            badgeSortKey = "xenl5";
+        }
+
+        if (newbadgexmod == 1){
+            badgeSortKey = "xmod1";
+        }
+        if (newbadgexmod == 2){
+            badgeSortKey = "xmod2";
+        }
+        if (newbadgexmod == 3){
+            badgeSortKey = "xmod3";
+        }
+        if (newbadgexmod == 4){
+            badgeSortKey = "xmod4";
+        }
+        if (newbadgexmod == 5){
+            badgeSortKey = "xmod5";
+        }
+
+        if (newbadgexcon == 1){
+            badgeSortKey = "xcon1";
+        }
+        if (newbadgexcon == 2){
+            badgeSortKey = "xcon2";
+        }
+        if (newbadgexcon == 3){
+            badgeSortKey = "xcon3";
+        }
+        if (newbadgexcon == 4){
+            badgeSortKey = "xcon4";
+        }
+        if (newbadgexcon == 5){
+            badgeSortKey = "xcon5";
+        }
+
+        badgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(badgeSortKey);
+        badgeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeSnapshot) {
+
+                for (DataSnapshot badges : badgeSnapshot.getChildren()) {
+
+                    loutBadgesX.setVisibility(View.VISIBLE);
+                    badgeImageLink = badges.child("badgeimagelink").getValue().toString();
+                    Picasso.get().load(badgeImageLink).into(imgBadgeAwardX);
+
+                    try {
+
+                        CountDownTimer badgeAwardTimer = new CountDownTimer(5000, 1000) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                            }
+
+                            @Override
+                            public void onFinish() {
+                            loutBadgesX.setVisibility(View.GONE);
+                            }
+                        }.start();
+
+                    } catch (Exception e) {
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+       // Toast.makeText(ExpandedAnswer.this, "Your new trtbadge is:  " + newbadgetrt, Toast.LENGTH_LONG).show();
 
         /// sizing the display to have both the question and then the answer mostly in the center
 

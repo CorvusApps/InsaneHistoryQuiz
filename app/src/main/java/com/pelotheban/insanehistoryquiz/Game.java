@@ -104,6 +104,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private String eraAnsweredEnlightenmentString;
     private String eraAnsweredEarlyModernString;
     private String eraAnsweredModernString;
+    private String eraAnsweredContemporaryString;
 
     private int eraAnsweredAntiquity;
     private int eraAnsweredMiddleAges;
@@ -111,6 +112,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private int eraAnsweredEnlightenment;
     private int eraAnsweredEarlyModern;
     private int eraAnsweredModern;
+    private int eraAnsweredContemporary;
 
             //// badges starte
 
@@ -122,7 +124,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             private String badgexantString, badgexmedString, badgexrenString, badgexenlString, badgexmodString, badgexconString;
             private int badgexant, badgexmed, badgexren, badgexenl, badgexmod, badgexcon;
             private int badgexantlev, badgexmedlev, badgexrenlev, badgexenllev, badgexmodlev, badgexconlev;
-            private int newbadgexant, newadgexmed, newbadgexren, newbadgexenl, newbadgexmod, newbadgexcon;
+            private int newbadgexant, newbadgexmed, newbadgexren, newbadgexenl, newbadgexmod, newbadgexcon;
+
+            private int badgeAwardedToggle;
 
 
             //// badges end
@@ -311,16 +315,15 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     }
 
                     try {
-                        eraAnsweredEarlyModernString = userDs.child("eraansearlymod").getValue().toString();
-                        eraAnsweredEarlyModern = Integer.valueOf(eraAnsweredEarlyModernString);
+                        eraAnsweredModernString = userDs.child("eraansmodern").getValue().toString();
+                        eraAnsweredModern = Integer.valueOf(eraAnsweredModernString);
 
                     } catch (Exception e) {
 
                     }
-
                     try {
-                        eraAnsweredModernString = userDs.child("eraansmodern").getValue().toString();
-                        eraAnsweredModern = Integer.valueOf(eraAnsweredModernString);
+                        eraAnsweredContemporaryString = userDs.child("eraanscontem").getValue().toString();
+                        eraAnsweredContemporary = Integer.valueOf(eraAnsweredContemporaryString);
 
                     } catch (Exception e) {
 
@@ -632,6 +635,11 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 userReference.getRef().child("eraansmodern").setValue(eraAnsweredModern);
                             }
 
+                            if (era.equals("Contemporary")) {
+                                eraAnsweredContemporary = eraAnsweredContemporary + 1;
+                                userReference.getRef().child("eraanscontem").setValue(eraAnsweredContemporary);
+                            }
+
                             badgeAward();
 
 
@@ -875,6 +883,11 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
     private void badgeAward() {
 
+        badgeAwardedToggle = 1;
+        // this toggle gets set to 2 below whenever we AWARD a badge and WRITE to Firebase
+        // set to 2 the toggle prevents from any other simultaneously elegible badges to be awarded and saves them for next time
+        // this way only one badge at a time gets sent to Expanded Answer screen for showing to the user
+
        //// checks to see what level of badge the user is entitled to now
         if (coinsOwned > 999) {
             badgesuplev = 5;
@@ -904,6 +917,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             badgestrlev = 0;
         }
 
+
         if (totalAnswered > 499) {
             badgetrtlev = 5;
         } else if (totalAnswered > 249) {
@@ -918,7 +932,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             badgetrtlev = 0;
         }
 
-        if (totalQuestions > 50){
+
+        if (totalQuestions > 50){ // for winning % do it only if answered a critical mass of 50 questions at least
             double winrate = totalAnswered / totalQuestions;
 
             if (winrate > .89) {
@@ -934,14 +949,190 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             } else {
                 badgewinlev = 0;
             }
+        }
 
+
+        if (eraAnsweredAntiquity > 199) {
+            badgexantlev = 5;
+        } else if (eraAnsweredAntiquity > 99) {
+            badgexantlev = 4;
+        } else if (eraAnsweredAntiquity > 49) {
+            badgexantlev = 3;
+        } else if (eraAnsweredAntiquity > 24) {
+            badgexantlev = 2;
+        } else if (eraAnsweredAntiquity > 4) {
+            badgexantlev = 1;
+        } else {
+            badgexantlev = 0;
+        }
+
+        if (eraAnsweredMiddleAges > 199) {
+            badgexmedlev = 5;
+        } else if (eraAnsweredMiddleAges > 99) {
+            badgexmedlev = 4;
+        } else if (eraAnsweredMiddleAges > 49) {
+            badgexmedlev = 3;
+        } else if (eraAnsweredMiddleAges > 24) {
+            badgexmedlev = 2;
+        } else if (eraAnsweredMiddleAges > 4) {
+            badgexmedlev = 1;
+        } else {
+            badgexmedlev = 0;
+        }
+
+        if (eraAnsweredRenaissance > 199) {
+            badgexrenlev = 5;
+        } else if (eraAnsweredRenaissance > 99) {
+            badgexrenlev = 4;
+        } else if (eraAnsweredRenaissance > 49) {
+            badgexrenlev = 3;
+        } else if (eraAnsweredRenaissance > 24) {
+            badgexrenlev = 2;
+        } else if (eraAnsweredRenaissance > 4) {
+            badgexrenlev = 1;
+        } else {
+            badgexrenlev = 0;
+        }
+
+        if (eraAnsweredEnlightenment > 199) {
+            badgexenllev = 5;
+        } else if (eraAnsweredEnlightenment > 99) {
+            badgexenllev = 4;
+        } else if (eraAnsweredEnlightenment > 49) {
+            badgexenllev = 3;
+        } else if (eraAnsweredEnlightenment > 24) {
+            badgexenllev = 2;
+        } else if (eraAnsweredEnlightenment > 4) {
+            badgexenllev = 1;
+        } else {
+            badgexenllev = 0;
+        }
+
+        if (eraAnsweredModern > 199) {
+            badgexmodlev = 5;
+        } else if (eraAnsweredModern > 99) {
+            badgexmodlev = 4;
+        } else if (eraAnsweredModern > 49) {
+            badgexmodlev = 3;
+        } else if (eraAnsweredModern > 24) {
+            badgexmodlev = 2;
+        } else if (eraAnsweredModern > 4) {
+            badgexmodlev = 1;
+        } else {
+            badgexmodlev = 0;
+        }
+
+        if (eraAnsweredContemporary > 199) {
+            badgexconlev = 5;
+        } else if (eraAnsweredContemporary > 99) {
+            badgexconlev = 4;
+        } else if (eraAnsweredContemporary > 49) {
+            badgexconlev = 3;
+        } else if (eraAnsweredContemporary > 24) {
+            badgexconlev = 2;
+        } else if (eraAnsweredContemporary > 4) {
+            badgexconlev = 1;
+        } else {
+            badgexconlev = 0;
         }
 
         /// checks to see if current badge level is more than in Firebase and if so write that new level and pass on to expanded answer
         try {
-            if (badgetrtlev > badgetrt) {
-                newbadgetrt = badgetrtlev;
-                userReference.getRef().child("badgetrt").setValue(newbadgetrt);
+            if (badgesuplev > badgesup) {
+                newbadgesup = badgesuplev;
+                userReference.getRef().child("badgesup").setValue(newbadgesup);
+                badgeAwardedToggle = 2;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgestrlev > badgestr) {
+                    newbadgestr = badgestrlev;
+                    userReference.getRef().child("badgestr").setValue(newbadgestr);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgetrtlev > badgetrt) {
+                    newbadgetrt = badgetrtlev;
+                    userReference.getRef().child("badgetrt").setValue(newbadgetrt);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgewinlev > badgewin) {
+                    newbadgewin = badgewinlev;
+                    userReference.getRef().child("badgewin").setValue(newbadgewin);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgexantlev > badgexant) {
+                    newbadgexant = badgexantlev;
+                    userReference.getRef().child("badgexant").setValue(newbadgexant);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgexmedlev > badgexmed) {
+                    newbadgexmed = badgexmedlev;
+                    userReference.getRef().child("badgexmed").setValue(newbadgexmed);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgexrenlev > badgexren) {
+                    newbadgexren = badgexrenlev;
+                    userReference.getRef().child("badgexren").setValue(newbadgexren);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgexenllev > badgexenl) {
+                    newbadgexenl = badgexenllev;
+                    userReference.getRef().child("badgexenl").setValue(newbadgexenl);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgexmodlev > badgexmod) {
+                    newbadgexmod = badgexmodlev;
+                    userReference.getRef().child("badgexmod").setValue(newbadgexmod);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgexconlev > badgexcon) {
+                    newbadgexcon = badgexconlev;
+                    userReference.getRef().child("badgexcon").setValue(newbadgexcon);
+                    badgeAwardedToggle = 2;
+                }
             }
         } catch (Exception e) {
         }
@@ -957,8 +1148,36 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         /// badge components
 
+        if (newbadgesup > 0) {
+            intent.putExtra("newbadgesup", newbadgesup);
+        }
+        if (newbadgestr > 0) {
+            intent.putExtra("newbadgestr", newbadgestr);
+        }
         if (newbadgetrt > 0) {
             intent.putExtra("newbadgetrt", newbadgetrt);
+        }
+        if (newbadgewin > 0) {
+            intent.putExtra("newbadgewin", newbadgewin);
+        }
+
+        if (newbadgexant > 0) {
+            intent.putExtra("newbadgexant", newbadgexant);
+        }
+        if (newbadgexmed > 0) {
+            intent.putExtra("newbadgexmed", newbadgexmed);
+        }
+        if (newbadgexren > 0) {
+            intent.putExtra("newbadgexren", newbadgexren);
+        }
+        if (newbadgexenl > 0) {
+            intent.putExtra("newbadgexenl", newbadgexenl);
+        }
+        if (newbadgexmod > 0) {
+            intent.putExtra("newbadgexmod", newbadgexmod);
+        }
+        if (newbadgexcon > 0) {
+            intent.putExtra("newbadgexcon", newbadgexcon);
         }
 
         startActivity(intent);
