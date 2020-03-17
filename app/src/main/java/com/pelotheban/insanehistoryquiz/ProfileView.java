@@ -119,9 +119,12 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
    //Badges
 
-    private ImageView imgSupporterBadgeX, imgLongStreakBadgeX, imgTotalAnsweredBadgeX, imgTotalQuestionsBadgeX;
+    private ImageView imgSupporterBadgeX, imgLongStreakBadgeX, imgTotalAnsweredBadgeX, imgWinningPercentageBadgeX;
 
-    private int longestStreakBadgeLevel;
+    private String supporterBadgeLevelString, longestStreakBadgeLevelString, totalAnsweredBadgeLevelString, winningPerentageBadgeLevelString;
+    private int supporterBadgeLevel, longestStreakBadgeLevel, totalAnsweredBadgeLevel, winningPerentageBadgeLevel;
+    private String supporterBadge, longestStreakBadge, totalAnsweredBadge, winningPercentageBadge;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -330,6 +333,13 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         userUID = FirebaseAuth.getInstance().getUid();
         profileReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(userUID);
 
+        //// badges ////
+
+        imgSupporterBadgeX = findViewById(R.id.imgSupporterBadge);
+        imgLongStreakBadgeX = findViewById(R.id.imgLongStreakBadge);
+        imgTotalAnsweredBadgeX = findViewById(R.id.imgTotalAnsweredBadge);
+        imgWinningPercentageBadgeX = findViewById(R.id.imgWinPercentageBadge);
+
 
         ///// POPULATING ALL THE COUNTERS BEGINS ////////////////////////////////////////////////////
 
@@ -434,6 +444,42 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
                         txtCountryX.setText("Global Citizen"); // populates the text box
                     }
+
+                    /////badges////////////////////////////////////////
+
+                    try {
+
+                        supporterBadgeLevelString = userPs.child("badgesup").getValue().toString();
+                        supporterBadgeLevel = Integer.valueOf(supporterBadgeLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+
+                        longestStreakBadgeLevelString = userPs.child("badgestr").getValue().toString();
+                        longestStreakBadgeLevel = Integer.valueOf(longestStreakBadgeLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+
+                        totalAnsweredBadgeLevelString = userPs.child("badgetrt").getValue().toString();
+                        totalAnsweredBadgeLevel = Integer.valueOf(totalAnsweredBadgeLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+
+                        winningPerentageBadgeLevelString = userPs.child("badgewin").getValue().toString();
+                        winningPerentageBadgeLevel = Integer.valueOf(winningPerentageBadgeLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+                    badgeAssign();
                 }
 
                 pfTxtCoinCounterX.setText(coinCounterString);
@@ -453,10 +499,10 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
         //////////////// POPULATING ALL COUNTERS ENDS ///////////////////////////////////////////
 
-        imgSupporterBadgeX = findViewById(R.id.imgSupporterBadge);
-        imgLongStreakBadgeX = findViewById(R.id.imgLongStreakBadge);
-        imgTotalAnsweredBadgeX = findViewById(R.id.imgTotalAnsweredBadge);
-        imgTotalQuestionsBadgeX = findViewById(R.id.imgWinPercentageBadge);
+        ///////////////// populating badges ////////////////////////////////////////
+
+
+
     }
 
     /////////////////////////////////////////END OF ONCREAT /////////////////////////////////////////////////////////
@@ -879,6 +925,163 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
     }
 
     //////////////////Profile Edit and Display Methods ENDS /////////////////////////////////////////////////
+
+    ///////////////// Badges beings ////////////////////////////////////////////////////////////////
+
+    private void badgeAssign() {
+
+        if (supporterBadgeLevel == 1){
+            supporterBadge = "sup1";
+        }
+        if (supporterBadgeLevel == 2){
+            supporterBadge = "sup2";
+        }
+        if (supporterBadgeLevel == 3){
+            supporterBadge = "sup3";
+        }
+        if (supporterBadgeLevel == 4){
+            supporterBadge = "sup4";
+        }
+        if (supporterBadgeLevel == 5){
+            supporterBadge = "sup5";
+        }
+
+        if (longestStreakBadgeLevel == 1){
+            longestStreakBadge = "str1";
+        }
+        if (longestStreakBadgeLevel == 2){
+            longestStreakBadge = "str2";
+        }
+        if (longestStreakBadgeLevel == 3){
+            longestStreakBadge = "str3";
+        }
+        if (longestStreakBadgeLevel == 4){
+            longestStreakBadge = "str4";
+        }
+        if (longestStreakBadgeLevel == 5){
+            longestStreakBadge = "str5";
+        }
+
+        if (totalAnsweredBadgeLevel == 1){
+            totalAnsweredBadge = "trt1";
+        }
+        if (totalAnsweredBadgeLevel == 2){
+            totalAnsweredBadge = "trt2";
+        }
+        if (totalAnsweredBadgeLevel == 3){
+            totalAnsweredBadge = "trt3";
+        }
+        if (totalAnsweredBadgeLevel == 4){
+            totalAnsweredBadge = "trt4";
+        }
+        if (totalAnsweredBadgeLevel == 5){
+            totalAnsweredBadge = "trt5";
+        }
+
+        if (winningPerentageBadgeLevel == 1){
+            winningPercentageBadge = "win1";
+        }
+        if (winningPerentageBadgeLevel == 2){
+            winningPercentageBadge = "win2";
+        }
+        if (winningPerentageBadgeLevel == 3){
+            winningPercentageBadge = "win3";
+        }
+        if (winningPerentageBadgeLevel == 4){
+            winningPercentageBadge = "win4";
+        }
+        if (winningPerentageBadgeLevel == 5){
+            winningPercentageBadge = "win5";
+        }
+
+       // Toast.makeText(ProfileView.this, supporterBadge, Toast.LENGTH_LONG).show();
+
+        Query supporterBadgeProfileQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(supporterBadge);
+        supporterBadgeProfileQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges: badgeProfSnapshot.getChildren()) {
+
+                    if (supporterBadgeLevel > 0) {
+                        String imageBadgeProfLink = badges.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgSupporterBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        Query longestStreakBadgeProfileQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(longestStreakBadge);
+        longestStreakBadgeProfileQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges2: badgeProfSnapshot.getChildren()) {
+
+                    if (longestStreakBadgeLevel > 0) {
+                        String imageBadgeProfLink = badges2.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgLongStreakBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        Query totalAnsweredBadgeProfileQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(totalAnsweredBadge);
+        totalAnsweredBadgeProfileQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges3: badgeProfSnapshot.getChildren()) {
+
+                    if (totalAnsweredBadgeLevel > 0) {
+                        String imageBadgeProfLink = badges3.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgTotalAnsweredBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        Query winningPercentageBadgeProfileQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(winningPercentageBadge);
+        winningPercentageBadgeProfileQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges4: badgeProfSnapshot.getChildren()) {
+
+                    if (winningPerentageBadgeLevel > 0) {
+                        String imageBadgeProfLink = badges4.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgWinningPercentageBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+
+
+
+
+    }
+
+
+
+
+    //////////////////Badges ends ///////////////////////////////////////////////////////////////////////
 
     private void alertDialogLogOut() {
 

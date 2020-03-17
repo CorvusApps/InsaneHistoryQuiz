@@ -389,17 +389,19 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-15dp"
+
                     android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_5sdp"
+
                     android:orientation="horizontal"
 
                     >
                     <ImageView
                         android:id="@+id/imgSupporterBadge"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_100sdp"
                         android:layout_weight="1"
+
                         android:layout_marginLeft="@dimen/_1sdp"
                         android:layout_marginRight="@dimen/_1sdp"
                         app:srcCompat="@drawable/aaabadgesupporterzero"
@@ -409,7 +411,7 @@
                     <ImageView
                         android:id="@+id/imgLongStreakBadge"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_100sdp"
                         android:layout_weight="1"
                         android:layout_marginLeft="@dimen/_1sdp"
                         android:layout_marginRight="@dimen/_1sdp"
@@ -420,7 +422,8 @@
                     <ImageView
                         android:id="@+id/imgTotalAnsweredBadge"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_100sdp"
+
                         android:layout_weight="1"
                         android:layout_marginLeft="@dimen/_1sdp"
                         android:layout_marginRight="@dimen/_1sdp"
@@ -431,7 +434,7 @@
                     <ImageView
                         android:id="@+id/imgWinPercentageBadge"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_100sdp"
                         android:layout_weight="1"
                         android:layout_marginLeft="@dimen/_1sdp"
                         android:layout_marginRight="@dimen/_1sdp"
@@ -447,7 +450,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/_15sdp"
 
-                    android:layout_marginTop="-15dp"
+
                     android:layout_marginLeft="@dimen/_5sdp"
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimaryDark"
@@ -460,7 +463,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-15dp"
+
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_marginRight="@dimen/_5sdp"
 
@@ -468,8 +471,8 @@
                     >
                     <ImageView
                         android:id="@+id/imgAntiquityBadge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_100sdp"
                         android:layout_weight="1"
                         android:layout_marginLeft="@dimen/_1sdp"
                         android:layout_marginRight="@dimen/_1sdp"
@@ -479,8 +482,8 @@
 
                     <ImageView
                         android:id="@+id/imgMedievalBadge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_100sdp"
                         android:layout_weight="1"
                         android:layout_marginLeft="@dimen/_1sdp"
                         android:layout_marginRight="@dimen/_1sdp"
@@ -489,8 +492,8 @@
 
                     <ImageView
                         android:id="@+id/imgRenaissanceBadge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_100sdp"
                         android:layout_weight="1"
                         android:layout_marginLeft="@dimen/_1sdp"
                         android:layout_marginRight="@dimen/_1sdp"
@@ -500,8 +503,8 @@
 
                     <ImageView
                         android:id="@+id/imgEnlightenmentBadge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_100sdp"
                         android:layout_weight="1"
                         android:layout_marginLeft="@dimen/_1sdp"
                         android:layout_marginRight="@dimen/_1sdp"
@@ -516,13 +519,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_5sdp"
-                    android:layout_marginTop="-30dp"
+                    android:layout_marginTop="@dimen/_5sdp"
+
                     >
 
                     <ImageView
                         android:id="@+id/imgSpaceHolderBadge1"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_100sdp"
                         android:layout_weight="1"
                         android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/_1sdp"
@@ -537,7 +541,7 @@
                     <ImageView
                         android:id="@+id/imgModernBadge"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_100sdp"
                         android:layout_weight="1"
                         android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/_1sdp"
@@ -549,7 +553,7 @@
                     <ImageView
                         android:id="@+id/imgContemporaryBadge"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_100sdp"
                         android:layout_weight="1"
                         android:layout_marginLeft="@dimen/_1sdp"
                         android:layout_marginRight="@dimen/_1sdp"
@@ -561,7 +565,7 @@
                     <ImageView
                         android:id="@+id/imgSpaceHolderBadge2"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_100sdp"
                         android:layout_weight="1"
                         android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/_1sdp"
@@ -582,7 +586,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_15sdp"
 
-                android:layout_marginTop="-15dp"
+
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimaryDark"
@@ -595,7 +599,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-15dp"
+
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_marginRight="@dimen/_5sdp"
 
@@ -603,8 +607,8 @@
                 >
                 <ImageView
                     android:id="@+id/imgBlankBadge1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_100sdp"
                     android:layout_weight="1"
                     android:layout_marginLeft="@dimen/_1sdp"
                     android:layout_marginRight="@dimen/_1sdp"
@@ -614,8 +618,8 @@
 
                 <ImageView
                     android:id="@+id/imgBlankBadge2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_100sdp"
                     android:layout_weight="1"
                     android:layout_marginLeft="@dimen/_1sdp"
                     android:layout_marginRight="@dimen/_1sdp"
@@ -624,8 +628,8 @@
 
                 <ImageView
                     android:id="@+id/imgBlankBadge3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_100sdp"
                     android:layout_weight="1"
                     android:layout_marginLeft="@dimen/_1sdp"
                     android:layout_marginRight="@dimen/_1sdp"
@@ -635,8 +639,8 @@
 
                 <ImageView
                     android:id="@+id/imgBlankBadge4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_100sdp"
                     android:layout_weight="1"
                     android:layout_marginLeft="@dimen/_1sdp"
                     android:layout_marginRight="@dimen/_1sdp"
@@ -651,13 +655,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_marginRight="@dimen/_5sdp"
-                android:layout_marginTop="-30dp"
+                android:layout_marginTop="@dimen/_5sdp"
                 >
 
                 <ImageView
                     android:id="@+id/imgBlankBadge5"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_100sdp"
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/_1sdp"
@@ -672,7 +676,7 @@
                 <ImageView
                     android:id="@+id/imgBlankBadge6"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_100sdp"
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/_1sdp"
@@ -684,7 +688,7 @@
                 <ImageView
                     android:id="@+id/imgBlankBadge7"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_100sdp"
                     android:layout_weight="1"
                     android:layout_marginLeft="@dimen/_1sdp"
                     android:layout_marginRight="@dimen/_1sdp"
@@ -696,7 +700,7 @@
                 <ImageView
                     android:id="@+id/imgBlankBadge8"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_100sdp"
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/_1sdp"
