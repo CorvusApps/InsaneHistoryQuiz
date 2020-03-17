@@ -2,7 +2,10 @@ package com.pelotheban.insanehistoryquiz;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -15,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -48,6 +52,10 @@ public class ExpandedAnswer extends AppCompatActivity {
     private int height2;
     private int width2;
 
+    // Panels
+
+    private String panelName;
+
    //Firebase
 
     private DatabaseReference gameReference;
@@ -71,6 +79,9 @@ public class ExpandedAnswer extends AppCompatActivity {
     private String badgeImageLink;
     private String badgeSortKey;
 
+    private TextView txtBadgeAwardX;
+    private String badgeAwardMsg;
+
     //pop up
 
     String popupMenuToggle;
@@ -87,6 +98,7 @@ public class ExpandedAnswer extends AppCompatActivity {
         /////////////////badges - happen first //////////////////////////////////
         loutBadgesX = findViewById(R.id.loutBadges);
         imgBadgeAwardX = findViewById(R.id.imgBadgeAward);
+        txtBadgeAwardX = findViewById(R.id.txtBadgeMessage);
 
         newbadgesup = getIntent().getIntExtra("newbadgesup", 0);
         newbadgestr = getIntent().getIntExtra("newbadgestr", 0);
@@ -104,163 +116,213 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (newbadgesup == 1){
             badgeSortKey = "sup1";
+            badgeAwardMsg = "You earned THE SHOPKEEPER BADGE for reaching the 125 coin Level!";
         }
         if (newbadgesup == 2){
             badgeSortKey = "sup2";
+            badgeAwardMsg = "You earned THE BOOK MERCHANT BADGE for reaching the 175 coin Level!";
         }
         if (newbadgesup == 3){
             badgeSortKey = "sup3";
+            badgeAwardMsg = "You earned THE TAX COLLECTOR BADGE for reaching the 225 coin Level!";
         }
         if (newbadgesup == 4){
             badgeSortKey = "sup4";
+            badgeAwardMsg = "You earned THE EQUITE CLASS BADGE for reaching the 500 coin Level!";
         }
         if (newbadgesup == 5){
             badgeSortKey = "sup5";
+            badgeAwardMsg = "You earned THE SENATORIAL CLASS BADGE for reaching the 1000 coin Level!";
         }
 
         if (newbadgestr == 1){
             badgeSortKey = "str1";
+            badgeAwardMsg = "You earned THE STUDENT BADGE for getting 3 correct answers in a row!";
         }
         if (newbadgestr == 2){
             badgeSortKey = "str2";
+            badgeAwardMsg = "You earned THE TUTOR BADGE for getting 10 correct answers in a row!";
         }
         if (newbadgestr == 3){
             badgeSortKey = "str3";
+            badgeAwardMsg = "You earned THE RECTOR BADGE for getting 20 correct answers in a row!";
         }
         if (newbadgestr == 4){
             badgeSortKey = "str4";
+            badgeAwardMsg = "You earned THE PHILOSOPHER BADGE for getting 30 correct answers in a row!";
         }
         if (newbadgestr == 5){
             badgeSortKey = "str5";
+            badgeAwardMsg = "You earned THE MASTER BADGE for getting 50 correct answers in a row!";
         }
 
 
         if (newbadgetrt == 1){
             badgeSortKey = "trt1";
+            badgeAwardMsg = "You earned THE SCRIBE BADGE for getting 5 to a total of 5 correct answers!";
         }
         if (newbadgetrt == 2){
             badgeSortKey = "trt2";
+            badgeAwardMsg = "You earned THE LIBRARIAN BADGE for getting 5 to a total of 25 correct answers!";
         }
         if (newbadgetrt == 3){
             badgeSortKey = "trt3";
+            badgeAwardMsg = "You earned THE MASTER LIBRARIAN BADGE for getting 5 to a total of 100 correct answers!";
         }
         if (newbadgetrt == 4){
             badgeSortKey = "trt4";
+            badgeAwardMsg = "You earned THE CHRONICLER BADGE for getting 5 to a total of 250 correct answers!";
         }
         if (newbadgetrt == 5){
             badgeSortKey = "trt5";
+            badgeAwardMsg = "You earned THE HISTORIAN BADGE for getting 5 to a total of 500 correct answers!";
         }
 
         if (newbadgewin == 1){
             badgeSortKey = "win1";
+            badgeAwardMsg = "You earned THE COIN-FLIP BADGE for achieving a 50% correct answer level!";
         }
         if (newbadgewin == 2){
             badgeSortKey = "win2";
+            badgeAwardMsg = "You earned THE ADEPT BADGE for achieving a 60% correct answer level!";
         }
         if (newbadgewin == 3){
             badgeSortKey = "win3";
+            badgeAwardMsg = "You earned THE PRODIGY BADGE for achieving a 70% correct answer level!";
         }
         if (newbadgewin == 4){
             badgeSortKey = "win4";
+            badgeAwardMsg = "You earned THE GENIUS BADGE for achieving a 80% correct answer level!";
         }
         if (newbadgewin == 5){
             badgeSortKey = "win5";
+            badgeAwardMsg = "You earned THE INFALLIBE BADGE for achieving a 90% correct answer level!";
         }
 
         if (newbadgexant == 1){
             badgeSortKey = "xant1";
+            badgeAwardMsg = "You earned THE HOPLITE BADGE for getting to 5 correct answers in the ANTIQUITY category!";
         }
         if (newbadgexant == 2){
             badgeSortKey = "xant2";
+            badgeAwardMsg = "You earned THE LEGIONNAIRE BADGE for getting to 25 correct answers in the ANTIQUITY category!";
         }
         if (newbadgexant == 3){
             badgeSortKey = "xant3";
+            badgeAwardMsg = "You earned THE DECURION BADGE for getting to 50 correct answers in the ANTIQUITY category!";
         }
         if (newbadgexant == 4){
             badgeSortKey = "xant4";
+            badgeAwardMsg = "You earned THE CENTURION BADGE for getting to 100 correct answers in the ANTIQUITY category!";
         }
         if (newbadgexant == 5){
             badgeSortKey = "xant5";
+            badgeAwardMsg = "You earned THE LEGATE BADGE for getting to 200 correct answers in the ANTIQUITY category!";
         }
 
         if (newbadgexmed == 1){
             badgeSortKey = "xmed1";
+            badgeAwardMsg = "You earned THE SQUIRE BADGE for getting to 5 correct answers in the MEDIEVAL category!";
         }
         if (newbadgexmed == 2){
             badgeSortKey = "xmed2";
+            badgeAwardMsg = "You earned THE KNIGHT BADGE for getting to 25 correct answers in the MEDIEVAL category!";
         }
         if (newbadgexmed == 3){
             badgeSortKey = "xmed3";
+            badgeAwardMsg = "You earned THE BARON BADGE for getting to 50 correct answers in the MEDIEVAL category!";
         }
         if (newbadgexmed == 4){
             badgeSortKey = "xmed4";
+            badgeAwardMsg = "You earned THE MARQUIS BADGE for getting to 100 correct answers in the MEDIEVAL category!";
         }
         if (newbadgexmed == 5){
             badgeSortKey = "xmed5";
+            badgeAwardMsg = "You earned THE DUKE BADGE for getting to 200 correct answers in the MEDIEVAL category!";
         }
 
         if (newbadgexren == 1){
             badgeSortKey = "xren1";
+            badgeAwardMsg = "You earned THE TITIAN BADGE for getting to 5 correct answers in the RENAISSANCE category!";
         }
         if (newbadgexren == 2){
             badgeSortKey = "xren2";
+            badgeAwardMsg = "You earned THE DONATELLO BADGE for getting to 25 correct answers in the RENAISSANCE category!";
         }
         if (newbadgexren == 3){
             badgeSortKey = "xren3";
+            badgeAwardMsg = "You earned THE BERNINI BADGE for getting to 50 correct answers in the RENAISSANCE category!";
         }
         if (newbadgexren == 4){
             badgeSortKey = "xren4";
+            badgeAwardMsg = "You earned THE MICHELANGELO BADGE for getting to 100 correct answers in the RENAISSANCE category!";
         }
         if (newbadgexren == 5){
             badgeSortKey = "xren5";
+            badgeAwardMsg = "You earned THE DA VINCI BADGE for getting to 200 correct answers in the RENAISSANCE category!";
         }
 
         if (newbadgexenl == 1){
             badgeSortKey = "xenl1";
+            badgeAwardMsg = "You earned THE DESCARTES BADGE for getting to 5 correct answers in the ENLIGHTENMENT category!";
         }
         if (newbadgexenl == 2){
             badgeSortKey = "xenl2";
+            badgeAwardMsg = "You earned THE JOHN LOCKE BADGE for getting to 25 correct answers in the ENLIGHTENMENT category!";
         }
         if (newbadgexenl == 3){
             badgeSortKey = "xenl3";
+            badgeAwardMsg = "You earned THE VOLTAIRE BADGE for getting to 50 correct answers in the ENLIGHTENMENT category!";
         }
         if (newbadgexenl == 4){
             badgeSortKey = "xenl4";
+            badgeAwardMsg = "You earned THE EDWARD GIBBON BADGE for getting to 100 correct answers in the ENLIGHTENMENT category!";
         }
         if (newbadgexenl == 5){
             badgeSortKey = "xenl5";
+            badgeAwardMsg = "You earned THE ISAAC NEWTON BADGE for getting to 200 correct answers in the ENLIGHTENMENT category!";
         }
 
         if (newbadgexmod == 1){
             badgeSortKey = "xmod1";
+            badgeAwardMsg = "You earned THE TITIAN BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
         }
         if (newbadgexmod == 2){
             badgeSortKey = "xmod2";
+            badgeAwardMsg = "You earned THE TITIAN BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
         }
         if (newbadgexmod == 3){
             badgeSortKey = "xmod3";
+            badgeAwardMsg = "You earned THE TITIAN BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
         }
         if (newbadgexmod == 4){
             badgeSortKey = "xmod4";
+            badgeAwardMsg = "You earned THE TITIAN BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
         }
         if (newbadgexmod == 5){
             badgeSortKey = "xmod5";
+            badgeAwardMsg = "You earned THE TITIAN BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
         }
 
         if (newbadgexcon == 1){
             badgeSortKey = "xcon1";
+            badgeAwardMsg = "You earned THE INDUSTRIAL BADGE for getting to 5 correct answers in the CONTEMPORARY HISTORY category!";
         }
         if (newbadgexcon == 2){
             badgeSortKey = "xcon2";
+            badgeAwardMsg = "You earned THE NUCLEAR BADGE for getting to 25 correct answers in the CONTEMPORARY HISTORY category!";
         }
         if (newbadgexcon == 3){
             badgeSortKey = "xcon3";
+            badgeAwardMsg = "You earned THE BIO-TECH BADGE for getting to 50 correct answers in the CONTEMPORARY HISTORY category!";
         }
         if (newbadgexcon == 4){
             badgeSortKey = "xcon4";
+            badgeAwardMsg = "You earned THE DIGITAL BADGE for getting to 100 correct answers in the CONTEMPORARY HISTORY category!";
         }
         if (newbadgexcon == 5){
             badgeSortKey = "xcon5";
+            badgeAwardMsg = "You earned THE ARTIFICIAL INTELLIGENCE BADGE for getting to 200 correct answers in the CONTEMPORARY HISTORY category!";
         }
 
         badgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(badgeSortKey);
@@ -273,10 +335,11 @@ public class ExpandedAnswer extends AppCompatActivity {
                     loutBadgesX.setVisibility(View.VISIBLE);
                     badgeImageLink = badges.child("badgeimagelink").getValue().toString();
                     Picasso.get().load(badgeImageLink).into(imgBadgeAwardX);
+                    txtBadgeAwardX.setText(badgeAwardMsg);
 
                     try {
 
-                        CountDownTimer badgeAwardTimer = new CountDownTimer(5000, 1000) {
+                        CountDownTimer badgeAwardTimer = new CountDownTimer(7000, 1000) {
                             @Override
                             public void onTick(long millisUntilFinished) {
                             }
@@ -406,66 +469,92 @@ public class ExpandedAnswer extends AppCompatActivity {
         ////////// LOGIC FOR EA PANEL CHOICE /////////////////////////////////////////
         loutEApanelX = findViewById(R.id.loutEApanel);
         if (ExpAnsCategoryGet.equals("Persian") && ExpAnsEpochGet.equals("Middle Empire")) {
+            panelName = "permemp";
 
-            loutEApanelX.setBackgroundResource(R.drawable.permemp);
         }
         if (ExpAnsCategoryGet.equals("Greek") && ExpAnsEpochGet.equals("Hellenistic")) {
+            panelName = "grehel";
 
-            loutEApanelX.setBackgroundResource(R.drawable.grehel);
         }
         if (ExpAnsCategoryGet.equals("Roman") && ExpAnsEpochGet.equals("Early Empire")) {
+            panelName = "romeemp";
 
-            loutEApanelX.setBackgroundResource(R.drawable.romeemp);
         }
 
         if (ExpAnsCategoryGet.equals("Roman") && ExpAnsEpochGet.equals("Middle Empire")) {
+            panelName = "rommemp";
 
-            loutEApanelX.setBackgroundResource(R.drawable.rommemp);
         }
         if (ExpAnsCategoryGet.equals("Roman") && ExpAnsEpochGet.equals("Late Antiquity")) {
+            panelName = "romlatan";
 
-            loutEApanelX.setBackgroundResource(R.drawable.romlatan);
         }
 
         if (ExpAnsCategoryGet.equals("Byzantine") && ExpAnsEpochGet.equals("Dark Ages")) {
+            panelName = "byzdark";
 
-            loutEApanelX.setBackgroundResource(R.drawable.byzdark);
         }
 
         if (ExpAnsCategoryGet.equals("English") && ExpAnsEpochGet.equals("Modern")) {
+            panelName = "engmod";
 
-            loutEApanelX.setBackgroundResource(R.drawable.engmod);
         }
 
         if (ExpAnsCategoryGet.equals("Spanish") && ExpAnsEpochGet.equals("Enlightenment")) {
+            panelName = "spaenl";
 
-            loutEApanelX.setBackgroundResource(R.drawable.spaenl);
         }
 
         if (ExpAnsCategoryGet.equals("Papacy") && ExpAnsEpochGet.equals("Renaissance")) {
+            panelName = "papren";
 
-            loutEApanelX.setBackgroundResource(R.drawable.papren);
         }
 
         if (ExpAnsCategoryGet.equals("Polish") && ExpAnsEpochGet.equals("Enlightenment")) {
+            panelName = "polenl";
 
-            loutEApanelX.setBackgroundResource(R.drawable.polenl);
         }
+
+        Query panelQuery = FirebaseDatabase.getInstance().getReference().child("panels").orderByChild("panelname").equalTo(panelName);
+        panelQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot panels: badgeProfSnapshot.getChildren()) {
+
+                    try {
+                        String imagePanelLink = panels.child("panelimagelink").getValue().toString();
+                        //Picasso.get().load(imagePanelLink).into(loutEApanelX);
+                        Picasso.get().load(imagePanelLink).into(new Target() {
+                            @Override
+                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                loutEApanelX.setBackground(new BitmapDrawable(bitmap));
+                            }
+
+                            @Override
+                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+                            }
+
+                            @Override
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                            }
+                        });
+
+                    } catch (Exception e) {
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
         ///////////// END OF LOGIC FOR EA PANEL CHOICE //////////////////////////////////
 
 
-        //////// Logic for background picture based on mix of cateogy and epoch //////////////////////////
-        // This was old code i believe so commenting but keeping to avoid surprises for now
-//        if (ExpAnsEpochGet.equals("Hellenistic") && ExpAnsCategoryGet.equals("Roman")) {
-//
-//            expAnsBacgroundNo = 2;
-//
-//        }
 
-        // use the No to select a pic which is then set
-
-        ////// end of logic for background pics ///////////////////////////////////////////
 
         // BUTTONS FOR GOING TO DIFFERENT SCREENS BEGINS //////////////////////////////////
         btnPlayAgainGlowX = findViewById(R.id.btnPlayAgainGlow);

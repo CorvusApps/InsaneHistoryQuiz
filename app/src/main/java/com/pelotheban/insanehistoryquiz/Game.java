@@ -840,11 +840,11 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         @Override
                         public void onFinish() {
 
-                            btnWrongGlowX.setVisibility(View.GONE);
-                            shadeX.setVisibility(View.GONE);
-                            imgCorrectorCheckX.setVisibility(View.GONE);
-                            loutCoinAwardX.setVisibility(View.GONE);
-                            btnWrongX.setVisibility(View.VISIBLE);
+//                            btnWrongGlowX.setVisibility(View.GONE);
+//                            shadeX.setVisibility(View.GONE);
+//                            imgCorrectorCheckX.setVisibility(View.GONE);
+//                            loutCoinAwardX.setVisibility(View.GONE);
+//                            btnWrongX.setVisibility(View.VISIBLE);
 
 
                             coinsOwned = coinsOwned + 1;
@@ -1268,6 +1268,12 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         Toast.makeText(Game.this, "Out of numbers", Toast.LENGTH_SHORT).show();
 
                     }
+
+                    btnWrongGlowX.setVisibility(View.GONE);
+                    shadeX.setVisibility(View.GONE);
+                    imgCorrectorCheckX.setVisibility(View.GONE);
+                    loutCoinAwardX.setVisibility(View.GONE);
+                    btnWrongX.setVisibility(View.VISIBLE);
 
                 }
 

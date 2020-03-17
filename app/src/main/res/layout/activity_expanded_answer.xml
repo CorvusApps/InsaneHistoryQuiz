@@ -119,9 +119,10 @@
 
        <TextView
 
+           android:id="@+id/txtBadgeMessage"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:text="You earned a badge!"
+           android:text="You earned THE SHOPKEEPER BADGE for reaching the 125 coin Level!"
            android:layout_gravity="center"
            android:textColor="@color/colorPrimaryDark"
            android:textStyle="bold"
@@ -129,7 +130,7 @@
            android:layout_marginRight="@dimen/_20sdp"
            android:layout_marginBottom="@dimen/_45sdp"
            android:visibility="visible"
-           android:textSize="@dimen/_30sdp"
+           android:textSize="@dimen/_25sdp"
            android:fontFamily="@font/almendra_sc"
            android:gravity="center"
 
@@ -138,8 +139,8 @@
 
     <ImageView
         android:id="@+id/imgBadgeAward"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_150sdp"
+        android:layout_width="@dimen/_160sdp"
+        android:layout_height="@dimen/_240sdp"
         app:srcCompat="@drawable/badgeblank"
 
         android:layout_gravity="center"
@@ -147,7 +148,7 @@
         />
 
     <TextView
-        android:id="@+id/txtBadgeMessage"
+        android:id="@+id/txtBadgeMessageOld"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Level 1"
@@ -156,7 +157,7 @@
         android:textStyle="bold"
         android:layout_marginLeft="@dimen/_20sdp"
         android:layout_marginRight="@dimen/_20sdp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:textSize="@dimen/_20sdp"
         android:fontFamily="@font/almendra_sc"
         android:gravity="center"

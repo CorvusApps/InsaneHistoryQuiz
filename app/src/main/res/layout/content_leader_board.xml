@@ -127,6 +127,7 @@
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:fontFamily="@font/almendra_sc"
+                android:textSize="@dimen/_13sdp"
                 android:text="Most Gold" />
 
             <Button
@@ -139,6 +140,7 @@
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/colorAccent"
                 android:fontFamily="@font/almendra_sc"
+                android:textSize="@dimen/_13sdp"
                 android:visibility="gone"
                 android:text="Most Gold" />
 
@@ -152,6 +154,7 @@
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:fontFamily="@font/almendra_sc"
+                android:textSize="@dimen/_13sdp"
                 android:text="Most Right" />
 
             <Button
@@ -164,6 +167,7 @@
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/colorAccent"
                 android:fontFamily="@font/almendra_sc"
+                android:textSize="@dimen/_13sdp"
                 android:visibility="gone"
                 android:text="Most Right" />
 
@@ -177,6 +181,7 @@
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:fontFamily="@font/almendra_sc"
+                android:textSize="@dimen/_13sdp"
                 android:text="Longest Streak" />
 
             <Button
@@ -189,6 +194,7 @@
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/colorAccent"
                 android:fontFamily="@font/almendra_sc"
+                android:textSize="@dimen/_13sdp"
                 android:visibility="gone"
                 android:text="Longest Streak" />
         </LinearLayout>

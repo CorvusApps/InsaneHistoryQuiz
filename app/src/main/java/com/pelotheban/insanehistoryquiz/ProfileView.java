@@ -118,12 +118,20 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
 
    //Badges
+        // primary badges
+    private ImageView imgSupporterBadgeX, imgLongStreakBadgeX, imgTotalAnsweredBadgeX, imgWinningPercentageBadgeX; // badge display
 
-    private ImageView imgSupporterBadgeX, imgLongStreakBadgeX, imgTotalAnsweredBadgeX, imgWinningPercentageBadgeX;
+    private String supporterBadgeLevelString, longestStreakBadgeLevelString, totalAnsweredBadgeLevelString, winningPerentageBadgeLevelString;// pull from userQuery
+    private int supporterBadgeLevel, longestStreakBadgeLevel, totalAnsweredBadgeLevel, winningPerentageBadgeLevel; // convert to int for manipulation
+    private String supporterBadge, longestStreakBadge, totalAnsweredBadge, winningPercentageBadge; // to find right badge details in badgeQuery
 
-    private String supporterBadgeLevelString, longestStreakBadgeLevelString, totalAnsweredBadgeLevelString, winningPerentageBadgeLevelString;
-    private int supporterBadgeLevel, longestStreakBadgeLevel, totalAnsweredBadgeLevel, winningPerentageBadgeLevel;
-    private String supporterBadge, longestStreakBadge, totalAnsweredBadge, winningPercentageBadge;
+        // category master badges
+    private ImageView imgAntiquityBadgeX, imgMedievalBadgeX, imgRenaissanceBadgeX, imgEnlightenmentBadgeX, imgModernBadgeX, imgContemporaryBadgeX;
+
+    private String antiquityBadgeLevelString, medievalBadgeLevelString, renaissanceBadgeLevelString,
+            enlightenmentBadgeLevelString, modernBadgeLevelString, contemporaryBadgeLevelString;
+    private int antiquityBadgeLevel, medievalBadgeLevel, renaissanceBadgeLevel, enlightenmentBadgeLevel, modernBadgeLevel, contemporaryBadgeLevel;
+    private String antiquityBadge, medievalBadge, renaissanceBadge, enlightenmentBadge, modernBadge, contemporaryBadge;
 
 
     @Override
@@ -340,6 +348,13 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         imgTotalAnsweredBadgeX = findViewById(R.id.imgTotalAnsweredBadge);
         imgWinningPercentageBadgeX = findViewById(R.id.imgWinPercentageBadge);
 
+        imgAntiquityBadgeX = findViewById(R.id.imgAntiquityBadge);
+        imgMedievalBadgeX = findViewById(R.id.imgMedievalBadge);
+        imgRenaissanceBadgeX = findViewById(R.id.imgRenaissanceBadge);
+        imgEnlightenmentBadgeX = findViewById(R.id.imgEnlightenmentBadge);
+        imgModernBadgeX = findViewById(R.id.imgModernBadge);
+        imgContemporaryBadgeX = findViewById(R.id.imgContemporaryBadge);
+
 
         ///// POPULATING ALL THE COUNTERS BEGINS ////////////////////////////////////////////////////
 
@@ -475,6 +490,54 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
                         winningPerentageBadgeLevelString = userPs.child("badgewin").getValue().toString();
                         winningPerentageBadgeLevel = Integer.valueOf(winningPerentageBadgeLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+
+                        antiquityBadgeLevelString = userPs.child("badgexant").getValue().toString();
+                        antiquityBadgeLevel = Integer.valueOf(antiquityBadgeLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+
+                        medievalBadgeLevelString = userPs.child("badgexmed").getValue().toString();
+                        medievalBadgeLevel = Integer.valueOf(medievalBadgeLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+
+                        renaissanceBadgeLevelString = userPs.child("badgexren").getValue().toString();
+                        renaissanceBadgeLevel = Integer.valueOf(renaissanceBadgeLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+
+                        enlightenmentBadgeLevelString = userPs.child("badgexenl").getValue().toString();
+                        enlightenmentBadgeLevel = Integer.valueOf(enlightenmentBadgeLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+
+                        modernBadgeLevelString = userPs.child("badgexmod").getValue().toString();
+                        modernBadgeLevel = Integer.valueOf(modernBadgeLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+
+                        contemporaryBadgeLevelString = userPs.child("badgexcon").getValue().toString();
+                        contemporaryBadgeLevel = Integer.valueOf(contemporaryBadgeLevelString);
 
                     } catch (Exception e) {
                     }
@@ -994,6 +1057,102 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             winningPercentageBadge = "win5";
         }
 
+        if (antiquityBadgeLevel == 1){
+            antiquityBadge = "xant1";
+        }
+        if (antiquityBadgeLevel == 2){
+            antiquityBadge = "xant2";
+        }
+        if (antiquityBadgeLevel == 3){
+            antiquityBadge = "xant3";
+        }
+        if (antiquityBadgeLevel == 4){
+            antiquityBadge = "xant4";
+        }
+        if (antiquityBadgeLevel == 5){
+            antiquityBadge = "xant5";
+        }
+
+        if (medievalBadgeLevel == 1){
+            medievalBadge = "xmed1";
+        }
+        if (medievalBadgeLevel == 2){
+            medievalBadge = "xmed2";
+        }
+        if (medievalBadgeLevel == 3){
+            medievalBadge = "xmed3";
+        }
+        if (medievalBadgeLevel == 4){
+            medievalBadge = "xmed4";
+        }
+        if (medievalBadgeLevel == 5){
+            medievalBadge = "xmed5";
+        }
+
+        if (renaissanceBadgeLevel == 1){
+            renaissanceBadge = "xren1";
+        }
+        if (renaissanceBadgeLevel == 2){
+            renaissanceBadge = "xren2";
+        }
+        if (renaissanceBadgeLevel == 3){
+            renaissanceBadge = "xren3";
+        }
+        if (renaissanceBadgeLevel == 4){
+            renaissanceBadge = "xren4";
+        }
+        if (renaissanceBadgeLevel == 5){
+            renaissanceBadge = "xren5";
+        }
+
+        if (enlightenmentBadgeLevel == 1){
+            enlightenmentBadge = "xenl1";
+        }
+        if (enlightenmentBadgeLevel == 2){
+            enlightenmentBadge = "xenl2";
+        }
+        if (enlightenmentBadgeLevel == 3){
+            enlightenmentBadge = "xenl3";
+        }
+        if (enlightenmentBadgeLevel == 4){
+            enlightenmentBadge = "xenl4";
+        }
+        if (enlightenmentBadgeLevel == 5){
+            enlightenmentBadge = "xenl5";
+        }
+
+        if (modernBadgeLevel == 1){
+            modernBadge = "xmod1";
+        }
+        if (modernBadgeLevel == 2){
+            modernBadge = "xmod2";
+        }
+        if (modernBadgeLevel == 3){
+            modernBadge = "xmod3";
+        }
+        if (modernBadgeLevel == 4){
+            modernBadge = "xmod4";
+        }
+        if (modernBadgeLevel == 5){
+            modernBadge = "xmod5";
+        }
+
+        if (contemporaryBadgeLevel == 1){
+            contemporaryBadge = "xcon1";
+        }
+        if (contemporaryBadgeLevel == 2){
+            contemporaryBadge = "xcon2";
+        }
+        if (contemporaryBadgeLevel == 3){
+            contemporaryBadge = "xcon3";
+        }
+        if (contemporaryBadgeLevel == 4){
+            contemporaryBadge = "xcon4";
+        }
+        if (contemporaryBadgeLevel == 5){
+            contemporaryBadge = "xcon5";
+        }
+
        // Toast.makeText(ProfileView.this, supporterBadge, Toast.LENGTH_LONG).show();
 
         Query supporterBadgeProfileQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(supporterBadge);
@@ -1072,15 +1231,121 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             }
         });
 
+        Query antiquityBadgeProfileQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(antiquityBadge);
+        antiquityBadgeProfileQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges5: badgeProfSnapshot.getChildren()) {
 
+                    if (antiquityBadgeLevel > 0) {
+                        String imageBadgeProfLink = badges5.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgAntiquityBadgeX);
 
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        Query medievalBadgeProfileQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(medievalBadge);
+        medievalBadgeProfileQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges6: badgeProfSnapshot.getChildren()) {
+
+                    if (medievalBadgeLevel > 0) {
+                        String imageBadgeProfLink = badges6.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgMedievalBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        Query renaissanceBadgeProfileQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(renaissanceBadge);
+        renaissanceBadgeProfileQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges7: badgeProfSnapshot.getChildren()) {
+
+                    if (renaissanceBadgeLevel > 0) {
+                        String imageBadgeProfLink = badges7.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgRenaissanceBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        Query enlightenmentBadgeProfileQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(enlightenmentBadge);
+        enlightenmentBadgeProfileQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges8: badgeProfSnapshot.getChildren()) {
+
+                    if (enlightenmentBadgeLevel > 0) {
+                        String imageBadgeProfLink = badges8.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgEnlightenmentBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        Query modernBadgeProfileQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(modernBadge);
+        modernBadgeProfileQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges9: badgeProfSnapshot.getChildren()) {
+
+                    if (modernBadgeLevel > 0) {
+                        String imageBadgeProfLink = badges9.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgModernBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        Query contemporaryBadgeProfileQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(contemporaryBadge);
+        contemporaryBadgeProfileQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges10: badgeProfSnapshot.getChildren()) {
+
+                    if (contemporaryBadgeLevel > 0) {
+                        String imageBadgeProfLink = badges10.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgContemporaryBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
     }
-
-
-
-
     //////////////////Badges ends ///////////////////////////////////////////////////////////////////////
 
     private void alertDialogLogOut() {

@@ -152,7 +152,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/_20sdp"
-        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
         android:visibility="gone"
 
         >
@@ -192,9 +192,10 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/almendra_sc"
             android:text="Answer"
-            android:background="@drawable/answerbanner"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_15sdp"
+            android:background="@drawable/panel"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/_17sdp"
+            android:textStyle="bold"
 
 
              />

@@ -1,9 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     tools:context=".AddPanels">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/imgAddPanel"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="@dimen/_400sdp"
+        app:srcCompat="@drawable/wallbackground"
+        android:scaleType="centerCrop"
+
+        />
+
+    <EditText
+        android:id="@+id/edtPanelName"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_12sdp"
+        android:hint="Name"
+        />
+
+    <Button
+        android:id="@+id/btnSavePanelPic"
+        android:layout_width="@dimen/_125sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:textSize="@dimen/_18sdp"
+        android:text="Save Panel"
+        />
+
+
+
+</LinearLayout>
