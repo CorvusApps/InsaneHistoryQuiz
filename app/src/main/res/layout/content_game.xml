@@ -144,7 +144,17 @@
             android:textSize="@dimen/_15sdp"
             android:textStyle="bold" />
 
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtTestQCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_100sdp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/_18sdp"
+        android:text="0"/>
 
     <LinearLayout
         android:id="@+id/loutGameAnswerDisplay"

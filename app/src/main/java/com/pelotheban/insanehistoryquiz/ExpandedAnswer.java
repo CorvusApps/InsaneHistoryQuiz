@@ -159,23 +159,23 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (newbadgetrt == 1){
             badgeSortKey = "trt1";
-            badgeAwardMsg = "You earned THE SCRIBE BADGE for getting 5 to a total of 5 correct answers!";
+            badgeAwardMsg = "You earned THE SCRIBE BADGE for getting to a total of 5 correct answers!";
         }
         if (newbadgetrt == 2){
             badgeSortKey = "trt2";
-            badgeAwardMsg = "You earned THE LIBRARIAN BADGE for getting 5 to a total of 25 correct answers!";
+            badgeAwardMsg = "You earned THE LIBRARIAN BADGE for getting to a total of 25 correct answers!";
         }
         if (newbadgetrt == 3){
             badgeSortKey = "trt3";
-            badgeAwardMsg = "You earned THE MASTER LIBRARIAN BADGE for getting 5 to a total of 100 correct answers!";
+            badgeAwardMsg = "You earned THE MASTER LIBRARIAN BADGE for getting to a total of 100 correct answers!";
         }
         if (newbadgetrt == 4){
             badgeSortKey = "trt4";
-            badgeAwardMsg = "You earned THE CHRONICLER BADGE for getting 5 to a total of 250 correct answers!";
+            badgeAwardMsg = "You earned THE CHRONICLER BADGE for getting to a total of 250 correct answers!";
         }
         if (newbadgetrt == 5){
             badgeSortKey = "trt5";
-            badgeAwardMsg = "You earned THE HISTORIAN BADGE for getting 5 to a total of 500 correct answers!";
+            badgeAwardMsg = "You earned THE HISTORIAN BADGE for getting to a total of 500 correct answers!";
         }
 
         if (newbadgewin == 1){
@@ -468,12 +468,40 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         ////////// LOGIC FOR EA PANEL CHOICE /////////////////////////////////////////
         loutEApanelX = findViewById(R.id.loutEApanel);
+        if (ExpAnsCategoryGet.equals("Chinese") && ExpAnsEpochGet.equals("Dark Ages")) {
+            panelName = "chidark";
+
+        }
+        if (ExpAnsCategoryGet.equals("Egyptian") && ExpAnsEpochGet.equals("Bronze Age")) {
+            panelName = "egybro";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Jewish") && ExpAnsEpochGet.equals("Early Empire")) {
+            panelName = "jeweemp";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Jewish") && ExpAnsEpochGet.equals("Late Antiquity")) {
+            panelName = "jewlatan";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Jewish") && ExpAnsEpochGet.equals("WWII")) {
+            panelName = "jewwwii";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Persian") && ExpAnsEpochGet.equals("Middle Empire")) {
             panelName = "permemp";
 
         }
         if (ExpAnsCategoryGet.equals("Greek") && ExpAnsEpochGet.equals("Hellenistic")) {
             panelName = "grehel";
+
+        }
+        if (ExpAnsCategoryGet.equals("Roman") && ExpAnsEpochGet.equals("Late Republic")) {
+            panelName = "romlrep";
 
         }
         if (ExpAnsCategoryGet.equals("Roman") && ExpAnsEpochGet.equals("Early Empire")) {
@@ -490,8 +518,37 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("Carthaginian") && ExpAnsEpochGet.equals("Hellenistic")) {
+            panelName = "carhel";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Byzantine") && ExpAnsEpochGet.equals("Late Antiquity")) {
+            panelName = "byzlatan";
+
+        }
         if (ExpAnsCategoryGet.equals("Byzantine") && ExpAnsEpochGet.equals("Dark Ages")) {
             panelName = "byzdark";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Goth") && ExpAnsEpochGet.equals("Late Antiquity")) {
+            panelName = "gothlatan";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Hun") && ExpAnsEpochGet.equals("Late Antiquity")) {
+            panelName = "hunlatan";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("German") && ExpAnsEpochGet.equals("WWII")) {
+            panelName = "gerwwii";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("English") && ExpAnsEpochGet.equals("Renaissance")) {
+            panelName = "engren";
 
         }
 
@@ -500,8 +557,23 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("English") && ExpAnsEpochGet.equals("Contemporary")) {
+            panelName = "engcon";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Spanish") && ExpAnsEpochGet.equals("Enlightenment")) {
             panelName = "spaenl";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Papacy") && ExpAnsEpochGet.equals("High Middle Ages")) {
+            panelName = "paphma";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Papacy") && ExpAnsEpochGet.equals("Late Middle Ages")) {
+            panelName = "paplma";
 
         }
 
@@ -512,6 +584,16 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("Polish") && ExpAnsEpochGet.equals("Enlightenment")) {
             panelName = "polenl";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Polish") && ExpAnsEpochGet.equals("PreModern")) {
+            panelName = "polpmod";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("American") && ExpAnsEpochGet.equals("Modern")) {
+            panelName = "ammod";
 
         }
 

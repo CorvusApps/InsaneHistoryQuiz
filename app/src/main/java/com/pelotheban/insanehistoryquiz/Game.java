@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 
@@ -46,6 +47,9 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 
@@ -53,10 +57,18 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
     // Game play UI elements and variables
 
+    private int randQuestionPre;
     private int randQuestion;
+    private String [] questionList;
+    private String breaker;
+    private SharedPreferences pastQuestionsShared;
+    private String TestQCounterString;
+    private TextView txtTestQCountX;
+
     private String displayAnswer, displayAnswer2, displayAnswer3, displayAnswer4, displayAnswer5; // will be randomly assigned to the answer options in each question
     private int answerCounter; // scrolls through how many answers options to a question the player has seen
     private int randAnswer;
+
     private ImageView btnCorrectX, btnWrongX, btnWrongGlowX;
 
     private String ExpandedAnswerPut, ExpAnsCategoryPut, ExpAnsEpochPut; // making this class variable so can go to expanded answer screen
@@ -189,8 +201,13 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         shadeX = findViewById(R.id.shadeCor);
 
         // Game play
-        answerCounter = 1;
-        randQuestion = new Random().nextInt(16) + 1; // random question number to be displayed
+
+
+
+
+
+
+
 
         //...... displayed outputs
         loutGameQuestionX = findViewById(R.id.loutGameQuestion);
@@ -200,6 +217,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         txtGameAnswerDisplayX = findViewById(R.id.txtGameAnswerDisplay);
         txtCoinCounterX = findViewById(R.id.txtCoinCounter);
         txtConStreakX = findViewById(R.id.txtConStreak);
+        txtTestQCountX = findViewById(R.id.txtTestQCounter);
 
 
         imgCorrectorCheckX = findViewById(R.id.imgCorrectorCheck);
@@ -219,7 +237,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         imgHPTimer4X = findViewById(R.id.imgHPTimer4);
         imgHPTimer5X = findViewById(R.id.imgHPTimer5);
 
-        timersetting = 10000;
+        timersetting = 13000;
         ticksetting = 5000;
         tickerToggle = 1;
 
@@ -234,6 +252,109 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         height2 = (int) Math.round(height);
         width2 = (int) Math.round(width);
+
+        questionList = new String[66]; // setting size of our array
+
+        pastQuestionsShared = getSharedPreferences("pastQuestions", MODE_PRIVATE);
+        String questionListStringified = pastQuestionsShared.getString("questionList", "0"); // where if no settings
+
+        questionList = questionListStringified.split(",");
+
+        answerCounter = 1;
+        breaker = "no";
+
+        randQuestionPre = new Random().nextInt(66) + 1; // random question number to be displayed
+        String randQuestionPreStr = String.valueOf(randQuestionPre);
+
+        if (questionList.length > 65) {
+
+            String reset = "0,";
+            questionList = reset.split(",");
+
+        }
+
+        if (Arrays.asList(questionList).contains(randQuestionPreStr)) {
+
+            //Toast.makeText(Game.this, "FREEZING", Toast.LENGTH_SHORT).show();
+            int spinner = 1;
+            while (true) { // this should spin without going beyond in ASYNC way until break
+             //for (int x = 0; x < 50; x++){
+
+                randQuestionPre = new Random().nextInt(66) + 1; // random question number to be displayed
+                String randQuestionPreStr2 = String.valueOf(randQuestionPre);
+
+                if (Arrays.asList(questionList).contains(randQuestionPreStr2)) {
+
+
+
+                    spinner = spinner +1;
+
+                }
+                else {
+
+                    randQuestion = randQuestionPre;
+
+                    String randQuestionStr = String.valueOf(randQuestion); // convert the number we just generated to a string to add to our array
+
+                    // now we add the new  question to our string
+
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < questionList.length; i++) {  // create a string from playlist - so now sb is string from the array with comas between all the terms
+                        sb.append(questionList[i]).append(",");
+                    }
+
+                    String sbString = sb.toString(); // convert our string builder to string
+                    // add the new question to the string from array
+
+                    sbString = sbString + randQuestionStr;
+
+                    SharedPreferences.Editor editor = pastQuestionsShared.edit();
+                    editor.putString("questionList", sbString);
+                    editor.apply(); // saves the value
+
+                    Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
+                    gameStart();
+
+                    break;
+                }
+
+
+            }
+//            randQuestionPre = new Random().nextInt(66) + 1; // random question number to be displayed
+//            randQuestion = randQuestionPre;
+//            Toast.makeText(Game.this, spinner+"", Toast.LENGTH_LONG).show();
+//            gameStart();
+
+
+
+
+        } else { // so if the List so far DOES NOT HAVE the number we just generated"
+
+            randQuestion = randQuestionPre; // set the questions number to the number we just generated (that is used in game below)
+
+            String randQuestionStr = String.valueOf(randQuestion); // convert the number we just generated to a string to add to our array
+
+            // now we add the new  question to our string
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < questionList.length; i++) {  // create a string from playlist - so now sb is string from the array with comas between all the terms
+                sb.append(questionList[i]).append(",");
+            }
+
+            String sbString = sb.toString(); // convert our string builder to string
+            // add the new question to the string from array
+
+            sbString = sbString + randQuestionStr;
+
+            SharedPreferences.Editor editor = pastQuestionsShared.edit();
+            editor.putString("questionList", sbString);
+            editor.apply(); // saves the value
+
+            Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
+            gameStart();
+
+        }
+
 
 
         ////////////// Query to pull in all the user variables like counters of questions answered etc.
@@ -453,85 +574,85 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         // Firebase game SECTION BEGINS /////////////////////////////////////////////////////////////////////////////////////////
 
-        gameReference = FirebaseDatabase.getInstance().getReference().child("questions");
-        sortGameQueryQuestions = gameReference.orderByChild("aaaqno").equalTo(randQuestion);
+//        gameReference = FirebaseDatabase.getInstance().getReference().child("questions");
+//        sortGameQueryQuestions = gameReference.orderByChild("aaaqno").equalTo(randQuestion);
 
         // First firebase pull is on create showing the question and first answer (will add a time delay on the answer)
 
-        sortGameQueryQuestions.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot gameQs : dataSnapshot.getChildren()) {
-
-                    // pull in to display in question screen
-                    String GameQuestionZ = gameQs.child("cccquestion").getValue().toString();
-                    txtGameQuestionX.setText(GameQuestionZ);
-
-                    String GameCorrectAnswerZ = gameQs.child("dddcorrectansw").getValue().toString();
-                    String GameWrongAnswer1Z = gameQs.child("eeewrongans1").getValue().toString();
-                    String GameWrongAnswer2Z = gameQs.child("fffwrongans2").getValue().toString();
-                    String GameWrongAnswer3Z = gameQs.child("gggwrongans3").getValue().toString();
-                    String GameWrongAnswer4Z = gameQs.child("hhhwrongans4").getValue().toString();
-
-                    //pull in to put to exapanded answer screen
-                    ExpandedAnswerPut = gameQs.child("iiiexpanded").getValue().toString();
-                    ExpAnsCategoryPut = gameQs.child("bbbcategory").getValue().toString();
-                    ExpAnsEpochPut = gameQs.child("lllepoch").getValue().toString();
-
-                    // pull to figure out which counter to grow when user answers the question
-                    era = gameQs.child("mmmera").getValue().toString();
-
-                    randAnswer = new Random().nextInt(5) + 1;
-
-                    if (randAnswer == 1) {
-
-                        displayAnswer = GameCorrectAnswerZ;
-
-                    } else if (randAnswer == 2) {
-
-                        displayAnswer = GameWrongAnswer1Z;
-
-
-                    } else if (randAnswer == 3) {
-
-                        displayAnswer = GameWrongAnswer4Z;
-
-
-                    } else if (randAnswer == 4) {
-
-                        displayAnswer = GameWrongAnswer3Z;
-
-
-                    } else if (randAnswer == 5) {
-
-                        displayAnswer = GameWrongAnswer1Z;
-                    }
-
-
-                    if (answerCounter == 1) {
-                        txtGameAnswerDisplayX.setText(displayAnswer);
-
-//                    } else if (answerCounter == 2) {
-//                        txtGameAnswerDisplayX.setText(displayAnswer2);
-
-                        // probably don't need the above because there is no value in 2 but keeping for now just in case
-                    } else {
-
-                        Toast.makeText(Game.this, "Out of numbers", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-
-                startTimer();
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        sortGameQueryQuestions.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                for (DataSnapshot gameQs : dataSnapshot.getChildren()) {
+//
+//                    // pull in to display in question screen
+//                    String GameQuestionZ = gameQs.child("cccquestion").getValue().toString();
+//                    txtGameQuestionX.setText(GameQuestionZ);
+//
+//                    String GameCorrectAnswerZ = gameQs.child("dddcorrectansw").getValue().toString();
+//                    String GameWrongAnswer1Z = gameQs.child("eeewrongans1").getValue().toString();
+//                    String GameWrongAnswer2Z = gameQs.child("fffwrongans2").getValue().toString();
+//                    String GameWrongAnswer3Z = gameQs.child("gggwrongans3").getValue().toString();
+//                    String GameWrongAnswer4Z = gameQs.child("hhhwrongans4").getValue().toString();
+//
+//                    TestQCounterString = gameQs.child("aaaqno").getValue().toString();
+//                    txtTestQCountX.setText(TestQCounterString);
+//
+//                    //pull in to put to exapanded answer screen
+//                    ExpandedAnswerPut = gameQs.child("iiiexpanded").getValue().toString();
+//                    ExpAnsCategoryPut = gameQs.child("bbbcategory").getValue().toString();
+//                    ExpAnsEpochPut = gameQs.child("lllepoch").getValue().toString();
+//
+//                    // pull to figure out which counter to grow when user answers the question
+//                    era = gameQs.child("mmmera").getValue().toString();
+//
+//                    randAnswer = new Random().nextInt(5) + 1;
+//
+//                    if (randAnswer == 1) {
+//
+//                        displayAnswer = GameCorrectAnswerZ;
+//
+//                    } else if (randAnswer == 2) {
+//
+//                        displayAnswer = GameWrongAnswer1Z;
+//
+//
+//                    } else if (randAnswer == 3) {
+//
+//                        displayAnswer = GameWrongAnswer4Z;
+//
+//
+//                    } else if (randAnswer == 4) {
+//
+//                        displayAnswer = GameWrongAnswer3Z;
+//
+//
+//                    } else if (randAnswer == 5) {
+//
+//                        displayAnswer = GameWrongAnswer1Z;
+//                    }
+//
+//
+//                    if (answerCounter == 1) {
+//                        txtGameAnswerDisplayX.setText(displayAnswer);
+//
+//
+//                    } else {
+//
+//                        Toast.makeText(Game.this, "Out of numbers", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                }
+//
+//                startTimer();
+//            }
+//
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
         // FIREBASE GAME SECTION continues - buttons and resulting right / wrong logic and scores adjustments
         btnCorrectX = findViewById(R.id.btnCorrect);
@@ -881,6 +1002,93 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
     }  // END OF ON CREATE ///////////////////////////////////////////////////////////////////////////////////
 
+    private void gameStart() {
+
+        gameReference = FirebaseDatabase.getInstance().getReference().child("questions");
+        sortGameQueryQuestions = gameReference.orderByChild("aaaqno").equalTo(randQuestion);
+
+        sortGameQueryQuestions.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot gameQs : dataSnapshot.getChildren()) {
+
+                    // pull in to display in question screen
+                    String GameQuestionZ = gameQs.child("cccquestion").getValue().toString();
+                    txtGameQuestionX.setText(GameQuestionZ);
+
+                    String GameCorrectAnswerZ = gameQs.child("dddcorrectansw").getValue().toString();
+                    String GameWrongAnswer1Z = gameQs.child("eeewrongans1").getValue().toString();
+                    String GameWrongAnswer2Z = gameQs.child("fffwrongans2").getValue().toString();
+                    String GameWrongAnswer3Z = gameQs.child("gggwrongans3").getValue().toString();
+                    String GameWrongAnswer4Z = gameQs.child("hhhwrongans4").getValue().toString();
+
+                    TestQCounterString = gameQs.child("aaaqno").getValue().toString();
+                    txtTestQCountX.setText(TestQCounterString);
+
+                    //pull in to put to exapanded answer screen
+                    ExpandedAnswerPut = gameQs.child("iiiexpanded").getValue().toString();
+                    ExpAnsCategoryPut = gameQs.child("bbbcategory").getValue().toString();
+                    ExpAnsEpochPut = gameQs.child("lllepoch").getValue().toString();
+
+                    // pull to figure out which counter to grow when user answers the question
+                    era = gameQs.child("mmmera").getValue().toString();
+
+                    randAnswer = new Random().nextInt(5) + 1;
+
+                    if (randAnswer == 1) {
+
+                        displayAnswer = GameCorrectAnswerZ;
+
+                    } else if (randAnswer == 2) {
+
+                        displayAnswer = GameWrongAnswer1Z;
+
+
+                    } else if (randAnswer == 3) {
+
+                        displayAnswer = GameWrongAnswer4Z;
+
+
+                    } else if (randAnswer == 4) {
+
+                        displayAnswer = GameWrongAnswer3Z;
+
+
+                    } else if (randAnswer == 5) {
+
+                        displayAnswer = GameWrongAnswer1Z;
+                    }
+
+
+                    if (answerCounter == 1) {
+                        txtGameAnswerDisplayX.setText(displayAnswer);
+
+//                    } else if (answerCounter == 2) {
+//                        txtGameAnswerDisplayX.setText(displayAnswer2);
+
+                        // probably don't need the above because there is no value in 2 but keeping for now just in case
+                    } else {
+
+                        Toast.makeText(Game.this, "Out of numbers", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
+                startTimer();
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
+
     private void badgeAward() {
 
         badgeAwardedToggle = 1;
@@ -934,7 +1142,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
 
         if (totalQuestions > 50){ // for winning % do it only if answered a critical mass of 50 questions at least
-            double winrate = totalAnswered / totalQuestions;
+            double winrate = ((double)totalAnswered) / (int)totalQuestions;
 
             if (winrate > .89) {
                 badgewinlev = 5;
@@ -949,6 +1157,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             } else {
                 badgewinlev = 0;
             }
+
         }
 
 
@@ -1291,7 +1500,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     // this is the main timer logic for the 10 then 5 seconds a user has to answer the question
     public void startTimer(){
 
-        // will be called at every 1500 milliseconds i.e. every 1.5 second.
+        // will be called at every 1000 milliseconds i.e. every second.
         countDownTimer = new CountDownTimer(timersetting, 1000) {
             public void onTick(long millisUntilFinished) {
 
@@ -1396,6 +1605,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         String conStreakZ = Integer.toString(consStreak);
                         txtConStreakX.setText(conStreakZ);
                         userReference.getRef().child("constreak").setValue(consStreak);
+
+                        totalQuestions = totalQuestions + 1;
+                        userReference.getRef().child("totalquestions").setValue(totalQuestions);
 
                         if (coinsOwned < 1) {
 
