@@ -41,7 +41,7 @@ public class ExpandedAnswer extends AppCompatActivity {
    // Primary UI components
     private ImageView btnPlayAgainX, btnEAProfileX, btnLeadersX, btnPlayAgainGlowX, btnEAProfileGlowX, btnELeadersGlowX, btnTestX;
     private AlertDialog dialog;
-    private String ExpandedAnswerGet, ExpAnsCategoryGet, ExpAnsEpochGet;
+    private String ExpandedAnswerGet, ExpAnsCategoryGet, ExpAnsEpochGet, ExpCorrectAnsGet;
     private TextView txtExpandedAnswerShowX, txtExpAnsCategoryX, txtExpAnsEpochX;
     private int expAnsBacgroundNo;
 
@@ -285,23 +285,23 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (newbadgexmod == 1) {
             badgeSortKey = "xmod1";
-            badgeAwardMsg = "You earned THE TITIAN BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
+            badgeAwardMsg = "You earned THE DYNAMITE BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
         }
         if (newbadgexmod == 2) {
             badgeSortKey = "xmod2";
-            badgeAwardMsg = "You earned THE TITIAN BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
+            badgeAwardMsg = "You earned THE GATLING-GUN BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
         }
         if (newbadgexmod == 3) {
             badgeSortKey = "xmod3";
-            badgeAwardMsg = "You earned THE TITIAN BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
+            badgeAwardMsg = "You earned THE AUTOMOBILE BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
         }
         if (newbadgexmod == 4) {
             badgeSortKey = "xmod4";
-            badgeAwardMsg = "You earned THE TITIAN BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
+            badgeAwardMsg = "You earned THE TANK BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
         }
         if (newbadgexmod == 5) {
             badgeSortKey = "xmod5";
-            badgeAwardMsg = "You earned THE TITIAN BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
+            badgeAwardMsg = "You earned THE AVIATOR BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
         }
 
         if (newbadgexcon == 1) {
@@ -444,10 +444,13 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         // This was old code i believe so commenting but keeping to avoid surprises for now
         // expAnsBacgroundNo = 1; //default setting for background in case we miss a category or don't have a pic for it
+        ExpCorrectAnsGet = getIntent().getStringExtra("dddcorrectansw");
+        ExpCorrectAnsGet = ExpCorrectAnsGet.toUpperCase() + " :";
+
 
         ExpandedAnswerGet = getIntent().getStringExtra("iiiexpanded");
         txtExpandedAnswerShowX = findViewById(R.id.txtExpandedAnswerShow);
-        txtExpandedAnswerShowX.setText(ExpandedAnswerGet);
+        txtExpandedAnswerShowX.setText(ExpCorrectAnsGet + " \n" + ExpandedAnswerGet);
 
         if (width2 > 1500) { // changes in fot for tablet and then small format phone
 
@@ -464,7 +467,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         ExpAnsEpochGet = getIntent().getStringExtra("lllepoch");
         txtExpAnsEpochX = findViewById(R.id.txtExpAnsEpoch);
-        txtExpAnsEpochX.setText(ExpAnsEpochGet);
+        txtExpAnsEpochX.setText("Test \n" + ExpAnsEpochGet);
 
         ////////// LOGIC FOR EA PANEL CHOICE /////////////////////////////////////////
         loutEApanelX = findViewById(R.id.loutEApanel);
@@ -556,6 +559,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("German") && ExpAnsEpochGet.equals("Crusades")) {
+            panelName = "gercru";
+
+        }
+
         if (ExpAnsCategoryGet.equals("German") && ExpAnsEpochGet.equals("WWII")) {
             panelName = "gerwwii";
 
@@ -563,6 +571,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("French") && ExpAnsEpochGet.equals("High Middle Ages")) {
             panelName = "frehma";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("French") && ExpAnsEpochGet.equals("Late Middle Ages")) {
+            panelName = "frelma";
 
         }
 
@@ -615,6 +628,17 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("Viking") && ExpAnsEpochGet.equals("High Middle Ages")) {
+            panelName = "vikhma";
+
+        }
+
+
+        if (ExpAnsCategoryGet.equals("Mongol") && ExpAnsEpochGet.equals("High Middle Ages")) {
+            panelName = "monhma";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Hungarian") && ExpAnsEpochGet.equals("WWII")) {
             panelName = "magwwii";
 
@@ -627,6 +651,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("Polish") && ExpAnsEpochGet.equals("PreModern")) {
             panelName = "polpmod";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Polish") && ExpAnsEpochGet.equals("WWII")) {
+            panelName = "polwwii";
 
         }
 

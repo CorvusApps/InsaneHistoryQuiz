@@ -36,6 +36,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +58,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
     // Game play UI elements and variables
 
+    private int maxNumber;
     private int randQuestionPre;
     private int randQuestion;
     private String [] questionList;
@@ -71,7 +73,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
     private ImageView btnCorrectX, btnWrongX, btnWrongGlowX;
 
-    private String ExpandedAnswerPut, ExpAnsCategoryPut, ExpAnsEpochPut; // making this class variable so can go to expanded answer screen
+    private String ExpandedAnswerPut, ExpAnsCategoryPut, ExpAnsEpochPut, ExpCorrectAnsPut; // making this class variable so can go to expanded answer screen
     private String era; // pulls in era so we know which counter to grow when user answers question correctly
 
     private LinearLayout loutGameQuestionX;
@@ -172,6 +174,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
     // adMob
 
+    int sentFromQuery; // needed to make sure that we don't keep sending from query to the test for coin sufficiency method
+
     RewardedVideoAd mRewardedAdGameScreenCoins;
     TextView txtAdMessageX;
     int adMobToggle;
@@ -190,6 +194,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         //ad mob initialize
         adMobToggle = 0;
+        sentFromQuery = 1;
+
+        Log.i ("TIMING" , "On-create = " + adMobToggle);
 
         MobileAds.initialize(this, "ca-app-pub-1744081621312112~9212279801");
         mRewardedAdGameScreenCoins = MobileAds.getRewardedVideoAdInstance(this);
@@ -249,111 +256,35 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         height2 = (int) Math.round(height);
         width2 = (int) Math.round(width);
 
-        int maxNumber = 100;
-
-        questionList = new String[maxNumber]; // setting size of our array
-
-        //getting the array with question numbers asked to date from shared prefs as a string
-        pastQuestionsShared = getSharedPreferences("pastQuestions", MODE_PRIVATE);
-        String questionListStringified = pastQuestionsShared.getString("questionList", "0"); // where if no settings
-
-        // taking the string from shared prefs and converting it back to array
-        questionList = questionListStringified.split(",");
-
-        // getting the random question # for next round and setting it to string for comparisons to previously asked
-        randQuestionPre = new Random().nextInt(maxNumber) + 1; // random question number to be displayed
-        String randQuestionPreStr = String.valueOf(randQuestionPre);
-
-        // checking to see if gone through all questions and if so resetting the shared pref array back to zero - so the questions asked comparison starts from scratch
-        if (questionList.length > (maxNumber-1)) {
-
-            String reset = "0,";
-            questionList = reset.split(",");
-
-        }
-
-        // checking to see if the random question has already been asked and no going below to get to game while if asked then getting
-        // into a loop which runs until an unasked question pops up
-        if (Arrays.asList(questionList).contains(randQuestionPreStr)) {
-
-            //Toast.makeText(Game.this, "FREEZING", Toast.LENGTH_SHORT).show();
-            int spinner = 1;
-            while (true) { // this should spin without going beyond in ASYNC way until break
-             //for (int x = 0; x < 50; x++){
-
-                // within the loop generating new random numbers and checking them agasint the array and doing so as long as not unique
-                randQuestionPre = new Random().nextInt(maxNumber) + 1; // random question number to be displayed
-                String randQuestionPreStr2 = String.valueOf(randQuestionPre);
-
-                if (Arrays.asList(questionList).contains(randQuestionPreStr2)) {
-
-                    spinner = spinner +1;
-                }
-                else { // this else is activated when the random number is NOT in the array at which point the question is set, the shared preff
-                            //is updated and the action moves to the game methods
-
-                    randQuestion = randQuestionPre;
-
-                    String randQuestionStr = String.valueOf(randQuestion); // convert the number we just generated to a string to add to our array
-
-                    // now we add the new  question to our string
-
-                    StringBuilder sb = new StringBuilder(); // converting array back into string using string builder
-                    for (int i = 0; i < questionList.length; i++) {  // create a string from playlist - so now sb is string from the array with comas between all the terms
-                        sb.append(questionList[i]).append(",");
-                    }
-
-                    String sbString = sb.toString(); // convert our string builder to string
-                    // add the new question to the string from array
-
-                    sbString = sbString + randQuestionStr; // adding the question that made the cut to the array
-
-                    SharedPreferences.Editor editor = pastQuestionsShared.edit();
-                    editor.putString("questionList", sbString);
-                    editor.apply(); // saves the value
-
-                   Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
-                    gameStart();
-
-                    break;
-                }
+        // Dynamic maxNumber
 
 
-            }
-
-        } else { // so if the List so far DOES NOT HAVE the number we just generated"
-
-            randQuestion = randQuestionPre; // set the questions number to the number we just generated (that is used in game below)
-
-            String randQuestionStr = String.valueOf(randQuestion); // convert the number we just generated to a string to add to our array
-
-            // now we add the new  question to our string
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < questionList.length; i++) {  // create a string from playlist - so now sb is string from the array with comas between all the terms
-                sb.append(questionList[i]).append(",");
-            }
-
-            String sbString = sb.toString(); // convert our string builder to string
-            // add the new question to the string from array
-
-            sbString = sbString + randQuestionStr;
-
-            SharedPreferences.Editor editor = pastQuestionsShared.edit();
-            editor.putString("questionList", sbString);
-            editor.apply(); // saves the value
-
-            Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
-            gameStart();
-
-        }
-
-
+//        DatabaseReference quizQuestionsRef = FirebaseDatabase.getInstance().getReference().child("values").child("quizquestions");
+//        //Log.i("QUIZQ", quizQuestionsRef.toString());
+//        quizQuestionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//               String maxNumberString = dataSnapshot.getValue().toString();
+//                maxNumber = Integer.valueOf(maxNumberString);
+//
+//                //Log.i("QUIZQ", "String:  " + maxNumberString);
+//                randQuestionSeclect();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
         ////////////// Query to pull in all the user variables like counters of questions answered etc.
 
+        //seems to be a danger that if the pull does not work because internet slow for example but user plays question and internet ok and then writes back it will write
+        // from zero value and delete earlier user score. To minimize this trying to use a non-single even listener
+
         sortUsersQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(uid);
-        sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        sortUsersQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -513,42 +444,14 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
 
 
-
-                }
-
-                txtCoinCounterX.setText(coinsOwnedString); // IF there are any coins in the account will set the counter
-                txtConStreakX.setText(consStreetString);
-
-                try {
-                    if (coinsOwned > 0 | coinGrantToggle.equals("yes")) {
-
-                        if (coinsOwned<1) {
-
-                            gotoAd();
-
-                        }
-
-                    } else { // setting up grant if conditions for NOT GRANTING are unmet - BUT probably never invoked because
-                        // if conditions unmet that just means that the "if" goes null gets caught by try and bounced to error
-                        // before invoking the else - So.... repeating this AGAIN in the catch of the if
-
-                        // THE GRANT IS OBSOLETE AS WE NOW DO IT ON HOME PAGE ON FIRST LOGIN BUT KEEPING HERE AS BACK STOP
-                            // IN THE CURRENT GRANT also setting up initial sort value defaults but no bothering to add here as this section is unlikely to ever be used
-
-                        userReference.getRef().child("coins").setValue(80);
-                        userReference.getRef().child("coinsgranttoggle").setValue("yes");
+                   // Log.i ("TIMING" , "coinGrantToggle in query: " + coinGrantToggle);
+                    if (sentFromQuery == 1) { // only go to check if we have coins once not on every data change
+                        gotoCoinCountSet();
 
                     }
-
-                } catch (Exception e) { // this is the catch of the if above and repeating the initial coin grant query as per notes above
-
-
-
-                    userReference.getRef().child("coins").setValue(80);
-                    userReference.getRef().child("coinsgranttoggle").setValue("yes");
-
-
                 }
+
+
 
             }
 
@@ -557,13 +460,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
             }
 
-
         });
 
-
         //// END OF use value pull in section //////////////////////////////////////////////////////////////////////////////////
-
-
 
         // Firebase game SECTION BEGINS /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -745,7 +644,10 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 intent.putExtra("iiiexpanded", ExpandedAnswerPut);
                                 intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                                 intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                                finish();
                                 startActivity(intent);
+
 
                             }
 
@@ -843,7 +745,10 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 intent.putExtra("iiiexpanded", ExpandedAnswerPut);
                                 intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                                 intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                                finish();
                                 startActivity(intent);
+
 
                             }
 
@@ -914,10 +819,193 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         // END OF BUTTON RIGHT / WRONG logic section //////////////////////////////////////////////////////////
 
+        // this is at the end so can be sure that userQuery finished and can only send to question generation if have coins
+        // at the same time already sending to adMob but this way avoids have game and timer in background which fucks things up
+        DatabaseReference quizQuestionsRef = FirebaseDatabase.getInstance().getReference().child("values").child("quizquestions");
+        //Log.i("QUIZQ", quizQuestionsRef.toString());
+        quizQuestionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                String maxNumberString = dataSnapshot.getValue().toString();
+                maxNumber = Integer.valueOf(maxNumberString);
+
+                //Log.i("QUIZQ", "String:  " + maxNumberString);
+
+                if (coinsOwned > 1 ) {  // && sentFromQuery == 1
+                    Log.i("COINS", "coins " + coinsOwned);
+                    randQuestionSeclect();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
     }  // END OF ON CREATE ///////////////////////////////////////////////////////////////////////////////////
 
+    private void gotoCoinCountSet() {
+
+        // moved this section OUT of the userquery because it doesn't need to be there AND because it is now constantly updating the query
+        // this is toggle is going crazy and looping admob - hopefully out here it is good
+        // needed seperate function protected by toggle so this doesn't get called multiple times while still getting called because if just
+        // sitting in oncreate below query gets fucked by async
+
+        sentFromQuery = 2;
+       // Log.i("TIMING", "Before setting coin counter  toggle" + adMobToggle);
+       // Log.i("TIMING", "Before setting coin counter  coinsOwnedString" + coinsOwnedString);
+
+        txtCoinCounterX.setText(coinsOwnedString); // IF there are any coins in the account will set the counter
+        txtConStreakX.setText(consStreetString);
+
+        try {
+            if (coinsOwned > 0 | coinGrantToggle.equals("yes")) {
+
+                Log.i ("TIMING" , "coinGrantToggle in if: " + coinGrantToggle);
+
+                if (coinsOwned<1) {
+
+                    adMobToggle = 1;
+                    Log.i("TIMING", "withinTXTcoincounter " + adMobToggle);
+                    gotoAd();
+
+
+                }
+
+            } else { // setting up grant if conditions for NOT GRANTING are unmet - BUT probably never invoked because
+                // if conditions unmet that just means that the "if" goes null gets caught by try and bounced to error
+                // before invoking the else - So.... repeating this AGAIN in the catch of the if
+
+                // THE GRANT IS OBSOLETE AS WE NOW DO IT ON HOME PAGE ON FIRST LOGIN BUT KEEPING HERE AS BACK STOP
+                // IN THE CURRENT GRANT also setting up initial sort value defaults but no bothering to add here as this section is unlikely to ever be used
+
+                userReference.getRef().child("coins").setValue(80);
+                userReference.getRef().child("coinsgranttoggle").setValue("yes");
+
+            }
+
+        } catch (Exception e) { // this is the catch of the if above and repeating the initial coin grant query as per notes above
+
+
+
+            userReference.getRef().child("coins").setValue(80);
+            userReference.getRef().child("coinsgranttoggle").setValue("yes");
+
+
+        }
+
+
+    }
+
+    private void randQuestionSeclect() {
+
+        //Log.i("QUIZQ", "Number: " + maxNumber);
+        questionList = new String[maxNumber]; // setting size of our array
+
+        //getting the array with question numbers asked to date from shared prefs as a string
+        pastQuestionsShared = getSharedPreferences("pastQuestions", MODE_PRIVATE);
+        String questionListStringified = pastQuestionsShared.getString("questionList", "0"); // where if no settings
+
+        // taking the string from shared prefs and converting it back to array
+        questionList = questionListStringified.split(",");
+
+        // getting the random question # for next round and setting it to string for comparisons to previously asked
+        randQuestionPre = new Random().nextInt(maxNumber) + 1; // random question number to be displayed
+        String randQuestionPreStr = String.valueOf(randQuestionPre);
+
+        // checking to see if gone through all questions and if so resetting the shared pref array back to zero - so the questions asked comparison starts from scratch
+        if (questionList.length > (maxNumber-1)) {
+
+            String reset = "0,";
+            questionList = reset.split(",");
+
+        }
+
+        // checking to see if the random question has already been asked and no going below to get to game while if asked then getting
+        // into a loop which runs until an unasked question pops up
+        if (Arrays.asList(questionList).contains(randQuestionPreStr)) {
+
+            //Toast.makeText(Game.this, "FREEZING", Toast.LENGTH_SHORT).show();
+            int spinner = 1;
+            while (true) { // this should spin without going beyond in ASYNC way until break
+                //for (int x = 0; x < 50; x++){
+
+                // within the loop generating new random numbers and checking them agasint the array and doing so as long as not unique
+                randQuestionPre = new Random().nextInt(maxNumber) + 1; // random question number to be displayed
+                String randQuestionPreStr2 = String.valueOf(randQuestionPre);
+
+                if (Arrays.asList(questionList).contains(randQuestionPreStr2)) {
+
+                    spinner = spinner +1;
+                }
+                else { // this else is activated when the random number is NOT in the array at which point the question is set, the shared preff
+                    //is updated and the action moves to the game methods
+
+                    randQuestion = randQuestionPre;
+
+                    String randQuestionStr = String.valueOf(randQuestion); // convert the number we just generated to a string to add to our array
+
+                    // now we add the new  question to our string
+
+                    StringBuilder sb = new StringBuilder(); // converting array back into string using string builder
+                    for (int i = 0; i < questionList.length; i++) {  // create a string from playlist - so now sb is string from the array with comas between all the terms
+                        sb.append(questionList[i]).append(",");
+                    }
+
+                    String sbString = sb.toString(); // convert our string builder to string
+                    // add the new question to the string from array
+
+                    sbString = sbString + randQuestionStr; // adding the question that made the cut to the array
+
+                    SharedPreferences.Editor editor = pastQuestionsShared.edit();
+                    editor.putString("questionList", sbString);
+                    editor.apply(); // saves the value
+
+                    Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
+                    gameStart();
+
+                    break;
+                }
+
+
+            }
+
+        } else { // so if the List so far DOES NOT HAVE the number we just generated"
+
+            randQuestion = randQuestionPre; // set the questions number to the number we just generated (that is used in game below)
+
+            String randQuestionStr = String.valueOf(randQuestion); // convert the number we just generated to a string to add to our array
+
+            // now we add the new  question to our string
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < questionList.length; i++) {  // create a string from playlist - so now sb is string from the array with comas between all the terms
+                sb.append(questionList[i]).append(",");
+            }
+
+            String sbString = sb.toString(); // convert our string builder to string
+            // add the new question to the string from array
+
+            sbString = sbString + randQuestionStr;
+
+            SharedPreferences.Editor editor = pastQuestionsShared.edit();
+            editor.putString("questionList", sbString);
+            editor.apply(); // saves the value
+
+            Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
+            gameStart();
+
+        }
+
+
+    }
+
     private void gameStart() {
+
+        Log.i("TIMING", "Starting game");
 
         gameReference = FirebaseDatabase.getInstance().getReference().child("questions");
         sortGameQueryQuestions = gameReference.orderByChild("aaaqno").equalTo(randQuestion);
@@ -945,6 +1033,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     ExpandedAnswerPut = gameQs.child("iiiexpanded").getValue().toString();
                     ExpAnsCategoryPut = gameQs.child("bbbcategory").getValue().toString();
                     ExpAnsEpochPut = gameQs.child("lllepoch").getValue().toString();
+                    ExpCorrectAnsPut = gameQs.child("dddcorrectansw").getValue().toString();
+
 
                     // pull to figure out which counter to grow when user answers the question
                     era = gameQs.child("mmmera").getValue().toString();
@@ -990,6 +1080,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     }
                 }
 
+                Log.i("TIMING", "About to start timer");
                 startTimer();
             }
 
@@ -1269,6 +1360,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         intent.putExtra("iiiexpanded", ExpandedAnswerPut);
         intent.putExtra("bbbcategory", ExpAnsCategoryPut);
         intent.putExtra("lllepoch", ExpAnsEpochPut);
+        intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
 
         /// badge components
 
@@ -1303,8 +1395,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         if (newbadgexcon > 0) {
             intent.putExtra("newbadgexcon", newbadgexcon);
         }
-
+        finish();
         startActivity(intent);
+
 
 
     }
@@ -1415,9 +1508,11 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     // this is the main timer logic for the 10 then 5 seconds a user has to answer the question
     public void startTimer(){
 
+        Log.i("TIMING", "started timer - timersetting:  " + timersetting);
+
         // will be called at every 1000 milliseconds i.e. every second.
-        countDownTimer = new CountDownTimer(timersetting, 1000) {
-            public void onTick(long millisUntilFinished) {
+        countDownTimer = new CountDownTimer(timersetting, 100) { // when interval was higher was possible
+            public void onTick(long millisUntilFinished) {                              //be down the path for timeout but not yeet there
 
                     double millisleftRough = millisUntilFinished / 1000;
 
@@ -1434,17 +1529,29 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     imgHPTimerX.setVisibility(View.VISIBLE);
 
 
-                    if (width2 > 1500) { // empty for now but there if we need to make graphics changes for tablets
+                    if (width2 > 1500) { //graphics changes for tablets
+
+                        txtGameAnswerDisplayX.setTextSize(30);
+                        txtGameQuestionX.animate().scaleY(0.95f).setDuration(300);
+                        loutGameQuestionX.animate().scaleY(.95f).setDuration(300);
+                        loutGameQuestionX.animate().translationY(-80).setDuration(300);
+                        loutGameAnswerDisplayX.animate().translationY(-200).setDuration(1);
 
 
-                    } else if (height2 < 1300) {  // slight graphics changes for small lower res phones
-
-                       loutGameQuestionX.animate().translationY(-30).setDuration(300);
+                    } else if (height2 < 1300) {  // graphics changes for small lower res phones
 
                         txtGameAnswerDisplayX.setTextSize(16);
-                        loutGameAnswerDisplayX.animate().translationY(-40).setDuration(1);
+                        txtGameQuestionX.animate().scaleY(0.95f).setDuration(300);
+                        loutGameQuestionX.animate().scaleY(.95f).setDuration(300);
+                        loutGameQuestionX.animate().translationY(-80).setDuration(300);
+                        loutGameAnswerDisplayX.animate().translationY(-100).setDuration(1);
+
 
                     } else {
+
+//                        loutGameAnswerDisplayX.animate().scaleY(1.1f);
+//                        txtGameAnswerDisplayX.animate().scaleY(1.2f);
+//                        txtGameAnswerDisplayX.setTextSize(15);
 
                     }
                     // for all screen sizes fading in the answer banner
@@ -1460,6 +1567,10 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                 // toggling through the different hourglass positions
 
+                if (millisUntilFinished < 200) { // making buttons disappear a bit early to make sure no chance of simultaneous timeout and press causing all kinds of fuck ups
+                    loutGameAnswerDisplayX.setVisibility(View.GONE);
+
+                }
                 if (millisUntilFinished <1000) {
 
                     imgHPTimer5X.setVisibility(View.GONE);
@@ -1490,6 +1601,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
             public void onFinish() { // WHEN TIMING OUT:
                 // other than the toast treats this as a wrong answer, makes streak deductions and sends to expanded answer
+                //Log.i("QUIZQ", "On Finish Main");
 
                 btnCorrectX.setVisibility(View.GONE);
                 btnWrongX.setVisibility(View.GONE);
@@ -1508,7 +1620,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     @Override
                     public void onFinish() {
 
-
+                        //Log.i("QUIZQ", "On Finish Corrector");
                         coinsOwned = coinsOwned - 10;
                         String coinsOwedZ = Integer.toString(coinsOwned);
                         txtCoinCounterX.setText(coinsOwedZ);
@@ -1539,6 +1651,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 @Override
                                 public void onFinish() {
                                     if (mRewardedAdGameScreenCoins.isLoaded()) {
+                                        Log.i("TIMER", "From timeout to ad toggle:  " + adMobToggle);
                                         mRewardedAdGameScreenCoins.show();
                                     }
 
@@ -1553,7 +1666,11 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             intent.putExtra("iiiexpanded", ExpandedAnswerPut);
                             intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                             intent.putExtra("lllepoch", ExpAnsEpochPut);
+                            intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                            //("QUIZQ", "Here");
+                            finish();
                             startActivity(intent);
+
 
                         }
 
@@ -1570,6 +1687,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     public void stopTimer() {
 
         countDownTimer.cancel();
+        Log.i("TIMING", "Stopping Timer");
 
     }
 
@@ -1586,10 +1704,13 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     @Override
     public void onRewardedVideoAdLoaded() {
 
+        Log.i("ADMOB", "loaded");
+
     }
 
     @Override
     public void onRewardedVideoAdOpened() {
+        Log.i("ADMOB", "opened");
 
     }
 
@@ -1597,10 +1718,13 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     public void onRewardedVideoStarted() {
 
         mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
+        Log.i("ADMOB", "started");
     }
 
     @Override
     public void onRewardedVideoAdClosed() {
+
+        Log.i("ADMOB", "closed");
 
         // if user closes add the display defaults back to the screen showing the message they need to watch and then it times out and puts up the ad again
         CountDownTimer rewatchTimer = new CountDownTimer(3000, 500) {
@@ -1614,6 +1738,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                 if (mRewardedAdGameScreenCoins.isLoaded()) {
                     mRewardedAdGameScreenCoins.show();
+                    Log.i("ADMOB", "closed and reshowing on finish");
                 }
             }
         }.start();
@@ -1623,6 +1748,10 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     @Override
     public void onRewarded(RewardItem rewardItem) {
 
+       // Log.i("TIMING", "On Reward toggle: " + adMobToggle);
+
+        Log.i("ADMOB", "rewarded, coins before reward  " + coinsOwned);
+
         coinsOwned = coinsOwned + 100;
         String coinsOwnedZ = Integer.toString(coinsOwned);
         txtCoinCounterX.setText(coinsOwnedZ);
@@ -1630,21 +1759,28 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         int coinsOwnedSort = - coinsOwned;
         userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
-        if (adMobToggle == 1) { // toggles is 1 when sent here from oncreate vs. a wrong answer so restarting game activity instead of going to expanded answer
+        Log.i("ADMOB", "rewarded, coins AFTER reward  " + coinsOwned + "  and toggle = " + adMobToggle);
 
+        if (adMobToggle == 1) { // toggles is 1 when sent here from oncreate vs. a wrong answer so restarting game activity instead of going to expanded answer
+           // Log.i("TIMING", "Final toggle: " + adMobToggle);
             shadeX.setVisibility(View.GONE);
             txtAdMessageX.setVisibility(View.GONE);
-
+            Log.i("ADMOB", "rewarded, going to oncreate");
             finish();
             startActivity(getIntent());
 
         } else {
 
+            Log.i("ADMOB", "rewarded, going to expanded");
+
             Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+            intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
             intent.putExtra("iiiexpanded", ExpandedAnswerPut);
             intent.putExtra("bbbcategory", ExpAnsCategoryPut);
             intent.putExtra("lllepoch", ExpAnsEpochPut);
+            finish();
             startActivity(intent);
+
 
         }
 
@@ -1671,9 +1807,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         if (coinsOwned < 1) {
 
-           // Toast.makeText(Game.this, coinsOwned+"", Toast.LENGTH_SHORT).show();
-
-            adMobToggle = 1;
+            //Log.i("TIMING", "Go to add Toggle  " + adMobToggle);
 
             shadeX.setVisibility(View.VISIBLE);
             txtAdMessageX.setVisibility(View.VISIBLE);
