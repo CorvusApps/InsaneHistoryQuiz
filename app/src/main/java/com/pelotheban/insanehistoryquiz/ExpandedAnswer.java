@@ -450,7 +450,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         ExpandedAnswerGet = getIntent().getStringExtra("iiiexpanded");
         txtExpandedAnswerShowX = findViewById(R.id.txtExpandedAnswerShow);
-        txtExpandedAnswerShowX.setText(ExpCorrectAnsGet + " \n" + ExpandedAnswerGet);
+        txtExpandedAnswerShowX.setText(ExpCorrectAnsGet + " \n" +"------- \n" + ExpandedAnswerGet);
 
         if (width2 > 1500) { // changes in fot for tablet and then small format phone
 
@@ -476,6 +476,12 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("Chinese") && ExpAnsEpochGet.equals("Enlightenment")) {
+            panelName = "chienl";
+
+        }
+
+
         if (ExpAnsCategoryGet.equals("Chinese") && ExpAnsEpochGet.equals("PreModern")) {
             panelName = "chipmod";
 
@@ -484,8 +490,27 @@ public class ExpandedAnswer extends AppCompatActivity {
             panelName = "chicon";
 
         }
+        if (ExpAnsCategoryGet.equals("Indian") && ExpAnsEpochGet.equals("Iron Age")) {
+            panelName = "indiro";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Indian") && ExpAnsEpochGet.equals("Late Antiquity")) {
+            panelName = "indlatan";
+
+        }
+        if (ExpAnsCategoryGet.equals("Indian") && ExpAnsEpochGet.equals("Enlightenment")) {
+            panelName = "indenl";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Egyptian") && ExpAnsEpochGet.equals("Bronze Age")) {
             panelName = "egybro";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Egyptian") && ExpAnsEpochGet.equals("Hellenistic")) {
+            panelName = "egyhel";
 
         }
 
@@ -509,12 +534,32 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("Jewish") && ExpAnsEpochGet.equals("Contemporary")) {
+            panelName = "jewcon";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Persian") && ExpAnsEpochGet.equals("Middle Empire")) {
             panelName = "permemp";
 
         }
+
+        if (ExpAnsCategoryGet.equals("Greek") && ExpAnsEpochGet.equals("Iron Age")) {
+            panelName = "greiro";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Greek") && ExpAnsEpochGet.equals("Classical")) {
+            panelName = "grecla";
+
+        }
         if (ExpAnsCategoryGet.equals("Greek") && ExpAnsEpochGet.equals("Hellenistic")) {
             panelName = "grehel";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Roman") && ExpAnsEpochGet.equals("Hellenistic")) {
+            panelName = "romhel";
 
         }
         if (ExpAnsCategoryGet.equals("Roman") && ExpAnsEpochGet.equals("Late Republic")) {
@@ -549,6 +594,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("Byzantine") && ExpAnsEpochGet.equals("High Middle Ages")) {
+            panelName = "byzhma";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Goth") && ExpAnsEpochGet.equals("Late Antiquity")) {
             panelName = "gothlatan";
 
@@ -561,6 +611,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("German") && ExpAnsEpochGet.equals("Crusades")) {
             panelName = "gercru";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("German") && ExpAnsEpochGet.equals("Enlightenment")) {
+            panelName = "gerenl";
 
         }
 
@@ -581,6 +636,21 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("French") && ExpAnsEpochGet.equals("Crusades")) {
             panelName = "frecru";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("French") && ExpAnsEpochGet.equals("Enlightenment")) {
+            panelName = "freenl";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("French") && ExpAnsEpochGet.equals("PreModern")) {
+            panelName = "frepmod";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("French") && ExpAnsEpochGet.equals("Contemporary")) {
+            panelName = "frecon";
 
         }
 
@@ -608,9 +678,16 @@ public class ExpandedAnswer extends AppCompatActivity {
             panelName = "itahma";
         }
 
+        if (ExpAnsCategoryGet.equals("Dutch") && ExpAnsEpochGet.equals("Enlightenment")) {
+            panelName = "holenl";
+        }
+
+        if (ExpAnsCategoryGet.equals("Spanish") && ExpAnsEpochGet.equals("Renaissance")) {
+            panelName = "sparen";
+        }
+
         if (ExpAnsCategoryGet.equals("Spanish") && ExpAnsEpochGet.equals("Enlightenment")) {
             panelName = "spaenl";
-
         }
 
         if (ExpAnsCategoryGet.equals("Papacy") && ExpAnsEpochGet.equals("High Middle Ages")) {
@@ -628,6 +705,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("Viking") && ExpAnsEpochGet.equals("Dark Ages")) {
+            panelName = "vikdark";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Viking") && ExpAnsEpochGet.equals("High Middle Ages")) {
             panelName = "vikhma";
 
@@ -636,6 +718,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("Mongol") && ExpAnsEpochGet.equals("High Middle Ages")) {
             panelName = "monhma";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Hungarian") && ExpAnsEpochGet.equals("Enlightenment")) {
+            panelName = "magenl";
 
         }
 
@@ -698,13 +785,23 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
-        if (ExpAnsCategoryGet.equals("Mexican") && ExpAnsEpochGet.equals("Rennaisance")) {
+        if (ExpAnsCategoryGet.equals("American") && ExpAnsEpochGet.equals("WWII")) {
+            panelName = "amwwii";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Mexican") && ExpAnsEpochGet.equals("Renaissance")) {
             panelName = "mexren";
 
         }
 
         if (ExpAnsCategoryGet.equals("Mexican") && ExpAnsEpochGet.equals("Modern")) {
             panelName = "mexmod";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Cambodian") && ExpAnsEpochGet.equals("Contemporary")) {
+            panelName = "camcon";
 
         }
 
