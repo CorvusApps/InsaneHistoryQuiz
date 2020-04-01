@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+            <ImageView
+                android:id="@+id/btnFAQback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/linearLayout3"
+                app:srcCompat="@drawable/back_red" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:elevation="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.github.florent37.shapeofview.shapes.CircleView
+                    android:id="@+id/arcView"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shape_circle_borderColor="@color/colorAccent"
+                    app:shape_circle_borderWidth="0dp"
+
+
+                    >
+
+                    <ImageView
+                        android:id="@+id/imgCollectionImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:elevation="20dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/iconv2foreground" />
+                </com.github.florent37.shapeofview.shapes.CircleView>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/linearLayout2">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="55dp"
+                    android:layout_marginRight="8dp"
+                    android:text="FREQUENTLY ASKED QUESTIONS"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+
+                <LinearLayout
+                    android:id="@+id/faqSupport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="10sp"
+                        android:layout_marginRight="8dp"
+                        android:text="How does the game work?"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginRight="8dp"
+                        android:text="Press the big H whenever you see it to get started. It begins with displaying a statement (question) on a shield. After a few seconds you're shown the FIRST of FIVE possible ANSWERS. If you think that answer is CORRECT press YES otherwise PRESS NO.
+The timer above tells you how much time you have left. This will continue until you make a mistake OR until you correctly identify the CORRECT answer.
+You will then be taken to the Extended Answer Screen which will show you a few more fun facts. From there you can go to the next question at your leisure."
+                        android:textColor="@color/primaryShadow"
+                        android:textSize="12sp" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="10sp"
+                        android:layout_marginRight="8dp"
+                        android:text="What are the coins for?"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginRight="8dp"
+                        android:text="As long as you have coins you can keep playing. When you run out, we'll ask you to watch a quick ad to earn a 100 coins and rejoin the game."
+                        android:textColor="@color/primaryShadow"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="10sp"
+                        android:layout_marginRight="8dp"
+                        android:text="How are coins awarded and taken away?"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginRight="8dp"
+                        android:text="You get up to 5 coins for a correct answer: 1 coin for each time you correctly guess the shown answer is WRONG and a remainder of the 5 points for the question when you identify the CORRECT answer. You lose 10 coins when you make a mistake."
+                        android:textColor="@color/primaryShadow"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="10sp"
+                        android:layout_marginRight="8dp"
+                        android:text="How many questions are there?"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginRight="8dp"
+                        android:text="We launched the game with 500 questions and we keep adding more almost every day."
+                        android:textColor="@color/primaryShadow"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="10sp"
+                        android:layout_marginRight="8dp"
+                        android:text="WHAT ELSE CAN I EXPECT FROM THE GAME IN THE COMING MONTHS?"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginRight="8dp"
+                        android:text="LOTS! More questions, new types of game play, head to head contests, actual cash prizes for leaderboard champions everymont, links to social media platforms and an ad-free game option. That's just to start!"
+                        android:textColor="@color/primaryShadow"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_5sdp" />
+
+                </LinearLayout>
+
+                </LinearLayout>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</LinearLayout>

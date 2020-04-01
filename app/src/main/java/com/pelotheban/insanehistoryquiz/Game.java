@@ -240,7 +240,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         imgHPTimer4X = findViewById(R.id.imgHPTimer4);
         imgHPTimer5X = findViewById(R.id.imgHPTimer5);
 
-        timersetting = 13000;
+        timersetting = 15000;
         ticksetting = 5000;
         tickerToggle = 1;
 
@@ -795,7 +795,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             int coinsOwnedSort = - coinsOwned;
                             userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
-                            timersetting = 6000;
+                            timersetting = 8000;
                             ticksetting = 1000;
                             imgHPTimer2X.setVisibility(View.GONE);
                             imgHPTimer3X.setVisibility(View.GONE);
@@ -1508,7 +1508,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     // this is the main timer logic for the 10 then 5 seconds a user has to answer the question
     public void startTimer(){
 
-        Log.i("TIMING", "started timer - timersetting:  " + timersetting);
+        //Log.i("TIMING", "started timer - timersetting:  " + timersetting);
 
         // will be called at every 1000 milliseconds i.e. every second.
         countDownTimer = new CountDownTimer(timersetting, 100) { // when interval was higher was possible
@@ -1522,7 +1522,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     String timerCountString = millisleftFinal + "";
                     txtTimerX.setText(timerCountString);  // converting timer to string and setting the counter  which starts of as GONE
-                if (ticksetting == 5000 & millisUntilFinished < 6000 & tickerToggle == 1) {  // making the counter  and hourglass visible at 5 seconds
+                if (ticksetting == 5000 & millisUntilFinished < 8000 & tickerToggle == 1) {  // making the counter  and hourglass visible at 5 seconds
 
                     tickerToggle = 2;
                     txtTimerX.setVisibility(View.VISIBLE);
@@ -1581,16 +1581,16 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     imgHPTimer4X.setVisibility(View.GONE);
                     imgHPTimer5X.setVisibility(View.VISIBLE);
                 }else
-                if (millisUntilFinished < 3000) {
+                if (millisUntilFinished < 3500) {
                     imgHPTimer3X.setVisibility(View.GONE);
                     imgHPTimer4X.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished < 4000) {
+                if (millisUntilFinished < 5000) {
 
                     imgHPTimer2X.setVisibility(View.GONE);
                     imgHPTimer3X.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished < 5000) {
+                if (millisUntilFinished < 7000) {
 
 
                     imgHPTimerX.setVisibility(View.GONE);

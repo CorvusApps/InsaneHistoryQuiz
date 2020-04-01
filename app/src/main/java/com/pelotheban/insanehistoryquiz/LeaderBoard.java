@@ -33,6 +33,7 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -537,6 +538,27 @@ public class LeaderBoard extends AppCompatActivity {
             }
         });
 
+        fabPopUpFAQminiLBtX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                popupMenuToggle = "Not";
+
+                fabPopUpLBX.setVisibility(View.VISIBLE);
+                fabPopUpCollLBX.setVisibility(View.GONE);
+                fabPopUpFAQminiLBtX.setVisibility(View.GONE);
+                fabPopUpLogOutminiLBX.setVisibility(View.GONE);
+
+                txtFAQButtonLBX.setVisibility(View.GONE);
+                txtLogoutButtonLBX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
+                fagDisplay();
+
+            }
+        });
+
         shadeX.setVisibility(View.VISIBLE);
 
         fabPopUpCollLBX.setOnClickListener(new View.OnClickListener() {
@@ -640,8 +662,44 @@ public class LeaderBoard extends AppCompatActivity {
 
     }
 
+    private void fagDisplay() {
+
+        shadeX.setVisibility(View.VISIBLE);
+
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+        ImageView btnFAQbackX = view.findViewById(R.id.btnFAQback);
+        btnFAQbackX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                shadeX.setVisibility(View.INVISIBLE);
+                dialog.dismiss();
+
+            }
+        });
+
+    }
+
+
 
     /////////////////////////////// END OF POP and downstream methods like logout /////////////////////////
+
 
 
 }

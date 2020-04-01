@@ -26,6 +26,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -96,6 +97,7 @@ public class HomePage extends AppCompatActivity {
         fabPopUpCollHPX = findViewById(R.id.fabPopUpCollHP);
         fabPopUpFAQminiHPtX = findViewById(R.id.fabPopUpFAQminiHP);
         fabPopUpLogOutminiHPX = findViewById(R.id.fabPopUpLogOutminiHP);
+
 
         txtFAQButtonHPX = findViewById(R.id.txtFAQButtonHP);
         txtLogoutButtonHPX = findViewById(R.id.txtLogoutButtonHP);
@@ -342,6 +344,8 @@ public class HomePage extends AppCompatActivity {
     @SuppressLint("RestrictedApi") // suppresses the issue with on back pressed depricated
     public void onBackPressed() {
 
+        shadeX.setVisibility(View.GONE);
+
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.zzz_dialog_logout, null);
@@ -406,6 +410,27 @@ public class HomePage extends AppCompatActivity {
                 shadeX.setVisibility(View.GONE);
 
                 alertDialogLogOut();
+
+            }
+        });
+
+        fabPopUpFAQminiHPtX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                popupMenuToggle = "Not";
+
+                fabPopUpHPX.setVisibility(View.VISIBLE);
+                fabPopUpCollHPX.setVisibility(View.GONE);
+                fabPopUpFAQminiHPtX.setVisibility(View.GONE);
+                fabPopUpLogOutminiHPX.setVisibility(View.GONE);
+
+                txtFAQButtonHPX.setVisibility(View.GONE);
+                txtLogoutButtonHPX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
+                fagDisplay();
 
             }
         });
@@ -513,6 +538,39 @@ public class HomePage extends AppCompatActivity {
 
     }
 
+    private void fagDisplay() {
+
+        shadeX.setVisibility(View.VISIBLE);
+
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+        ImageView btnFAQbackX = view.findViewById(R.id.btnFAQback);
+        btnFAQbackX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                shadeX.setVisibility(View.INVISIBLE);
+                dialog.dismiss();
+
+            }
+        });
+
+    }
 /////////////////// END of POP UP MENU ///////////////////////////////////////////////////
 
 }

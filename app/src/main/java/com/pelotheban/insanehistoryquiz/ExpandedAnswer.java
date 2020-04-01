@@ -29,6 +29,7 @@ import android.os.CountDownTimer;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -471,6 +472,12 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         ////////// LOGIC FOR EA PANEL CHOICE /////////////////////////////////////////
         loutEApanelX = findViewById(R.id.loutEApanel);
+
+        if (ExpAnsCategoryGet.equals("Chinese") && ExpAnsEpochGet.equals("Hellenistic")) {
+            panelName = "chihel";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Chinese") && ExpAnsEpochGet.equals("Dark Ages")) {
             panelName = "chidark";
 
@@ -536,6 +543,16 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("Jewish") && ExpAnsEpochGet.equals("Contemporary")) {
             panelName = "jewcon";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Persian") && ExpAnsEpochGet.equals("Iron Age")) {
+            panelName = "periro";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Persian") && ExpAnsEpochGet.equals("Classical")) {
+            panelName = "perclas";
 
         }
 
@@ -639,6 +656,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("French") && ExpAnsEpochGet.equals("Renaissance")) {
+            panelName = "freren";
+
+        }
+
         if (ExpAnsCategoryGet.equals("French") && ExpAnsEpochGet.equals("Enlightenment")) {
             panelName = "freenl";
 
@@ -651,6 +673,16 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("French") && ExpAnsEpochGet.equals("Contemporary")) {
             panelName = "frecon";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("English") && ExpAnsEpochGet.equals("High Middle Ages")) {
+            panelName = "enghma";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("English") && ExpAnsEpochGet.equals("Late Middle Ages")) {
+            panelName = "englma";
 
         }
 
@@ -678,6 +710,14 @@ public class ExpandedAnswer extends AppCompatActivity {
             panelName = "itahma";
         }
 
+        if (ExpAnsCategoryGet.equals("Italian") && ExpAnsEpochGet.equals("Late Middle Ages")) {
+            panelName = "italma";
+        }
+
+        if (ExpAnsCategoryGet.equals("Italian") && ExpAnsEpochGet.equals("Renaissance")) {
+            panelName = "itaren";
+        }
+
         if (ExpAnsCategoryGet.equals("Dutch") && ExpAnsEpochGet.equals("Enlightenment")) {
             panelName = "holenl";
         }
@@ -702,6 +742,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("Papacy") && ExpAnsEpochGet.equals("Renaissance")) {
             panelName = "papren";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Arabic") && ExpAnsEpochGet.equals("High Middle Ages")) {
+            panelName = "arahma";
 
         }
 
@@ -738,6 +783,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("Polish") && ExpAnsEpochGet.equals("PreModern")) {
             panelName = "polpmod";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Polish") && ExpAnsEpochGet.equals("Modern")) {
+            panelName = "polmod";
 
         }
 
@@ -948,6 +998,8 @@ public class ExpandedAnswer extends AppCompatActivity {
     @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     public void onBackPressed() {
 
+        shadeX.setVisibility(View.GONE);
+
         //Everything in this method is code for a custom dialog
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.zzz_dialog_logout, null);
@@ -1011,6 +1063,27 @@ public class ExpandedAnswer extends AppCompatActivity {
                 shadeX.setVisibility(View.GONE);
 
                 alertDialogLogOut();
+
+            }
+        });
+
+        fabPopUpFAQminiEAtX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                popupMenuToggle = "Not";
+
+                fabPopUpEAX.setVisibility(View.VISIBLE);
+                fabPopUpCollEAX.setVisibility(View.GONE);
+                fabPopUpFAQminiEAtX.setVisibility(View.GONE);
+                fabPopUpLogOutminiEAX.setVisibility(View.GONE);
+
+                txtFAQButtonEAX.setVisibility(View.GONE);
+                txtLogoutButtonEAX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
+                fagDisplay();
 
             }
         });
@@ -1116,6 +1189,40 @@ public class ExpandedAnswer extends AppCompatActivity {
         int snackbarTextId = com.google.android.material.R.id.snackbar_text;
         TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
         textView.setTextSize(18);
+
+    }
+
+    private void fagDisplay() {
+
+        shadeX.setVisibility(View.VISIBLE);
+
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+        ImageView btnFAQbackX = view.findViewById(R.id.btnFAQback);
+        btnFAQbackX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                shadeX.setVisibility(View.INVISIBLE);
+                dialog.dismiss();
+
+            }
+        });
 
     }
 

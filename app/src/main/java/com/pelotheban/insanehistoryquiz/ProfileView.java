@@ -48,6 +48,7 @@ import android.provider.MediaStore;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -625,6 +626,27 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                 shadeX.setVisibility(View.GONE);
 
                 alertDialogLogOut();
+
+            }
+        });
+
+        fabPopUpFAQminiPFtX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                popupMenuToggle = "Not";
+
+                fabPopUpPFX.setVisibility(View.VISIBLE);
+                fabPopUpCollPFX.setVisibility(View.GONE);
+                fabPopUpFAQminiPFtX.setVisibility(View.GONE);
+                fabPopUpLogOutminiPFX.setVisibility(View.GONE);
+
+                txtFAQButtonPFX.setVisibility(View.GONE);
+                txtLogoutButtonPFX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
+                fagDisplay();
 
             }
         });
@@ -1427,9 +1449,46 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
     }
 
+    private void fagDisplay() {
+
+        shadeX.setVisibility(View.VISIBLE);
+
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzx_dia_view_faq, null);
+
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+        ImageView btnFAQbackX = view.findViewById(R.id.btnFAQback);
+        btnFAQbackX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                shadeX.setVisibility(View.INVISIBLE);
+                dialog.dismiss();
+
+            }
+        });
+
+    }
+
+
     @Override
     @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     public void onBackPressed() {
+
+        shadeX.setVisibility(View.GONE);
 
         if(alteredPicToggle.equals("yes") | alteredNameToggle.equals("yes") | alteredFlagPicToggle.equals("yes")) {
 
