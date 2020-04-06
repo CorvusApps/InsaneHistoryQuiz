@@ -103,7 +103,7 @@ public class LeaderBoard extends AppCompatActivity {
         String mSorting2 = sortSharedPrefLeaders.getString("Sort2", "longeststreaksort"); // where if no settings
 
         //sortLBQuery = lbReference.orderByChild("totalquestions");
-        sortLBQuery = lbReference.orderByChild(mSorting2);
+        sortLBQuery = lbReference.orderByChild(mSorting2).limitToFirst(3); // testing - later set to 25
 
         //counters for the current user that go on top of buttons - NOT the ones in recyclerview
 

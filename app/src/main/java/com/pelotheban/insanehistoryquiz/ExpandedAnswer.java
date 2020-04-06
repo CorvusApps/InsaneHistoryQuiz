@@ -497,6 +497,25 @@ public class ExpandedAnswer extends AppCompatActivity {
             panelName = "chicon";
 
         }
+        if (ExpAnsCategoryGet.equals("Japanese") && ExpAnsEpochGet.equals("Late Middle Ages")) {
+            panelName = "japlma";
+
+        }
+        if (ExpAnsCategoryGet.equals("Japanese") && ExpAnsEpochGet.equals("Enlightenment")) {
+            panelName = "japenl";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Japanese") && ExpAnsEpochGet.equals("WWII")) {
+            panelName = "japwwii";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Japanese") && ExpAnsEpochGet.equals("Late Middle Ages")) {
+            panelName = "indiro";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Indian") && ExpAnsEpochGet.equals("Iron Age")) {
             panelName = "indiro";
 
@@ -511,6 +530,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("Indian") && ExpAnsEpochGet.equals("PreModern")) {
+            panelName = "indpmod";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Egyptian") && ExpAnsEpochGet.equals("Bronze Age")) {
             panelName = "egybro";
 
@@ -518,6 +542,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("Egyptian") && ExpAnsEpochGet.equals("Hellenistic")) {
             panelName = "egyhel";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Babylonian") && ExpAnsEpochGet.equals("Bronze Age")) {
+            panelName = "babbro";
 
         }
 
@@ -670,6 +699,15 @@ public class ExpandedAnswer extends AppCompatActivity {
             panelName = "frepmod";
 
         }
+        if (ExpAnsCategoryGet.equals("French") && ExpAnsEpochGet.equals("WWI")) {
+            panelName = "frewwi";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("French") && ExpAnsEpochGet.equals("WWII")) {
+            panelName = "frewwii";
+
+        }
 
         if (ExpAnsCategoryGet.equals("French") && ExpAnsEpochGet.equals("Contemporary")) {
             panelName = "frecon";
@@ -696,8 +734,23 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("English") && ExpAnsEpochGet.equals("PreModern")) {
+            panelName = "engpmod";
+
+        }
+
         if (ExpAnsCategoryGet.equals("English") && ExpAnsEpochGet.equals("Modern")) {
             panelName = "engmod";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("English") && ExpAnsEpochGet.equals("WWI")) {
+            panelName = "engwwi";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("English") && ExpAnsEpochGet.equals("WWII")) {
+            panelName = "engwwii";
 
         }
 
@@ -722,12 +775,21 @@ public class ExpandedAnswer extends AppCompatActivity {
             panelName = "holenl";
         }
 
+        if (ExpAnsCategoryGet.equals("Spanish") && ExpAnsEpochGet.equals("Late Middle Ages")) {
+            panelName = "spalma";
+        }
+
         if (ExpAnsCategoryGet.equals("Spanish") && ExpAnsEpochGet.equals("Renaissance")) {
             panelName = "sparen";
         }
 
         if (ExpAnsCategoryGet.equals("Spanish") && ExpAnsEpochGet.equals("Enlightenment")) {
             panelName = "spaenl";
+        }
+
+        if (ExpAnsCategoryGet.equals("Papacy") && ExpAnsEpochGet.equals("Early Empire")) {
+            panelName = "papeemp";
+
         }
 
         if (ExpAnsCategoryGet.equals("Papacy") && ExpAnsEpochGet.equals("High Middle Ages")) {
@@ -803,6 +865,14 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("Romanian") && ExpAnsEpochGet.equals("WWII")) {
             panelName = "romwwii";
+
+        }
+        if (ExpAnsCategoryGet.equals("Russian") && ExpAnsEpochGet.equals("Enlightenment")) {
+            panelName = "rusenl";
+
+        }
+        if (ExpAnsCategoryGet.equals("Russian") && ExpAnsEpochGet.equals("Modern")) {
+            panelName = "rusmod";
 
         }
 

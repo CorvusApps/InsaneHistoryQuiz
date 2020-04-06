@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
@@ -180,6 +181,10 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     TextView txtAdMessageX;
     int adMobToggle;
 
+    InterstitialAd mInterstitialGame;
+    int mAdvertCounterGame;
+    private SharedPreferences sharedAdvertCounterGame;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,11 +204,59 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         Log.i ("TIMING" , "On-create = " + adMobToggle);
 
         MobileAds.initialize(this, "ca-app-pub-1744081621312112~9212279801");
+            /// Reward video
+
         mRewardedAdGameScreenCoins = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedAdGameScreenCoins.setRewardedVideoAdListener(this);
         mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
 
         txtAdMessageX = findViewById(R.id.txtAdMessage);
+
+            /// Interstitial
+        sharedAdvertCounterGame = getSharedPreferences("adSettingGame", MODE_PRIVATE);
+        mAdvertCounterGame = sharedAdvertCounterGame.getInt("CounterGame", 0); // where if no settings
+
+        mInterstitialGame = new InterstitialAd(Game.this);
+        mInterstitialGame.setAdUnitId(getString(R.string.test_interstitial_ad));
+        //mInterstitialAdCoinList.setAdUnitId(getString(R.string.coinlist_interstitial_ad)); // still need to generate
+        mInterstitialGame.loadAd(new AdRequest.Builder().build());
+
+        mInterstitialGame.setAdListener(new AdListener(){
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                Log.i("INTERSTITIAL", "in the ONCREATE onloaded");
+
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+
+            }
+
+            @Override
+            public void onAdOpened() {
+
+            }
+
+            @Override
+            public void onAdClicked() {
+
+
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                Log.i("INTERSTITIAL", "in the adleft app");
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+
+
+            }
+        });
 
         shadeX = findViewById(R.id.shadeCor);
 
@@ -526,6 +579,13 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             int totalAnsweredSort = -totalAnswered;
                             userReference.getRef().child("totalansweredsort").setValue(totalAnsweredSort);
 
+                            // adds one to the counter and its shared pref for interstitial ads
+                            Log.i("INTERSTITIAL", "Counter on Right = " + mAdvertCounterGame);
+                            mAdvertCounterGame = mAdvertCounterGame +1;
+                            SharedPreferences.Editor editor = sharedAdvertCounterGame.edit();
+                            editor.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                            editor.apply(); // saves the value
+
                             if (longestStreak < consStreak) {
 
                                 longestStreak = consStreak;
@@ -617,10 +677,25 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             totalQuestions = totalQuestions + 1;
                             userReference.getRef().child("totalquestions").setValue(totalQuestions);
 
+                            // adds one to the counter and its shared pref for interstitial ads
+                            Log.i("INTERSTITIAL", "Counter on Wrong = " + mAdvertCounterGame);
+                            mAdvertCounterGame = mAdvertCounterGame +1;
+                            SharedPreferences.Editor editor = sharedAdvertCounterGame.edit();
+                            editor.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                            editor.apply(); // saves the value
+
+
                             if (coinsOwned < 1) { // if the wrong answer drops user to 0 or fewer coins go to reward add first being shown the message to this effect for a few seconds
 
                                 imgCorrectorXmarkX.setVisibility(View.GONE);
                                 txtAdMessageX.setVisibility(View.VISIBLE);
+
+                                // resets the counter for interstitial ads
+                                mAdvertCounterGame = 0;
+                                SharedPreferences.Editor editor2 = sharedAdvertCounterGame.edit();
+                                editor2.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                                editor2.apply(); // saves the value
+                                Log.i("INTERSTITIAL", "Counter on reset = " + mAdvertCounterGame);
 
                                 CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
                                     @Override
@@ -638,7 +713,16 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 }.start();
 
 
+                            } else if (mAdvertCounterGame > 9) {
+
+                                Log.i("INTERSTITIAL", "going to intesrtitial = " + mAdvertCounterGame);
+
+                                interstitialAdvert();
+
+
                             } else { // got it wrong but has enough coins to continue playing so off to expanded answer
+
+                                Log.i("INTERSTITIAL", "IN THE LAST ELSE FROM WRONG CORRECT " + mAdvertCounterGame);
 
                                 Intent intent = new Intent(Game.this, ExpandedAnswer.class);
                                 intent.putExtra("iiiexpanded", ExpandedAnswerPut);
@@ -717,11 +801,25 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             totalQuestions = totalQuestions + 1;
                             userReference.getRef().child("totalquestions").setValue(totalQuestions);
 
+                            // adds one to the counter and its shared pref for interstitial ads
+                            Log.i("INTERSTITIAL", "Counter on Wrong = " + mAdvertCounterGame);
+                            mAdvertCounterGame = mAdvertCounterGame +1;
+                            SharedPreferences.Editor editor = sharedAdvertCounterGame.edit();
+                            editor.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                            editor.apply(); // saves the value
+
 
                             if (coinsOwned < 1) {
 
                                 imgCorrectorXmarkX.setVisibility(View.GONE);
                                 txtAdMessageX.setVisibility(View.VISIBLE);
+
+                                // resets the counter for interstitial ads
+                                mAdvertCounterGame = 0;
+                                SharedPreferences.Editor editor2 = sharedAdvertCounterGame.edit();
+                                editor2.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                                editor2.apply(); // saves the value
+                                Log.i("INTERSTITIAL", "Counter on reset = " + mAdvertCounterGame);
 
                                 CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
                                     @Override
@@ -739,7 +837,15 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 }.start();
 
 
+                            } else if (mAdvertCounterGame > 9) {
+
+                                Log.i("INTERSTITIAL", "going to intesrtitial = " + mAdvertCounterGame);
+
+                                interstitialAdvert();
+
+
                             } else {
+                                Log.i("INTERSTITIAL", "in the last else = " + mAdvertCounterGame);
 
                                 Intent intent = new Intent(Game.this, ExpandedAnswer.class);
                                 intent.putExtra("iiiexpanded", ExpandedAnswerPut);
@@ -1636,7 +1742,21 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         totalQuestions = totalQuestions + 1;
                         userReference.getRef().child("totalquestions").setValue(totalQuestions);
 
+                        // adds one to the counter and its shared pref for interstitial ads
+                        Log.i("INTERSTITIAL", "Counter on timeout = " + mAdvertCounterGame);
+                        mAdvertCounterGame = mAdvertCounterGame +1;
+                        SharedPreferences.Editor editor = sharedAdvertCounterGame.edit();
+                        editor.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                        editor.apply(); // saves the value
+
                         if (coinsOwned < 1) {
+
+                            // resets the counter for interstitial ads
+                            mAdvertCounterGame = 0;
+                            SharedPreferences.Editor editor2 = sharedAdvertCounterGame.edit();
+                            editor2.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                            editor2.apply(); // saves the value
+                            Log.i("INTERSTITIAL", "Counter on reset = " + mAdvertCounterGame);
 
                             imgCorrectorXmarkX.setVisibility(View.GONE);
                             imgCorrectorTimeoutX.setVisibility(View.GONE);
@@ -1812,6 +1932,13 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             shadeX.setVisibility(View.VISIBLE);
             txtAdMessageX.setVisibility(View.VISIBLE);
 
+            // resets the counter for interstitial ads
+            mAdvertCounterGame = 0;
+            SharedPreferences.Editor editor2 = sharedAdvertCounterGame.edit();
+            editor2.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+            editor2.apply(); // saves the value
+            Log.i("INTERSTITIAL", "Counter on reset = " + mAdvertCounterGame);
+
             CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -1846,6 +1973,89 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
 
         }
+
+
+    }
+
+    // come here only from wrong answers to make it easier to send to expnded cuz don't have to worry about badges
+    // However the counter will keep boing on right answers too but will just jump to add on wrong even if counter goes beyond 10 on rights
+    // in every scenario here the app shoots the user to Expanded; WHAT WILL HAPPEN IF USER CLICKS ON THE ADD
+    private void interstitialAdvert(){
+
+        Log.i("INTERSTITIAL", "in the intestitial");
+
+        mInterstitialGame.show();
+        SharedPreferences.Editor editor = sharedAdvertCounterGame.edit();
+        editor.putInt("CounterGame", 0); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+        editor.apply(); // saves the value
+        mAdvertCounterGame = 0;
+
+        mInterstitialGame.setAdListener(new AdListener(){
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                Log.i("INTERSTITIAL", "in the onloaded");
+
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Log.i("INTERSTITIAL", "in the failed to load");
+                // Code to be executed when an ad request fails.
+                Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                intent.putExtra("lllepoch", ExpAnsEpochPut);
+                intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                finish();
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAdOpened() {
+                Log.i("INTERSTITIAL", "in the AdOpened");
+                // Code to be executed when the ad is displayed.
+                mInterstitialGame.loadAd(new AdRequest.Builder().build());
+
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+                mInterstitialGame.loadAd(new AdRequest.Builder().build());
+
+                Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                intent.putExtra("lllepoch", ExpAnsEpochPut);
+                intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                finish();
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                Log.i("INTERSTITIAL", "in the adleft app");
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                Log.i("INTERSTITIAL", "in ad closed");
+                // Code to be executed when the interstitial ad is closed.
+                mInterstitialGame.loadAd(new AdRequest.Builder().build());
+
+                Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                intent.putExtra("lllepoch", ExpAnsEpochPut);
+                intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                finish();
+                startActivity(intent);
+
+            }
+        });
 
 
     }
