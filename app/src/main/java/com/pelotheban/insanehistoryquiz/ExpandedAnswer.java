@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -193,7 +194,7 @@ public class ExpandedAnswer extends AppCompatActivity {
         }
         if (newbadgewin == 4) {
             badgeSortKey = "win4";
-            badgeAwardMsg = "You earned THE GENIUS BADGE for achieving a 80% correct answer level!";
+            badgeAwardMsg = "You earned THE GENIUS BADGE for achieving an 80% correct answer level!";
         }
         if (newbadgewin == 5) {
             badgeSortKey = "win5";
@@ -925,6 +926,8 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        Log.i("PANEL", panelName);
+
         Query panelQuery = FirebaseDatabase.getInstance().getReference().child("panels").orderByChild("panelname").equalTo(panelName);
         panelQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -933,16 +936,20 @@ public class ExpandedAnswer extends AppCompatActivity {
 
                     try {
                         String imagePanelLink = panels.child("panelimagelink").getValue().toString();
+                        Log.i("PANEL", imagePanelLink);
                         //Picasso.get().load(imagePanelLink).into(loutEApanelX);
                         Picasso.get().load(imagePanelLink).into(new Target() {
                             @Override
                             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                 loutEApanelX.setBackground(new BitmapDrawable(bitmap));
+                                Log.i("PANEL", "in onBitLoaded");
                             }
 
                             @Override
                             public void onBitmapFailed(Exception e, Drawable errorDrawable) {
 
+                                Toast.makeText(ExpandedAnswer.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                Log.i("PANEL", "in onBitFailed:  " +e.getMessage());
                             }
 
                             @Override
@@ -952,6 +959,8 @@ public class ExpandedAnswer extends AppCompatActivity {
                         });
 
                     } catch (Exception e) {
+
+                        Toast.makeText(ExpandedAnswer.this, "Catch:  " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
             }

@@ -497,7 +497,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
 
 
-                   // Log.i ("TIMING" , "coinGrantToggle in query: " + coinGrantToggle);
+                   Log.i ("TIMING" , "coinGrantToggle in query: " + coinGrantToggle);
                     if (sentFromQuery == 1) { // only go to check if we have coins once not on every data change
                         gotoCoinCountSet();
 
@@ -927,28 +927,32 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         // this is at the end so can be sure that userQuery finished and can only send to question generation if have coins
         // at the same time already sending to adMob but this way avoids have game and timer in background which fucks things up
-        DatabaseReference quizQuestionsRef = FirebaseDatabase.getInstance().getReference().child("values").child("quizquestions");
-        //Log.i("QUIZQ", quizQuestionsRef.toString());
-        quizQuestionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                String maxNumberString = dataSnapshot.getValue().toString();
-                maxNumber = Integer.valueOf(maxNumberString);
-
-                //Log.i("QUIZQ", "String:  " + maxNumberString);
-
-                if (coinsOwned > 1 ) {  // && sentFromQuery == 1
-                    Log.i("COINS", "coins " + coinsOwned);
-                    randQuestionSeclect();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        DatabaseReference quizQuestionsRef = FirebaseDatabase.getInstance().getReference().child("values").child("quizquestions");
+//        Log.i("TIMING", quizQuestionsRef.toString());
+//        quizQuestionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                String maxNumberString = dataSnapshot.getValue().toString();
+//                maxNumber = Integer.valueOf(maxNumberString);
+//
+//                 Log.i("TIMING", "String:  " + maxNumberString);
+//
+//                 //prolly need to get rid of this if - since the ongoing query should get at this but then what happens if it is less
+//                // actually just generating max number here but going to randQuestions from the coin query - keeping old code for ref below
+//                if (coinsOwned > 1 ) {  // && sentFromQuery == 1
+//                    Log.i("TIMING", "coins " + coinsOwned);
+//                   // randQuestionSeclect();
+//                }
+//
+//                Log.i("TIMING", "did not detect coins? " +  coinsOwned);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
     }  // END OF ON CREATE ///////////////////////////////////////////////////////////////////////////////////
@@ -977,7 +981,13 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     adMobToggle = 1;
                     Log.i("TIMING", "withinTXTcoincounter " + adMobToggle);
                     gotoAd();
+                } else {
 
+                    Log.i ("TIMING" , "in the new else coins: " + coinsOwned);
+                    // hoping that this here now always takes us to questions versus hanging when coins were not detected when it was in the on create
+                    // but need to go to maxnumber generation first because that also asyncs out sometimes
+                   // randQuestionSeclect();
+                    maxNumberGenerate();
 
                 }
 
@@ -990,25 +1000,54 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                 userReference.getRef().child("coins").setValue(80);
                 userReference.getRef().child("coinsgranttoggle").setValue("yes");
-
             }
 
         } catch (Exception e) { // this is the catch of the if above and repeating the initial coin grant query as per notes above
 
-
-
             userReference.getRef().child("coins").setValue(80);
             userReference.getRef().child("coinsgranttoggle").setValue("yes");
-
-
         }
+
+
+    }
+
+    private void  maxNumberGenerate() {
+
+        DatabaseReference quizQuestionsRef = FirebaseDatabase.getInstance().getReference().child("values").child("quizquestions");
+        Log.i("TIMING", quizQuestionsRef.toString());
+        quizQuestionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                String maxNumberString = dataSnapshot.getValue().toString();
+                maxNumber = Integer.valueOf(maxNumberString);
+
+                Log.i("TIMING", "String:  " + maxNumberString);
+
+                //prolly need to get rid of this if - since the ongoing query should get at this but then what happens if it is less
+                // actually just generating max number here but going to randQuestions from the coin query - keeping old code for ref below
+                if (coinsOwned > 1 ) {  // && sentFromQuery == 1
+                    Log.i("TIMING", "coins " + coinsOwned);
+                    // randQuestionSeclect();
+                }
+
+                Log.i("TIMING", "did not detect coins? " +  coinsOwned);
+                randQuestionSeclect();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
 
     }
 
     private void randQuestionSeclect() {
 
-        //Log.i("QUIZQ", "Number: " + maxNumber);
+        Log.i("TIMING", "Number: " + maxNumber);
         questionList = new String[maxNumber]; // setting size of our array
 
         //getting the array with question numbers asked to date from shared prefs as a string
@@ -1033,6 +1072,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         // checking to see if the random question has already been asked and no going below to get to game while if asked then getting
         // into a loop which runs until an unasked question pops up
         if (Arrays.asList(questionList).contains(randQuestionPreStr)) {
+
+            Log.i("TIMING", "question repeated going to while");
 
             //Toast.makeText(Game.this, "FREEZING", Toast.LENGTH_SHORT).show();
             int spinner = 1;
