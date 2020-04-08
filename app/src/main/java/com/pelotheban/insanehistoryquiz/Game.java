@@ -901,15 +901,18 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             int coinsOwnedSort = - coinsOwned;
                             userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
+
                             timersetting = 8000;
                             ticksetting = 1000;
                             imgHPTimer2X.setVisibility(View.GONE);
                             imgHPTimer3X.setVisibility(View.GONE);
                             imgHPTimer4X.setVisibility(View.GONE);
                             imgHPTimer5X.setVisibility(View.GONE);
+                            loutGameAnswerDisplayX.setVisibility(View.VISIBLE);
 
-                            startTimer();
+
                             nextQuestions();
+                            //startTimer(); moving to withing next questions datachange so we don't time if there is a delay in pulling the query
 
                         }
                     }.start();
@@ -1552,7 +1555,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private void nextQuestions (){
 
         answerCounter = answerCounter + 1;
-        imgHPTimerX.setVisibility(View.VISIBLE);
+
 
         //This second query is probably unnecessary as could have gotten all these variables and sequences in on create only ran the
         // what to display ifs here without further firebase access
@@ -1561,6 +1564,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                startTimer(); // starting here to make sure that if there is a delay in query we don't time
+                imgHPTimerX.setVisibility(View.VISIBLE);
 
                 for (DataSnapshot gameQs: dataSnapshot.getChildren()) {
 
@@ -1714,7 +1719,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                 // toggling through the different hourglass positions
 
-                if (millisUntilFinished < 200) { // making buttons disappear a bit early to make sure no chance of simultaneous timeout and press causing all kinds of fuck ups
+                if (millisUntilFinished < 300) { // making buttons disappear a bit early to make sure no chance of simultaneous timeout and press causing all kinds of fuck ups
                     loutGameAnswerDisplayX.setVisibility(View.GONE);
 
                 }
