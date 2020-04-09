@@ -26,7 +26,7 @@
 
         android:fontFamily="@font/almendra_sc"
         android:layout_marginTop="@dimen/_30sdp"
-        android:text="...Because history is stranger, bloodier and crazier then fiction!"
+        android:text="...Because history is stranger, bloodier and crazier than fiction!"
         android:layout_marginLeft="@dimen/_8sdp"
         android:layout_marginRight="@dimen/_100sdp"
         android:textSize="@dimen/_18sdp"

@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (ApiException e) {
 
 
-                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                 //   Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
 
-                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+             //   Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
 
 
             }

@@ -948,7 +948,7 @@ public class ExpandedAnswer extends AppCompatActivity {
                             @Override
                             public void onBitmapFailed(Exception e, Drawable errorDrawable) {
 
-                                Toast.makeText(ExpandedAnswer.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                              // Toast.makeText(ExpandedAnswer.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                 Log.i("PANEL", "in onBitFailed:  " +e.getMessage());
                             }
 
@@ -960,7 +960,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
                     } catch (Exception e) {
 
-                        Toast.makeText(ExpandedAnswer.this, "Catch:  " + e.getMessage(), Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(ExpandedAnswer.this, "Catch:  " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
             }

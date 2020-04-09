@@ -807,7 +807,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         Bitmap bitmapColAdd = ((BitmapDrawable) imgProfileX.getDrawable()).getBitmap(); // we already have the bitmap
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         // create this bitmap using recieved to upload stock image if user did not upload theirs;
-        bitmapColAdd.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmapColAdd.compress(Bitmap.CompressFormat.JPEG, 25, baos);
         byte[] data = baos.toByteArray();
 
         imageIdentifier = UUID.randomUUID() + ".jpg";   //initialized here because needs to be unique for each image but is random = unique??

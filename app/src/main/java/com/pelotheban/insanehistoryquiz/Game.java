@@ -1114,7 +1114,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     editor.putString("questionList", sbString);
                     editor.apply(); // saves the value
 
-                    Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
+                   // Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
                     gameStart();
 
                     break;
@@ -1145,7 +1145,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             editor.putString("questionList", sbString);
             editor.apply(); // saves the value
 
-            Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
+           // Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
             gameStart();
 
         }
@@ -1225,7 +1225,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         // probably don't need the above because there is no value in 2 but keeping for now just in case
                     } else {
 
-                        Toast.makeText(Game.this, "Out of numbers", Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(Game.this, "Out of numbers", Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -1634,7 +1634,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         txtGameAnswerDisplayX.setText(displayAnswer5);
                     } else {
 
-                        Toast.makeText(Game.this, "Out of numbers", Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(Game.this, "Out of numbers", Toast.LENGTH_SHORT).show();
 
                     }
 

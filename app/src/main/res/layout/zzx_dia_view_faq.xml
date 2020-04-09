@@ -183,7 +183,7 @@ You will then be taken to the Extended Answer Screen which will show you a few m
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="4sp"
                         android:layout_marginRight="8dp"
-                        android:text="We launched the game with 500 questions and we keep adding more almost every day."
+                        android:text="Hundreds! And we keep adding more almost every day."
                         android:textColor="@color/primaryShadow"
                         android:textSize="12sp" />
 
