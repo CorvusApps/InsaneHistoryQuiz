@@ -177,7 +177,7 @@ public class AddBadges extends AppCompatActivity {
                     }
 
                     // resizing the image to a standard size that is easy on the storage
-                    recievedBadgeImageBitmap = Bitmap.createScaledBitmap(recievedBadgeImageBitmap, 300,400,true);
+                    recievedBadgeImageBitmap = Bitmap.createScaledBitmap(recievedBadgeImageBitmap, 75,100,true);
 
                     // correcting the rotation on the resized file using the degree variable of how much to fix we got above
                     Bitmap bitmap = recievedBadgeImageBitmap;
@@ -216,7 +216,7 @@ public class AddBadges extends AppCompatActivity {
         Bitmap bitmapColAdd = ((BitmapDrawable) imgAddBadgeX.getDrawable()).getBitmap(); // we already have the bitmap
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         // create this bitmap using recieved to upload stock image if user did not upload theirs;
-        bitmapColAdd.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        bitmapColAdd.compress(Bitmap.CompressFormat.PNG, 25, baos);
         byte[] data = baos.toByteArray();
 
         badgeImageIdentifier = UUID.randomUUID() + ".png";   //initialized here because needs to be unique for each image but is random = unique??

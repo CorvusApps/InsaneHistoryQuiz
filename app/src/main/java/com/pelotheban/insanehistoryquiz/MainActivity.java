@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     SignInButton btnGoogleLoginX;
     FirebaseAuth mAuth;
+
+    FirebaseAuth.AuthStateListener mAuthListener;
+
     String email;
 
             // Google login graphical overlay variables
@@ -79,6 +82,27 @@ public class MainActivity extends AppCompatActivity {
         //Firebase basics
 
         mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                Log.i("LOGIN", "in authstate changed");
+
+                if (firebaseAuth.getCurrentUser() != null) {
+                    Log.i("LOGIN", "in authstate changed" + firebaseAuth.getCurrentUser().getUid());
+                    Intent intent = new Intent(MainActivity.this, HomePage.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    // User is signed out
+                    Log.i("LOGIN", "onAuthStateChanged:signed_out");
+
+                }
+
+            }
+        };
+
+
 
         /// For default value to be written to Firebase
         txtPlacehoderX = findViewById(R.id.txtPlaceholder);
@@ -154,22 +178,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        try {
-
-            // Check if user is signed in (non-null) and update UI accordingly.
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-
-            if (currentUser != null) {
-
-
-                Intent intent = new Intent(MainActivity.this, HomePage.class);
-                startActivity(intent);
-                finish();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mAuth.addAuthStateListener(mAuthListener);
 
     }
 

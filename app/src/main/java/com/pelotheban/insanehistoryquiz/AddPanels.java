@@ -210,7 +210,7 @@ public class AddPanels extends AppCompatActivity {
         Bitmap bitmapColAdd = ((BitmapDrawable) imgAddPanelX.getDrawable()).getBitmap(); // we already have the bitmap
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         // create this bitmap using recieved to upload stock image if user did not upload theirs;
-        bitmapColAdd.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmapColAdd.compress(Bitmap.CompressFormat.JPEG, 30, baos);
         byte[] data = baos.toByteArray();
 
         panelImageIdentifier = UUID.randomUUID() + ".jpg";   //initialized here because needs to be unique for each image but is random = unique??
