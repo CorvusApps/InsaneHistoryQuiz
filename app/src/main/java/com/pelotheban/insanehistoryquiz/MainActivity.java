@@ -38,11 +38,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView txtDarkX;
     //Google sign in variables
 
     GoogleSignInClient mGoogleSignInClient;
@@ -79,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        txtDarkX = findViewById(R.id.txtDark);
+
         //Firebase basics
 
         mAuth = FirebaseAuth.getInstance();
@@ -90,12 +95,14 @@ public class MainActivity extends AppCompatActivity {
 
                 if (firebaseAuth.getCurrentUser() != null) {
                     Log.i("LOGIN", "in authstate changed" + firebaseAuth.getCurrentUser().getUid());
-                    Intent intent = new Intent(MainActivity.this, HomePage.class);
-                    startActivity(intent);
-                    finish();
+//                    Intent intent = new Intent(MainActivity.this, HomePage.class);
+//                    startActivity(intent);
+//                    finish();
+                    transitionToHome(); // this implements a timer that allows snackbar if logging in vs. just returning
                 } else {
                     // User is signed out
                     Log.i("LOGIN", "onAuthStateChanged:signed_out");
+                    txtDarkX.setVisibility(View.GONE);
 
                 }
 
@@ -297,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        transitionToHome();
+      //  transitionToHome(); // no longer necessary as we get there through authStateChanged; if keep here it reloads twice
 
 
     }
