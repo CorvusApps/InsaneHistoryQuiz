@@ -58,8 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Google login graphical overlay variables
 
-            ImageView imgGoogleLogoOverlayX;
+            ImageView imgGoogleLogoOverlayX, imgGoogleLogoOverlayGlowX, imgGoogleLogoOverlaySmallX;
             TextView txtGoogleLoginOverlayTextX;
+            int glowticker;
 
             // For login success snackbar
             ConstraintLayout loutMainActivityX;
@@ -137,14 +138,42 @@ public class MainActivity extends AppCompatActivity {
 
         // Google Login graphical overlays
 
+        imgGoogleLogoOverlayGlowX = findViewById(R.id.imgGoogleLogoOverlayGlow);
+        imgGoogleLogoOverlaySmallX = findViewById(R.id.imgGoogleLogoOverlaySmall);
+        glowticker = 0;
+
         imgGoogleLogoOverlayX = findViewById(R.id.imgGoogleLogoOverlay);
         imgGoogleLogoOverlayX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                btnGoogleLoginX.performClick(); // this doesn't really work so doing it directly below by just going to googlesignin
+                imgGoogleLogoOverlayX.setVisibility(View.INVISIBLE);
+                imgGoogleLogoOverlayGlowX.setVisibility(View.VISIBLE);
+                imgGoogleLogoOverlaySmallX.setVisibility(View.VISIBLE);
 
-                googleSignIn();
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        glowticker = glowticker +1;
+                        if(glowticker == 2) {
+                            imgGoogleLogoOverlayX.setVisibility(View.VISIBLE);
+                            imgGoogleLogoOverlayGlowX.setVisibility(View.GONE);
+                            imgGoogleLogoOverlaySmallX.setVisibility(View.GONE);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        btnGoogleLoginX.performClick(); // this doesn't really work so doing it directly below by just going to googlesignin
+
+                        googleSignIn();
+
+                    }
+                }.start();
+
+
 
             }
         });
@@ -154,8 +183,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                btnGoogleLoginX.performClick(); // the perfomrm clicks don't work - may have to be in the same view as the button but no need to expertiment as can call google directly
-                googleSignIn();
+                imgGoogleLogoOverlayX.setVisibility(View.INVISIBLE);
+                imgGoogleLogoOverlayGlowX.setVisibility(View.VISIBLE);
+                imgGoogleLogoOverlaySmallX.setVisibility(View.VISIBLE);
+
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        glowticker = glowticker +1;
+                        if(glowticker == 2) {
+                            imgGoogleLogoOverlayX.setVisibility(View.VISIBLE);
+                            imgGoogleLogoOverlayGlowX.setVisibility(View.GONE);
+                            imgGoogleLogoOverlaySmallX.setVisibility(View.GONE);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        btnGoogleLoginX.performClick(); // this doesn't really work so doing it directly below by just going to googlesignin
+
+                        googleSignIn();
+
+                    }
+                }.start();
 
             }
         });

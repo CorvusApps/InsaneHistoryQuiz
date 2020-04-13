@@ -272,9 +272,10 @@
                 />
 
             <TextView
+                android:id="@+id/txtScore"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="6"
                 android:text="Score"
                 android:textStyle="bold"
                 android:gravity="right"

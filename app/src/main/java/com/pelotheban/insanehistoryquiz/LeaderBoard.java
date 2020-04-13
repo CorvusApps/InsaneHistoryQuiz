@@ -45,6 +45,7 @@ public class LeaderBoard extends AppCompatActivity {
     // basic UI set up
     private AlertDialog dialog;
     private LinearLayout loutLeaderBoardX;
+    private TextView txtScoreX;
 
     //leader board selector buttons and recycler views
     private Button btnMostPlayedX, btnMostRightX, btnLongestStreakX, btnMostPlayed2X, btnMostRight2X, btnLongestStreak2X;
@@ -92,6 +93,7 @@ public class LeaderBoard extends AppCompatActivity {
         setContentView(R.layout.activity_leader_board);
 
         loutLeaderBoardX = findViewById(R.id.loutLeaderBoard);
+        txtScoreX = findViewById(R.id.txtScore);
 
         // firebase and sorting
         lbReference = FirebaseDatabase.getInstance().getReference().child("my_users");
@@ -202,6 +204,7 @@ public class LeaderBoard extends AppCompatActivity {
         if (boardToggle.equals("1")) {
             btnLongestStreakX.setVisibility(View.GONE);
             btnLongestStreak2X.setVisibility(View.VISIBLE);
+            txtScoreX.setText("Streak");
             btnMostRightX.setVisibility(View.VISIBLE);
             btnMostRight2X.setVisibility(View.GONE);
             btnMostPlayedX.setVisibility(View.VISIBLE);
@@ -214,6 +217,7 @@ public class LeaderBoard extends AppCompatActivity {
             btnLongestStreak2X.setVisibility(View.GONE);
             btnMostRightX.setVisibility(View.GONE);
             btnMostRight2X.setVisibility(View.VISIBLE);
+            txtScoreX.setText("Answers");
             btnMostPlayedX.setVisibility(View.VISIBLE);
             btnMostPlayed2X.setVisibility(View.GONE);
         }
@@ -224,6 +228,7 @@ public class LeaderBoard extends AppCompatActivity {
             btnMostRight2X.setVisibility(View.GONE);
             btnMostPlayedX.setVisibility(View.GONE);
             btnMostPlayed2X.setVisibility(View.VISIBLE);
+            txtScoreX.setText("Gold");
         }
 
 

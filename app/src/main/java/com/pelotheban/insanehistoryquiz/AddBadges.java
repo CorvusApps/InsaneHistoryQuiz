@@ -177,7 +177,7 @@ public class AddBadges extends AppCompatActivity {
                     }
 
                     // resizing the image to a standard size that is easy on the storage
-                    recievedBadgeImageBitmap = Bitmap.createScaledBitmap(recievedBadgeImageBitmap, 75,100,true);
+                    recievedBadgeImageBitmap = Bitmap.createScaledBitmap(recievedBadgeImageBitmap, 150,200,true);
 
                     // correcting the rotation on the resized file using the degree variable of how much to fix we got above
                     Bitmap bitmap = recievedBadgeImageBitmap;
