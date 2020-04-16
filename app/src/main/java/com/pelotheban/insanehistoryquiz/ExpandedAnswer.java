@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,6 +71,8 @@ public class ExpandedAnswer extends AppCompatActivity {
     private FirebaseAuth mAuthEA;
 
     // badges
+
+    private MaterialButton btnBadgeBonusX;
 
     private int newbadgesup, newbadgestr, newbadgetrt, newbadgewin;
     private int newbadgexant, newbadgexmed, newbadgexren, newbadgexenl, newbadgexmod, newbadgexcon;
@@ -1021,6 +1024,17 @@ public class ExpandedAnswer extends AppCompatActivity {
 
 
         // BUTTONS FOR GOING TO DIFFERENT SCREENS BEGINS //////////////////////////////////
+        btnBadgeBonusX = findViewById(R.id.btnBadgeBonus);
+        btnBadgeBonusX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(ExpandedAnswer.this, GamePaintBonus.class);
+                intent.putExtra("badgeid", "xant1");
+                startActivity(intent);
+            }
+        });
+
         btnPlayAgainGlowX = findViewById(R.id.btnPlayAgainGlow);
         btnPlayAgainX = findViewById(R.id.btnPlayAgain);
         btnPlayAgainX.setOnClickListener(new View.OnClickListener() {

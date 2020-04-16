@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".AddPaintings">
+
+    <ImageView
+        android:id="@+id/imgShowPaintingVertical"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_300sdp"
+        app:srcCompat="@drawable/wallbackground"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:scaleType="centerCrop"
+        android:visibility="visible"
+
+        />
+
+    <ImageView
+        android:id="@+id/imgShowPainting"
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="@dimen/_200sdp"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        app:srcCompat="@drawable/wallbackground"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+
+        />
+
+   <LinearLayout
+       android:id="@+id/loutButtonsRow1"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginLeft="@dimen/_8sdp"
+       android:layout_marginRight="@dimen/_8sdp"
+       android:layout_marginTop="@dimen/_5sdp"
+
+       >
+
+
+
+        <Button
+            android:id="@+id/btnAnswer1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_weight="1"
+            android:textSize="@dimen/_13sdp"
+            android:text=" in Rome"
+            android:layout_gravity="center"
+            android:fontFamily="@font/almendra_sc"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginRight="@dimen/_4sdp"
+            />
+
+        <Button
+            android:id="@+id/btnAnswer2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_weight="1"
+            android:textSize="@dimen/_13sdp"
+            android:text="The Rape of the Sabine Women in Rome"
+            android:layout_gravity="center"
+            android:fontFamily="@font/almendra_sc"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginLeft="@dimen/_4sdp"
+            />
+
+   </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+
+        >
+
+
+
+        <Button
+            android:id="@+id/btnAnswer3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_weight="1"
+            android:textSize="@dimen/_13sdp"
+            android:text="The Rape of the Sabine Women in Rome"
+            android:layout_gravity="center"
+            android:fontFamily="@font/almendra_sc"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginRight="@dimen/_4sdp"
+            />
+
+        <Button
+            android:id="@+id/btnAnswer4"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_weight="1"
+            android:textSize="@dimen/_13sdp"
+            android:text=" in Rome"
+            android:layout_gravity="center"
+            android:fontFamily="@font/almendra_sc"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginLeft="@dimen/_4sdp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loutGameButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:visibility="gone"
+
+        >
+
+        <ImageView
+            android:id="@+id/btnEAProfile"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_width="@dimen/_75sdp"
+            android:layout_height="@dimen/_75sdp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/profile" />
+
+        <ImageView
+            android:id="@+id/btnEAProfileGlow"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_width="@dimen/_75sdp"
+            android:layout_height="@dimen/_75sdp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:srcCompat="@drawable/profileglow" />
+
+
+        <ImageView
+            android:id="@+id/btnPlayAgain"
+            android:layout_width="@dimen/_105sdp"
+            android:layout_height="@dimen/_105sdp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/playlarge" />
+
+
+        <ImageView
+            android:id="@+id/btnPlayAgainGlow"
+            android:layout_width="@dimen/_105sdp"
+            android:layout_height="@dimen/_105sdp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:srcCompat="@drawable/playlargeglow" />
+
+        <ImageView
+            android:id="@+id/btnEALeaders"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_width="@dimen/_75sdp"
+            android:layout_height="@dimen/_75sdp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:layout_weight="1"
+            android:visibility="visible"
+            app:srcCompat="@drawable/leaders" />
+
+        <ImageView
+            android:id="@+id/btnELeadersGlow"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_width="@dimen/_75sdp"
+            android:layout_height="@dimen/_75sdp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/leadersglow" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

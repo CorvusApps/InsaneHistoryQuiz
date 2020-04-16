@@ -113,9 +113,35 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/txtSpacer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_weight="2"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBadgeBonus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Badge Bonus Question!"
+        android:fontFamily="@font/almendra_sc"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:cornerRadius="@dimen/_15sdp"
+        android:elevation="@dimen/_30sdp"
+        android:layout_marginRight="@dimen/_18sdp"
+        android:layout_marginLeft="@dimen/_18sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:outlineProvider="background"
+        android:outlineAmbientShadowColor="@color/primaryDarkShadow"
+        android:outlineSpotShadowColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:textSize="@dimen/_18sdp"
+        app:icon="@drawable/xaaabadgeantiquity"
+        app:iconSize="@dimen/_18sdp"
+        app:rippleColor="@color/colorAccent"
+
+
+        />
 
     <LinearLayout
         android:layout_width="match_parent"

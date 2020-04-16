@@ -16,10 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".GamePaintBonus"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ExcelPaint"
             android:label="@string/title_activity_excel_paint"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity android:name=".ManualPaintQInput" />
         <activity android:name=".AddPaintings" />
         <activity android:name=".AddPanels" />
