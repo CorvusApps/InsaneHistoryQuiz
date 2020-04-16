@@ -494,6 +494,11 @@ public class ExpandedAnswer extends AppCompatActivity {
             panelName = "chipmod";
 
         }
+
+        if (ExpAnsCategoryGet.equals("Chinese") && ExpAnsEpochGet.equals("Modern")) {
+            panelName = "chimod";
+
+        }
         if (ExpAnsCategoryGet.equals("Chinese") && ExpAnsEpochGet.equals("Contemporary")) {
             panelName = "chicon";
 
@@ -829,6 +834,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("Mongol") && ExpAnsEpochGet.equals("Late Middle Ages")) {
+            panelName = "monlma";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Hungarian") && ExpAnsEpochGet.equals("Enlightenment")) {
             panelName = "magenl";
 
@@ -868,6 +878,22 @@ public class ExpandedAnswer extends AppCompatActivity {
             panelName = "romwwii";
 
         }
+
+        if (ExpAnsCategoryGet.equals("Turkish") && ExpAnsEpochGet.equals("Renaissance")) {
+            panelName = "turren";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Turkish") && ExpAnsEpochGet.equals("Enlightenment")) {
+            panelName = "turenl";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Turkish") && ExpAnsEpochGet.equals("Modern")) {
+            panelName = "turmod";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Russian") && ExpAnsEpochGet.equals("Enlightenment")) {
             panelName = "rusenl";
 
@@ -925,6 +951,27 @@ public class ExpandedAnswer extends AppCompatActivity {
             panelName = "camcon";
 
         }
+
+        if (ExpAnsCategoryGet.equals("South American") && ExpAnsEpochGet.equals("Enlightenment")) {
+            panelName = "samenl";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("African") && ExpAnsEpochGet.equals("PreModern")) {
+            panelName = "afrpmod";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("African") && ExpAnsEpochGet.equals("Modern")) {
+            panelName = "afrmod";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Ethiopian") && ExpAnsEpochGet.equals("Late Antiquity")) {
+            panelName = "etilatan";
+
+        }
+
 
         Log.i("PANEL", panelName);
 

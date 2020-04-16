@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         >
 
 
@@ -23,6 +23,8 @@
             android:id="@+id/btnManual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
             android:layout_weight="1"
             android:text="Manual" />
 
@@ -30,6 +32,8 @@
             android:id="@+id/btnExcel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
             android:layout_weight="1"
             android:text="Excel" />
     </LinearLayout>
@@ -37,7 +41,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         >
 
 
@@ -45,8 +49,11 @@
             android:id="@+id/btnReview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
             android:layout_weight="1"
             android:text="Review Questions" />
+
 
         <Button
             android:id="@+id/btnTBD"
@@ -60,7 +67,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_25sdp"
         >
 
 
@@ -68,6 +75,8 @@
             android:id="@+id/btnAddBadges"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
             android:layout_weight="1"
             android:text="Add Badgges" />
 
@@ -75,8 +84,59 @@
             android:id="@+id/btnAddPanels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
             android:layout_weight="1"
             android:text="Add Panels" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ArtWork Bonus Questions:"
+        android:textSize="@dimen/_18sdp"
+        android:textStyle="bold"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_2sdp"
+
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
+
+
+        <Button
+            android:id="@+id/btnAddPaintings"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:text="Add Paintings" />
+
+        <Button
+            android:id="@+id/btnAddArtQuestionsManual"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:text="Art Manual" />
+
+        <Button
+            android:id="@+id/btnAddArtQuestionsExcel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:text="Art      Excel" />
+
     </LinearLayout>
 
 </LinearLayout>

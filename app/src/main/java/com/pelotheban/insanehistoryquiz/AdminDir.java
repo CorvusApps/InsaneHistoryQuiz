@@ -10,7 +10,7 @@ import android.widget.Button;
 public class AdminDir extends AppCompatActivity {
 
 
-    Button btnManualX, btnExcelX, btnReviewX, btnAddBadgesX, btnAddPanelsX;
+    Button btnManualX, btnExcelX, btnReviewX, btnAddBadgesX, btnAddPanelsX, btnAddPaintingsX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +64,17 @@ public class AdminDir extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent (AdminDir.this, AddPanels.class);
                 startActivity(intent);
+            }
+        });
+
+        btnAddPaintingsX = findViewById(R.id.btnAddPaintings);
+        btnAddPaintingsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(AdminDir.this, AddPaintings.class);
+                startActivity(intent);
+
             }
         });
 

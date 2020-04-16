@@ -213,8 +213,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         mRewardedAdGameScreenCoins = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedAdGameScreenCoins.setRewardedVideoAdListener(this);
-       // mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
-        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-1744081621312112/9832400365", new AdRequest.Builder().build());
+        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
+        //mRewardedAdGameScreenCoins.loadAd("ca-app-pub-1744081621312112/9832400365", new AdRequest.Builder().build());
 
         txtAdMessageX = findViewById(R.id.txtAdMessage);
 
@@ -226,8 +226,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         mAdvertCounterGame = sharedAdvertCounterGame.getInt("CounterGame", 0); // where if no settings
 
         mInterstitialGame = new InterstitialAd(Game.this);
-        //mInterstitialGame.setAdUnitId(getString(R.string.test_interstitial_ad));
-        mInterstitialGame.setAdUnitId(getString(R.string.gamescreen_int));
+        mInterstitialGame.setAdUnitId(getString(R.string.test_interstitial_ad));
+        //mInterstitialGame.setAdUnitId(getString(R.string.gamescreen_int));
         mInterstitialGame.loadAd(new AdRequest.Builder().build());
 
         mInterstitialGame.setAdListener(new AdListener(){

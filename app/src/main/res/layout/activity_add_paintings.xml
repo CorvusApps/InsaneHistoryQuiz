@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".AddPaintings">
+
+    <ImageView
+        android:id="@+id/imgAddPaintingVertical"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_300sdp"
+        app:srcCompat="@drawable/wallbackground"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+
+        />
+
+    <ImageView
+        android:id="@+id/imgAddPainting"
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="@dimen/_200sdp"
+        app:srcCompat="@drawable/wallbackground"
+        android:scaleType="centerCrop"
+
+        />
+
+    <EditText
+        android:id="@+id/edtPaintingName"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_12sdp"
+        android:hint="Name"
+        />
+
+    <Button
+        android:id="@+id/btnSavePaintingPic"
+        android:layout_width="@dimen/_125sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:textSize="@dimen/_13sdp"
+        android:text="Save Painting"
+        />
+
+    <Button
+        android:id="@+id/btnOrientation"
+        android:layout_width="@dimen/_125sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:textSize="@dimen/_13sdp"
+        android:text="Orientation"
+        />
+
+
+
+</LinearLayout>
