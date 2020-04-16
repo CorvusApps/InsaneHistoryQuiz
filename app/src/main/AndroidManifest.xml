@@ -16,7 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".AddPaintings"></activity>
+        <activity
+            android:name=".ExcelPaint"
+            android:label="@string/title_activity_excel_paint"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+        <activity android:name=".ManualPaintQInput" />
+        <activity android:name=".AddPaintings" />
         <activity android:name=".AddPanels" />
         <activity android:name=".AddBadges" />
         <activity
