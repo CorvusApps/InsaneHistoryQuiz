@@ -270,7 +270,7 @@ public class AddPaintings extends AppCompatActivity {
         Bitmap bitmapColAdd = ((BitmapDrawable) imgAddPaintingsX.getDrawable()).getBitmap(); // we already have the bitmap
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         // create this bitmap using recieved to upload stock image if user did not upload theirs;
-        bitmapColAdd.compress(Bitmap.CompressFormat.JPEG, 75, baos);
+        bitmapColAdd.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
 
         paintingImageIdentifier = UUID.randomUUID() + ".jpg";   //initialized here because needs to be unique for each image but is random = unique??
@@ -327,7 +327,7 @@ public class AddPaintings extends AppCompatActivity {
         Bitmap bitmapColAdd = ((BitmapDrawable) imgAddPaintingsVerticalX.getDrawable()).getBitmap(); // we already have the bitmap
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         // create this bitmap using recieved to upload stock image if user did not upload theirs;
-        bitmapColAdd.compress(Bitmap.CompressFormat.JPEG, 75, baos);
+        bitmapColAdd.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
 
         paintingImageIdentifier = UUID.randomUUID() + ".jpg";   //initialized here because needs to be unique for each image but is random = unique??
@@ -383,7 +383,7 @@ public class AddPaintings extends AppCompatActivity {
 
         if (orientationToggle2 == 1) {
 
-            orientationIdentifier = "horizonatal";
+            orientationIdentifier = "horizontal";
 
         } else {
 
