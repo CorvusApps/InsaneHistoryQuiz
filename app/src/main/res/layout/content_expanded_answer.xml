@@ -139,6 +139,7 @@
         app:icon="@drawable/xaaabadgeantiquity"
         app:iconSize="@dimen/_18sdp"
         app:rippleColor="@color/colorAccent"
+        android:visibility="gone"
 
 
         />

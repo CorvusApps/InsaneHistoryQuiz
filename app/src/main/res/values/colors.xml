@@ -14,6 +14,7 @@
     <color name ="shieldfont">#FFB300</color>
 
     <color name ="coltranslucent">#10FFFFFF</color>
+    <color name ="coltranslucentDark">#20000000</color>
 
     <color name="transparent">#00000000</color>
 

@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,8 +51,11 @@ public class GamePaintBonus extends AppCompatActivity {
 
     private int randAnswer;
 
-    private ImageView imgCoin1X, imgCoin2X, imgCoin3X, imgCoin4X, imgCoin5X, imgCoin6X;
+    private LinearLayout loutGoldCoinsX;
+    private ImageView imgCoin1X, imgCoin2X, imgCoin3X, imgCoin4X, imgCoin5X, imgCoin6X, imgCoin7X, imgCoin8X, imgCoin9X, imgCoin10X;
+    private TextView txtCoinPaintAdderX;
 
+    String winner;
         // Timer related
 
         private CountDownTimer paintTimer;
@@ -64,8 +69,8 @@ public class GamePaintBonus extends AppCompatActivity {
     private String uid; // this is for the user account side
     private DatabaseReference userPaintReference;
     private Query sortUsersPaintQuery, paintQuestionQuery, paintingsQuery;
-    private String coinsOwnedPaintString;
-    private int coinsOwnedPaint;
+    private String coinsOwnedPaintString, artBonusWonString;
+    private int coinsOwnedPaint, artBonusWon;
     private FirebaseAuth mAuthEA;
 
     private String correctPaintAnsRec, wrongPaintAns1Rec, wrongPaintAns2Rec, wrongPaintAns3Rec, paintExpandedRec;
@@ -80,6 +85,7 @@ public class GamePaintBonus extends AppCompatActivity {
         imgGoldCoinsX = findViewById(R.id.imgGoldCoins);
         txtCoinPaintCounterX = findViewById(R.id.txtCoinPaintCounter);
         txtSetQuestionX = findViewById(R.id.txtSetQuestion);
+        winner = "no";
 
         loutPaintExpandedX = findViewById(R.id.loutPaintExpanded);
         txtPaintExpandedAnswerShowX = findViewById(R.id.txtPaintExpandedAnswerShow);
@@ -115,12 +121,18 @@ public class GamePaintBonus extends AppCompatActivity {
         imgPaintTimer4X = findViewById(R.id.imgPaintTimer4);
         imgPaintTimer5X = findViewById(R.id.imgPaintTimer5);
 
+        loutGoldCoinsX = findViewById(R.id.loutGoldCoins);
+        txtCoinPaintAdderX = findViewById(R.id.txtCoinPaintAdder);
         imgCoin1X = findViewById(R.id.imgCoin1);
         imgCoin2X = findViewById(R.id.imgCoin2);
         imgCoin3X = findViewById(R.id.imgCoin3);
         imgCoin4X = findViewById(R.id.imgCoin4);
         imgCoin5X = findViewById(R.id.imgCoin5);
         imgCoin6X = findViewById(R.id.imgCoin6);
+        imgCoin7X = findViewById(R.id.imgCoin7);
+        imgCoin8X = findViewById(R.id.imgCoin8);
+        imgCoin9X = findViewById(R.id.imgCoin9);
+        imgCoin10X = findViewById(R.id.imgCoin10);
 
         Log.i("PAINTLAMM", badgeIDRec);
 
@@ -189,6 +201,18 @@ public class GamePaintBonus extends AppCompatActivity {
 
                     coinsOwnedPaintString = paintUsers.child("coins").getValue().toString();
                     coinsOwnedPaint = Integer.parseInt(coinsOwnedPaintString);
+                    artBonusWon = 0; // this should be overwritten if get into the try
+                    Log.i ("ARTBONUS", "initial assingment to ow: " + artBonusWon);
+
+                    try {
+
+                        artBonusWonString = paintUsers.child("artbonuswon").getValue().toString();
+                        artBonusWon = Integer.parseInt(artBonusWonString);
+                        Log.i ("ARTBONUS", "pulled from FB: " + artBonusWon);
+
+                    } catch (Exception e) {
+
+                    }
 
                     userStatsSet();
 
@@ -210,6 +234,7 @@ public class GamePaintBonus extends AppCompatActivity {
 
                 if (randAnswer == 1) {
 
+                    winner = "yes";
                     btnAnswer1X.setVisibility(View.GONE);
                     btnAnswer1XGreen.setVisibility(View.VISIBLE);
 
@@ -241,7 +266,7 @@ public class GamePaintBonus extends AppCompatActivity {
 
                 }
 
-                CountDownTimer correctorPaintTimer = new CountDownTimer(2000, 1000) {
+                CountDownTimer correctorPaintTimer = new CountDownTimer(1000, 100) {
                     @Override
                     public void onTick(long millisUntilFinished) {
 
@@ -250,7 +275,10 @@ public class GamePaintBonus extends AppCompatActivity {
                     @Override
                     public void onFinish() {
 
-                        grantPaintCoins();
+                        if (winner.equals("yes")) {
+                            grantPaintCoins();
+                        }
+
                         paintExpandedAnswer();
                     }
                 }.start();
@@ -267,6 +295,7 @@ public class GamePaintBonus extends AppCompatActivity {
                 paintTimer.cancel();
 
                 if (randAnswer == 2) {
+                    winner = "yes";
 
                     btnAnswer2X.setVisibility(View.GONE);
                     btnAnswer2XGreen.setVisibility(View.VISIBLE);
@@ -277,9 +306,26 @@ public class GamePaintBonus extends AppCompatActivity {
                     btnAnswer2X.setVisibility(View.GONE);
                     btnAnswer2XRed.setVisibility(View.VISIBLE);
 
+                    if (randAnswer == 1) {
+
+                        btnAnswer1X.setVisibility(View.GONE);
+                        btnAnswer1XGreen.setVisibility(View.VISIBLE);
+                    }
+
+                    if (randAnswer == 3) {
+                        btnAnswer3X.setVisibility(View.GONE);
+                        btnAnswer3XGreen.setVisibility(View.VISIBLE);
+
+                    }
+                    if (randAnswer == 4) {
+                        btnAnswer4X.setVisibility(View.GONE);
+                        btnAnswer4XGreen.setVisibility(View.VISIBLE);
+
+                    }
+
                 }
 
-                CountDownTimer correctorPaintTimer = new CountDownTimer(2000, 1000) {
+                CountDownTimer correctorPaintTimer = new CountDownTimer(1000, 100) {
                     @Override
                     public void onTick(long millisUntilFinished) {
 
@@ -288,7 +334,9 @@ public class GamePaintBonus extends AppCompatActivity {
                     @Override
                     public void onFinish() {
 
-                        grantPaintCoins();
+                        if (winner.equals("yes")) {
+                            grantPaintCoins();
+                        }
                         paintExpandedAnswer();
                     }
                 }.start();
@@ -302,6 +350,7 @@ public class GamePaintBonus extends AppCompatActivity {
                 paintTimer.cancel();
 
                 if (randAnswer == 3) {
+                    winner = "yes";
 
                     btnAnswer3X.setVisibility(View.GONE);
                     btnAnswer3XGreen.setVisibility(View.VISIBLE);
@@ -312,9 +361,26 @@ public class GamePaintBonus extends AppCompatActivity {
                     btnAnswer3X.setVisibility(View.GONE);
                     btnAnswer3XRed.setVisibility(View.VISIBLE);
 
+                    if (randAnswer == 2) {
+
+                        btnAnswer2X.setVisibility(View.GONE);
+                        btnAnswer2XGreen.setVisibility(View.VISIBLE);
+                    }
+
+                    if (randAnswer == 1) {
+                        btnAnswer1X.setVisibility(View.GONE);
+                        btnAnswer1XGreen.setVisibility(View.VISIBLE);
+
+                    }
+                    if (randAnswer == 4) {
+                        btnAnswer4X.setVisibility(View.GONE);
+                        btnAnswer4XGreen.setVisibility(View.VISIBLE);
+
+                    }
+
                 }
 
-                CountDownTimer correctorPaintTimer = new CountDownTimer(2000, 1000) {
+                CountDownTimer correctorPaintTimer = new CountDownTimer(1000, 100) {
                     @Override
                     public void onTick(long millisUntilFinished) {
 
@@ -323,7 +389,9 @@ public class GamePaintBonus extends AppCompatActivity {
                     @Override
                     public void onFinish() {
 
-                        grantPaintCoins();
+                        if (winner.equals("yes")) {
+                            grantPaintCoins();
+                        }
                         paintExpandedAnswer();
                     }
                 }.start();
@@ -337,6 +405,7 @@ public class GamePaintBonus extends AppCompatActivity {
                 paintTimer.cancel();
 
                 if (randAnswer == 4) {
+                    winner = "yes";
 
                     btnAnswer4X.setVisibility(View.GONE);
                     btnAnswer4XGreen.setVisibility(View.VISIBLE);
@@ -347,9 +416,26 @@ public class GamePaintBonus extends AppCompatActivity {
                     btnAnswer4X.setVisibility(View.GONE);
                     btnAnswer4XRed.setVisibility(View.VISIBLE);
 
+                    if (randAnswer == 2) {
+
+                        btnAnswer2X.setVisibility(View.GONE);
+                        btnAnswer2XGreen.setVisibility(View.VISIBLE);
+                    }
+
+                    if (randAnswer == 3) {
+                        btnAnswer3X.setVisibility(View.GONE);
+                        btnAnswer3XGreen.setVisibility(View.VISIBLE);
+
+                    }
+                    if (randAnswer == 1) {
+                        btnAnswer1X.setVisibility(View.GONE);
+                        btnAnswer1XGreen.setVisibility(View.VISIBLE);
+
+                    }
+
                 }
 
-                CountDownTimer correctorPaintTimer = new CountDownTimer(2000, 1000) {
+                CountDownTimer correctorPaintTimer = new CountDownTimer(1000, 100) {
                     @Override
                     public void onTick(long millisUntilFinished) {
 
@@ -358,7 +444,9 @@ public class GamePaintBonus extends AppCompatActivity {
                     @Override
                     public void onFinish() {
 
-                        grantPaintCoins();
+                        if (winner.equals("yes")) {
+                            grantPaintCoins();
+                        }
                         paintExpandedAnswer();
                     }
                 }.start();
@@ -593,7 +681,11 @@ public class GamePaintBonus extends AppCompatActivity {
         btnAnswer3XRed.setVisibility(View.GONE);
         btnAnswer4XRed.setVisibility(View.GONE);
 
-        loutPaintGameButtonsX.setVisibility(View.VISIBLE);
+        if (winner.equals("no")) {
+
+            loutPaintGameButtonsX.setVisibility(View.VISIBLE);
+
+        }
 
         imgPaintTimerX.setVisibility(View.GONE);
         imgPaintTimer2X.setVisibility(View.GONE);
@@ -611,11 +703,16 @@ public class GamePaintBonus extends AppCompatActivity {
 
     private void grantPaintCoins() {
 
+        Log.i ("ARTBONUS", "" + artBonusWon);
         coinsOwnedPaint = coinsOwnedPaint + 10;
+        artBonusWon = artBonusWon +1;
+
 
         userPaintReference.getRef().child("coins").setValue(coinsOwnedPaint);
         int coinsOwnedSort = - coinsOwnedPaint;
         userPaintReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
+        userPaintReference.getRef().child("artbonuswon").setValue(artBonusWon);
+        Log.i ("ARTBONUS", "" + artBonusWon);
 
         grantPaintCoinsAnimation();
 
@@ -627,55 +724,207 @@ public class GamePaintBonus extends AppCompatActivity {
         imgGoldCoinsX.animate().scaleY(1.5f).scaleX(1.5f).setDuration(400);
         txtCoinPaintCounterX.setVisibility(View.GONE);
 
-        imgCoin1X.animate().rotation(1440).setDuration(500);
-        imgCoin2X.animate().rotation(1440).setDuration(750);
-        imgCoin3X.animate().rotation(1440).setDuration(1000);
-        imgCoin4X.animate().rotation(1440).setDuration(1250);
-        imgCoin5X.animate().rotation(1440).setDuration(1500);
-        imgCoin6X.animate().rotation(1440).setDuration(1750);
+        //loutGoldCoinsX.animate().scaleY(1.15f);
+        txtCoinPaintAdderX.setVisibility(View.VISIBLE);
 
-        CountDownTimer goldAwardTimer = new CountDownTimer(2000, 50) {
+        imgCoin1X.setVisibility(View.VISIBLE);
+        imgCoin2X.setVisibility(View.VISIBLE);
+        imgCoin3X.setVisibility(View.VISIBLE);
+        imgCoin4X.setVisibility(View.VISIBLE);
+        imgCoin5X.setVisibility(View.VISIBLE);
+        imgCoin6X.setVisibility(View.VISIBLE);
+        imgCoin7X.setVisibility(View.VISIBLE);
+        imgCoin8X.setVisibility(View.VISIBLE);
+        imgCoin9X.setVisibility(View.VISIBLE);
+        imgCoin10X.setVisibility(View.VISIBLE);
+
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(50)
+                .repeat(0)
+                .playOn(imgCoin1X);
+
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(100)
+                .repeat(0)
+                .playOn(imgCoin2X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(150)
+                .repeat(0)
+                .playOn(imgCoin3X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(200)
+                .repeat(0)
+                .playOn(imgCoin4X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(250)
+                .repeat(0)
+                .playOn(imgCoin5X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(300)
+                .repeat(0)
+                .playOn(imgCoin6X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(350)
+                .repeat(0)
+                .playOn(imgCoin7X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(400)
+                .repeat(0)
+                .playOn(imgCoin8X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(450)
+                .repeat(0)
+                .playOn(imgCoin9X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(500)
+                .repeat(0)
+                .playOn(imgCoin10X);
+
+        imgCoin1X.animate().rotation(1440).setDuration(250);
+        imgCoin2X.animate().rotation(1440).setDuration(500);
+        imgCoin3X.animate().rotation(1440).setDuration(750);
+        imgCoin4X.animate().rotation(1440).setDuration(1000);
+        imgCoin5X.animate().rotation(1440).setDuration(1250);
+        imgCoin6X.animate().rotation(1440).setDuration(1500);
+        imgCoin7X.animate().rotation(1440).setDuration(1750);
+        imgCoin8X.animate().rotation(1440).setDuration(2000);
+        imgCoin9X.animate().rotation(1440).setDuration(2250);
+        imgCoin10X.animate().rotation(1440).setDuration(2500);
+
+        CountDownTimer goldAwardTimer = new CountDownTimer(3500, 50) {
+
+            int tickcounter = 0;
+
             @Override
             public void onTick(long millisUntilFinished) {
 
-                if (millisUntilFinished <500) {
 
-                    imgCoin6X.setVisibility(View.GONE);
+
+                if (millisUntilFinished <850) {
+
+                    imgCoin10X.setVisibility(View.GONE);
+                    if (tickcounter == 9) {
+
+                        txtCoinPaintAdderX.setText("+10");
+                        tickcounter = 10;
+                    }
+
 
                 } else
-                if (millisUntilFinished <750) {
+                if (millisUntilFinished <1100) {
 
-                    imgCoin5X.setVisibility(View.GONE);
+                    imgCoin9X.setVisibility(View.GONE);
+                    if (tickcounter == 8) {
+
+                        txtCoinPaintAdderX.setText("+9");
+                        tickcounter = 9;
+                    }
+
                 }else
-                if (millisUntilFinished < 1000) {
-                    imgCoin4X.setVisibility(View.GONE);
+                if (millisUntilFinished < 1350) {
+                    imgCoin8X.setVisibility(View.GONE);
+                    if (tickcounter == 7) {
+
+                        txtCoinPaintAdderX.setText("+8");
+                        tickcounter = 8;
+                    }
+
                 } else
-                if (millisUntilFinished < 1250) {
+                if (millisUntilFinished < 1600) {
+
+                    imgCoin7X.setVisibility(View.GONE);
+                    if (tickcounter == 6) {
+
+                        txtCoinPaintAdderX.setText("+7");
+                        tickcounter = 7;
+                    }
+
+                } else
+                if (millisUntilFinished < 1850) {
+                    imgCoin6X.setVisibility(View.GONE);
+                    if (tickcounter == 5) {
+
+                        txtCoinPaintAdderX.setText("+6");
+                        tickcounter = 6;
+                    }
+
+
+                }
+
+                if (millisUntilFinished < 2100) {
+                    imgCoin5X.setVisibility(View.GONE);
+                    if (tickcounter == 4) {
+
+                        txtCoinPaintAdderX.setText("+5");
+                        tickcounter = 5;
+                    }
+
+
+                }
+
+                if (millisUntilFinished < 2350) {
+                    imgCoin4X.setVisibility(View.GONE);
+                    if (tickcounter == 3) {
+
+                        txtCoinPaintAdderX.setText("+4");
+                        tickcounter = 4;
+                    }
+
+                } else
+                if (millisUntilFinished < 2600) {
 
                     imgCoin3X.setVisibility(View.GONE);
+                    if (tickcounter == 2) {
+
+                        txtCoinPaintAdderX.setText("+3");
+                        tickcounter = 3;
+                    }
+
                 } else
-                if (millisUntilFinished < 1500) {
+                if (millisUntilFinished < 2850) {
                     imgCoin2X.setVisibility(View.GONE);
+                    if (tickcounter == 1) {
+
+                        txtCoinPaintAdderX.setText("+2");
+                        tickcounter = 2;
+                    }
+
 
                 }
 
-                if (millisUntilFinished < 1750) {
+                if (millisUntilFinished < 3100) {
                     imgCoin1X.setVisibility(View.GONE);
+                    if (tickcounter == 0) {
+
+                        txtCoinPaintAdderX.setText("+1");
+                        tickcounter = 1;
+                    }
 
                 }
-
-
 
             }
 
             @Override
             public void onFinish() {
 
+                loutGoldCoinsX.animate().scaleY(1);
+                txtCoinPaintAdderX.setVisibility(View.GONE);
                 String coinsOwedZ = Integer.toString(coinsOwnedPaint);
                 txtCoinPaintCounterX.setText(coinsOwedZ);
                 txtCoinPaintCounterX.setVisibility(View.VISIBLE);
 
                 imgGoldCoinsX.animate().scaleY(1).scaleX(1).setDuration(400);
+                loutPaintGameButtonsX.setVisibility(View.VISIBLE);
 
             }
         }.start();

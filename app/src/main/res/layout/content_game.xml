@@ -121,26 +121,26 @@
     <LinearLayout
         android:id="@+id/loutGameQuestion"
         android:layout_width="@dimen/_300sdp"
-        android:layout_height="@dimen/_300sdp"
+        android:layout_height="@dimen/_260sdp"
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:background="@drawable/question"
+        android:background="@drawable/panel"
 
         >
 
         <TextView
             android:id="@+id/txtGameQuestion"
-            android:layout_width="@dimen/_190sdp"
-            android:layout_height="@dimen/_180sdp"
+            android:layout_width="@dimen/_240sdp"
+            android:layout_height="@dimen/_200sdp"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="@dimen/_15sdp"
+
             android:fontFamily="@font/almendra_sc"
             android:gravity="center"
             android:lineSpacingMultiplier="1.2"
             android:text="Question"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/_16sdp"
             android:textStyle="bold" />
 

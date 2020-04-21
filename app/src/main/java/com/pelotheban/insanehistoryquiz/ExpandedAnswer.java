@@ -1025,12 +1025,22 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         // BUTTONS FOR GOING TO DIFFERENT SCREENS BEGINS //////////////////////////////////
         btnBadgeBonusX = findViewById(R.id.btnBadgeBonus);
+        try {
+
+            if (badgeSortKey != null) {
+
+                btnBadgeBonusX.setVisibility(View.VISIBLE);
+            }
+
+        } catch (Exception e) {
+
+        }
         btnBadgeBonusX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(ExpandedAnswer.this, GamePaintBonus.class);
-                intent.putExtra("badgeid", "xant1");
+                intent.putExtra("badgeid", badgeSortKey);
                 startActivity(intent);
             }
         });
