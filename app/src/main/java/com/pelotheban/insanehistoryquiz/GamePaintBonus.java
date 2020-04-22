@@ -5,13 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Matrix;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -33,7 +39,15 @@ public class GamePaintBonus extends AppCompatActivity {
 
     // UI Elements
 
+    private ScrollView scvAGPBX;
+
     private ImageView imgShowPaintingX, imgShowPaintingVerticalX;
+
+        // for zoom
+        Matrix matrix = new Matrix();
+        Float scale = 1f;
+        ScaleGestureDetector SGD;
+
     private LinearLayout loutShowPaintingX, loutShowPaintingVerticalX;
     private Button btnAnswer1X, btnAnswer2X, btnAnswer3X, btnAnswer4X;
     private Button btnAnswer1XRed, btnAnswer2XRed, btnAnswer3XRed, btnAnswer4XRed;
@@ -48,6 +62,9 @@ public class GamePaintBonus extends AppCompatActivity {
 
     private LinearLayout loutPaintExpandedX;
     private TextView txtPaintExpandedAnswerShowX;
+
+    private int height2;
+    private int width2;
 
     private int randAnswer;
 
@@ -82,6 +99,17 @@ public class GamePaintBonus extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_paint_bonus);
 
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        double height = size.y;
+
+        height2 = (int) Math.round(height);
+        width2 = (int) Math.round(width);
+
+        scvAGPBX = findViewById(R.id.scvAGPB);
+
         imgGoldCoinsX = findViewById(R.id.imgGoldCoins);
         txtCoinPaintCounterX = findViewById(R.id.txtCoinPaintCounter);
         txtSetQuestionX = findViewById(R.id.txtSetQuestion);
@@ -108,6 +136,10 @@ public class GamePaintBonus extends AppCompatActivity {
 
         imgShowPaintingX = findViewById(R.id.imgShowPainting);
         imgShowPaintingVerticalX = findViewById(R.id.imgShowPaintingVertical);
+
+            //for zoom
+            SGD = new ScaleGestureDetector(this, new ScaleListener());
+
 
         loutShowPaintingX = findViewById(R.id.loutShowPainting);
         loutShowPaintingVerticalX = findViewById(R.id.loutShowPaintingVertical);
@@ -494,6 +526,27 @@ public class GamePaintBonus extends AppCompatActivity {
 
 
     }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+
+            scale = scale * detector.getScaleFactor();
+            scale = Math.max(0.1f, Math.min(scale, 5f));
+            matrix.setScale(scale, scale);
+            imgShowPaintingX.setImageMatrix(matrix);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        SGD.onTouchEvent(event);
+        return true;
+    }
+
     private void paintingImageSet(){
 
         Log.i("PAINTLAMM", "in set + " + orientationRec);
@@ -511,6 +564,15 @@ public class GamePaintBonus extends AppCompatActivity {
             loutShowPaintingX.setVisibility(View.GONE);
             loutShowPaintingVerticalX.setVisibility(View.VISIBLE);
             Picasso.get().load(imagePaintLinkRec).into(imgShowPaintingVerticalX);
+
+            if (width2 > 1500) { // changes in fot for tablet and then small format phone
+
+
+            } else if (height2 < 1300) {
+
+                scvAGPBX.smoothScrollTo(0, imgShowPaintingVerticalX.getTop());
+
+            }
 
         }
     }
@@ -592,7 +654,7 @@ public class GamePaintBonus extends AppCompatActivity {
 
     private void countdownPaintTimer(){
 
-        paintTimer = new CountDownTimer(10000, 100) {
+        paintTimer = new CountDownTimer(20000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -608,21 +670,21 @@ public class GamePaintBonus extends AppCompatActivity {
                     imgPaintTimer5X.setVisibility(View.GONE);
                     imgPaintTimerX.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished <3000) {
+                if (millisUntilFinished <4000) {
 
                     imgPaintTimer4X.setVisibility(View.GONE);
                     imgPaintTimer5X.setVisibility(View.VISIBLE);
                 }else
-                if (millisUntilFinished < 6000) {
+                if (millisUntilFinished < 10000) {
                     imgPaintTimer3X.setVisibility(View.GONE);
                     imgPaintTimer4X.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished < 8500) {
+                if (millisUntilFinished < 18500) {
 
                     imgPaintTimer2X.setVisibility(View.GONE);
                     imgPaintTimer3X.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished < 9500) {
+                if (millisUntilFinished < 19500) {
 
 
                     imgPaintTimerX.setVisibility(View.GONE);
@@ -697,11 +759,34 @@ public class GamePaintBonus extends AppCompatActivity {
         txtSetQuestionX.setVisibility(View.GONE);
 
         loutPaintExpandedX.setVisibility(View.VISIBLE);
-        txtPaintExpandedAnswerShowX.setText(correctPaintAnsRec + " \n" +"------- \n" + paintExpandedRec);
+
+        if (width2 > 1500) { // changes in fot for tablet and then small format phone
+
+            txtPaintExpandedAnswerShowX.setTextSize(30);
+        } else if (height2 < 1300) {
+
+            txtPaintExpandedAnswerShowX.setTextSize(17);
+            txtPaintExpandedAnswerShowX.setText(correctPaintAnsRec + " \n" + "------- \n" + paintExpandedRec);
+
+            btnAnswer1X.setTextSize(16);
+            btnAnswer2X.setTextSize(16);
+            btnAnswer3X.setTextSize(16);
+            btnAnswer4X.setTextSize(16);
+
+            btnAnswer1XGreen.setTextSize(16);
+            btnAnswer2XGreen.setTextSize(16);
+            btnAnswer3XGreen.setTextSize(16);
+            btnAnswer4XGreen.setTextSize(16);
+
+            btnAnswer1XRed.setTextSize(16);
+            btnAnswer2XRed.setTextSize(16);
+            btnAnswer3XRed.setTextSize(16);
+            btnAnswer4XRed.setTextSize(16);
+        }
 
     }
 
-    private void grantPaintCoins() {
+    private void grantPaintCoins(){
 
         Log.i ("ARTBONUS", "" + artBonusWon);
         coinsOwnedPaint = coinsOwnedPaint + 10;

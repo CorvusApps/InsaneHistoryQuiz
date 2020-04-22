@@ -10,460 +10,8 @@
     android:background="@drawable/wallbackground"
     tools:context=".AddPaintings">
 
-    <LinearLayout
-        android:id="@+id/loutGoldCoins"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_marginTop="@dimen/_16sdp"
-        >
-
-        <ImageView
-            android:id="@+id/imgGoldCoins"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            app:srcCompat="@drawable/goldcoinsicon" />
-
-        <TextView
-            android:id="@+id/txtCoinPaintCounter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:textStyle="bold"
-            android:textSize="@dimen/_25sdp"
-            android:fontFamily="@font/almendra_sc"
-            />
-
-        <ImageView
-            android:id="@+id/imgCoin1"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/lucius" />
-
-        <ImageView
-            android:id="@+id/imgCoin2"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/lucius" />
-
-        <ImageView
-            android:id="@+id/imgCoin3"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/lucius" />
-
-        <ImageView
-            android:id="@+id/imgCoin4"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/lucius" />
-
-        <ImageView
-            android:id="@+id/imgCoin5"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/lucius" />
-
-        <ImageView
-            android:id="@+id/imgCoin6"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/lucius" />
-
-        <ImageView
-            android:id="@+id/imgCoin7"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/lucius" />
-
-        <ImageView
-            android:id="@+id/imgCoin8"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/lucius" />
-        <ImageView
-            android:id="@+id/imgCoin9"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/lucius" />
-        <ImageView
-            android:id="@+id/imgCoin10"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/lucius" />
-        <TextView
-            android:id="@+id/txtCoinPaintAdder"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:text="+1"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:textStyle="bold"
-            android:textSize="@dimen/_10sdp"
-            android:gravity="center"
-            android:background="@drawable/googleglow"
-            android:fontFamily="@font/almendra_sc"
-            android:textColor="@color/colorAccent"
-            android:visibility="gone"
-            />
-
-
-        <ImageView
-            android:id="@+id/imgPaintTimer"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_37sdp"
-            android:layout_marginLeft="@dimen/_135sdp"
-            app:srcCompat="@drawable/hourglassone"
-            android:visibility="visible"
-            />
-        <ImageView
-            android:id="@+id/imgPaintTimer2"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_18sdp"
-            android:layout_marginLeft="@dimen/_118sdp"
-            app:srcCompat="@drawable/hourglasstwo"
-            android:visibility="gone"
-            />
-        <ImageView
-            android:id="@+id/imgPaintTimer3"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginLeft="@dimen/_135sdp"
-            app:srcCompat="@drawable/hourglassthree"
-            android:visibility="gone"
-            />
-        <ImageView
-            android:id="@+id/imgPaintTimer4"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginLeft="@dimen/_135sdp"
-            app:srcCompat="@drawable/hourglassfour"
-            android:visibility="gone"
-            />
-
-
-        <ImageView
-            android:id="@+id/imgPaintTimer5"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginLeft="@dimen/_135sdp"
-            app:srcCompat="@drawable/hourglassfive"
-            android:visibility="gone"
-            />
-
-
-
-
-
-
-        <TextView
-            android:id="@+id/txtPaintTimer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:text="10"
-            android:visibility="visible"
-            android:textStyle="bold"
-            android:textSize="@dimen/_25sdp"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/loutShowPaintingVertical"
-        android:layout_width="@dimen/_200sdp"
-        android:layout_height="@dimen/_300sdp"
-        android:background="@drawable/paintingframe"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_8sdp"
-
-        android:orientation="vertical"
-        android:visibility="gone"
-        >
-
-
-
-        <ImageView
-            android:id="@+id/imgShowPaintingVertical"
-            android:layout_width="@dimen/_160sdp"
-            android:layout_height="@dimen/_220sdp"
-            app:srcCompat="@drawable/leaderboardtwo"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/_2sdp"
-            android:scaleType="centerCrop"
-            android:visibility="visible"
-
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/loutShowPainting"
-        android:layout_width="@dimen/_300sdp"
-        android:layout_height="@dimen/_200sdp"
-        android:background="@drawable/paintingframe"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_8sdp"
-
-        android:orientation="vertical"
-        >
-
-        <ImageView
-            android:id="@+id/imgShowPainting"
-            android:layout_width="@dimen/_246sdp"
-            android:layout_height="@dimen/_146sdp"
-            android:layout_marginLeft="@dimen/_2sdp"
-            app:srcCompat="@drawable/leaderboardtwo"
-            android:scaleType="centerCrop"
-            android:visibility="visible"
-
-        />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/txtSetQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="This Masterpiece portrays :"
-        android:layout_marginTop="@dimen/_4sdp"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_8sdp"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        android:textSize="@dimen/_18sdp"
-        android:fontFamily="@font/almendra_sc"
-
-        />
-
-   <LinearLayout
-       android:id="@+id/loutButtonsRow1"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginLeft="@dimen/_8sdp"
-       android:layout_marginRight="@dimen/_8sdp"
-       android:layout_marginTop="@dimen/_5sdp"
-       >
-
-        <Button
-           android:id="@+id/btnAnswer1"
-           android:layout_width="0dp"
-           android:layout_height="@dimen/_70sdp"
-           android:layout_weight="1"
-           android:textSize="@dimen/_13sdp"
-           android:text="1"
-           android:layout_gravity="center"
-           android:fontFamily="@font/almendra_sc"
-           android:backgroundTint="@color/colorPrimaryDark"
-           android:textColor="@color/colorPrimary"
-           android:layout_marginRight="@dimen/_4sdp"
-
-       />
-
-       <Button
-           android:id="@+id/btnAnswer1Red"
-           android:layout_width="0dp"
-           android:layout_height="@dimen/_70sdp"
-           android:layout_weight="1"
-           android:textSize="@dimen/_13sdp"
-           android:text="1"
-           android:layout_gravity="center"
-           android:fontFamily="@font/almendra_sc"
-           android:backgroundTint="@color/red"
-           android:textColor="@color/colorPrimary"
-           android:layout_marginRight="@dimen/_4sdp"
-           android:visibility="gone"
-           />
-
-       <Button
-           android:id="@+id/btnAnswer1Green"
-           android:layout_width="0dp"
-           android:layout_height="@dimen/_70sdp"
-           android:layout_weight="1"
-           android:textSize="@dimen/_13sdp"
-           android:text="1"
-           android:layout_gravity="center"
-           android:fontFamily="@font/almendra_sc"
-           android:backgroundTint="@color/green"
-           android:textColor="@color/colorPrimary"
-           android:layout_marginRight="@dimen/_4sdp"
-           android:visibility="gone"
-           />
-
-       <Button
-           android:id="@+id/btnAnswer2"
-           android:layout_width="0dp"
-           android:layout_height="@dimen/_70sdp"
-           android:layout_weight="1"
-           android:textSize="@dimen/_13sdp"
-           android:text="2"
-           android:layout_gravity="center"
-           android:fontFamily="@font/almendra_sc"
-           android:backgroundTint="@color/colorPrimaryDark"
-           android:textColor="@color/colorPrimary"
-           android:layout_marginLeft="@dimen/_4sdp"
-           />
-
-
-
-       <Button
-           android:id="@+id/btnAnswer2Red"
-           android:layout_width="0dp"
-           android:layout_height="@dimen/_70sdp"
-           android:layout_weight="1"
-           android:textSize="@dimen/_13sdp"
-           android:text="2"
-           android:layout_gravity="center"
-           android:fontFamily="@font/almendra_sc"
-           android:backgroundTint="@color/red"
-           android:textColor="@color/colorPrimary"
-           android:layout_marginLeft="@dimen/_4sdp"
-           android:visibility="gone"
-           />
-
-
-       <Button
-           android:id="@+id/btnAnswer2Green"
-           android:layout_width="0dp"
-           android:layout_height="@dimen/_70sdp"
-           android:layout_weight="1"
-           android:textSize="@dimen/_13sdp"
-           android:text="2"
-           android:layout_gravity="center"
-           android:fontFamily="@font/almendra_sc"
-           android:backgroundTint="@color/green"
-           android:textColor="@color/colorPrimary"
-           android:layout_marginLeft="@dimen/_4sdp"
-           android:visibility="gone"
-           />
-
-   </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/loutButtonsRow2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_5sdp"
-        >
-
-        <Button
-            android:id="@+id/btnAnswer3"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_weight="1"
-            android:textSize="@dimen/_13sdp"
-            android:text="3"
-            android:layout_gravity="center"
-            android:fontFamily="@font/almendra_sc"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:textColor="@color/colorPrimary"
-            android:layout_marginRight="@dimen/_4sdp"
-            />
-
-        <Button
-            android:id="@+id/btnAnswer3Red"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_weight="1"
-            android:textSize="@dimen/_13sdp"
-            android:text="3"
-            android:layout_gravity="center"
-            android:fontFamily="@font/almendra_sc"
-            android:backgroundTint="@color/red"
-            android:textColor="@color/colorPrimary"
-            android:layout_marginRight="@dimen/_4sdp"
-            android:visibility="gone"
-            />
-
-        <Button
-            android:id="@+id/btnAnswer3Green"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_weight="1"
-            android:textSize="@dimen/_13sdp"
-            android:text="3"
-            android:layout_gravity="center"
-            android:fontFamily="@font/almendra_sc"
-            android:backgroundTint="@color/green"
-            android:textColor="@color/colorPrimary"
-            android:layout_marginRight="@dimen/_4sdp"
-            android:visibility="gone"
-            />
-
-        <Button
-            android:id="@+id/btnAnswer4"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_weight="1"
-            android:textSize="@dimen/_13sdp"
-            android:text="4"
-            android:layout_gravity="center"
-            android:fontFamily="@font/almendra_sc"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:textColor="@color/colorPrimary"
-            android:layout_marginLeft="@dimen/_4sdp"
-            />
-
-
-
-        <Button
-            android:id="@+id/btnAnswer4Red"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_weight="1"
-            android:textSize="@dimen/_13sdp"
-            android:text="4"
-            android:layout_gravity="center"
-            android:fontFamily="@font/almendra_sc"
-            android:backgroundTint="@color/red"
-            android:textColor="@color/colorPrimary"
-            android:layout_marginLeft="@dimen/_4sdp"
-            android:visibility="gone"
-            />
-
-
-
-        <Button
-            android:id="@+id/btnAnswer4Green"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_weight="1"
-            android:textSize="@dimen/_13sdp"
-            android:text="4"
-            android:layout_gravity="center"
-            android:fontFamily="@font/almendra_sc"
-            android:backgroundTint="@color/green"
-            android:textColor="@color/colorPrimary"
-            android:layout_marginLeft="@dimen/_4sdp"
-            android:visibility="gone"
-            />
-
-
-
-    </LinearLayout>
-
     <ScrollView
+        android:id="@+id/scvAGPB"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -474,11 +22,461 @@
             android:orientation="vertical"
             >
 
+
+            <LinearLayout
+                android:id="@+id/loutGoldCoins"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                >
+
+                <ImageView
+                    android:id="@+id/imgGoldCoins"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    app:srcCompat="@drawable/goldcoinsicon" />
+
+                <TextView
+                    android:id="@+id/txtCoinPaintCounter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_25sdp"
+                    android:fontFamily="@font/almendra_sc"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgCoin1"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/lucius" />
+
+                <ImageView
+                    android:id="@+id/imgCoin2"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/lucius" />
+
+                <ImageView
+                    android:id="@+id/imgCoin3"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/lucius" />
+
+                <ImageView
+                    android:id="@+id/imgCoin4"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/lucius" />
+
+                <ImageView
+                    android:id="@+id/imgCoin5"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/lucius" />
+
+                <ImageView
+                    android:id="@+id/imgCoin6"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/lucius" />
+
+                <ImageView
+                    android:id="@+id/imgCoin7"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/lucius" />
+
+                <ImageView
+                    android:id="@+id/imgCoin8"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/lucius" />
+                <ImageView
+                    android:id="@+id/imgCoin9"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/lucius" />
+                <ImageView
+                    android:id="@+id/imgCoin10"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/lucius" />
+                <TextView
+                    android:id="@+id/txtCoinPaintAdder"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:text="+1"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:background="@drawable/googleglow"
+                    android:fontFamily="@font/almendra_sc"
+                    android:textColor="@color/colorAccent"
+                    android:visibility="gone"
+                    />
+
+
+                <ImageView
+                    android:id="@+id/imgPaintTimer"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_37sdp"
+                    android:layout_marginLeft="@dimen/_135sdp"
+                    app:srcCompat="@drawable/hourglassone"
+                    android:visibility="visible"
+                    />
+                <ImageView
+                    android:id="@+id/imgPaintTimer2"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_marginLeft="@dimen/_118sdp"
+                    app:srcCompat="@drawable/hourglasstwo"
+                    android:visibility="gone"
+                    />
+                <ImageView
+                    android:id="@+id/imgPaintTimer3"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginLeft="@dimen/_135sdp"
+                    app:srcCompat="@drawable/hourglassthree"
+                    android:visibility="gone"
+                    />
+                <ImageView
+                    android:id="@+id/imgPaintTimer4"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginLeft="@dimen/_135sdp"
+                    app:srcCompat="@drawable/hourglassfour"
+                    android:visibility="gone"
+                    />
+
+
+                <ImageView
+                    android:id="@+id/imgPaintTimer5"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginLeft="@dimen/_135sdp"
+                    app:srcCompat="@drawable/hourglassfive"
+                    android:visibility="gone"
+                />
+
+                <TextView
+                    android:id="@+id/txtPaintTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:text="10"
+                    android:visibility="visible"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_25sdp"
+                />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/loutShowPaintingVertical"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="@dimen/_300sdp"
+                android:background="@drawable/paintingframe"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+
+
+
+                <ImageView
+                    android:id="@+id/imgShowPaintingVertical"
+                    android:layout_width="@dimen/_160sdp"
+                    android:layout_height="@dimen/_220sdp"
+                    app:srcCompat="@drawable/leaderboardtwo"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:scaleType="centerCrop"
+                    android:visibility="visible"
+
+                />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/loutShowPainting"
+                android:layout_width="@dimen/_300sdp"
+                android:layout_height="@dimen/_200sdp"
+                android:background="@drawable/paintingframe"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/imgShowPainting"
+                    android:layout_width="@dimen/_246sdp"
+                    android:layout_height="@dimen/_146sdp"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    app:srcCompat="@drawable/leaderboardtwo"
+                    android:scaleType="centerCrop"
+                    android:visibility="visible"
+
+                />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtSetQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This Masterpiece portrays :"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:textSize="@dimen/_18sdp"
+                android:fontFamily="@font/almendra_sc"
+
+            />
+
+           <LinearLayout
+               android:id="@+id/loutButtonsRow1"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="@dimen/_8sdp"
+               android:layout_marginRight="@dimen/_8sdp"
+               android:layout_marginTop="@dimen/_5sdp"
+               >
+
+                <Button
+                   android:id="@+id/btnAnswer1"
+                   android:layout_width="0dp"
+                   android:layout_height="@dimen/_90sdp"
+                   android:layout_weight="1"
+                   android:textSize="@dimen/_13sdp"
+                   android:text="1"
+                   android:layout_gravity="center"
+                   android:fontFamily="@font/almendra_sc"
+                   android:backgroundTint="@color/colorPrimaryDark"
+                   android:textColor="@color/colorPrimary"
+                   android:layout_marginRight="@dimen/_4sdp"
+
+               />
+
+               <Button
+                   android:id="@+id/btnAnswer1Red"
+                   android:layout_width="0dp"
+                   android:layout_height="@dimen/_90sdp"
+                   android:layout_weight="1"
+                   android:textSize="@dimen/_13sdp"
+                   android:text="1"
+                   android:layout_gravity="center"
+                   android:fontFamily="@font/almendra_sc"
+                   android:backgroundTint="@color/red"
+                   android:textColor="@color/colorPrimary"
+                   android:layout_marginRight="@dimen/_4sdp"
+                   android:visibility="gone"
+               />
+
+               <Button
+                   android:id="@+id/btnAnswer1Green"
+                   android:layout_width="0dp"
+                   android:layout_height="@dimen/_90sdp"
+                   android:layout_weight="1"
+                   android:textSize="@dimen/_13sdp"
+                   android:text="1"
+                   android:layout_gravity="center"
+                   android:fontFamily="@font/almendra_sc"
+                   android:backgroundTint="@color/green"
+                   android:textColor="@color/colorPrimary"
+                   android:layout_marginRight="@dimen/_4sdp"
+                   android:visibility="gone"
+               />
+
+               <Button
+                   android:id="@+id/btnAnswer2"
+                   android:layout_width="0dp"
+                   android:layout_height="@dimen/_90sdp"
+                   android:layout_weight="1"
+                   android:textSize="@dimen/_13sdp"
+                   android:text="2"
+                   android:layout_gravity="center"
+                   android:fontFamily="@font/almendra_sc"
+                   android:backgroundTint="@color/colorPrimaryDark"
+                   android:textColor="@color/colorPrimary"
+                   android:layout_marginLeft="@dimen/_4sdp"
+               />
+
+
+
+               <Button
+                   android:id="@+id/btnAnswer2Red"
+                   android:layout_width="0dp"
+                   android:layout_height="@dimen/_90sdp"
+                   android:layout_weight="1"
+                   android:textSize="@dimen/_13sdp"
+                   android:text="2"
+                   android:layout_gravity="center"
+                   android:fontFamily="@font/almendra_sc"
+                   android:backgroundTint="@color/red"
+                   android:textColor="@color/colorPrimary"
+                   android:layout_marginLeft="@dimen/_4sdp"
+                   android:visibility="gone"
+               />
+
+
+               <Button
+                   android:id="@+id/btnAnswer2Green"
+                   android:layout_width="0dp"
+                   android:layout_height="@dimen/_90sdp"
+                   android:layout_weight="1"
+                   android:textSize="@dimen/_13sdp"
+                   android:text="2"
+                   android:layout_gravity="center"
+                   android:fontFamily="@font/almendra_sc"
+                   android:backgroundTint="@color/green"
+                   android:textColor="@color/colorPrimary"
+                   android:layout_marginLeft="@dimen/_4sdp"
+                   android:visibility="gone"
+               />
+
+           </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/loutButtonsRow2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                >
+
+                <Button
+                    android:id="@+id/btnAnswer3"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_13sdp"
+                    android:text="3"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/almendra_sc"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginRight="@dimen/_4sdp"
+                />
+
+                <Button
+                    android:id="@+id/btnAnswer3Red"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_13sdp"
+                    android:text="3"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/almendra_sc"
+                    android:backgroundTint="@color/red"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginRight="@dimen/_4sdp"
+                    android:visibility="gone"
+                />
+
+                <Button
+                    android:id="@+id/btnAnswer3Green"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_13sdp"
+                    android:text="3"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/almendra_sc"
+                    android:backgroundTint="@color/green"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginRight="@dimen/_4sdp"
+                    android:visibility="gone"
+                />
+
+                <Button
+                    android:id="@+id/btnAnswer4"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_13sdp"
+                    android:text="4"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/almendra_sc"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                />
+
+
+
+                <Button
+                    android:id="@+id/btnAnswer4Red"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_13sdp"
+                    android:text="4"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/almendra_sc"
+                    android:backgroundTint="@color/red"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:visibility="gone"
+                />
+
+
+
+                <Button
+                    android:id="@+id/btnAnswer4Green"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_13sdp"
+                    android:text="4"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/almendra_sc"
+                    android:backgroundTint="@color/green"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:visibility="gone"
+                />
+            </LinearLayout>
+
+
+
             <LinearLayout
                 android:id="@+id/loutPaintExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/panel"
+                android:background="@drawable/panelold"
                 android:visibility="gone"
                 android:layout_marginRight="@dimen/_8sdp"
                 android:layout_marginLeft="@dimen/_8sdp"

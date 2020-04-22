@@ -1200,7 +1200,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     editor.putString("questionList", sbString);
                     editor.apply(); // saves the value
 
-                    Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
                     gameStart();
 
                     break;
@@ -1231,7 +1231,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             editor.putString("questionList", sbString);
             editor.apply(); // saves the value
 
-            Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
+           //Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
             gameStart();
 
         }

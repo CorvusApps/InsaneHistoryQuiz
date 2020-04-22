@@ -96,9 +96,31 @@ public class ExpandedAnswer extends AppCompatActivity {
     private AlertDialog dialogEA;
 
     @Override
+    @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expanded_answer);
+
+        // pup up menu
+
+        fabPopUpEAX = findViewById(R.id.fabPopUpEA);
+        fabPopUpEAX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowNewFABbasedEAMenu();
+            }
+        });
+
+        popupMenuToggle = "Not";
+
+        fabPopUpCollEAX = findViewById(R.id.fabPopUpCollEA);
+        fabPopUpFAQminiEAtX = findViewById(R.id.fabPopUpFAQminiEA);
+        fabPopUpLogOutminiEAX = findViewById(R.id.fabPopUpLogOutminiEA);
+
+        txtFAQButtonEAX = findViewById(R.id.txtFAQButtonEA);
+        txtLogoutButtonEAX = findViewById(R.id.txtLogoutButtonEA);
+
+        shadeX = findViewById(R.id.shade);
 
         /////////////////badges - happen first //////////////////////////////////
         loutBadgesX = findViewById(R.id.loutBadges);
@@ -338,6 +360,7 @@ public class ExpandedAnswer extends AppCompatActivity {
                 for (DataSnapshot badges : badgeSnapshot.getChildren()) {
 
                     loutBadgesX.setVisibility(View.VISIBLE);
+                    fabPopUpEAX.setVisibility(View.GONE);
                     badgeImageLink = badges.child("badgeimagelink").getValue().toString();
                     Picasso.get().load(badgeImageLink).into(imgBadgeAwardX);
                     txtBadgeAwardX.setText(badgeAwardMsg);
@@ -352,6 +375,8 @@ public class ExpandedAnswer extends AppCompatActivity {
                             @Override
                             public void onFinish() {
                                 loutBadgesX.setVisibility(View.GONE);
+                                fabPopUpEAX.setVisibility(View.VISIBLE);
+
                             }
                         }.start();
 
@@ -381,26 +406,7 @@ public class ExpandedAnswer extends AppCompatActivity {
         height2 = (int) Math.round(height);
         width2 = (int) Math.round(width);
 
-        // pup up menu
 
-        fabPopUpEAX = findViewById(R.id.fabPopUpEA);
-        fabPopUpEAX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ShowNewFABbasedEAMenu();
-            }
-        });
-
-        popupMenuToggle = "Not";
-
-        fabPopUpCollEAX = findViewById(R.id.fabPopUpCollEA);
-        fabPopUpFAQminiEAtX = findViewById(R.id.fabPopUpFAQminiEA);
-        fabPopUpLogOutminiEAX = findViewById(R.id.fabPopUpLogOutminiEA);
-
-        txtFAQButtonEAX = findViewById(R.id.txtFAQButtonEA);
-        txtLogoutButtonEAX = findViewById(R.id.txtLogoutButtonEA);
-
-        shadeX = findViewById(R.id.shade);
 
         ///// Initialize and populate counters and expanded answer BEGINS /////////////////////////////////////
         txtEACoinCounterX = findViewById(R.id.txtEACoinCounter);

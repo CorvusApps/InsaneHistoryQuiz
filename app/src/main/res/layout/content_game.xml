@@ -203,7 +203,7 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/almendra_sc"
             android:text="Answer"
-            android:background="@drawable/panel"
+            android:background="@drawable/panelold"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
