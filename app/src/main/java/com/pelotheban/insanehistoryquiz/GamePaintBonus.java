@@ -14,6 +14,7 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,6 +41,8 @@ public class GamePaintBonus extends AppCompatActivity {
     // UI Elements
 
     private ScrollView scvAGPBX;
+    private ViewTreeObserver vto;
+    private int scrollToggle;
 
     private ImageView imgShowPaintingX, imgShowPaintingVerticalX;
 
@@ -58,6 +61,7 @@ public class GamePaintBonus extends AppCompatActivity {
 
     private LinearLayout loutPaintGameButtonsX;
     private ImageView btnPaintProfileX, btnPaintPlayX, btnPaintLeaderX;
+    private ImageView btnPaintProfileGlowX, btnPaintPlayGlowX, btnPaintLeaderGlowX;
     private TextView txtSetQuestionX;
 
     private LinearLayout loutPaintExpandedX;
@@ -109,6 +113,7 @@ public class GamePaintBonus extends AppCompatActivity {
         width2 = (int) Math.round(width);
 
         scvAGPBX = findViewById(R.id.scvAGPB);
+        scrollToggle = 1;
 
         imgGoldCoinsX = findViewById(R.id.imgGoldCoins);
         txtCoinPaintCounterX = findViewById(R.id.txtCoinPaintCounter);
@@ -269,6 +274,7 @@ public class GamePaintBonus extends AppCompatActivity {
                     winner = "yes";
                     btnAnswer1X.setVisibility(View.GONE);
                     btnAnswer1XGreen.setVisibility(View.VISIBLE);
+
 
 
 
@@ -487,44 +493,93 @@ public class GamePaintBonus extends AppCompatActivity {
         });
 
 
-
+        btnPaintProfileGlowX = findViewById(R.id.btnPaintProfileGlow);
         btnPaintProfileX = findViewById(R.id.btnPaintProfile);
         btnPaintProfileX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(GamePaintBonus.this, ProfileView.class);
-                startActivity(intent);
+                btnPaintProfileX.setVisibility(View.GONE);
+                btnPaintProfileGlowX.setVisibility(View.VISIBLE);
+
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        Intent intent = new Intent(GamePaintBonus.this, ProfileView.class);
+                        startActivity(intent);
+                        btnPaintProfileX.setVisibility(View.VISIBLE);
+                        btnPaintProfileGlowX.setVisibility(View.GONE);
+
+                    }
+                }.start();
 
             }
         });
 
+        btnPaintPlayGlowX = findViewById(R.id.btnPaintPlayGlow);
         btnPaintPlayX = findViewById(R.id.btnPaintPlay);
         btnPaintPlayX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(GamePaintBonus.this, Game.class);
-                startActivity(intent);
+                btnPaintPlayX.setVisibility(View.GONE);
+                btnPaintPlayGlowX.setVisibility(View.VISIBLE);
+
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        Intent intent = new Intent(GamePaintBonus.this, Game.class);
+                        startActivity(intent);
+
+
+                    }
+                }.start();
+
+
 
             }
         });
 
+        btnPaintLeaderGlowX = findViewById(R.id.btnPaintLeadersGlow);
         btnPaintLeaderX = findViewById(R.id.btnPaintLeaders);
         btnPaintLeaderX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(GamePaintBonus.this, LeaderBoard.class);
-                startActivity(intent);
+                btnPaintLeaderX.setVisibility(View.GONE);
+                btnPaintLeaderGlowX.setVisibility(View.VISIBLE);
+
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        Intent intent = new Intent(GamePaintBonus.this, LeaderBoard.class);
+                        startActivity(intent);
+                        btnPaintLeaderX.setVisibility(View.VISIBLE);
+                        btnPaintLeaderGlowX.setVisibility(View.GONE);
+
+                    }
+                }.start();
 
             }
         });
-
-
-
-
-
     }
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
@@ -564,13 +619,40 @@ public class GamePaintBonus extends AppCompatActivity {
             loutShowPaintingX.setVisibility(View.GONE);
             loutShowPaintingVerticalX.setVisibility(View.VISIBLE);
             Picasso.get().load(imagePaintLinkRec).into(imgShowPaintingVerticalX);
+            Log.i("SCROLLTAG", "in vertical; height = " + height2);
 
             if (width2 > 1500) { // changes in fot for tablet and then small format phone
 
 
             } else if (height2 < 1300) {
 
-                scvAGPBX.smoothScrollTo(0, imgShowPaintingVerticalX.getTop());
+                // scvAGPBX.smoothScrollTo(0, imgShowPaintingVerticalX.getTop()); // did not work
+               // scvAGPBX.smoothScrollBy(0, 200);
+
+                vto = scvAGPBX.getViewTreeObserver();
+                vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                     @Override
+                     public void onGlobalLayout() {
+
+                         Log.i("SCROLLTAG", "scrolltoggle onGlobalLayout = " + scrollToggle);
+
+                         scvAGPBX.post(new Runnable() {
+                             @Override
+                             public void run() {
+                                 if (scrollToggle == 1) {
+                                     scvAGPBX.smoothScrollBy(0, 200);
+                                     scrollToggle = 2;
+                                     Log.i("SCROLLTAG", "in IF post toggle = " + scrollToggle);
+                                 }
+
+
+                             }
+                         });
+
+                     }
+                });
+
+                        Log.i("SCROLLTAG", "in height IF = " + height2);
 
             }
 
@@ -799,6 +881,8 @@ public class GamePaintBonus extends AppCompatActivity {
         userPaintReference.getRef().child("artbonuswon").setValue(artBonusWon);
         Log.i ("ARTBONUS", "" + artBonusWon);
 
+
+        scvAGPBX.fullScroll(View.FOCUS_UP);
         grantPaintCoinsAnimation();
 
 
@@ -1010,6 +1094,22 @@ public class GamePaintBonus extends AppCompatActivity {
 
                 imgGoldCoinsX.animate().scaleY(1).scaleX(1).setDuration(400);
                 loutPaintGameButtonsX.setVisibility(View.VISIBLE);
+                //scvAGPBX.fullScroll(View.FOCUS_DOWN);
+                Log.i("SCROLLTAG", "Final toggle = " + scrollToggle);
+                scvAGPBX.smoothScrollBy(0,2000);
+
+                CountDownTimer scrolltimer = new CountDownTimer(450, 50 ) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        scvAGPBX.smoothScrollBy(0,2000);
+                    }
+                }.start();
+
 
             }
         }.start();

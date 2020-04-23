@@ -172,15 +172,15 @@ public class ExpandedAnswer extends AppCompatActivity {
         }
         if (newbadgestr == 3) {
             badgeSortKey = "str3";
-            badgeAwardMsg = "You earned THE RECTOR BADGE for getting 20 correct answers in a row!";
+            badgeAwardMsg = "You earned THE RECTOR BADGE for getting 15 correct answers in a row!";
         }
         if (newbadgestr == 4) {
             badgeSortKey = "str4";
-            badgeAwardMsg = "You earned THE PHILOSOPHER BADGE for getting 30 correct answers in a row!";
+            badgeAwardMsg = "You earned THE PHILOSOPHER BADGE for getting 20 correct answers in a row!";
         }
         if (newbadgestr == 5) {
             badgeSortKey = "str5";
-            badgeAwardMsg = "You earned THE MASTER BADGE for getting 50 correct answers in a row!";
+            badgeAwardMsg = "You earned THE MASTER BADGE for getting 25 correct answers in a row!";
         }
 
 

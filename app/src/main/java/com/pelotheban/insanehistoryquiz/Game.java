@@ -1353,11 +1353,11 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             badgesuplev = 0;
         }
 
-        if (longestStreak > 49) {
+        if (longestStreak > 24) {
             badgestrlev = 5;
-        } else if (longestStreak > 29) {
-            badgestrlev = 4;
         } else if (longestStreak > 19) {
+            badgestrlev = 4;
+        } else if (longestStreak > 14) {
             badgestrlev = 3;
         } else if (longestStreak > 9) {
             badgestrlev = 2;
