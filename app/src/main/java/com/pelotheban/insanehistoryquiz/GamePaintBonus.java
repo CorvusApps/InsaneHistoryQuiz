@@ -139,6 +139,40 @@ public class GamePaintBonus extends AppCompatActivity {
         btnAnswer3XGreen = findViewById(R.id.btnAnswer3Green);
         btnAnswer4XGreen = findViewById(R.id.btnAnswer4Green);
 
+        if (width2 > 1500) { // changes in fot for tablet and then small format phone
+
+            btnAnswer1X.setTextSize(25);
+            btnAnswer2X.setTextSize(25);
+            btnAnswer3X.setTextSize(25);
+            btnAnswer4X.setTextSize(25);
+
+            btnAnswer1XGreen.setTextSize(25);
+            btnAnswer2XGreen.setTextSize(25);
+            btnAnswer3XGreen.setTextSize(25);
+            btnAnswer4XGreen.setTextSize(25);
+
+            btnAnswer1XRed.setTextSize(25);
+            btnAnswer2XRed.setTextSize(25);
+            btnAnswer3XRed.setTextSize(25);
+            btnAnswer4XRed.setTextSize(25);
+        } else if (height2 < 1300) {
+
+            btnAnswer1X.setTextSize(16);
+            btnAnswer2X.setTextSize(16);
+            btnAnswer3X.setTextSize(16);
+            btnAnswer4X.setTextSize(16);
+
+            btnAnswer1XGreen.setTextSize(16);
+            btnAnswer2XGreen.setTextSize(16);
+            btnAnswer3XGreen.setTextSize(16);
+            btnAnswer4XGreen.setTextSize(16);
+
+            btnAnswer1XRed.setTextSize(16);
+            btnAnswer2XRed.setTextSize(16);
+            btnAnswer3XRed.setTextSize(16);
+            btnAnswer4XRed.setTextSize(16);
+        }
+
         imgShowPaintingX = findViewById(R.id.imgShowPainting);
         imgShowPaintingVerticalX = findViewById(R.id.imgShowPaintingVertical);
 
@@ -623,6 +657,29 @@ public class GamePaintBonus extends AppCompatActivity {
 
             if (width2 > 1500) { // changes in fot for tablet and then small format phone
 
+                vto = scvAGPBX.getViewTreeObserver();
+                vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+
+                        Log.i("SCROLLTAG", "scrolltoggle onGlobalLayout = " + scrollToggle);
+
+                        scvAGPBX.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (scrollToggle == 1) {
+                                    scvAGPBX.smoothScrollBy(0, 1000);
+                                    scrollToggle = 2;
+                                    Log.i("SCROLLTAG", "in IF post toggle = " + scrollToggle);
+                                }
+
+
+                            }
+                        });
+
+                    }
+                });
+
 
             } else if (height2 < 1300) {
 
@@ -829,6 +886,19 @@ public class GamePaintBonus extends AppCompatActivity {
 
             loutPaintGameButtonsX.setVisibility(View.VISIBLE);
 
+            CountDownTimer scrolltimer = new CountDownTimer(150, 50 ) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    scvAGPBX.smoothScrollBy(0,4000);
+                }
+            }.start();
+
+
         }
 
         imgPaintTimerX.setVisibility(View.GONE);
@@ -843,27 +913,23 @@ public class GamePaintBonus extends AppCompatActivity {
         loutPaintExpandedX.setVisibility(View.VISIBLE);
 
         if (width2 > 1500) { // changes in fot for tablet and then small format phone
+            Log.i("EXPTAG", "width = " + width2);
 
             txtPaintExpandedAnswerShowX.setTextSize(30);
+            txtPaintExpandedAnswerShowX.setText(correctPaintAnsRec + " \n" + "------- \n" + paintExpandedRec);
+
+
         } else if (height2 < 1300) {
 
+            Log.i("EXPTAG", "height = " + height2);
             txtPaintExpandedAnswerShowX.setTextSize(17);
             txtPaintExpandedAnswerShowX.setText(correctPaintAnsRec + " \n" + "------- \n" + paintExpandedRec);
 
-            btnAnswer1X.setTextSize(16);
-            btnAnswer2X.setTextSize(16);
-            btnAnswer3X.setTextSize(16);
-            btnAnswer4X.setTextSize(16);
 
-            btnAnswer1XGreen.setTextSize(16);
-            btnAnswer2XGreen.setTextSize(16);
-            btnAnswer3XGreen.setTextSize(16);
-            btnAnswer4XGreen.setTextSize(16);
+        } else {
 
-            btnAnswer1XRed.setTextSize(16);
-            btnAnswer2XRed.setTextSize(16);
-            btnAnswer3XRed.setTextSize(16);
-            btnAnswer4XRed.setTextSize(16);
+            txtPaintExpandedAnswerShowX.setText(correctPaintAnsRec + " \n" + "------- \n" + paintExpandedRec);
+
         }
 
     }

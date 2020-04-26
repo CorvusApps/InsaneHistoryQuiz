@@ -565,11 +565,6 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
-        if (ExpAnsCategoryGet.equals("Jewish") && ExpAnsEpochGet.equals("High Middle Ages")) {
-            panelName = "jewhma";
-
-        }
-
         if (ExpAnsCategoryGet.equals("Jewish") && ExpAnsEpochGet.equals("Early Empire")) {
             panelName = "jeweemp";
 
@@ -577,6 +572,16 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsCategoryGet.equals("Jewish") && ExpAnsEpochGet.equals("Late Antiquity")) {
             panelName = "jewlatan";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Jewish") && ExpAnsEpochGet.equals("High Middle Ages")) {
+            panelName = "jewhma";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Jewish") && ExpAnsEpochGet.equals("Late Middle Ages")) {
+            panelName = "jewlma";
 
         }
 
@@ -812,6 +817,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("Papacy") && ExpAnsEpochGet.equals("Crusades")) {
+            panelName = "papcru";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Papacy") && ExpAnsEpochGet.equals("Late Middle Ages")) {
             panelName = "paplma";
 
@@ -903,6 +913,11 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("Russian") && ExpAnsEpochGet.equals("Late Middle Ages")) {
+            panelName = "ruslma";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Russian") && ExpAnsEpochGet.equals("Enlightenment")) {
             panelName = "rusenl";
 
@@ -976,8 +991,18 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        if (ExpAnsCategoryGet.equals("Haitian") && ExpAnsEpochGet.equals("PreModern")) {
+            panelName = "haipmod";
+
+        }
+
         if (ExpAnsCategoryGet.equals("Ethiopian") && ExpAnsEpochGet.equals("Late Antiquity")) {
             panelName = "etilatan";
+
+        }
+
+        if (ExpAnsCategoryGet.equals("Swiss") && ExpAnsEpochGet.equals("Contemporary")) {
+            panelName = "swicon";
 
         }
 

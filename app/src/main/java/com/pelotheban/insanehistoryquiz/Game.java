@@ -307,7 +307,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         imgHPTimer4X = findViewById(R.id.imgHPTimer4);
         imgHPTimer5X = findViewById(R.id.imgHPTimer5);
 
-        timersetting = 15000;
+        timersetting = 18000;
         ticksetting = 5000;
         tickerToggle = 1;
 
@@ -988,7 +988,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
 
-                            timersetting = 8000;
+                            timersetting = 11000;
                             ticksetting = 1000;
                             imgHPTimer2X.setVisibility(View.GONE);
                             imgHPTimer3X.setVisibility(View.GONE);
@@ -1200,7 +1200,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     editor.putString("questionList", sbString);
                     editor.apply(); // saves the value
 
-                    //Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
+                    Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
                     gameStart();
 
                     break;
@@ -1231,7 +1231,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             editor.putString("questionList", sbString);
             editor.apply(); // saves the value
 
-           //Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
+            Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
             gameStart();
 
         }
@@ -1760,7 +1760,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     String timerCountString = millisleftFinal + "";
                     txtTimerX.setText(timerCountString);  // converting timer to string and setting the counter  which starts of as GONE
-                if (ticksetting == 5000 & millisUntilFinished < 8000 & tickerToggle == 1) {  // making the counter  and hourglass visible at 5 seconds
+                if (ticksetting == 5000 & millisUntilFinished < 11000 & tickerToggle == 1) {  // making the counter  and hourglass visible at 5 seconds
 
                     tickerToggle = 2;
                     txtTimerX.setVisibility(View.VISIBLE);
@@ -1809,26 +1809,26 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     loutGameAnswerDisplayX.setVisibility(View.GONE);
 
                 }
-                if (millisUntilFinished <1000) {
+                if (millisUntilFinished <1500) {
 
                     imgHPTimer5X.setVisibility(View.GONE);
                     imgHPTimerX.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished <2000) {
+                if (millisUntilFinished <3000) {
 
                     imgHPTimer4X.setVisibility(View.GONE);
                     imgHPTimer5X.setVisibility(View.VISIBLE);
                 }else
-                if (millisUntilFinished < 3500) {
+                if (millisUntilFinished < 5000) {
                     imgHPTimer3X.setVisibility(View.GONE);
                     imgHPTimer4X.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished < 5000) {
+                if (millisUntilFinished < 8000) {
 
                     imgHPTimer2X.setVisibility(View.GONE);
                     imgHPTimer3X.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished < 7000) {
+                if (millisUntilFinished < 10000) {
 
 
                     imgHPTimerX.setVisibility(View.GONE);
