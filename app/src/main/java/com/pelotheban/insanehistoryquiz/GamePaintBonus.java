@@ -157,20 +157,20 @@ public class GamePaintBonus extends AppCompatActivity {
             btnAnswer4XRed.setTextSize(25);
         } else if (height2 < 1300) {
 
-            btnAnswer1X.setTextSize(16);
-            btnAnswer2X.setTextSize(16);
-            btnAnswer3X.setTextSize(16);
-            btnAnswer4X.setTextSize(16);
+            btnAnswer1X.setTextSize(14);
+            btnAnswer2X.setTextSize(14);
+            btnAnswer3X.setTextSize(14);
+            btnAnswer4X.setTextSize(14);
 
-            btnAnswer1XGreen.setTextSize(16);
-            btnAnswer2XGreen.setTextSize(16);
-            btnAnswer3XGreen.setTextSize(16);
-            btnAnswer4XGreen.setTextSize(16);
+            btnAnswer1XGreen.setTextSize(14);
+            btnAnswer2XGreen.setTextSize(14);
+            btnAnswer3XGreen.setTextSize(14);
+            btnAnswer4XGreen.setTextSize(14);
 
-            btnAnswer1XRed.setTextSize(16);
-            btnAnswer2XRed.setTextSize(16);
-            btnAnswer3XRed.setTextSize(16);
-            btnAnswer4XRed.setTextSize(16);
+            btnAnswer1XRed.setTextSize(14);
+            btnAnswer2XRed.setTextSize(14);
+            btnAnswer3XRed.setTextSize(14);
+            btnAnswer4XRed.setTextSize(14);
         }
 
         imgShowPaintingX = findViewById(R.id.imgShowPainting);
@@ -793,7 +793,7 @@ public class GamePaintBonus extends AppCompatActivity {
 
     private void countdownPaintTimer(){
 
-        paintTimer = new CountDownTimer(20000, 100) {
+        paintTimer = new CountDownTimer(30000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -809,21 +809,21 @@ public class GamePaintBonus extends AppCompatActivity {
                     imgPaintTimer5X.setVisibility(View.GONE);
                     imgPaintTimerX.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished <4000) {
+                if (millisUntilFinished <5000) {
 
                     imgPaintTimer4X.setVisibility(View.GONE);
                     imgPaintTimer5X.setVisibility(View.VISIBLE);
                 }else
-                if (millisUntilFinished < 10000) {
+                if (millisUntilFinished < 20000) {
                     imgPaintTimer3X.setVisibility(View.GONE);
                     imgPaintTimer4X.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished < 18500) {
+                if (millisUntilFinished < 28000) {
 
                     imgPaintTimer2X.setVisibility(View.GONE);
                     imgPaintTimer3X.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished < 19500) {
+                if (millisUntilFinished < 29000) {
 
 
                     imgPaintTimerX.setVisibility(View.GONE);

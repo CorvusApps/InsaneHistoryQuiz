@@ -76,6 +76,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
     private int newbadgesup, newbadgestr, newbadgetrt, newbadgewin;
     private int newbadgexant, newbadgexmed, newbadgexren, newbadgexenl, newbadgexmod, newbadgexcon;
+    private int newbadgebon;
     private LinearLayout loutBadgesX;
     private ImageView imgBadgeAwardX;
 
@@ -131,6 +132,9 @@ public class ExpandedAnswer extends AppCompatActivity {
         newbadgestr = getIntent().getIntExtra("newbadgestr", 0);
         newbadgetrt = getIntent().getIntExtra("newbadgetrt", 0);
         newbadgewin = getIntent().getIntExtra("newbadgewin", 0);
+
+        newbadgebon = getIntent().getIntExtra("newbadgebon", 0);
+
 
         newbadgexant = getIntent().getIntExtra("newbadgexant", 0);
         newbadgexmed = getIntent().getIntExtra("newbadgexmed", 0);
@@ -203,7 +207,9 @@ public class ExpandedAnswer extends AppCompatActivity {
         if (newbadgetrt == 5) {
             badgeSortKey = "trt5";
             badgeAwardMsg = "You earned THE HISTORIAN BADGE for getting to a total of 500 correct answers!";
+            Log.i("ORDER", badgeSortKey);
         }
+
 
         if (newbadgewin == 1) {
             badgeSortKey = "win1";
@@ -225,6 +231,14 @@ public class ExpandedAnswer extends AppCompatActivity {
             badgeSortKey = "win5";
             badgeAwardMsg = "You earned THE INFALLIBE BADGE for achieving a 90% correct answer level!";
         }
+
+        if (newbadgebon == 1) {
+            badgeSortKey = "bon";
+            badgeAwardMsg = "You earned THE ART INSPECTOR BADGE for getting 10 painting ID bonus questions right!";
+        }
+
+
+
 
         if (newbadgexant == 1) {
             badgeSortKey = "xant1";
@@ -275,6 +289,7 @@ public class ExpandedAnswer extends AppCompatActivity {
         if (newbadgexren == 2) {
             badgeSortKey = "xren2";
             badgeAwardMsg = "You earned THE DONATELLO BADGE for getting to 25 correct answers in the RENAISSANCE category!";
+            Log.i("ORDER", badgeSortKey);
         }
         if (newbadgexren == 3) {
             badgeSortKey = "xren3";
@@ -300,6 +315,7 @@ public class ExpandedAnswer extends AppCompatActivity {
         if (newbadgexenl == 3) {
             badgeSortKey = "xenl3";
             badgeAwardMsg = "You earned THE VOLTAIRE BADGE for getting to 50 correct answers in the ENLIGHTENMENT category!";
+            Log.i("ORDER", badgeSortKey);
         }
         if (newbadgexenl == 4) {
             badgeSortKey = "xenl4";
@@ -316,19 +332,20 @@ public class ExpandedAnswer extends AppCompatActivity {
         }
         if (newbadgexmod == 2) {
             badgeSortKey = "xmod2";
-            badgeAwardMsg = "You earned THE GATLING-GUN BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
+            badgeAwardMsg = "You earned THE GATLING-GUN BADGE for getting to 25 correct answers in the MODERN HISTORY category!";
+            Log.i("ORDER", badgeSortKey);
         }
         if (newbadgexmod == 3) {
             badgeSortKey = "xmod3";
-            badgeAwardMsg = "You earned THE AUTOMOBILE BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
+            badgeAwardMsg = "You earned THE AUTOMOBILE BADGE for getting to 50 correct answers in the MODERN HISTORY category!";
         }
         if (newbadgexmod == 4) {
             badgeSortKey = "xmod4";
-            badgeAwardMsg = "You earned THE TANK BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
+            badgeAwardMsg = "You earned THE TANK BADGE for getting to 100 correct answers in the MODERN HISTORY category!";
         }
         if (newbadgexmod == 5) {
             badgeSortKey = "xmod5";
-            badgeAwardMsg = "You earned THE AVIATOR BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
+            badgeAwardMsg = "You earned THE AVIATOR BADGE for getting to 200 correct answers in the MODERN HISTORY category!";
         }
 
         if (newbadgexcon == 1) {
@@ -352,6 +369,8 @@ public class ExpandedAnswer extends AppCompatActivity {
             badgeAwardMsg = "You earned THE ARTIFICIAL INTELLIGENCE BADGE for getting to 200 correct answers in the CONTEMPORARY HISTORY category!";
         }
 
+
+        Log.i("ORDER", "Final: " + badgeSortKey);
         badgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(badgeSortKey);
         badgeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

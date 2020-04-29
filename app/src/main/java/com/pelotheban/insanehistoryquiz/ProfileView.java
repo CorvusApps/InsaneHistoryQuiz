@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -46,6 +47,7 @@ import androidx.core.app.ActivityCompat;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
 import android.text.InputType;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -70,6 +72,8 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
     private LinearLayout loutProfileViewX;
 
     private TextView txtUIDX, txtProfileNameX;
+    private int height2;
+    private int width2;
 
    ///Firebase
 
@@ -141,6 +145,15 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         setContentView(R.layout.activity_profile_view);//pop up
 
         // Basic Set Up
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        double height = size.y;
+
+        height2 = (int) Math.round(height);
+        width2 = (int) Math.round(width);
+
         loutProfileViewX = findViewById(R.id.loutProfileView);
         mAuthPF = FirebaseAuth.getInstance();
 
@@ -235,6 +248,16 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         imgProfileNameSaveX = findViewById(R.id.imgProfileNameSave);
 
         txtProfileNameX = findViewById(R.id.txtProfileName);
+
+        if (width2 > 1500) { // changes in fot for tablet and then small format phone
+
+            txtProfileNameX.setTextSize(30);
+            imgProfileNameEditX.animate().translationY(50);
+            imgProfileNameSaveX.animate().translationY(50);
+        } else if (height2 < 1300) {
+
+        }
+
         txtProfileNameX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -311,6 +334,14 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
             }
         });
+
+        if (width2 > 1500) { // changes in fot for tablet and then small format phone
+            imgFlagEditX.animate().translationY(50);
+            imgFlagSaveX.animate().translationY(50);
+
+        } else if (height2 < 1300) {
+
+        }
 
         // ////////////////// Profile inputs and outputs  ENDS ///////////////////////////////////////////////////
 

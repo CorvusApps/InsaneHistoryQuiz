@@ -114,8 +114,8 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="4sp"
                         android:layout_marginRight="8dp"
-                        android:text="Press the big H whenever you see it to get started. It begins with displaying a statement (question) on a shield. After a few seconds you're shown the FIRST of FIVE possible ANSWERS. If you think that answer is CORRECT press YES otherwise PRESS NO.
-The timer above tells you how much time you have left. This will continue until you make a mistake OR until you correctly identify the CORRECT answer.
+                        android:text="Press the big H whenever you see it to get started. It begins with displaying a statement (question). After a few seconds you're shown the FIRST of FIVE possible ANSWERS. If you think that answer is CORRECT press YES otherwise PRESS NO.
+The timer above tells you how much time you have left. This will continue until you make a mistake OR until you identify the CORRECT answer.
 You will then be taken to the Extended Answer Screen which will show you a few more fun facts. From there you can go to the next question at your leisure."
                         android:textColor="@color/primaryShadow"
                         android:textSize="12sp" />
@@ -193,6 +193,30 @@ You will then be taken to the Extended Answer Screen which will show you a few m
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="10sp"
                         android:layout_marginRight="8dp"
+                        android:text="Are there any other types of game-play?"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginRight="8dp"
+                        android:text="Yes! There are also BONUS questions which you get when you win one of the many achievement BADGES in the game. In these, you are shown a FAMOUS piece of art.
+Each artwork depicts a historical event. You then have a multiple choice options to identify the EVENT. If you do not know the artwork itself, look for clues in the work to link it to the event.
+The are always several CLUES which will identify the right answer!!! You get 10 coins for the right answer. NO coins are deducted for wrong answers."
+                        android:textColor="@color/primaryShadow"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="10sp"
+                        android:layout_marginRight="8dp"
                         android:text="WHAT ELSE CAN I EXPECT FROM THE GAME IN THE COMING MONTHS?"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="12sp"
@@ -205,7 +229,7 @@ You will then be taken to the Extended Answer Screen which will show you a few m
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="4sp"
                         android:layout_marginRight="8dp"
-                        android:text="LOTS! More questions, new types of game play, head to head contests, actual cash prizes for leaderboard champions everymont, links to social media platforms and an ad-free game option. That's just to start!"
+                        android:text="LOTS! More questions, new types of game-play, head to head contests, actual cash prizes for leaderboard champions everymont, links to social media platforms and an ad-free game option. That's just to start!"
                         android:textColor="@color/primaryShadow"
                         android:textSize="12sp" />
 

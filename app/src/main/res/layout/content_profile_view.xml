@@ -182,7 +182,7 @@
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/edit"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
                     />
 
                 <ImageView
@@ -192,7 +192,7 @@
                     app:srcCompat="@drawable/save"
                     android:layout_gravity="center"
                     android:visibility="gone"
-                    android:layout_marginTop="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
                     />
 
         </LinearLayout>

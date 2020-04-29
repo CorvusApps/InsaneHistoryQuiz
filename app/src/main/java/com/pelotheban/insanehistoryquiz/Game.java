@@ -113,6 +113,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private String totalQuestionsString;
     private int totalQuestions;
 
+    private String bonusQuestionsRightString;
+    private int bonusQuestionsRight;
+
     private String eraAnsweredAntiquityString;
     private String eraAnsweredMiddleAgesString;
     private String eraAnsweredRenaissanceString;
@@ -129,7 +132,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private int eraAnsweredModern;
     private int eraAnsweredContemporary;
 
-            //// badges starte
+            //// badges start
 
             private String badgesupString, badgestrString, badgetrtString, badgewinString;
             private int badgesup, badgestr, badgetrt, badgewin; // badge level already in firebase
@@ -140,6 +143,11 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             private int badgexant, badgexmed, badgexren, badgexenl, badgexmod, badgexcon;
             private int badgexantlev, badgexmedlev, badgexrenlev, badgexenllev, badgexmodlev, badgexconlev;
             private int newbadgexant, newbadgexmed, newbadgexren, newbadgexenl, newbadgexmod, newbadgexcon;
+
+            private String badgebonString;
+            private int badgebon;
+            private int badgebonlev;
+            private int newbadgebon;
 
             private int badgeAwardedToggle;
 
@@ -395,6 +403,15 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     }
 
                     try {
+                        bonusQuestionsRightString = userDs.child("artbonuswon").getValue().toString();
+                        bonusQuestionsRight = Integer.valueOf(bonusQuestionsRightString);
+                    } catch (Exception e) {
+
+                    }
+
+
+
+                    try {
                         eraAnsweredAntiquityString = userDs.child("eraansantiquity").getValue().toString();
                         eraAnsweredAntiquity = Integer.valueOf(eraAnsweredAntiquityString);
 
@@ -508,6 +525,13 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         badgexcon = Integer.valueOf(badgexconString);
                     } catch (Exception e) {
                     }
+
+                    try {
+                        badgebonString = userDs.child("badgebon").getValue().toString();
+                        badgebon = Integer.valueOf(badgebonString);
+                    } catch (Exception e) {
+                    }
+
 
 
 
@@ -1200,7 +1224,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     editor.putString("questionList", sbString);
                     editor.apply(); // saves the value
 
-                    Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
+                  //  Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
                     gameStart();
 
                     break;
@@ -1231,7 +1255,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             editor.putString("questionList", sbString);
             editor.apply(); // saves the value
 
-            Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
+         //   Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
             gameStart();
 
         }
@@ -1402,6 +1426,14 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         }
 
+        if (bonusQuestionsRight > 9) {
+
+            badgebonlev = 1;
+
+        } else {
+            badgebonlev = 0;
+        }
+
 
         if (eraAnsweredAntiquity > 199) {
             badgexantlev = 5;
@@ -1488,45 +1520,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         }
 
         /// checks to see if current badge level is more than in Firebase and if so write that new level and pass on to expanded answer
-        try {
-            if (badgesuplev > badgesup) {
-                newbadgesup = badgesuplev;
-                userReference.getRef().child("badgesup").setValue(newbadgesup);
-                badgeAwardedToggle = 2;
-            }
-        } catch (Exception e) {
-        }
-        try {
-            if (badgeAwardedToggle == 1) {
-                if (badgestrlev > badgestr) {
-                    newbadgestr = badgestrlev;
-                    userReference.getRef().child("badgestr").setValue(newbadgestr);
-                    badgeAwardedToggle = 2;
-                }
-            }
-        } catch (Exception e) {
-        }
-        try {
-            if (badgeAwardedToggle == 1) {
-                if (badgetrtlev > badgetrt) {
-                    newbadgetrt = badgetrtlev;
-                    userReference.getRef().child("badgetrt").setValue(newbadgetrt);
-                    badgeAwardedToggle = 2;
-                }
-            }
-        } catch (Exception e) {
-        }
-        try {
-            if (badgeAwardedToggle == 1) {
-                if (badgewinlev > badgewin) {
-                    newbadgewin = badgewinlev;
-                    userReference.getRef().child("badgewin").setValue(newbadgewin);
-                    badgeAwardedToggle = 2;
-                }
-            }
-        } catch (Exception e) {
-        }
-
+        /// THIS sets the order in which badges will be awarded if elegible for more than one simulteneously - only checking and
+            // adjusting badge if toggle == 1 and the toggle is set to 2 as soon as any badge is awarded (then back to 1 oncreate on next turn)
         try {
             if (badgeAwardedToggle == 1) {
                 if (badgexantlev > badgexant) {
@@ -1589,6 +1584,60 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         }
 
 
+
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgesuplev > badgesup) {
+                    newbadgesup = badgesuplev;
+                    userReference.getRef().child("badgesup").setValue(newbadgesup);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgestrlev > badgestr) {
+                    newbadgestr = badgestrlev;
+                    userReference.getRef().child("badgestr").setValue(newbadgestr);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgetrtlev > badgetrt) {
+                    newbadgetrt = badgetrtlev;
+                    userReference.getRef().child("badgetrt").setValue(newbadgetrt);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgewinlev > badgewin) {
+                    newbadgewin = badgewinlev;
+                    userReference.getRef().child("badgewin").setValue(newbadgewin);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgebonlev > badgebon) {
+                    newbadgebon = badgebonlev;
+                    userReference.getRef().child("badgebon").setValue(newbadgebon);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+
+
         /// trainsition to extended answer section
 
         // takes user to expanded answer page carrying over values needed to determing right screen to use and the actual expanded answer
@@ -1611,6 +1660,10 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         }
         if (newbadgewin > 0) {
             intent.putExtra("newbadgewin", newbadgewin);
+        }
+
+        if (newbadgebon > 0) {
+            intent.putExtra("newbadgebon", newbadgebon);
         }
 
         if (newbadgexant > 0) {
