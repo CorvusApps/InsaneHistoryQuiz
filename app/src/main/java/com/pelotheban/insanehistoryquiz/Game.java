@@ -116,6 +116,12 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private String bonusQuestionsRightString;
     private int bonusQuestionsRight;
 
+    private String zzzRewardString;
+    private int zzzReward;
+
+    private String zzzInterstitialString;
+    private int zzzInterstitial;
+
     private String eraAnsweredAntiquityString;
     private String eraAnsweredMiddleAgesString;
     private String eraAnsweredRenaissanceString;
@@ -472,6 +478,23 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
 
+
+                    try {
+                        zzzRewardString = userDs.child("zzzreward").getValue().toString();
+                        zzzReward = Integer.valueOf(zzzRewardString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        zzzInterstitialString = userDs.child("zzzinterstitial").getValue().toString();
+                        zzzInterstitial = Integer.valueOf(zzzInterstitialString);
+                    } catch (Exception e) {
+
+                    }
+
+
+
                     //// CURRENT badge checks - get value in firebase for later comparison to what uwer should have after last right answer
 
                     try {
@@ -531,6 +554,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         badgebon = Integer.valueOf(badgebonString);
                     } catch (Exception e) {
                     }
+
+
 
 
 
@@ -2136,6 +2161,11 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         int coinsOwnedSort = - coinsOwned;
         userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
+        zzzReward = zzzReward +1;
+        int zzzRewardsort = -zzzReward;
+        userReference.getRef().child("zzzreward").setValue(zzzReward);
+        userReference.getRef().child("zzzrewardsort").setValue(zzzRewardsort);
+
         Log.i("ADMOB", "rewarded, coins AFTER reward  " + coinsOwned + "  and toggle = " + adMobToggle);
 
         if (adMobToggle == 1) { // toggles is 1 when sent here from oncreate vs. a wrong answer so restarting game activity instead of going to expanded answer
@@ -2286,6 +2316,11 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         editor.putInt("CounterGame", 0); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
         editor.apply(); // saves the value
         mAdvertCounterGame = 0;
+
+        zzzInterstitial = zzzInterstitial +1;
+        int zzzInterstitialsort = -zzzInterstitial;
+        userReference.getRef().child("zzzinterstitial").setValue(zzzInterstitial);
+        userReference.getRef().child("zzzinterstitialsort").setValue(zzzInterstitialsort);
 
         if (adIntFailedToggle ==1) {
 

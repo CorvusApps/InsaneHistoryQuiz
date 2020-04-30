@@ -49,6 +49,7 @@ public class LeaderBoard extends AppCompatActivity {
 
     //leader board selector buttons and recycler views
     private Button btnMostPlayedX, btnMostRightX, btnLongestStreakX, btnMostPlayed2X, btnMostRight2X, btnLongestStreak2X;
+    private Button btnInterstitialX, btnRewardedX, btnIntestitial2X, btnRewarded2X;
     private RecyclerView rcvLongestStreakX;
 
     private LinearLayoutManager layoutManagerLeaders;
@@ -76,6 +77,7 @@ public class LeaderBoard extends AppCompatActivity {
     private Query sortUserLBQuery;
 
     private String coinsOwnedString, totalAnsweredString, longestStreakString;
+    private String interstitialString, rewardString;
 
     private TextView lbTxtCoinCounterX, lbTxtMostRightX, lbTxtLongestStreak;
 
@@ -200,6 +202,12 @@ public class LeaderBoard extends AppCompatActivity {
         btnMostRight2X = findViewById(R.id.btnMostRight2);
         btnLongestStreak2X = findViewById(R.id.btnLongestStreak2);
 
+        btnInterstitialX = findViewById(R.id.btnInterstitial);
+        btnRewardedX = findViewById(R.id.btnReward);
+
+        btnIntestitial2X = findViewById(R.id.btnInterstitial2);
+        btnRewarded2X = findViewById(R.id.btnReward2);
+
         /// these button visibility combos play off the shared pref so work when user comes back to this screen at a later time
         if (boardToggle.equals("1")) {
             btnLongestStreakX.setVisibility(View.GONE);
@@ -229,6 +237,20 @@ public class LeaderBoard extends AppCompatActivity {
             btnMostPlayedX.setVisibility(View.GONE);
             btnMostPlayed2X.setVisibility(View.VISIBLE);
             txtScoreX.setText("Gold");
+        }
+
+        if (boardToggle.equals("4")) {
+
+            btnInterstitialX.setVisibility(View.GONE);
+            btnIntestitial2X.setVisibility(View.VISIBLE);
+
+        }
+
+        if (boardToggle.equals("5")) {
+
+            btnRewardedX.setVisibility(View.GONE);
+            btnRewarded2X.setVisibility(View.VISIBLE);
+
         }
 
 
@@ -295,6 +317,42 @@ public class LeaderBoard extends AppCompatActivity {
             }
         });
 
+        btnInterstitialX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SharedPreferences.Editor editor = sortSharedPrefLeaders.edit();
+                editor.putString("Sort2", "zzzinterstitialsort");
+                editor.apply(); // saves the value
+
+                SharedPreferences.Editor editor2 = boardToggleSharedPrefLeaders.edit();
+                editor2.putString("BoardToggle2", "4");
+                editor2.apply(); // saves the value
+
+                recreate(); // restart activity to take effect
+
+
+            }
+        });
+
+        btnRewardedX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SharedPreferences.Editor editor = sortSharedPrefLeaders.edit();
+                editor.putString("Sort2", "zzzrewardsort");
+                editor.apply(); // saves the value
+
+                SharedPreferences.Editor editor2 = boardToggleSharedPrefLeaders.edit();
+                editor2.putString("BoardToggle2", "5");
+                editor2.apply(); // saves the value
+
+                recreate(); // restart activity to take effect
+
+
+            }
+        });
+
         /// note - eventhough rv called longstreak actually covers all the views - legacy name from earlier approach
         //////////////////////// START ------> ACTUAL RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
         /////////////////// includes: viewholder, sort, expoloding card view dialog, functions from dialog //////////////////
@@ -322,6 +380,16 @@ public class LeaderBoard extends AppCompatActivity {
                 if (boardToggle.equals("3")) {
                     viewHolder.setCoins(model.getCoins());
 
+                }
+
+                if (boardToggle.equals("4")) {
+
+                    viewHolder.setZzzinterstitial(model.getZzzinterstitial());
+                }
+
+                if (boardToggle.equals("5")) {
+
+                    viewHolder.setZzzreward(model.getZzzreward());
                 }
 
                 viewHolder.setImage(getApplicationContext(),model.getImagelink());
@@ -481,6 +549,24 @@ public class LeaderBoard extends AppCompatActivity {
                 imgRVFlagX.setBackgroundResource(R.drawable.unflag);
 
             }
+
+        }
+
+        public void setZzzinterstitial(int zzzinterstitial){
+
+            TextView txtScoreX = (TextView)mView.findViewById(R.id.txtScore);
+            String score2 = String.valueOf(zzzinterstitial);
+
+            txtScoreX.setText(score2);
+
+        }
+
+        public void setZzzreward(int zzzreward){
+
+            TextView txtScoreX = (TextView)mView.findViewById(R.id.txtScore);
+            String score2 = String.valueOf(zzzreward);
+
+            txtScoreX.setText(score2);
 
         }
 

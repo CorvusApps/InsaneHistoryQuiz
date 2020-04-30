@@ -750,11 +750,11 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
     /////////////////////////////////////////END OF ONCREAT /////////////////////////////////////////////////////////
 
-    private void badgeViews(String badgeView){
+    private void badgeViews(String badgeView) {
 
         badgeSortkey = "";
 
-        if (badgeView.equals("supporter")){
+        if (badgeView.equals("supporter")) {
 
             badgeSortkey = supporterBadge;
 
@@ -841,7 +841,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
         }
 
-        if (badgeView.equals("bonus")){
+        if (badgeView.equals("bonus")) {
 
             badgeSortkey = artBonusBadge;
 
@@ -851,7 +851,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         }
 
 
-        if (badgeView.equals("antiquity")){
+        if (badgeView.equals("antiquity")) {
 
             badgeSortkey = antiquityBadge;
 
@@ -873,7 +873,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
         }
 
-        if (badgeView.equals("medieval")){
+        if (badgeView.equals("medieval")) {
 
             badgeSortkey = medievalBadge;
 
@@ -894,7 +894,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             }
 
         }
-        if (badgeView.equals("renaissance")){
+        if (badgeView.equals("renaissance")) {
 
             badgeSortkey = renaissanceBadge;
             if (badgeSortkey.equals("xren1")) {
@@ -914,7 +914,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             }
 
         }
-        if (badgeView.equals("enlightenment")){
+        if (badgeView.equals("enlightenment")) {
 
             badgeSortkey = enlightenmentBadge;
 
@@ -935,7 +935,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             }
 
         }
-        if (badgeView.equals("modern")){
+        if (badgeView.equals("modern")) {
 
             badgeSortkey = modernBadge;
 
@@ -956,7 +956,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             }
 
         }
-        if (badgeView.equals("contemporary")){
+        if (badgeView.equals("contemporary")) {
 
             badgeSortkey = contemporaryBadge;
 
@@ -979,29 +979,42 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
         }
 
-        Query badgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(badgeSortkey);
-        badgeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot badgeSnapshot) {
+        Log.i("BSHOW", badgeSortkey);
 
-                for (DataSnapshot badges : badgeSnapshot.getChildren()) {
+        if (badgeSortkey.equals("")) {
 
-                   // loutProfileBadgesX.setVisibility(View.VISIBLE);
+            Log.i("BSHOW", badgeSortkey + "in the iff");
 
-                    badgeImageLink = badges.child("badgeimagelink").getValue().toString();
+        } else {
 
-                    badgeDialogShow();
+            Log.i("BSHOW", badgeSortkey + "in the else");
+
+            Query badgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(badgeSortkey);
+            badgeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot badgeSnapshot) {
+
+                    for (DataSnapshot badges : badgeSnapshot.getChildren()) {
+
+                        Log.i("BSHOW", badgeSortkey + " in the snapshot");
+
+                        // loutProfileBadgesX.setVisibility(View.VISIBLE);
+
+                        badgeImageLink = badges.child("badgeimagelink").getValue().toString();
+
+                        badgeDialogShow();
 
 
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-            }
+            });
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
     }
@@ -1501,6 +1514,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
     private void badgeAssign() {
 
+        supporterBadge = ""; //need this as default to avoid null point exceptions in downstream ifs
         if (supporterBadgeLevel == 1){
             supporterBadge = "sup1";
         }
@@ -1517,6 +1531,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             supporterBadge = "sup5";
         }
 
+        longestStreakBadge = "";
         if (longestStreakBadgeLevel == 1){
             longestStreakBadge = "str1";
         }
@@ -1533,6 +1548,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             longestStreakBadge = "str5";
         }
 
+        totalAnsweredBadge = "";
         if (totalAnsweredBadgeLevel == 1){
             totalAnsweredBadge = "trt1";
         }
@@ -1549,6 +1565,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             totalAnsweredBadge = "trt5";
         }
 
+        winningPercentageBadge = "";
         if (winningPerentageBadgeLevel == 1){
             winningPercentageBadge = "win1";
         }
@@ -1565,10 +1582,12 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             winningPercentageBadge = "win5";
         }
 
+        artBonusBadge = "";
         if (artBonusBadgeLevel == 1){
             artBonusBadge = "bon";
         }
 
+        antiquityBadge ="";
         if (antiquityBadgeLevel == 1){
             antiquityBadge = "xant1";
         }
@@ -1585,6 +1604,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             antiquityBadge = "xant5";
         }
 
+        medievalBadge = "";
         if (medievalBadgeLevel == 1){
             medievalBadge = "xmed1";
         }
@@ -1601,6 +1621,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             medievalBadge = "xmed5";
         }
 
+        renaissanceBadge = "";
         if (renaissanceBadgeLevel == 1){
             renaissanceBadge = "xren1";
         }
@@ -1617,6 +1638,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             renaissanceBadge = "xren5";
         }
 
+        enlightenmentBadge = "";
         if (enlightenmentBadgeLevel == 1){
             enlightenmentBadge = "xenl1";
         }
@@ -1633,6 +1655,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             enlightenmentBadge = "xenl5";
         }
 
+        modernBadge = "";
         if (modernBadgeLevel == 1){
             modernBadge = "xmod1";
         }
@@ -1649,6 +1672,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             modernBadge = "xmod5";
         }
 
+        contemporaryBadge = "";
         if (contemporaryBadgeLevel == 1){
             contemporaryBadge = "xcon1";
         }

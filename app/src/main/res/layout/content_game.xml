@@ -102,6 +102,76 @@
             android:visibility="gone"
             />
 
+        <ImageView
+            android:id="@+id/imgHPTimer6"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginLeft="@dimen/_70sdp"
+            app:srcCompat="@drawable/hourglasssix"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/imgHPTimer7"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginLeft="@dimen/_70sdp"
+            app:srcCompat="@drawable/hourglassseven"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/imgHPTimer8"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginLeft="@dimen/_70sdp"
+            app:srcCompat="@drawable/hourglasseight"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/imgHPTimer9"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginLeft="@dimen/_70sdp"
+            app:srcCompat="@drawable/hourglassnine"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/imgHPTimer10"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginLeft="@dimen/_70sdp"
+            app:srcCompat="@drawable/hourglassten"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/imgHPTimer11"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginLeft="@dimen/_70sdp"
+            app:srcCompat="@drawable/hourglasseleven"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/imgHPTimer12"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginLeft="@dimen/_70sdp"
+            app:srcCompat="@drawable/hourglasstwelve"
+            android:visibility="gone"
+            />
+
 
         <TextView
             android:id="@+id/txtTimer"
