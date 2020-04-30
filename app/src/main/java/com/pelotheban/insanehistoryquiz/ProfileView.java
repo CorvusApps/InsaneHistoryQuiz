@@ -819,6 +819,166 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             }
         }
 
+        if (badgeView.equals("winper")) {
+
+            badgeSortkey = winningPercentageBadge;
+
+            if (badgeSortkey.equals("win1")) {
+                badgeProfileAwardMsg = "THE COIN-FLIP BADGE for achieving a 50% correct answer level!";
+            }
+            if (badgeSortkey.equals("win2")) {
+                badgeProfileAwardMsg = "THE ADEPT BADGE for achieving a 60% correct answer level!";
+            }
+            if (badgeSortkey.equals("win3")) {
+                badgeProfileAwardMsg = "THE PRODIGY BADGE for achieving a 70% correct answer level!";
+            }
+            if (badgeSortkey.equals("win4")) {
+                badgeProfileAwardMsg = "THE GENIUS BADGE for achieving an 80% correct answer level!";
+            }
+            if (badgeSortkey.equals("win5")) {
+                badgeProfileAwardMsg = "THE INFALLIBE BADGE for achieving a 90% correct answer level!";
+            }
+
+        }
+
+        if (badgeView.equals("bonus")){
+
+            badgeSortkey = artBonusBadge;
+
+            if (badgeSortkey.equals("bon")) {
+                badgeProfileAwardMsg = "THE ART INSPECTOR BADGE for getting 10 Badge Bonus questions right!";
+            }
+        }
+
+
+        if (badgeView.equals("antiquity")){
+
+            badgeSortkey = antiquityBadge;
+
+            if (badgeSortkey.equals("xant1")) {
+                badgeProfileAwardMsg = "THE HOPLITE BADGE for getting to 5 correct answers in the ANTIQUITY category!";
+            }
+            if (badgeSortkey.equals("xant2")) {
+                badgeProfileAwardMsg = "THE LEGIONNAIRE BADGE for getting to 25 correct answers in the ANTIQUITY category!";
+            }
+            if (badgeSortkey.equals("xant3")) {
+                badgeProfileAwardMsg = "THE DECURION BADGE for getting to 50 correct answers in the ANTIQUITY category!";
+            }
+            if (badgeSortkey.equals("xant4")) {
+                badgeProfileAwardMsg = "THE CENTURION BADGE for getting to 100 correct answers in the ANTIQUITY category!";
+            }
+            if (badgeSortkey.equals("xant5")) {
+                badgeProfileAwardMsg = "THE LEGATE BADGE for getting to 200 correct answers in the ANTIQUITY category!";
+            }
+
+        }
+
+        if (badgeView.equals("medieval")){
+
+            badgeSortkey = medievalBadge;
+
+            if (badgeSortkey.equals("xmed1")) {
+                badgeProfileAwardMsg = "THE SQUIRE BADGE for getting to 5 correct answers in the MEDIEVAL category!";
+            }
+            if (badgeSortkey.equals("xmed2")) {
+                badgeProfileAwardMsg = "THE KNIGHT BADGE for getting to 25 correct answers in the MEDIEVAL category!";
+            }
+            if (badgeSortkey.equals("xmed3")) {
+                badgeProfileAwardMsg = "THE BARON BADGE for getting to 50 correct answers in the MEDIEVAL category!";
+            }
+            if (badgeSortkey.equals("xmed4")) {
+                badgeProfileAwardMsg = "THE MARQUIS BADGE for getting to 100 correct answers in the MEDIEVAL category!";
+            }
+            if (badgeSortkey.equals("xmed5")) {
+                badgeProfileAwardMsg = "THE DUKE BADGE for getting to 200 correct answers in the MEDIEVAL category!";
+            }
+
+        }
+        if (badgeView.equals("renaissance")){
+
+            badgeSortkey = renaissanceBadge;
+            if (badgeSortkey.equals("xren1")) {
+                badgeProfileAwardMsg = "THE TITIAN BADGE for getting to 5 correct answers in the RENAISSANCE category!";
+            }
+            if (badgeSortkey.equals("xren2")) {
+                badgeProfileAwardMsg = "THE DONATELLO BADGE for getting to 25 correct answers in the RENAISSANCE category!";
+            }
+            if (badgeSortkey.equals("xren3")) {
+                badgeProfileAwardMsg = "THE BERNINI BADGE for getting to 50 correct answers in the RENAISSANCE category!";
+            }
+            if (badgeSortkey.equals("xren4")) {
+                badgeProfileAwardMsg = "THE MICHELANGELO BADGE for getting to 100 correct answers in the RENAISSANCE category!";
+            }
+            if (badgeSortkey.equals("xren5")) {
+                badgeProfileAwardMsg = "THE DA VINCI BADGE for getting to 200 correct answers in the RENAISSANCE category!";
+            }
+
+        }
+        if (badgeView.equals("enlightenment")){
+
+            badgeSortkey = enlightenmentBadge;
+
+            if (badgeSortkey.equals("xenl1")) {
+                badgeProfileAwardMsg = "THE DESCARTES BADGE for getting to 5 correct answers in the ENLIGHTENMENT category!";
+            }
+            if (badgeSortkey.equals("xenl2")) {
+                badgeProfileAwardMsg = "THE JOHN LOCKE BADGE for getting to 25 correct answers in the ENLIGHTENMENT category!";
+            }
+            if (badgeSortkey.equals("xenl3")) {
+                badgeProfileAwardMsg = "THE VOLTAIRE BADGE for getting to 50 correct answers in the ENLIGHTENMENT category!";
+            }
+            if (badgeSortkey.equals("xenl4")) {
+                badgeProfileAwardMsg = "THE EDWARD GIBBON BADGE for getting to 100 correct answers in the ENLIGHTENMENT category!";
+            }
+            if (badgeSortkey.equals("xenl5")) {
+                badgeProfileAwardMsg = "THE ISAAC NEWTON BADGE for getting to 200 correct answers in the ENLIGHTENMENT category!";
+            }
+
+        }
+        if (badgeView.equals("modern")){
+
+            badgeSortkey = modernBadge;
+
+            if (badgeSortkey.equals("xmod1")) {
+                badgeProfileAwardMsg = "THE DYNAMITE BADGE for getting to 5 correct answers in the MODERN HISTORY category!";
+            }
+            if (badgeSortkey.equals("xmod2")) {
+                badgeProfileAwardMsg = "THE GATLING-GUN BADGE for getting to 25 correct answers in the MODERN HISTORY category!";
+            }
+            if (badgeSortkey.equals("xmod3")) {
+                badgeProfileAwardMsg = "THE AUTOMOBILE BADGE for getting to 50 correct answers in the MODERN HISTORY category!";
+            }
+            if (badgeSortkey.equals("xmod4")) {
+                badgeProfileAwardMsg = "THE TANK BADGE for getting to 100 correct answers in the MODERN HISTORY category!";
+            }
+            if (badgeSortkey.equals("xmod5")) {
+                badgeProfileAwardMsg = "THE AVIATOR BADGE for getting to 200 correct answers in the MODERN HISTORY category!";
+            }
+
+        }
+        if (badgeView.equals("contemporary")){
+
+            badgeSortkey = contemporaryBadge;
+
+            if (badgeSortkey.equals("xcon1")) {
+                badgeProfileAwardMsg = "THE INDUSTRIAL BADGE for getting to 5 correct answers in the CONTEMPORARY HISTORY category!";
+            }
+            if (badgeSortkey.equals("xcon2")) {
+                badgeProfileAwardMsg = "THE NUCLEAR BADGE for getting to 25 correct answers in the CONTEMPORARY HISTORY category!";
+            }
+            if (badgeSortkey.equals("xcon3")) {
+                badgeProfileAwardMsg = "THE BIO-TECH BADGE for getting to 50 correct answers in the CONTEMPORARY HISTORY category!";
+            }
+            if (badgeSortkey.equals("xcon4")) {
+                badgeProfileAwardMsg = "THE DIGITAL BADGE for getting to 100 correct answers in the CONTEMPORARY HISTORY category!";
+            }
+            if (badgeSortkey.equals("xcon5")) {
+                badgeProfileAwardMsg = "THE ARTIFICIAL INTELLIGENCE BADGE for getting to 200 correct answers in the CONTEMPORARY HISTORY category!";
+            }
+
+
+        }
+
         Query badgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(badgeSortkey);
         badgeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
