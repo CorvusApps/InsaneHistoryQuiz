@@ -797,6 +797,28 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             }
         }
 
+        if (badgeView.equals("total")) {
+
+            badgeSortkey = totalAnsweredBadge;
+
+            if (badgeSortkey.equals("trt1")) {
+                badgeProfileAwardMsg = "THE SCRIBE BADGE for getting to a total of 5 correct answers!";
+            }
+            if (badgeSortkey.equals("trt2")) {
+                badgeProfileAwardMsg = "THE LIBRARIAN BADGE for getting to a total of 25 correct answers!";
+            }
+            if (badgeSortkey.equals("trt3")) {
+                badgeProfileAwardMsg = "THE MASTER LIBRARIAN BADGE for getting to a total of 100 correct answers!";
+            }
+            if (badgeSortkey.equals("trt4")) {
+                badgeProfileAwardMsg = "THE CHRONICLER BADGE for getting to a total of 250 correct answers!";
+            }
+            if (badgeSortkey.equals("trt5")) {
+                badgeProfileAwardMsg = "THE HISTORIAN BADGE for getting to a total of 500 correct answers!";
+
+            }
+        }
+
         Query badgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(badgeSortkey);
         badgeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
