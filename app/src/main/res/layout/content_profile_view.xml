@@ -606,7 +606,7 @@
 
                 >
                 <ImageView
-                    android:id="@+id/imgBlankBadge1"
+                    android:id="@+id/imgArtBonusBadge"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_100sdp"
                     android:layout_weight="1"

@@ -107,4 +107,51 @@
         android:background="@color/primaryDarkShadow"
         android:visibility="invisible"/>
 
+    <LinearLayout
+        android:id="@+id/loutProfileBadgesz"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary"
+        android:visibility="gone"
+        android:elevation="@dimen/_10sdp"
+        >
+
+        <TextView
+
+            android:id="@+id/txtProfileBadgeMessagez"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Badge Description"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_45sdp"
+            android:visibility="visible"
+            android:textSize="@dimen/_25sdp"
+            android:fontFamily="@font/almendra_sc"
+            android:gravity="center"
+
+            />
+
+
+        <ImageView
+            android:id="@+id/imgProfileBadgeAwardz"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_240sdp"
+            app:srcCompat="@drawable/badgeblank"
+
+            android:layout_gravity="center"
+            android:visibility="visible"
+            />
+
+
+
+
+    </LinearLayout>
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

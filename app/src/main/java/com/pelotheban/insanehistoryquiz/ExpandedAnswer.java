@@ -234,7 +234,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (newbadgebon == 1) {
             badgeSortKey = "bon";
-            badgeAwardMsg = "You earned THE ART INSPECTOR BADGE for getting 10 painting ID bonus questions right!";
+            badgeAwardMsg = "You earned THE ART INSPECTOR BADGE for getting 10 painting bonus questions right!";
         }
 
 

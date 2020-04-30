@@ -3,15 +3,18 @@ package com.pelotheban.insanehistoryquiz;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,6 +50,7 @@ import androidx.core.app.ActivityCompat;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -137,6 +141,23 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             enlightenmentBadgeLevelString, modernBadgeLevelString, contemporaryBadgeLevelString;
     private int antiquityBadgeLevel, medievalBadgeLevel, renaissanceBadgeLevel, enlightenmentBadgeLevel, modernBadgeLevel, contemporaryBadgeLevel;
     private String antiquityBadge, medievalBadge, renaissanceBadge, enlightenmentBadge, modernBadge, contemporaryBadge;
+
+        // Ancilary badges
+
+    private ImageView imgArtBonusBadgeX;
+    private String artBonusBadgeLevelString;
+    private int artBonusBadgeLevel;
+    private String artBonusBadge;
+
+        // badge views
+
+    private String badgeView;
+    private LinearLayout loutProfileBadgesX;
+    private TextView txtProfileBadgeMessageX;
+    private ImageView imgProfileBadgeAwardX;
+    private String badgeSortkey;
+    private String badgeImageLink;
+    private String badgeProfileAwardMsg;
 
 
     @Override
@@ -387,6 +408,10 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         imgModernBadgeX = findViewById(R.id.imgModernBadge);
         imgContemporaryBadgeX = findViewById(R.id.imgContemporaryBadge);
 
+        imgArtBonusBadgeX = findViewById(R.id.imgArtBonusBadge);
+
+
+
 
         ///// POPULATING ALL THE COUNTERS BEGINS ////////////////////////////////////////////////////
 
@@ -528,6 +553,16 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
                     try {
 
+                        artBonusBadgeLevelString = userPs.child("badgebon").getValue().toString();
+                        artBonusBadgeLevel = Integer.valueOf(artBonusBadgeLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+
+
+                    try {
+
                         antiquityBadgeLevelString = userPs.child("badgexant").getValue().toString();
                         antiquityBadgeLevel = Integer.valueOf(antiquityBadgeLevelString);
 
@@ -596,11 +631,249 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
         ///////////////// populating badges ////////////////////////////////////////
 
+        //badge view buttons - comes after the query that determines badge levels
+        //loutProfileBadgesX = findViewById(R.id.loutProfileBadges);
+
+
+        imgSupporterBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                badgeView = "supporter";
+                badgeViews(badgeView);
+
+            }
+        });
+
+        imgLongStreakBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                badgeView = "streak";
+                badgeViews(badgeView);
+
+            }
+        });
+
+        imgTotalAnsweredBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                badgeView = "total";
+                badgeViews(badgeView);
+
+            }
+        });
+
+        imgWinningPercentageBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                badgeView = "winper";
+                badgeViews(badgeView);
+
+            }
+        });
+
+        imgAntiquityBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                badgeView = "antiquity";
+                badgeViews(badgeView);
+
+            }
+        });
+
+        imgMedievalBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                badgeView = "medieval";
+                badgeViews(badgeView);
+
+            }
+        });
+
+        imgRenaissanceBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                badgeView = "renaissance";
+                badgeViews(badgeView);
+
+            }
+        });
+
+        imgEnlightenmentBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                badgeView = "enlightenment";
+                badgeViews(badgeView);
+
+            }
+        });
+
+        imgModernBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                badgeView = "modern";
+                badgeViews(badgeView);
+
+            }
+        });
+
+        imgContemporaryBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                badgeView = "contemporary";
+                badgeViews(badgeView);
+
+            }
+        });
+
+        imgArtBonusBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                badgeView = "bonus";
+                badgeViews(badgeView);
+
+            }
+        });
 
 
     }
 
     /////////////////////////////////////////END OF ONCREAT /////////////////////////////////////////////////////////
+
+    private void badgeViews(String badgeView){
+
+        badgeSortkey = "";
+
+        if (badgeView.equals("supporter")){
+
+            badgeSortkey = supporterBadge;
+
+            if (badgeSortkey.equals("sup1")) {
+                badgeProfileAwardMsg = "THE SHOPKEEPER BADGE for reaching the 125 coin Level!";
+            }
+            if (badgeSortkey.equals("sup2")) {
+                badgeProfileAwardMsg = "THE BOOK MERCHANT BADGE for reaching the 175 coin Level!";
+            }
+            if (badgeSortkey.equals("sup3")) {
+                badgeProfileAwardMsg = "THE TAX COLLECTOR BADGE for reaching the 225 coin Level!";
+            }
+            if (badgeSortkey.equals("sup4")) {
+                badgeProfileAwardMsg = "THE EQUITE CLASS BADGE for reaching the 500 coin Level!";
+            }
+            if (badgeSortkey.equals("sup5")) {
+                badgeProfileAwardMsg = "THE SENATORIAL CLASS BADGE for reaching the 1000 coin Level!";
+            }
+
+        }
+
+        if (badgeView.equals("streak")) {
+
+            badgeSortkey = longestStreakBadge;
+
+            if (badgeSortkey.equals("str1")) {
+                badgeProfileAwardMsg = "THE STUDENT BADGE for getting 3 correct answers in a row!";
+            }
+            if (badgeSortkey.equals("str2")) {
+                badgeProfileAwardMsg = "THE TUTOR BADGE for getting 10 correct answers in a row!";
+            }
+            if (badgeSortkey.equals("str3")) {
+                badgeProfileAwardMsg = "THE RECTOR BADGE for getting 15 correct answers in a row!";
+            }
+            if (badgeSortkey.equals("str4")) {
+                badgeProfileAwardMsg = "THE PHILOSOPHER BADGE for getting 20 correct answers in a row!";
+            }
+            if (badgeSortkey.equals("str5")) {
+                badgeProfileAwardMsg = "THE MASTER BADGE for getting 25 correct answers in a row!";
+            }
+        }
+
+        Query badgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(badgeSortkey);
+        badgeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeSnapshot) {
+
+                for (DataSnapshot badges : badgeSnapshot.getChildren()) {
+
+                   // loutProfileBadgesX.setVisibility(View.VISIBLE);
+
+                    badgeImageLink = badges.child("badgeimagelink").getValue().toString();
+
+                    badgeDialogShow();
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    public void badgeDialogShow() {
+
+        LayoutInflater inflater = LayoutInflater.from(ProfileView.this);
+        View view = inflater.inflate(R.layout.zzz_badgeinfo, null);
+
+        dialog = new AlertDialog.Builder(ProfileView.this)
+                .setView(view)
+                .create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+        double dialogWidth = width2*.75;
+        int dialogWidthFinal = (int) Math.round(dialogWidth);
+        double dialogHeight = dialogWidthFinal*1.5;
+        int dialogHeightFinal = (int) Math.round(dialogHeight);
+
+        dialog.getWindow().setLayout(dialogWidthFinal, dialogHeightFinal);
+
+        txtProfileBadgeMessageX = view.findViewById(R.id.txtProfileBadgeMessage);
+        imgProfileBadgeAwardX = view.findViewById(R.id.imgProfileBadgeAwardD);
+
+
+        Log.i("BAWARD", badgeImageLink);
+        Picasso.get().load(badgeImageLink).into(imgProfileBadgeAwardX);
+        txtProfileBadgeMessageX.setText(badgeProfileAwardMsg);
+
+        try {
+
+            CountDownTimer badgeAwardTimer = new CountDownTimer(3000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
+
+                @Override
+                public void onFinish() {
+                    //loutProfileBadgesX.setVisibility(View.GONE);
+                    dialog.dismiss();
+
+
+                }
+            }.start();
+
+        } catch (Exception e) {
+        }
+
+
+    }
+
+
 
     //onClick set up in XML; gets rid of keyboard when background tapped
     public void loginLayoutTapped (View view) {
@@ -1110,6 +1383,10 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             winningPercentageBadge = "win5";
         }
 
+        if (artBonusBadgeLevel == 1){
+            artBonusBadge = "bon";
+        }
+
         if (antiquityBadgeLevel == 1){
             antiquityBadge = "xant1";
         }
@@ -1274,6 +1551,25 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                     if (winningPerentageBadgeLevel > 0) {
                         String imageBadgeProfLink = badges4.child("badgeimagelink").getValue().toString();
                         Picasso.get().load(imageBadgeProfLink).into(imgWinningPercentageBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        Query artBonusBadgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(artBonusBadge);
+        artBonusBadgeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges11: badgeProfSnapshot.getChildren()) {
+
+                    if (artBonusBadgeLevel > 0) {
+                        String imageBadgeProfLink = badges11.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgArtBonusBadgeX);
 
                     }
                 }
