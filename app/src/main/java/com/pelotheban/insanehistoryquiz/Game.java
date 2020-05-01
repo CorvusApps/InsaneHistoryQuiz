@@ -161,7 +161,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             //// badges end
 
     private TextView txtTimerX;
-    private ImageView imgHPTimerX, imgHPTimer2X, imgHPTimer3X, imgHPTimer4X, imgHPTimer5X;
+    private ImageView imgHPTimerX, imgHPTimer2X, imgHPTimer3X, imgHPTimer4X, imgHPTimer5X, imgHPTimer6X, imgHPTimer7X, imgHPTimer8X,
+            imgHPTimer9X, imgHPTimer10X, imgHPTimer11X, imgHPTimer12X;
 
     private int timersetting, ticksetting;  // want different setting depending on whether first showing question or just next answer
     private int tickerToggle;
@@ -227,8 +228,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         mRewardedAdGameScreenCoins = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedAdGameScreenCoins.setRewardedVideoAdListener(this);
-        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
-        //mRewardedAdGameScreenCoins.loadAd("ca-app-pub-1744081621312112/9832400365", new AdRequest.Builder().build());
+        //mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
+        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-1744081621312112/9832400365", new AdRequest.Builder().build());
 
         txtAdMessageX = findViewById(R.id.txtAdMessage);
 
@@ -240,8 +241,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         mAdvertCounterGame = sharedAdvertCounterGame.getInt("CounterGame", 0); // where if no settings
 
         mInterstitialGame = new InterstitialAd(Game.this);
-        mInterstitialGame.setAdUnitId(getString(R.string.test_interstitial_ad));
-        //mInterstitialGame.setAdUnitId(getString(R.string.gamescreen_int));
+        //mInterstitialGame.setAdUnitId(getString(R.string.test_interstitial_ad));
+        mInterstitialGame.setAdUnitId(getString(R.string.gamescreen_int));
         mInterstitialGame.loadAd(new AdRequest.Builder().build());
 
         mInterstitialGame.setAdListener(new AdListener(){
@@ -320,6 +321,14 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         imgHPTimer3X = findViewById(R.id.imgHPTimer3);
         imgHPTimer4X = findViewById(R.id.imgHPTimer4);
         imgHPTimer5X = findViewById(R.id.imgHPTimer5);
+
+        imgHPTimer6X = findViewById(R.id.imgHPTimer6);
+        imgHPTimer7X = findViewById(R.id.imgHPTimer7);
+        imgHPTimer8X = findViewById(R.id.imgHPTimer8);
+        imgHPTimer9X = findViewById(R.id.imgHPTimer9);
+        imgHPTimer10X = findViewById(R.id.imgHPTimer10);
+        imgHPTimer11X = findViewById(R.id.imgHPTimer11);
+        imgHPTimer12X = findViewById(R.id.imgHPTimer12);
 
         timersetting = 18000;
         ticksetting = 5000;
@@ -1043,6 +1052,15 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             imgHPTimer3X.setVisibility(View.GONE);
                             imgHPTimer4X.setVisibility(View.GONE);
                             imgHPTimer5X.setVisibility(View.GONE);
+
+                            imgHPTimer6X.setVisibility(View.GONE);
+                            imgHPTimer7X.setVisibility(View.GONE);
+                            imgHPTimer8X.setVisibility(View.GONE);
+                            imgHPTimer9X.setVisibility(View.GONE);
+                            imgHPTimer10X.setVisibility(View.GONE);
+                            imgHPTimer11X.setVisibility(View.GONE);
+                            imgHPTimer12X.setVisibility(View.GONE);
+
                             loutGameAnswerDisplayX.setVisibility(View.VISIBLE);
 
 
@@ -1887,28 +1905,61 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     loutGameAnswerDisplayX.setVisibility(View.GONE);
 
                 }
-                if (millisUntilFinished <1500) {
+                if (millisUntilFinished <500) {
 
                     imgHPTimer5X.setVisibility(View.GONE);
                     imgHPTimerX.setVisibility(View.VISIBLE);
                 } else
+                if (millisUntilFinished <1000) {
+
+                    imgHPTimer11X.setVisibility(View.GONE);
+                    imgHPTimer12X.setVisibility(View.VISIBLE);
+                }else
+                if (millisUntilFinished <2000) {
+
+                    imgHPTimer10X.setVisibility(View.GONE);
+                    imgHPTimer11X.setVisibility(View.VISIBLE);
+                }else
                 if (millisUntilFinished <3000) {
+
+                    imgHPTimer9X.setVisibility(View.GONE);
+                    imgHPTimer10X.setVisibility(View.VISIBLE);
+                }else
+                if (millisUntilFinished <4000) {
+
+                    imgHPTimer8X.setVisibility(View.GONE);
+                    imgHPTimer9X.setVisibility(View.VISIBLE);
+                }else
+                if (millisUntilFinished <5000) {
+
+                    imgHPTimer7X.setVisibility(View.GONE);
+                    imgHPTimer8X.setVisibility(View.VISIBLE);
+                }else
+                if (millisUntilFinished <6000) {
+
+                    imgHPTimer6X.setVisibility(View.GONE);
+                    imgHPTimer7X.setVisibility(View.VISIBLE);
+                }else
+                if (millisUntilFinished <7000) {
+
+                    imgHPTimer5X.setVisibility(View.GONE);
+                    imgHPTimer6X.setVisibility(View.VISIBLE);
+                }else
+                if (millisUntilFinished <8000) {
 
                     imgHPTimer4X.setVisibility(View.GONE);
                     imgHPTimer5X.setVisibility(View.VISIBLE);
                 }else
-                if (millisUntilFinished < 5000) {
+                if (millisUntilFinished < 9000) {
                     imgHPTimer3X.setVisibility(View.GONE);
                     imgHPTimer4X.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished < 8000) {
+                if (millisUntilFinished < 10000) {
 
                     imgHPTimer2X.setVisibility(View.GONE);
                     imgHPTimer3X.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished < 10000) {
-
-
+                if (millisUntilFinished < 10500) {
                     imgHPTimerX.setVisibility(View.GONE);
                     imgHPTimer2X.setVisibility(View.VISIBLE);
                 }

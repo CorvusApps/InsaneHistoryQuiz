@@ -81,7 +81,8 @@ public class GamePaintBonus extends AppCompatActivity {
 
         private CountDownTimer paintTimer;
         private TextView txtPaintTimerX;
-        private ImageView imgPaintTimerX, imgPaintTimer2X, imgPaintTimer3X, imgPaintTimer4X, imgPaintTimer5X;
+        private ImageView imgPaintTimerX, imgPaintTimer2X, imgPaintTimer3X, imgPaintTimer4X, imgPaintTimer5X, imgPaintTimer6X,
+                imgPaintTimer7X, imgPaintTimer8X, imgPaintTimer9X, imgPaintTimer10X, imgPaintTimer11X, imgPaintTimer12X;
 
     //Firebase
 
@@ -186,11 +187,21 @@ public class GamePaintBonus extends AppCompatActivity {
         loutPaintGameButtonsX = findViewById(R.id.loutGamePaintButtons);
 
         txtPaintTimerX = findViewById(R.id.txtPaintTimer);
+
         imgPaintTimerX = findViewById(R.id.imgPaintTimer);
         imgPaintTimer2X = findViewById(R.id.imgPaintTimer2);
         imgPaintTimer3X = findViewById(R.id.imgPaintTimer3);
         imgPaintTimer4X = findViewById(R.id.imgPaintTimer4);
         imgPaintTimer5X = findViewById(R.id.imgPaintTimer5);
+
+        imgPaintTimer6X = findViewById(R.id.imgPaintTimer6);
+        imgPaintTimer7X = findViewById(R.id.imgPaintTimer7);
+        imgPaintTimer8X = findViewById(R.id.imgPaintTimer8);
+        imgPaintTimer9X = findViewById(R.id.imgPaintTimer9);
+        imgPaintTimer10X = findViewById(R.id.imgPaintTimer10);
+        imgPaintTimer11X = findViewById(R.id.imgPaintTimer11);
+        imgPaintTimer12X = findViewById(R.id.imgPaintTimer12);
+
 
         loutGoldCoinsX = findViewById(R.id.loutGoldCoins);
         txtCoinPaintAdderX = findViewById(R.id.txtCoinPaintAdder);
@@ -806,15 +817,51 @@ public class GamePaintBonus extends AppCompatActivity {
 
                 if (millisUntilFinished <500) {
 
-                    imgPaintTimer5X.setVisibility(View.GONE);
+                    imgPaintTimer12X.setVisibility(View.GONE);
                     imgPaintTimerX.setVisibility(View.VISIBLE);
                 } else
-                if (millisUntilFinished <5000) {
+                if (millisUntilFinished <2000) {
+
+                    imgPaintTimer11X.setVisibility(View.GONE);
+                    imgPaintTimer12X.setVisibility(View.VISIBLE);
+                }else
+                if (millisUntilFinished <4000) {
+
+                    imgPaintTimer10X.setVisibility(View.GONE);
+                    imgPaintTimer11X.setVisibility(View.VISIBLE);
+                }else
+                if (millisUntilFinished <7000) {
+
+                    imgPaintTimer9X.setVisibility(View.GONE);
+                    imgPaintTimer10X.setVisibility(View.VISIBLE);
+                }else
+                if (millisUntilFinished <10000) {
+
+                    imgPaintTimer8X.setVisibility(View.GONE);
+                    imgPaintTimer9X.setVisibility(View.VISIBLE);
+                }else
+
+                if (millisUntilFinished <13000) {
+
+                    imgPaintTimer7X.setVisibility(View.GONE);
+                    imgPaintTimer8X.setVisibility(View.VISIBLE);
+                }else
+                if (millisUntilFinished <16000) {
+
+                    imgPaintTimer6X.setVisibility(View.GONE);
+                    imgPaintTimer7X.setVisibility(View.VISIBLE);
+                }else
+                if (millisUntilFinished <19000) {
+
+                    imgPaintTimer5X.setVisibility(View.GONE);
+                    imgPaintTimer6X.setVisibility(View.VISIBLE);
+                }else
+                if (millisUntilFinished <22000) {
 
                     imgPaintTimer4X.setVisibility(View.GONE);
                     imgPaintTimer5X.setVisibility(View.VISIBLE);
                 }else
-                if (millisUntilFinished < 20000) {
+                if (millisUntilFinished < 25000) {
                     imgPaintTimer3X.setVisibility(View.GONE);
                     imgPaintTimer4X.setVisibility(View.VISIBLE);
                 } else
@@ -906,6 +953,14 @@ public class GamePaintBonus extends AppCompatActivity {
         imgPaintTimer3X.setVisibility(View.GONE);
         imgPaintTimer4X.setVisibility(View.GONE);
         imgPaintTimer5X.setVisibility(View.GONE);
+
+        imgPaintTimer6X.setVisibility(View.GONE);
+        imgPaintTimer7X.setVisibility(View.GONE);
+        imgPaintTimer8X.setVisibility(View.GONE);
+        imgPaintTimer9X.setVisibility(View.GONE);
+        imgPaintTimer10X.setVisibility(View.GONE);
+        imgPaintTimer11X.setVisibility(View.GONE);
+        imgPaintTimer12X.setVisibility(View.GONE);
 
         txtPaintTimerX.setVisibility(View.GONE);
         txtSetQuestionX.setVisibility(View.GONE);
