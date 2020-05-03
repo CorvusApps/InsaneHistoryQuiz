@@ -36,6 +36,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,8 +45,8 @@ public class ExpandedAnswer extends AppCompatActivity {
    // Primary UI components
     private ImageView btnPlayAgainX, btnEAProfileX, btnLeadersX, btnPlayAgainGlowX, btnEAProfileGlowX, btnELeadersGlowX, btnTestX;
     private AlertDialog dialog;
-    private String ExpandedAnswerGet, ExpAnsCategoryGet, ExpAnsEpochGet, ExpCorrectAnsGet;
-    private TextView txtExpandedAnswerShowX, txtExpAnsCategoryX, txtExpAnsEpochX;
+    private String ExpandedAnswerGet, ExpAnsCategoryGet, ExpAnsEpochGet, ExpCorrectAnsGet, ExpQuestionGet;
+    private TextView txtExpandedAnswerShowX, txtExpAnsCategoryX, txtExpAnsEpochX, txtExpQuestionX;
     private int expAnsBacgroundNo;
 
     private TextView txtEACoinCounterX, txtEAConStreakX;
@@ -54,6 +55,8 @@ public class ExpandedAnswer extends AppCompatActivity {
 
     private int height2;
     private int width2;
+
+    private ScrollView scvExpandedAnswerX;
 
     // Panels
 
@@ -474,22 +477,40 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         // This was old code i believe so commenting but keeping to avoid surprises for now
         // expAnsBacgroundNo = 1; //default setting for background in case we miss a category or don't have a pic for it
+        ExpQuestionGet = getIntent().getStringExtra("cccquestion");
+        txtExpQuestionX = findViewById(R.id.txtEAQuestion);
+        txtExpQuestionX.setText(ExpQuestionGet);
+
         ExpCorrectAnsGet = getIntent().getStringExtra("dddcorrectansw");
-        ExpCorrectAnsGet = ExpCorrectAnsGet.toUpperCase() + " :";
+        ExpCorrectAnsGet = ExpCorrectAnsGet.toUpperCase();
 
-
+        scvExpandedAnswerX = findViewById(R.id.scvExpandedAnswer);
         ExpandedAnswerGet = getIntent().getStringExtra("iiiexpanded");
         txtExpandedAnswerShowX = findViewById(R.id.txtExpandedAnswerShow);
         txtExpandedAnswerShowX.setText(ExpCorrectAnsGet + " \n" +"------- \n" + ExpandedAnswerGet);
 
         if (width2 > 1500) { // changes in fot for tablet and then small format phone
 
+            txtExpQuestionX.setTextSize(30);
             txtExpandedAnswerShowX.setTextSize(30);
+
         } else if (height2 < 1300) {
 
             txtExpandedAnswerShowX.setTextSize(17);
 
         }
+
+        CountDownTimer scrolltimer = new CountDownTimer(2000, 100 ) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                scvExpandedAnswerX.smoothScrollBy(0,4000);
+            }
+        }.start();
 
         ExpAnsCategoryGet = getIntent().getStringExtra("bbbcategory");
         txtExpAnsCategoryX = findViewById(R.id.txtExpAnsCategory);

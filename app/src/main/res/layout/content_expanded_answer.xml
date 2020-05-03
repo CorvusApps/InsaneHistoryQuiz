@@ -12,51 +12,51 @@
 
     tools:showIn="@layout/activity_expanded_answer">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:layout_weight="1"
-        >
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            app:srcCompat="@drawable/goldcoinsicon" />
-
-        <TextView
-            android:id="@+id/txtEACoinCounter"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="10"
-            android:fontFamily="@font/almendra_sc"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:textStyle="bold"
-            android:textSize="@dimen/_25sdp"
-            />
+            android:layout_marginTop="@dimen/_16sdp"
 
-        <ImageView
-            android:id="@+id/imgEAstreak"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginLeft="@dimen/_20sdp"
-            app:srcCompat="@drawable/checkicon" />
+            >
 
-        <TextView
-            android:id="@+id/txtEAConStreak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_2sdp"
-            android:text="10"
-            android:fontFamily="@font/almendra_sc"
-            android:textStyle="bold"
-            android:textSize="@dimen/_25sdp"
-            />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                app:srcCompat="@drawable/goldcoinsicon" />
+
+            <TextView
+                android:id="@+id/txtEACoinCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:fontFamily="@font/almendra_sc"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:textStyle="bold"
+                android:textSize="@dimen/_25sdp"
+                />
+
+            <ImageView
+                android:id="@+id/imgEAstreak"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginLeft="@dimen/_20sdp"
+                app:srcCompat="@drawable/checkicon" />
+
+            <TextView
+                android:id="@+id/txtEAConStreak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_2sdp"
+                android:text="10"
+                android:fontFamily="@font/almendra_sc"
+                android:textStyle="bold"
+                android:textSize="@dimen/_25sdp"
+                />
 
 
-    </LinearLayout>
+        </LinearLayout>
 
     <TextView
         android:id="@+id/txtExpAnsCategory"
@@ -80,142 +80,180 @@
         android:layout_weight="1"
         android:visibility="gone"
         android:text="Epoch" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"/>
-    <LinearLayout
+
+    <ScrollView
+        android:id="@+id/scvExpandedAnswer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/panelold"
-        android:layout_weight="4"
-
-        android:gravity="center"
-        android:orientation="vertical">
-    <TextView
-        android:id="@+id/txtExpandedAnswerShow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/_17sdp"
-        android:paddingRight="@dimen/_30sdp"
-        android:paddingLeft="@dimen/_30sdp"
-        android:paddingTop="@dimen/_40sdp"
-        android:paddingBottom="@dimen/_50sdp"
-        android:gravity="center"
-        android:fontFamily="@font/almendra_sc"
-        android:textStyle="bold"
-        android:lineSpacingMultiplier="1.1"
-        android:textColor="@color/colorPrimaryDark"
-        android:elevation="@dimen/_5sdp"
-        android:inputType="textMultiLine"
-        android:text="TextView" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/txtSpacer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_weight="2"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnBadgeBonus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Badge Bonus Question!"
-        android:fontFamily="@font/almendra_sc"
-        android:backgroundTint="@color/colorPrimaryDark"
-        app:cornerRadius="@dimen/_15sdp"
-        android:elevation="@dimen/_30sdp"
-        android:layout_marginRight="@dimen/_18sdp"
-        android:layout_marginLeft="@dimen/_18sdp"
-        android:layout_marginTop="@dimen/_7sdp"
-        android:outlineProvider="background"
-        android:outlineAmbientShadowColor="@color/primaryDarkShadow"
-        android:outlineSpotShadowColor="@color/colorAccent"
-        android:textStyle="bold"
-        android:textSize="@dimen/_18sdp"
-        app:icon="@drawable/xaaabadgeantiquity"
-        app:iconSize="@dimen/_18sdp"
-        app:rippleColor="@color/colorAccent"
-        android:visibility="gone"
-
-
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1"
         >
 
-        <ImageView
-            android:id="@+id/btnEAProfile"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_width="@dimen/_75sdp"
-            android:layout_height="@dimen/_75sdp"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/profile" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/panelnew"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:id="@+id/txtEAQuestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/almendra_sc"
+                    android:textSize="@dimen/_17sdp"
+                    android:textStyle="bold"
+                    android:paddingRight="@dimen/_30sdp"
+                    android:paddingLeft="@dimen/_30sdp"
+                    android:paddingTop="@dimen/_20sdp"
+                    android:paddingBottom="@dimen/_35sdp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:text="This is where the question will go it will be in small print and diff color"
+                    />
 
-        <ImageView
-            android:id="@+id/btnEAProfileGlow"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_width="@dimen/_75sdp"
-            android:layout_height="@dimen/_75sdp"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            app:srcCompat="@drawable/profileglow" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/panelold"
+                android:layout_weight="40"
+
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/txtExpandedAnswerShow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_17sdp"
+                    android:paddingRight="@dimen/_30sdp"
+                    android:paddingLeft="@dimen/_30sdp"
+                    android:paddingTop="@dimen/_40sdp"
+                    android:paddingBottom="@dimen/_50sdp"
+                    android:gravity="center"
+                    android:fontFamily="@font/almendra_sc"
+                    android:textStyle="bold"
+                    android:lineSpacingMultiplier="1.1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:elevation="@dimen/_5sdp"
+                    android:inputType="textMultiLine"
+                    android:text="TextView" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtSpacer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_weight="2"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBadgeBonus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Badge Bonus Question!"
+                android:fontFamily="@font/almendra_sc"
+                android:backgroundTint="@color/colorPrimaryDark"
+                app:cornerRadius="@dimen/_15sdp"
+                android:elevation="@dimen/_30sdp"
+                android:layout_marginRight="@dimen/_18sdp"
+                android:layout_marginLeft="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:outlineProvider="background"
+                android:outlineAmbientShadowColor="@color/primaryDarkShadow"
+                android:outlineSpotShadowColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:textSize="@dimen/_18sdp"
+                app:icon="@drawable/xaaabadgeantiquity"
+                app:iconSize="@dimen/_18sdp"
+                app:rippleColor="@color/colorAccent"
+                android:visibility="gone"
 
 
-        <ImageView
-            android:id="@+id/btnPlayAgain"
-            android:layout_width="@dimen/_105sdp"
-            android:layout_height="@dimen/_105sdp"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/playlarge" />
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
+
+                <ImageView
+                    android:id="@+id/btnEAProfile"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_width="@dimen/_75sdp"
+                    android:layout_height="@dimen/_75sdp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/profile" />
+
+                <ImageView
+                    android:id="@+id/btnEAProfileGlow"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_width="@dimen/_75sdp"
+                    android:layout_height="@dimen/_75sdp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/profileglow" />
 
 
-        <ImageView
-            android:id="@+id/btnPlayAgainGlow"
-            android:layout_width="@dimen/_105sdp"
-            android:layout_height="@dimen/_105sdp"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            app:srcCompat="@drawable/playlargeglow" />
+                <ImageView
+                    android:id="@+id/btnPlayAgain"
+                    android:layout_width="@dimen/_105sdp"
+                    android:layout_height="@dimen/_105sdp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/playlarge" />
 
-        <ImageView
-            android:id="@+id/btnEALeaders"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_width="@dimen/_75sdp"
-            android:layout_height="@dimen/_75sdp"
-            android:layout_gravity="center"
-            android:scaleType="fitCenter"
-            android:layout_weight="1"
-            android:visibility="visible"
-            app:srcCompat="@drawable/leaders" />
 
-        <ImageView
-            android:id="@+id/btnELeadersGlow"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_width="@dimen/_75sdp"
-            android:layout_height="@dimen/_75sdp"
-            android:layout_gravity="center"
-            android:scaleType="fitCenter"
-            android:visibility="gone"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/leadersglow" />
+                <ImageView
+                    android:id="@+id/btnPlayAgainGlow"
+                    android:layout_width="@dimen/_105sdp"
+                    android:layout_height="@dimen/_105sdp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/playlargeglow" />
 
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/btnEALeaders"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_width="@dimen/_75sdp"
+                    android:layout_height="@dimen/_75sdp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/leaders" />
+
+                <ImageView
+                    android:id="@+id/btnELeadersGlow"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_width="@dimen/_75sdp"
+                    android:layout_height="@dimen/_75sdp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/leadersglow" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 

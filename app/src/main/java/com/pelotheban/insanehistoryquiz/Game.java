@@ -74,7 +74,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
     private ImageView btnCorrectX, btnWrongX, btnWrongGlowX;
 
-    private String ExpandedAnswerPut, ExpAnsCategoryPut, ExpAnsEpochPut, ExpCorrectAnsPut; // making this class variable so can go to expanded answer screen
+    private String ExpandedAnswerPut, ExpAnsCategoryPut, ExpAnsEpochPut, ExpCorrectAnsPut, ExpQuestionPut; // making this class variable so can go to expanded answer screen
     private String era; // pulls in era so we know which counter to grow when user answers question correctly
 
     private LinearLayout loutGameQuestionX;
@@ -809,6 +809,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                                 intent.putExtra("iiiexpanded", ExpandedAnswerPut);
                                                 intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                                                 intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                                intent.putExtra("cccquestion", ExpQuestionPut);
                                                 finish();
                                                 startActivity(intent);
 
@@ -837,6 +838,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                                 intent.putExtra("lllepoch", ExpAnsEpochPut);
                                 intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                                intent.putExtra("cccquestion", ExpQuestionPut);
                                 finish();
                                 startActivity(intent);
 
@@ -969,6 +971,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                                 intent.putExtra("iiiexpanded", ExpandedAnswerPut);
                                                 intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                                                 intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                                intent.putExtra("cccquestion", ExpQuestionPut);
                                                 finish();
                                                 startActivity(intent);
 
@@ -996,6 +999,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                                 intent.putExtra("lllepoch", ExpAnsEpochPut);
                                 intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                                intent.putExtra("cccquestion", ExpQuestionPut);
                                 finish();
                                 startActivity(intent);
 
@@ -1337,6 +1341,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     ExpAnsCategoryPut = gameQs.child("bbbcategory").getValue().toString();
                     ExpAnsEpochPut = gameQs.child("lllepoch").getValue().toString();
                     ExpCorrectAnsPut = gameQs.child("dddcorrectansw").getValue().toString();
+                    ExpQuestionPut = GameQuestionZ;
 
 
                     // pull to figure out which counter to grow when user answers the question
@@ -1689,6 +1694,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         intent.putExtra("bbbcategory", ExpAnsCategoryPut);
         intent.putExtra("lllepoch", ExpAnsEpochPut);
         intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+        intent.putExtra("cccquestion", ExpQuestionPut);
 
         /// badge components
 
@@ -2064,6 +2070,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                             intent.putExtra("iiiexpanded", ExpandedAnswerPut);
                                             intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                                             intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                            intent.putExtra("cccquestion", ExpQuestionPut);
                                             finish();
                                             startActivity(intent);
 
@@ -2084,6 +2091,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                             intent.putExtra("lllepoch", ExpAnsEpochPut);
                             intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                            intent.putExtra("cccquestion", ExpQuestionPut);
                             //("QUIZQ", "Here");
                             finish();
                             startActivity(intent);
@@ -2186,6 +2194,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         intent.putExtra("iiiexpanded", ExpandedAnswerPut);
                         intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                         intent.putExtra("lllepoch", ExpAnsEpochPut);
+                        intent.putExtra("cccquestion", ExpQuestionPut);
                         finish();
                         startActivity(intent);
 
@@ -2236,6 +2245,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             intent.putExtra("iiiexpanded", ExpandedAnswerPut);
             intent.putExtra("bbbcategory", ExpAnsCategoryPut);
             intent.putExtra("lllepoch", ExpAnsEpochPut);
+            intent.putExtra("cccquestion", ExpQuestionPut);
             finish();
             startActivity(intent);
 
@@ -2333,6 +2343,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                         intent.putExtra("iiiexpanded", ExpandedAnswerPut);
                                         intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                                         intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                        intent.putExtra("cccquestion", ExpQuestionPut);
+
                                         finish();
                                         startActivity(intent);
 
@@ -2380,6 +2392,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             intent.putExtra("bbbcategory", ExpAnsCategoryPut);
             intent.putExtra("lllepoch", ExpAnsEpochPut);
             intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+            intent.putExtra("cccquestion", ExpQuestionPut);
             finish();
             startActivity(intent);
 
@@ -2402,6 +2415,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                 intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                 intent.putExtra("lllepoch", ExpAnsEpochPut);
                 intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                intent.putExtra("cccquestion", ExpQuestionPut);
                 finish();
                 startActivity(intent);
             }
@@ -2424,6 +2438,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                 intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                 intent.putExtra("lllepoch", ExpAnsEpochPut);
                 intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                intent.putExtra("cccquestion", ExpQuestionPut);
                 finish();
                 startActivity(intent);
 
@@ -2446,6 +2461,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                 intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                 intent.putExtra("lllepoch", ExpAnsEpochPut);
                 intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                intent.putExtra("cccquestion", ExpQuestionPut);
                 finish();
                 startActivity(intent);
 
