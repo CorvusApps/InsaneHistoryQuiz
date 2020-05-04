@@ -20,5 +20,8 @@
     <string name="gamescreen_int">ca-app-pub-1744081621312112/6216332795</string>
     <string name="title_activity_excel_paint">ExcelPaint</string>
 
+    <string name="facebook_app_id">355538528737049</string>
+    <string name="facebook_login_protocol_scheme">fb355538528737049</string>
+
 
 </resources>

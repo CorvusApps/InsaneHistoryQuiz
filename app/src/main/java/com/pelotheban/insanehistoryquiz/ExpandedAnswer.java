@@ -160,7 +160,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
                     //clean up
                     stream.close();
-                    b.recycle();
+                    //b.recycle();
 
                     //intent
                     Intent intent = new Intent(ExpandedAnswer.this, FacebookShare.class);
