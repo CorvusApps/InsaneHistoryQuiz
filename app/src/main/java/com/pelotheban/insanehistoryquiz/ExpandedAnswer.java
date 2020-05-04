@@ -1,6 +1,7 @@
 package com.pelotheban.insanehistoryquiz;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -39,6 +40,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 
 public class ExpandedAnswer extends AppCompatActivity {
 
@@ -91,6 +95,14 @@ public class ExpandedAnswer extends AppCompatActivity {
     private TextView txtBadgeAwardX;
     private String badgeAwardMsg;
 
+    //facebook sharing
+    private FloatingActionButton fabShareEAX;
+
+         //screenshot
+         private ImageView imgTestScreenshotX;
+         private View main;
+
+
     //pop up
 
     String popupMenuToggle;
@@ -125,6 +137,42 @@ public class ExpandedAnswer extends AppCompatActivity {
         txtLogoutButtonEAX = findViewById(R.id.txtLogoutButtonEA);
 
         shadeX = findViewById(R.id.shade);
+
+        // facebook share
+
+        main = findViewById(R.id.loutEApanel);
+        imgTestScreenshotX = findViewById(R.id.imgTestScreeshot);
+
+        fabShareEAX = findViewById(R.id.fabShareEA);
+        fabShareEAX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try {
+
+                    Bitmap b = YYYjcScreenshot.takescreenshotOfRootView(imgTestScreenshotX);
+                    imgTestScreenshotX.setImageBitmap(b);
+
+                    //write file
+                    String filename = "bitmap.png";
+                    FileOutputStream stream = ExpandedAnswer.this.openFileOutput(filename, Context.MODE_PRIVATE);
+                    b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                    //clean up
+                    stream.close();
+                    b.recycle();
+
+                    //intent
+                    Intent intent = new Intent(ExpandedAnswer.this, FacebookShare.class);
+                    intent.putExtra("image", filename);
+                    startActivity(intent);
+
+                }catch (Exception e){
+
+                }
+
+            }
+        });
 
         /////////////////badges - happen first //////////////////////////////////
         loutBadgesX = findViewById(R.id.loutBadges);
@@ -1205,7 +1253,7 @@ public class ExpandedAnswer extends AppCompatActivity {
             }
         });
 
-            // BUTTONS FOR GOING TO DIFFERENT SCREENS BEGINS //////////////////////////////////
+            // BUTTONS FOR GOING TO DIFFERENT SCREENS ENDS //////////////////////////////////
 
     }
 

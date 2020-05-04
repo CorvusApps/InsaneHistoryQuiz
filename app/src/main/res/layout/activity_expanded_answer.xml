@@ -10,6 +10,22 @@
 
     <include layout="@layout/content_expanded_answer" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabShareEA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:outlineProvider="none"
+        app:borderWidth="0dp"
+        app:rippleColor="@color/colorPrimary"
+        android:elevation="@dimen/_8sdp"
+
+        android:backgroundTint="@color/coltranslucent"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="70dp"
+
+        android:src="@drawable/share" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabPopUpEA"
