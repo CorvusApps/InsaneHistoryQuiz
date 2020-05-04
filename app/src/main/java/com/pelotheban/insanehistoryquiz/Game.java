@@ -213,7 +213,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         uid = FirebaseAuth.getInstance().getUid();
         userReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
-        userReference.getRef().child("user").setValue(uid);
+        userReference.getRef().child("user").setValue(uid); // is this really necessary are we setting the user every time for no reason?
 
         //ad mob initialize
         adMobToggle = 0;
@@ -228,8 +228,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         mRewardedAdGameScreenCoins = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedAdGameScreenCoins.setRewardedVideoAdListener(this);
-        //mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
-        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-1744081621312112/9832400365", new AdRequest.Builder().build());
+        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
+        //mRewardedAdGameScreenCoins.loadAd("ca-app-pub-1744081621312112/9832400365", new AdRequest.Builder().build()); // REAL
 
         txtAdMessageX = findViewById(R.id.txtAdMessage);
 
@@ -346,27 +346,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         height2 = (int) Math.round(height);
         width2 = (int) Math.round(width);
 
-        // Dynamic maxNumber
 
-
-//        DatabaseReference quizQuestionsRef = FirebaseDatabase.getInstance().getReference().child("values").child("quizquestions");
-//        //Log.i("QUIZQ", quizQuestionsRef.toString());
-//        quizQuestionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//               String maxNumberString = dataSnapshot.getValue().toString();
-//                maxNumber = Integer.valueOf(maxNumberString);
-//
-//                //Log.i("QUIZQ", "String:  " + maxNumberString);
-//                randQuestionSeclect();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
 
         ////////////// Query to pull in all the user variables like counters of questions answered etc.
 

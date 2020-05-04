@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -97,10 +99,13 @@ public class ExpandedAnswer extends AppCompatActivity {
 
     //facebook sharing
     private FloatingActionButton fabShareEAX;
+    private ImageView imgFBShareX, imgFBShareGlowX, imgNoFBShareX;
+    private TextView txtDialogSpacerX;
 
          //screenshot
          private ImageView imgTestScreenshotX;
          private View main;
+         private String filename;
 
 
     //pop up
@@ -148,13 +153,43 @@ public class ExpandedAnswer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                LayoutInflater inflater = LayoutInflater.from(ExpandedAnswer.this);
+                View view = inflater.inflate(R.layout.zzz_fbshare_dialog, null);
+
+                dialog = new AlertDialog.Builder(ExpandedAnswer.this)
+                        .setView(view)
+                        .create();
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                dialog.show();
+                double dialogWidth = width2*.75;
+                int dialogWidthFinal = (int) Math.round(dialogWidth);
+                double dialogHeight = dialogWidthFinal*1.5;
+                int dialogHeightFinal = (int) Math.round(dialogHeight);
+
+                dialog.getWindow().setLayout(dialogWidthFinal, dialogHeightFinal);
+
+                imgFBShareX = view.findViewById(R.id.imgFBShare);
+                imgFBShareGlowX = view.findViewById(R.id.imgFBShareGlow);
+                imgNoFBShareX = view.findViewById(R.id.imgNoFBShare);
+                txtDialogSpacerX = view.findViewById(R.id.txtDialogSpacer);
+
+                imgNoFBShareX.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        dialog.dismiss();
+                    }
+                });
+
                 try {
 
                     Bitmap b = YYYjcScreenshot.takescreenshotOfRootView(imgTestScreenshotX);
-                    imgTestScreenshotX.setImageBitmap(b);
+                    //imgTestScreenshotX.setImageBitmap(b);
 
                     //write file
-                    String filename = "bitmap.png";
+                    filename = "bitmap.png";
                     FileOutputStream stream = ExpandedAnswer.this.openFileOutput(filename, Context.MODE_PRIVATE);
                     b.compress(Bitmap.CompressFormat.PNG, 100, stream);
 
@@ -162,10 +197,38 @@ public class ExpandedAnswer extends AppCompatActivity {
                     stream.close();
                     //b.recycle();
 
-                    //intent
-                    Intent intent = new Intent(ExpandedAnswer.this, FacebookShare.class);
-                    intent.putExtra("image", filename);
-                    startActivity(intent);
+                    imgFBShareX.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            imgFBShareX.setVisibility(View.GONE);
+                            imgNoFBShareX.setVisibility(View.GONE);
+                            imgFBShareGlowX.setVisibility(View.VISIBLE);
+                            txtDialogSpacerX.setVisibility(View.VISIBLE);
+
+                            CountDownTimer glowtimer = new CountDownTimer(500,100) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+
+                                }
+
+                                @Override
+                                public void onFinish() {
+
+                                    //intent
+                                    Intent intent = new Intent(ExpandedAnswer.this, FacebookShare.class);
+                                    intent.putExtra("image", filename);
+                                    startActivity(intent);
+                                    dialog.dismiss();
+
+                                }
+                            }.start();
+
+
+
+                        }
+                    });
+
+
 
                 }catch (Exception e){
 

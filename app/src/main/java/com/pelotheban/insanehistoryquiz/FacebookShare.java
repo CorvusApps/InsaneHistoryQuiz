@@ -1,5 +1,6 @@
 package com.pelotheban.insanehistoryquiz;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -20,6 +21,13 @@ import com.facebook.share.Sharer;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -32,40 +40,17 @@ public class FacebookShare extends AppCompatActivity {
     ShareDialog shareDialog;
     Bitmap bmp;
 
-//    Target target = new Target() {
-//        @Override
-//        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//
-//            Log.i("FBShare", "onBitmapLoaded");
-//
-//            //Share photo
-//            SharePhoto sharePhoto = new SharePhoto.Builder()
-//                    .setBitmap(bitmap)
-//                    .build();
-//
-//            //one solution that didn't work was removing this if but can bring it back in conjuction with others
-//            if(ShareDialog.canShow(SharePhotoContent.class)){
-//
-//                Log.i("FBShare", "canShow");
-//
-//                SharePhotoContent content = new SharePhotoContent.Builder()
-//                        .addPhoto(sharePhoto)
-//                        .build();
-//                shareDialog.show(content);
-//           }
-//
-//        }
-//
-//        @Override
-//        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-//
-//        }
-//
-//        @Override
-//        public void onPrepareLoad(Drawable placeHolderDrawable) {
-//
-//        }
-//    };
+    // Firebase
+
+    private DatabaseReference gameReference;
+    private String uid; // this is for the user account side
+    private DatabaseReference userReference;
+    private Query sortUsersQuery;
+
+    private String coinsOwnedString;
+    private int coinsOwned;
+
+
 
 
 
@@ -86,11 +71,42 @@ public class FacebookShare extends AppCompatActivity {
             is.close();
 
             imgScreenshotX = findViewById(R.id.imgScreenshot);
-            imgScreenshotX.setImageBitmap(bmp);
+           // imgScreenshotX.setImageBitmap(bmp);
 
         } catch (Exception e) {
 
         }
+
+        //draw in coin amount
+
+        uid = FirebaseAuth.getInstance().getUid();
+        userReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
+        sortUsersQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(uid);
+        sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot userDs : dataSnapshot.getChildren()){
+
+                    try {
+                        coinsOwnedString = userDs.child("coins").getValue().toString();
+                        coinsOwned = Integer.valueOf(coinsOwnedString);
+
+                    } catch (Exception e) {
+
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
 
         //Init FB
@@ -99,9 +115,9 @@ public class FacebookShare extends AppCompatActivity {
 
 
 
-        imgScreenshotX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        imgScreenshotX.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
 
                 //Share photo
                 SharePhoto sharePhoto = new SharePhoto.Builder()
@@ -120,14 +136,21 @@ public class FacebookShare extends AppCompatActivity {
                    // shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);
                 }
 
-            Toast.makeText(FacebookShare.this, "pressed",Toast.LENGTH_SHORT).show();
+
 
                 //Create callback
-
+                // need override function below on-create to make this work
                 shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
                     @Override
                     public void onSuccess(Sharer.Result result) {
+                        Log.i("FBShare", "onSuccess");
                         Toast.makeText(FacebookShare.this, "share successful", Toast.LENGTH_LONG).show();
+
+                        coinsOwned = coinsOwned + 50;
+                        userReference.getRef().child("coins").setValue(coinsOwned);
+                        int coinsOwnedSort = - coinsOwned;
+                        userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
+
                     }
 
                     @Override
@@ -145,12 +168,16 @@ public class FacebookShare extends AppCompatActivity {
                     }
                 });
 
-                //set pic for now from link
-                //Picasso.get().load("https://en.wikipedia.org/wiki/Battle_of_Grunwald_(Matejko)#/media/File:Jan_Matejko,_Bitwa_pod_Grunwaldem.jpg").into(target);
 
-            }
-        });
+//            }
+//        });
 
 
+    }
+
+    @Override // need this for the facebook callback to work
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

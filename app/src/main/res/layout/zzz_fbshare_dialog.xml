@@ -48,14 +48,46 @@
 
 
         <ImageView
-            android:id="@+id/imgProfileBadgeAwardD"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/com_facebook_button_icon"
+            android:id="@+id/imgFBShare"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:src="@drawable/facebooklogo"
+            android:layout_marginBottom="@dimen/_40sdp"
+
+            android:layout_gravity="center"
+            android:visibility="visible"
+            />
+
+        <ImageView
+            android:id="@+id/imgFBShareGlow"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:src="@drawable/facebooklogoglow"
+            android:layout_marginBottom="@dimen/_40sdp"
+
+            android:layout_gravity="center"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/imgNoFBShare"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/xmark"
             android:layout_marginBottom="@dimen/_60sdp"
 
             android:layout_gravity="center"
             android:visibility="visible"
+            />
+
+        <TextView
+            android:id="@+id/txtDialogSpacer"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_60sdp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+
             />
 
 

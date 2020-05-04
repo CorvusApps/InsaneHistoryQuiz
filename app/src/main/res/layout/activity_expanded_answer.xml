@@ -131,6 +131,7 @@
        android:orientation="vertical"
        android:background="@color/colorPrimary"
        android:visibility="gone"
+       android:elevation="@dimen/_12sdp"
        >
 
        <TextView
