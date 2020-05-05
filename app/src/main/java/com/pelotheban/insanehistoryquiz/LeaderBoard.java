@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -30,6 +33,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.CountDownTimer;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,12 +44,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileOutputStream;
+
 public class LeaderBoard extends AppCompatActivity {
 
     // basic UI set up
     private AlertDialog dialog;
     private LinearLayout loutLeaderBoardX;
     private TextView txtScoreX;
+    private int width2;
 
     //leader board selector buttons and recycler views
     private Button btnMostPlayedX, btnMostRightX, btnLongestStreakX, btnMostPlayed2X, btnMostRight2X, btnLongestStreak2X;
@@ -87,6 +94,19 @@ public class LeaderBoard extends AppCompatActivity {
 
     private String profileName;
 
+    // Facebook Share
+
+    private FloatingActionButton fabShareLBX;
+
+    private ImageView imgFBShareX, imgFBShareGlowX, imgNoFBShareX;
+    private TextView txtDialogSpacerX;
+
+
+        //screenshot
+        private ImageView imgTestScreenshotX;
+        private View main;
+        private String filename;
+
 
 
     @Override
@@ -96,6 +116,15 @@ public class LeaderBoard extends AppCompatActivity {
 
         loutLeaderBoardX = findViewById(R.id.loutLeaderBoard);
         txtScoreX = findViewById(R.id.txtScore);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+       // double height = size.y;
+
+      //  height2 = (int) Math.round(height);
+        width2 = (int) Math.round(width);
 
         // firebase and sorting
         lbReference = FirebaseDatabase.getInstance().getReference().child("my_users");
@@ -186,6 +215,105 @@ public class LeaderBoard extends AppCompatActivity {
         shadeX = findViewById(R.id.shade);
 
         /// end of pop up
+
+        /// Facebook share
+
+        imgTestScreenshotX = findViewById(R.id.imgTestScreeshotLB);
+        fabShareLBX = findViewById(R.id.fabShareLB);
+
+        if (width2 > 1500) {
+
+            fabShareLBX.animate().translationX(125);
+        }
+
+        fabShareLBX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LayoutInflater inflater = LayoutInflater.from(LeaderBoard.this);
+                View view = inflater.inflate(R.layout.zzz_fbshare_dialog, null);
+
+                dialog = new AlertDialog.Builder(LeaderBoard.this)
+                        .setView(view)
+                        .create();
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                dialog.show();
+                double dialogWidth = width2*.75;
+                int dialogWidthFinal = (int) Math.round(dialogWidth);
+                double dialogHeight = dialogWidthFinal*1.5;
+                int dialogHeightFinal = (int) Math.round(dialogHeight);
+
+                dialog.getWindow().setLayout(dialogWidthFinal, dialogHeightFinal);
+
+                imgFBShareX = view.findViewById(R.id.imgFBShare);
+                imgFBShareGlowX = view.findViewById(R.id.imgFBShareGlow);
+                imgNoFBShareX = view.findViewById(R.id.imgNoFBShare);
+                txtDialogSpacerX = view.findViewById(R.id.txtDialogSpacer);
+
+                imgNoFBShareX.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+                try {
+
+                    Bitmap b = YYYjcScreenshot.takescreenshotOfRootView(imgTestScreenshotX);
+                    //imgTestScreenshotX.setImageBitmap(b);
+
+                    //write file
+                    filename = "bitmap.png";
+                    FileOutputStream stream = LeaderBoard.this.openFileOutput(filename, Context.MODE_PRIVATE);
+                    b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                    //clean up
+                    stream.close();
+                    //b.recycle();
+
+                    imgFBShareX.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            imgFBShareX.setVisibility(View.GONE);
+                            imgNoFBShareX.setVisibility(View.GONE);
+                            imgFBShareGlowX.setVisibility(View.VISIBLE);
+                            txtDialogSpacerX.setVisibility(View.VISIBLE);
+
+                            CountDownTimer glowtimer = new CountDownTimer(500,100) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+
+                                }
+
+                                @Override
+                                public void onFinish() {
+
+                                    //intent
+                                    Intent intent = new Intent(LeaderBoard.this, FacebookShare.class);
+                                    intent.putExtra("image", filename);
+                                    intent.putExtra("source", "leaderboard");
+                                    startActivity(intent);
+                                    dialog.dismiss();
+
+                                }
+                            }.start();
+
+
+
+                        }
+                    });
+
+
+
+                }catch (Exception e){
+
+                }
+
+            }
+        });
 
         /////////////////////////// RECYCLER VIEW SECTION BEGINS - includes buttons to select recycler views //////////////
 

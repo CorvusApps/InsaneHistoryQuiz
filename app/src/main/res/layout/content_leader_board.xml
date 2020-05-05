@@ -21,7 +21,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_35sdp">
+            android:layout_marginTop="@dimen/_50sdp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -306,7 +306,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_52sdp"
         android:background="@drawable/leaderboardtoptwo"
-        android:layout_marginTop="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_3sdp"
         android:layout_marginLeft="@dimen/_9sdp"
         android:layout_marginRight="@dimen/_9sdp"
 
@@ -403,5 +403,10 @@
 
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <ImageView
+        android:id="@+id/imgTestScreeshotLB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

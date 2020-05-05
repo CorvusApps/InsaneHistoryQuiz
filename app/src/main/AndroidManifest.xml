@@ -21,7 +21,9 @@
             android:value="@string/facebook_app_id"/>
 
 
-        <activity android:name=".FacebookShare"></activity>
+        <activity android:name=".FacebookShare"
+            android:screenOrientation="portrait"
+        />
         <activity
             android:name=".GamePaintBonus"
             android:screenOrientation="portrait" />

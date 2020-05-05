@@ -1,14 +1,22 @@
 package com.pelotheban.insanehistoryquiz;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -40,6 +48,10 @@ public class FacebookShare extends AppCompatActivity {
     ShareDialog shareDialog;
     Bitmap bmp;
 
+    private AlertDialog dialog;
+    private int width2;
+    private String source;
+
     // Firebase
 
     private DatabaseReference gameReference;
@@ -50,15 +62,19 @@ public class FacebookShare extends AppCompatActivity {
     private String coinsOwnedString;
     private int coinsOwned;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_facebook_share);
+
+        source = getIntent().getStringExtra("source");
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        width2 = (int) Math.round(width);
 
         // Bring in the pic to share
         bmp = null;
@@ -144,19 +160,89 @@ public class FacebookShare extends AppCompatActivity {
                     @Override
                     public void onSuccess(Sharer.Result result) {
                         Log.i("FBShare", "onSuccess");
-                        Toast.makeText(FacebookShare.this, "share successful", Toast.LENGTH_LONG).show();
 
                         coinsOwned = coinsOwned + 50;
                         userReference.getRef().child("coins").setValue(coinsOwned);
                         int coinsOwnedSort = - coinsOwned;
                         userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
+                        LayoutInflater inflater = LayoutInflater.from(FacebookShare.this);
+                        View view = inflater.inflate(R.layout.zzz_fbreward_dialog, null);
+
+                        dialog = new AlertDialog.Builder(FacebookShare.this)
+                                .setView(view)
+                                .create();
+
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                        dialog.show();
+                        double dialogWidth = width2*.75;
+                        int dialogWidthFinal = (int) Math.round(dialogWidth);
+                        double dialogHeight = dialogWidthFinal*1.5;
+                        int dialogHeightFinal = (int) Math.round(dialogHeight);
+
+                        dialog.getWindow().setLayout(dialogWidthFinal, dialogHeightFinal);
+
+                        CountDownTimer dialogTimer = new CountDownTimer(2000, 10000) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                                dialog.dismiss();
+                                if (source.equals("profile")){
+
+                                    Intent intent = new Intent(FacebookShare.this, ProfileView.class);
+                                    startActivity(intent);
+                                    finish();
+
+
+                                } else if (source.equals("expanded")) {
+
+                                    Intent intent = new Intent(FacebookShare.this, HomePage.class);
+                                    startActivity(intent);
+                                    finish();
+
+                                } else if (source.equals("leaderboard")){
+
+                                    Intent intent = new Intent(FacebookShare.this, LeaderBoard.class);
+                                    startActivity(intent);
+                                    finish();
+
+                                }
+
+                            }
+                        }.start();
+
                     }
 
                     @Override
                     public void onCancel() {
 
-                        Toast.makeText(FacebookShare.this, "share cancel", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(FacebookShare.this, "share cancel", Toast.LENGTH_LONG).show();
+                        if (source.equals("profile")){
+
+                            Intent intent = new Intent(FacebookShare.this, ProfileView.class);
+                            startActivity(intent);
+                            finish();
+
+
+                        } else if (source.equals("expanded")) {
+
+                            Intent intent = new Intent(FacebookShare.this, HomePage.class);
+                            startActivity(intent);
+                            finish();
+
+                        } else if (source.equals("leaderboard")){
+
+                            Intent intent = new Intent(FacebookShare.this, LeaderBoard.class);
+                            startActivity(intent);
+                            finish();
+
+                        }
 
                     }
 
@@ -180,4 +266,6 @@ public class FacebookShare extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
+
 }

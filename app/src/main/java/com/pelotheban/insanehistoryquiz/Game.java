@@ -213,7 +213,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         uid = FirebaseAuth.getInstance().getUid();
         userReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
-        userReference.getRef().child("user").setValue(uid); // is this really necessary are we setting the user every time for no reason?
+      //  userReference.getRef().child("user").setValue(uid); // is this really necessary are we setting the user every time for no reason?
 
         //ad mob initialize
         adMobToggle = 0;

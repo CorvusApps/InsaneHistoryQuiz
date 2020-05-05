@@ -229,7 +229,7 @@
 
                 <TextView
                     android:id="@+id/pfTxtCoinCounter"
-                    android:layout_width="@dimen/_50sdp"
+                    android:layout_width="@dimen/_42sdp"
                     android:layout_height="wrap_content"
                     android:text="10"
                     android:fontFamily="@font/almendra_sc"
@@ -247,7 +247,7 @@
 
                 <TextView
                     android:id="@+id/pfTxtConStreak"
-                    android:layout_width="@dimen/_50sdp"
+                    android:layout_width="@dimen/_40sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:text="10"
@@ -273,7 +273,7 @@
 
                 <TextView
                     android:id="@+id/pfTxtTotalAnswers"
-                    android:layout_width="@dimen/_50sdp"
+                    android:layout_width="@dimen/_42sdp"
                     android:layout_height="wrap_content"
                     android:text="10"
                     android:fontFamily="@font/almendra_sc"
@@ -291,7 +291,7 @@
 
                 <TextView
                     android:id="@+id/pfTxtLongestStreak"
-                    android:layout_width="@dimen/_50sdp"
+                    android:layout_width="@dimen/_40sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:text="10"
@@ -318,7 +318,7 @@
 
                 <TextView
                     android:id="@+id/pfTxtTotalQuestions"
-                    android:layout_width="@dimen/_50sdp"
+                    android:layout_width="@dimen/_42sdp"
                     android:layout_height="wrap_content"
                     android:text="10"
                     android:fontFamily="@font/almendra_sc"
@@ -336,7 +336,7 @@
 
                 <TextView
                     android:id="@+id/pfCorrectPercent"
-                    android:layout_width="@dimen/_50sdp"
+                    android:layout_width="@dimen/_40sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:text="10%"
@@ -713,6 +713,11 @@
 
 
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imgTestProf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

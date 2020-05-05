@@ -19,7 +19,7 @@
         app:rippleColor="@color/colorPrimary"
         android:elevation="@dimen/_8sdp"
         android:backgroundTint="@color/coltranslucent"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="16dp"
         android:src="@drawable/menublack" />
 
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="16dp"
         app:rippleColor="@color/colorPrimary"
 
@@ -94,6 +94,20 @@
         app:borderWidth="0dp"
         android:visibility="gone"
         android:src="@drawable/logout"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabShareLB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:outlineProvider="none"
+        app:borderWidth="0dp"
+        app:rippleColor="@color/colorPrimary"
+        android:elevation="@dimen/_8sdp"
+        android:backgroundTint="@color/coltranslucent"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="@dimen/_65sdp"
+        android:src="@drawable/share" />
 
 
     <View

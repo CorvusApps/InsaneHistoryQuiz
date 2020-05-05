@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -65,6 +66,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
@@ -158,6 +160,19 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
     private String badgeSortkey;
     private String badgeImageLink;
     private String badgeProfileAwardMsg;
+
+    // Facebook Share
+
+    private FloatingActionButton fabSharePFX;
+
+    private ImageView imgFBShareX, imgFBShareGlowX, imgNoFBShareX;
+    private TextView txtDialogSpacerX;
+
+
+        //screenshot
+        private ImageView imgTestScreenshotX;
+        private View main;
+        private String filename;
 
 
     @Override
@@ -389,6 +404,111 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         shadeX = findViewById(R.id.shade);
 
         //// end of pop-up
+
+
+        /// FACEBOOK SHARE
+
+        main = findViewById(R.id.loutProfileView);
+        imgTestScreenshotX = findViewById(R.id.imgTestProf); // the way the code is below we need this even if we don't ever populate it and it is GONE
+
+        fabSharePFX = findViewById(R.id.fabSharePF);
+
+        if (width2 > 1500){
+            fabSharePFX.animate().translationY(-125);
+        }
+
+        fabSharePFX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LayoutInflater inflater = LayoutInflater.from(ProfileView.this);
+                View view = inflater.inflate(R.layout.zzz_fbshare_dialog, null);
+
+                dialog = new AlertDialog.Builder(ProfileView.this)
+                        .setView(view)
+                        .create();
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                dialog.show();
+                double dialogWidth = width2*.75;
+                int dialogWidthFinal = (int) Math.round(dialogWidth);
+                double dialogHeight = dialogWidthFinal*1.5;
+                int dialogHeightFinal = (int) Math.round(dialogHeight);
+
+                dialog.getWindow().setLayout(dialogWidthFinal, dialogHeightFinal);
+
+                imgFBShareX = view.findViewById(R.id.imgFBShare);
+                imgFBShareGlowX = view.findViewById(R.id.imgFBShareGlow);
+                imgNoFBShareX = view.findViewById(R.id.imgNoFBShare);
+                txtDialogSpacerX = view.findViewById(R.id.txtDialogSpacer);
+
+                imgNoFBShareX.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+                try {
+
+                    Bitmap b = YYYjcScreenshot.takescreenshotOfRootView(imgTestScreenshotX);
+                    //imgTestScreenshotX.setImageBitmap(b);
+
+                    //write file
+                    filename = "bitmap.png";
+                    FileOutputStream stream = ProfileView.this.openFileOutput(filename, Context.MODE_PRIVATE);
+                    b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                    //clean up
+                    stream.close();
+                    //b.recycle();
+
+                    imgFBShareX.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            imgFBShareX.setVisibility(View.GONE);
+                            imgNoFBShareX.setVisibility(View.GONE);
+                            imgFBShareGlowX.setVisibility(View.VISIBLE);
+                            txtDialogSpacerX.setVisibility(View.VISIBLE);
+
+                            CountDownTimer glowtimer = new CountDownTimer(500,100) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+
+                                }
+
+                                @Override
+                                public void onFinish() {
+
+                                    //intent
+                                    Intent intent = new Intent(ProfileView.this, FacebookShare.class);
+                                    intent.putExtra("image", filename);
+                                    intent.putExtra("source", "profile");
+                                    startActivity(intent);
+                                    dialog.dismiss();
+
+                                }
+                            }.start();
+
+
+
+                        }
+                    });
+
+
+
+                }catch (Exception e){
+
+                }
+
+            }
+        });
+
+
+
+
 
 
         userUID = FirebaseAuth.getInstance().getUid();
@@ -1048,7 +1168,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
         try {
 
-            CountDownTimer badgeAwardTimer = new CountDownTimer(3000, 1000) {
+            CountDownTimer badgeAwardTimer = new CountDownTimer(5000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                 }

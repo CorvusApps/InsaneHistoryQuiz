@@ -217,6 +217,7 @@ public class ExpandedAnswer extends AppCompatActivity {
                                     //intent
                                     Intent intent = new Intent(ExpandedAnswer.this, FacebookShare.class);
                                     intent.putExtra("image", filename);
+                                    intent.putExtra("source", "expanded");
                                     startActivity(intent);
                                     dialog.dismiss();
 
