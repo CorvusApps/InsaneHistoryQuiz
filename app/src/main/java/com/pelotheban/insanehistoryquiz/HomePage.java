@@ -71,6 +71,12 @@ public class HomePage extends AppCompatActivity {
     private String consStreetString;
     private int consStreak;
 
+    // badge bonus
+
+    private Button btnBadgeBonusHPX;
+    private String badgeSortKeyHP;
+
+
 
 
     @Override
@@ -215,6 +221,35 @@ public class HomePage extends AppCompatActivity {
         // Main user buttons functionality - includes the custom built pressed button effects by flipping out the buttons for
         // a different version when pressed
 
+        btnBadgeBonusHPX = findViewById(R.id.btnBadgeBonusHP);
+
+        badgeSortKeyHP = getIntent().getStringExtra("badgeid");
+
+        try {
+
+            if (badgeSortKeyHP != null) {
+
+                btnBadgeBonusHPX.setVisibility(View.VISIBLE);
+
+                btnBadgeBonusHPX.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(HomePage.this, GamePaintBonus.class);
+                        intent.putExtra("badgeid", badgeSortKeyHP);
+                        startActivity(intent);
+
+
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+
+        }
+
+
+
         imgBtnLeadersGlowX = findViewById(R.id.btnLeadersGlow);
         imgBtnLeadersX = findViewById(R.id.btnLeaders);
         imgBtnLeadersX.setOnClickListener(new View.OnClickListener() {
@@ -297,6 +332,7 @@ public class HomePage extends AppCompatActivity {
                     @Override
                     public void onFinish() {
 
+                        btnBadgeBonusHPX.setVisibility(View.GONE);
                         imgBtnPlayX.setVisibility(View.VISIBLE);
                         imgBtnPlayGlowX.setVisibility(View.GONE);
 

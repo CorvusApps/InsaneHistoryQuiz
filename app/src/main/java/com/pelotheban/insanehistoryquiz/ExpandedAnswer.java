@@ -52,6 +52,7 @@ public class ExpandedAnswer extends AppCompatActivity {
     private ImageView btnPlayAgainX, btnEAProfileX, btnLeadersX, btnPlayAgainGlowX, btnEAProfileGlowX, btnELeadersGlowX, btnTestX;
     private AlertDialog dialog;
     private String ExpandedAnswerGet, ExpAnsCategoryGet, ExpAnsEpochGet, ExpCorrectAnsGet, ExpQuestionGet;
+    private String ExpAnsShareToggleGet;
     private TextView txtExpandedAnswerShowX, txtExpAnsCategoryX, txtExpAnsEpochX, txtExpQuestionX;
     private int expAnsBacgroundNo;
 
@@ -101,11 +102,16 @@ public class ExpandedAnswer extends AppCompatActivity {
     private FloatingActionButton fabShareEAX;
     private ImageView imgFBShareX, imgFBShareGlowX, imgNoFBShareX;
     private TextView txtDialogSpacerX;
+    private TextView txtFBshareMessageX;
 
          //screenshot
          private ImageView imgTestScreenshotX;
          private View main;
          private String filename;
+
+         //from badge award screen
+         private ImageView imgFBbadgeAwardX;
+         private TextView txtFBaskX;
 
 
     //pop up
@@ -121,6 +127,17 @@ public class ExpandedAnswer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expanded_answer);
+
+        /// sizing the display to have both the question and then the answer mostly in the center
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        double height = size.y;
+
+        height2 = (int) Math.round(height);
+        width2 = (int) Math.round(width);
 
         // pup up menu
 
@@ -169,6 +186,13 @@ public class ExpandedAnswer extends AppCompatActivity {
                 int dialogHeightFinal = (int) Math.round(dialogHeight);
 
                 dialog.getWindow().setLayout(dialogWidthFinal, dialogHeightFinal);
+
+                txtFBshareMessageX = view.findViewById(R.id.txtFBshareMessage);
+
+                if (ExpAnsShareToggleGet.equals("yes")) {
+
+                    txtFBshareMessageX.setText("You are almost out of coins. Share this fun fact and EARN 50 coins!");
+                }
 
                 imgFBShareX = view.findViewById(R.id.imgFBShare);
                 imgFBShareGlowX = view.findViewById(R.id.imgFBShareGlow);
@@ -484,7 +508,18 @@ public class ExpandedAnswer extends AppCompatActivity {
             badgeAwardMsg = "You earned THE ARTIFICIAL INTELLIGENCE BADGE for getting to 200 correct answers in the CONTEMPORARY HISTORY category!";
         }
 
+        if (width2 > 1500) { // changes in fot for tablet and then small format phone
 
+            txtBadgeAwardX.setTextSize(45);
+
+        } else if (height2 < 1300) {
+
+            txtBadgeAwardX.setTextSize(25);
+
+        }
+
+        imgFBbadgeAwardX = findViewById(R.id.imgFBbadgeAward);
+        txtFBaskX = findViewById(R.id.txtFBask);
         Log.i("ORDER", "Final: " + badgeSortKey);
         badgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(badgeSortKey);
         badgeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -498,10 +533,52 @@ public class ExpandedAnswer extends AppCompatActivity {
                     badgeImageLink = badges.child("badgeimagelink").getValue().toString();
                     Picasso.get().load(badgeImageLink).into(imgBadgeAwardX);
                     txtBadgeAwardX.setText(badgeAwardMsg);
+                    // need to make the game buttons below the view disappar and reappear because for some reason accessible
+                    btnEAProfileX.setVisibility(View.GONE);
+                    btnLeadersX.setVisibility(View.GONE);
+                    btnPlayAgainX.setVisibility(View.GONE);
+
+                    imgFBbadgeAwardX.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            imgFBbadgeAwardX.setVisibility(View.GONE);
+                            txtFBaskX.setVisibility(View.GONE);
+
+                            try {
+
+                                Bitmap b = YYYjcScreenshot.takescreenshotOfRootView(imgTestScreenshotX);
+                                //imgTestScreenshotX.setImageBitmap(b);
+
+                                //write file
+                                filename = "bitmap.png";
+                                FileOutputStream stream = ExpandedAnswer.this.openFileOutput(filename, Context.MODE_PRIVATE);
+                                b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                                //clean up
+                                stream.close();
+                                //b.recycle();
+
+
+                                Intent intent = new Intent(ExpandedAnswer.this, FacebookShare.class);
+                                intent.putExtra("image", filename);
+                                //also throw to facebook info needed to indicate a badge bonus button and which bonus question to ask
+                                intent.putExtra("source", "badge");
+                                intent.putExtra("badgeid", badgeSortKey);
+                                startActivity(intent);
+
+
+
+                            }catch (Exception e){
+
+                            }
+
+                        }
+                    });
 
                     try {
 
-                        CountDownTimer badgeAwardTimer = new CountDownTimer(7000, 1000) {
+                        CountDownTimer badgeAwardTimer = new CountDownTimer(10000, 1000) {
                             @Override
                             public void onTick(long millisUntilFinished) {
                             }
@@ -510,6 +587,10 @@ public class ExpandedAnswer extends AppCompatActivity {
                             public void onFinish() {
                                 loutBadgesX.setVisibility(View.GONE);
                                 fabPopUpEAX.setVisibility(View.VISIBLE);
+                                btnEAProfileX.setVisibility(View.VISIBLE);
+                                btnLeadersX.setVisibility(View.VISIBLE);
+                                btnPlayAgainX.setVisibility(View.VISIBLE);
+
 
                             }
                         }.start();
@@ -529,16 +610,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         // Toast.makeText(ExpandedAnswer.this, "Your new trtbadge is:  " + newbadgetrt, Toast.LENGTH_LONG).show();
 
-        /// sizing the display to have both the question and then the answer mostly in the center
 
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        double height = size.y;
-
-        height2 = (int) Math.round(height);
-        width2 = (int) Math.round(width);
 
 
 
@@ -589,6 +661,22 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         // This was old code i believe so commenting but keeping to avoid surprises for now
         // expAnsBacgroundNo = 1; //default setting for background in case we miss a category or don't have a pic for it
+
+        //bit of overkill with the nos but not sure what comes accross if the intent is blank - this should cover all bases and land on no unless a yes comes accross
+        ExpAnsShareToggleGet = "no";
+        try {
+
+            ExpAnsShareToggleGet = getIntent().getStringExtra("askforshare");
+            if (ExpAnsShareToggleGet.equals("")) {
+
+                ExpAnsShareToggleGet = "no";
+            }
+
+        } catch (Exception e) {
+
+            ExpAnsShareToggleGet = "no";
+        }
+
         ExpQuestionGet = getIntent().getStringExtra("cccquestion");
         txtExpQuestionX = findViewById(R.id.txtEAQuestion);
         txtExpQuestionX.setText(ExpQuestionGet);
@@ -600,6 +688,26 @@ public class ExpandedAnswer extends AppCompatActivity {
         ExpandedAnswerGet = getIntent().getStringExtra("iiiexpanded");
         txtExpandedAnswerShowX = findViewById(R.id.txtExpandedAnswerShow);
         txtExpandedAnswerShowX.setText(ExpCorrectAnsGet + " \n" +"------- \n" + ExpandedAnswerGet);
+
+        if (ExpAnsShareToggleGet.equals("yes")) {
+
+            CountDownTimer beforeshareTimer = new CountDownTimer(5000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+
+                    Toast.makeText(ExpandedAnswer.this, "Will attempt performclick", Toast.LENGTH_LONG).show();
+
+                    fabShareEAX.performClick();
+
+                }
+            }.start();
+
+        }
 
         if (width2 > 1500) { // changes in fot for tablet and then small format phone
 

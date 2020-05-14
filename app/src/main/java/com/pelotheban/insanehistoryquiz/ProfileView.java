@@ -1224,6 +1224,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         fabPopUpCollPFX.setVisibility(View.VISIBLE);
         fabPopUpFAQminiPFtX.setVisibility(View.VISIBLE);
         fabPopUpLogOutminiPFX.setVisibility(View.VISIBLE);
+        fabSharePFX.setVisibility(View.GONE);
 
        // txtFAQButtonPFX.setVisibility(View.VISIBLE);
        // txtLogoutButtonPFX.setVisibility(View.VISIBLE);
@@ -1238,6 +1239,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                 fabPopUpCollPFX.setVisibility(View.GONE);
                 fabPopUpFAQminiPFtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiPFX.setVisibility(View.GONE);
+                fabSharePFX.setVisibility(View.VISIBLE);
 
                 txtFAQButtonPFX.setVisibility(View.GONE);
                 txtLogoutButtonPFX.setVisibility(View.GONE);
@@ -1259,6 +1261,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                 fabPopUpCollPFX.setVisibility(View.GONE);
                 fabPopUpFAQminiPFtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiPFX.setVisibility(View.GONE);
+                fabSharePFX.setVisibility(View.VISIBLE);
 
                 txtFAQButtonPFX.setVisibility(View.GONE);
                 txtLogoutButtonPFX.setVisibility(View.GONE);
@@ -1282,6 +1285,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                 fabPopUpCollPFX.setVisibility(View.GONE);
                 fabPopUpFAQminiPFtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiPFX.setVisibility(View.GONE);
+                fabSharePFX.setVisibility(View.VISIBLE);
 
                 txtFAQButtonPFX.setVisibility(View.GONE);
                 txtLogoutButtonPFX.setVisibility(View.GONE);

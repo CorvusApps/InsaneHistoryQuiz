@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:id="@+id/cardlist_item"
+    android:id="@+id/cardlist_item2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     card:cardCornerRadius="@dimen/_30sdp"
@@ -15,7 +15,7 @@
     android:background="@color/colorAccent">
 
     <LinearLayout
-        android:id="@+id/loutProfileBadges"
+        android:id="@+id/loutFBreminder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
@@ -31,7 +31,7 @@
             android:id="@+id/txtProfileBadgeMessage"
             android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
-            android:text="Badge Description Width Test"
+            android:text="You are almost outt of coins... You can EARN 50 Coins by sharing"
             android:layout_gravity="center"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"

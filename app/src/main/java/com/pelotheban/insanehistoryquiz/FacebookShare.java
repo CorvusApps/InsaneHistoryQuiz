@@ -62,6 +62,9 @@ public class FacebookShare extends AppCompatActivity {
     private String coinsOwnedString;
     private int coinsOwned;
 
+    // for transfer back to home page
+    private String badgeSortKeyFB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,8 @@ public class FacebookShare extends AppCompatActivity {
         setContentView(R.layout.activity_facebook_share);
 
         source = getIntent().getStringExtra("source");
+        //if coming from the badte screen need to know which badgeid to pass to home page for the bonus question
+        badgeSortKeyFB = getIntent().getStringExtra("badgeid");
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -212,6 +217,13 @@ public class FacebookShare extends AppCompatActivity {
                                     startActivity(intent);
                                     finish();
 
+                                } else if(source.equals("badge")){
+
+                                    Intent intent = new Intent(FacebookShare.this, HomePage.class);
+                                    intent.putExtra("badgeid", badgeSortKeyFB);
+                                    startActivity(intent);
+                                    finish();
+
                                 }
 
                             }
@@ -239,6 +251,13 @@ public class FacebookShare extends AppCompatActivity {
                         } else if (source.equals("leaderboard")){
 
                             Intent intent = new Intent(FacebookShare.this, LeaderBoard.class);
+                            startActivity(intent);
+                            finish();
+
+                        } else if(source.equals("badge")){
+
+                            Intent intent = new Intent(FacebookShare.this, HomePage.class);
+                            intent.putExtra("badgeid", badgeSortKeyFB);
                             startActivity(intent);
                             finish();
 

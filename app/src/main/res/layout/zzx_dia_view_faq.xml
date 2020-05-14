@@ -217,6 +217,28 @@ The are always several CLUES which will identify the right answer!!! You get 10 
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="10sp"
                         android:layout_marginRight="8dp"
+                        android:text="Can I share these fun quiz questions on Social Media?"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginRight="8dp"
+                        android:text="Yes AND you will RECIEVE 50 coins every time! There is a SHARE button on the Answer, Profile and Leaderboard screens. It allows you to share the quiz and your achievments to Facebook."
+                        android:textColor="@color/primaryShadow"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="10sp"
+                        android:layout_marginRight="8dp"
                         android:text="WHAT ELSE CAN I EXPECT FROM THE GAME IN THE COMING MONTHS?"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="12sp"
@@ -229,7 +251,7 @@ The are always several CLUES which will identify the right answer!!! You get 10 
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="4sp"
                         android:layout_marginRight="8dp"
-                        android:text="LOTS! More questions, new types of game-play, head to head contests, actual cash prizes for leaderboard champions everymont, links to social media platforms and an ad-free game option. That's just to start!"
+                        android:text="LOTS! More questions, new types of game-play, head to head contests, actual cash prizes for leaderboard champions everymont, links to more social media platforms and an ad-free game option. That's just to start!"
                         android:textColor="@color/primaryShadow"
                         android:textSize="12sp" />
 

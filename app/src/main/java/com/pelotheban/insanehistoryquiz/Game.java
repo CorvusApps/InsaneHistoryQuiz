@@ -228,8 +228,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         mRewardedAdGameScreenCoins = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedAdGameScreenCoins.setRewardedVideoAdListener(this);
-        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
-        //mRewardedAdGameScreenCoins.loadAd("ca-app-pub-1744081621312112/9832400365", new AdRequest.Builder().build()); // REAL
+        //mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
+        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-1744081621312112/9832400365", new AdRequest.Builder().build()); // REAL
 
         txtAdMessageX = findViewById(R.id.txtAdMessage);
 
@@ -809,21 +809,38 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 interstitialAdvert();
 
 
+                            } else if (coinsOwned < 11) { // for reminder to facebook
+
+                                                                        Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                                        intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                                        intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                                        intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                        intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                                        intent.putExtra("cccquestion", ExpQuestionPut);
+
+                                        //to tell Extended to ask for FB share
+                                        intent.putExtra("askforshare", "yes");
+
+                                        finish();
+                                        startActivity(intent);
+
+
                             } else { // got it wrong but has enough coins to continue playing so off to expanded answer
 
-                                Log.i("INTERSTITIAL", "IN THE LAST ELSE FROM WRONG CORRECT " + mAdvertCounterGame);
+                                    Log.i("INTERSTITIAL", "IN THE LAST ELSE FROM WRONG CORRECT " + mAdvertCounterGame);
 
-                                Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                                intent.putExtra("iiiexpanded", ExpandedAnswerPut);
-                                intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                                intent.putExtra("lllepoch", ExpAnsEpochPut);
-                                intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
-                                intent.putExtra("cccquestion", ExpQuestionPut);
-                                finish();
-                                startActivity(intent);
+                                    Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                                    intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                                    intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                                    intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                    intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                                    intent.putExtra("cccquestion", ExpQuestionPut);
+                                    finish();
+                                    startActivity(intent);
 
 
-                            }
+                                }
+
 
                         }
                     }.start();
