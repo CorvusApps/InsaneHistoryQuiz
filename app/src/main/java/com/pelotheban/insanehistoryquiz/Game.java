@@ -988,7 +988,25 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 interstitialAdvert();
 
 
-                            } else {
+                            } else if (coinsOwned < 11) { // for reminder to facebook
+
+                                Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                                intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                                intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                                intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                                intent.putExtra("cccquestion", ExpQuestionPut);
+
+                                //to tell Extended to ask for FB share
+                                intent.putExtra("askforshare", "yes");
+
+                                finish();
+                                startActivity(intent);
+
+
+                            }
+
+                            else {
                                 Log.i("INTERSTITIAL", "in the last else = " + mAdvertCounterGame);
 
                                 Intent intent = new Intent(Game.this, ExpandedAnswer.class);
@@ -1081,35 +1099,6 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         });
 
         // END OF BUTTON RIGHT / WRONG logic section //////////////////////////////////////////////////////////
-
-        // this is at the end so can be sure that userQuery finished and can only send to question generation if have coins
-        // at the same time already sending to adMob but this way avoids have game and timer in background which fucks things up
-//        DatabaseReference quizQuestionsRef = FirebaseDatabase.getInstance().getReference().child("values").child("quizquestions");
-//        Log.i("TIMING", quizQuestionsRef.toString());
-//        quizQuestionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                String maxNumberString = dataSnapshot.getValue().toString();
-//                maxNumber = Integer.valueOf(maxNumberString);
-//
-//                 Log.i("TIMING", "String:  " + maxNumberString);
-//
-//                 //prolly need to get rid of this if - since the ongoing query should get at this but then what happens if it is less
-//                // actually just generating max number here but going to randQuestions from the coin query - keeping old code for ref below
-//                if (coinsOwned > 1 ) {  // && sentFromQuery == 1
-//                    Log.i("TIMING", "coins " + coinsOwned);
-//                   // randQuestionSeclect();
-//                }
-//
-//                Log.i("TIMING", "did not detect coins? " +  coinsOwned);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
 
 
     }  // END OF ON CREATE ///////////////////////////////////////////////////////////////////////////////////
@@ -2078,6 +2067,22 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                                 }
                             }.start();
+
+
+                        } else if (coinsOwned < 11) { // for reminder to facebook
+
+                            Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                            intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                            intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                            intent.putExtra("lllepoch", ExpAnsEpochPut);
+                            intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                            intent.putExtra("cccquestion", ExpQuestionPut);
+
+                            //to tell Extended to ask for FB share
+                            intent.putExtra("askforshare", "yes");
+
+                            finish();
+                            startActivity(intent);
 
 
                         } else {

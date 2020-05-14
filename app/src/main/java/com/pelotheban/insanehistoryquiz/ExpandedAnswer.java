@@ -691,7 +691,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         if (ExpAnsShareToggleGet.equals("yes")) {
 
-            CountDownTimer beforeshareTimer = new CountDownTimer(5000, 1000) {
+            CountDownTimer beforeshareTimer = new CountDownTimer(8000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
 
