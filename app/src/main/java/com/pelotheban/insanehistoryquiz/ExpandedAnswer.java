@@ -521,6 +521,7 @@ public class ExpandedAnswer extends AppCompatActivity {
         imgFBbadgeAwardX = findViewById(R.id.imgFBbadgeAward);
         txtFBaskX = findViewById(R.id.txtFBask);
         Log.i("ORDER", "Final: " + badgeSortKey);
+        // did is set this up to essential execute query if badgeSortKey is not null?
         badgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(badgeSortKey);
         badgeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -537,6 +538,7 @@ public class ExpandedAnswer extends AppCompatActivity {
                     btnEAProfileX.setVisibility(View.GONE);
                     btnLeadersX.setVisibility(View.GONE);
                     btnPlayAgainX.setVisibility(View.GONE);
+                    btnBadgeBonusX.setVisibility(View.GONE);
 
                     imgFBbadgeAwardX.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -590,6 +592,7 @@ public class ExpandedAnswer extends AppCompatActivity {
                                 btnEAProfileX.setVisibility(View.VISIBLE);
                                 btnLeadersX.setVisibility(View.VISIBLE);
                                 btnPlayAgainX.setVisibility(View.VISIBLE);
+                                btnBadgeBonusX.setVisibility(View.VISIBLE);
 
 
                             }
@@ -699,8 +702,6 @@ public class ExpandedAnswer extends AppCompatActivity {
 
                 @Override
                 public void onFinish() {
-
-                    Toast.makeText(ExpandedAnswer.this, "Will attempt performclick", Toast.LENGTH_LONG).show();
 
                     fabShareEAX.performClick();
 
