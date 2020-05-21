@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -64,6 +65,12 @@ public class ExpandedAnswer extends AppCompatActivity {
     private int width2;
 
     private ScrollView scvExpandedAnswerX;
+
+    //Difficulty setting
+
+    private MaterialButton btnDifficultyEAX, btnLevelEAX;
+    private ImageView imgLevel1X, imgLevel2X, imgLevel3X, imgLevel4X, imgLevelGlow1X, imgLevelGlow2X, imgLevelGlow3X, imgLevel4GlowX;
+    private String difficultyLevel;
 
     // Panels
 
@@ -518,6 +525,12 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         }
 
+        btnPlayAgainX = findViewById(R.id.btnPlayAgain);
+        btnEAProfileX = findViewById(R.id.btnEAProfile);
+        btnLeadersX = findViewById(R.id.btnEALeaders);
+        btnDifficultyEAX = findViewById(R.id.btnDifficultyEA);
+        btnLevelEAX = findViewById(R.id.btnLevelEA);
+
         imgFBbadgeAwardX = findViewById(R.id.imgFBbadgeAward);
         txtFBaskX = findViewById(R.id.txtFBask);
         Log.i("ORDER", "Final: " + badgeSortKey);
@@ -539,6 +552,8 @@ public class ExpandedAnswer extends AppCompatActivity {
                     btnLeadersX.setVisibility(View.GONE);
                     btnPlayAgainX.setVisibility(View.GONE);
                     btnBadgeBonusX.setVisibility(View.GONE);
+                    btnDifficultyEAX.setVisibility(View.GONE);
+
 
                     imgFBbadgeAwardX.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -569,12 +584,9 @@ public class ExpandedAnswer extends AppCompatActivity {
                                 intent.putExtra("badgeid", badgeSortKey);
                                 startActivity(intent);
 
-
-
                             }catch (Exception e){
 
                             }
-
                         }
                     });
 
@@ -593,8 +605,7 @@ public class ExpandedAnswer extends AppCompatActivity {
                                 btnLeadersX.setVisibility(View.VISIBLE);
                                 btnPlayAgainX.setVisibility(View.VISIBLE);
                                 btnBadgeBonusX.setVisibility(View.VISIBLE);
-
-
+                                btnDifficultyEAX.setVisibility(View.VISIBLE);
                             }
                         }.start();
 
@@ -610,20 +621,15 @@ public class ExpandedAnswer extends AppCompatActivity {
             }
         });
 
-
-        // Toast.makeText(ExpandedAnswer.this, "Your new trtbadge is:  " + newbadgetrt, Toast.LENGTH_LONG).show();
-
-
-
-
-
         ///// Initialize and populate counters and expanded answer BEGINS /////////////////////////////////////
         txtEACoinCounterX = findViewById(R.id.txtEACoinCounter);
         txtEAConStreakX = findViewById(R.id.txtEAConStreak);
 
         mAuthEA = FirebaseAuth.getInstance();
 
+
         uid = FirebaseAuth.getInstance().getUid();
+        userReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
         sortUsersQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(uid);
         sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -650,9 +656,36 @@ public class ExpandedAnswer extends AppCompatActivity {
 
                     }
 
+                    try {
+                        difficultyLevel = userDs.child("level").getValue().toString();
+                    }catch (Exception e) {
+
+                    }
                 }
                 txtEACoinCounterX.setText(coinsOwnedString); // IF there are any coins in the account will set the counter
                 txtEAConStreakX.setText(consStreakString);
+
+                try {
+                    if (difficultyLevel.equals("Easy")) {
+                        btnLevelEAX.setText("EASY");
+                        btnLevelEAX.getBackground().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_ATOP);
+
+                    } else if (difficultyLevel.equals("NotEasy")) {
+                        btnLevelEAX.setText("NOT SO EASY");
+                        btnLevelEAX.getBackground().setColorFilter(getResources().getColor(R.color.shieldfont), PorterDuff.Mode.SRC_ATOP);
+
+                    } else if (difficultyLevel.equals("Hard")) {
+                        btnLevelEAX.setText("REALLY HARD!!");
+                        btnLevelEAX.getBackground().setColorFilter(getResources().getColor(R.color.orange), PorterDuff.Mode.SRC_ATOP);
+
+                    } else if (difficultyLevel.equals("VeryHard")) {
+
+                        btnLevelEAX.setText("GET MAD HARD!!");
+                        btnLevelEAX.getBackground().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
+                    }
+                }catch (Exception e){
+
+                }
 
             }
 
@@ -1337,8 +1370,16 @@ public class ExpandedAnswer extends AppCompatActivity {
             }
         });
 
+        btnDifficultyEAX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                DifficultyLevel();
+
+            }
+        });
+
         btnPlayAgainGlowX = findViewById(R.id.btnPlayAgainGlow);
-        btnPlayAgainX = findViewById(R.id.btnPlayAgain);
         btnPlayAgainX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1365,7 +1406,7 @@ public class ExpandedAnswer extends AppCompatActivity {
         });
 
         btnEAProfileGlowX = findViewById(R.id.btnEAProfileGlow);
-        btnEAProfileX = findViewById(R.id.btnEAProfile);
+
         btnEAProfileX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1398,7 +1439,7 @@ public class ExpandedAnswer extends AppCompatActivity {
         //for whatever reason name bthELeaders, EALeaders would not work so using this instead
 
         //btnELeadersGlowX.findViewById(R.id.btnELeadersGlow);
-        btnLeadersX = findViewById(R.id.btnEALeaders);
+
         btnLeadersX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1434,7 +1475,154 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         //////////////////////////////////////////// END OF ONCREATE ////////////////////////////////////////////////
 
-        /// on back pressed given choice to log out or go back
+
+    public void DifficultyLevel() {
+
+        LayoutInflater inflater = LayoutInflater.from(ExpandedAnswer.this);
+        View view2 = inflater.inflate(R.layout.zzz_difficulty_dialog, null);
+
+        dialog = new AlertDialog.Builder(ExpandedAnswer.this)
+                .setView(view2)
+                .create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        Log.i("DIMSDIF", "width2 " + width2);
+
+        dialog.show();
+        double dialogWidth = width2*0.75;
+        Log.i("DIMSDIF", "dialogWidth " + dialogWidth);
+        int dialogWidthFinal = (int) Math.round(dialogWidth);
+        double dialogHeight = dialogWidthFinal*1.5;
+        Log.i("DIMSDIF", "dialogHeight " + dialogHeight);
+        int dialogHeightFinal = (int) Math.round(dialogHeight);
+        Log.i("DIMSDIF", "dialogHeightFinal " + dialogHeightFinal);
+
+        dialog.getWindow().setLayout(dialogWidthFinal, dialogHeightFinal);
+
+        imgLevel1X = view2.findViewById(R.id.imgLevel1);
+        imgLevel2X = view2.findViewById(R.id.imgLevel2);
+        imgLevel3X = view2.findViewById(R.id.imgLevel3);
+        imgLevel4X = view2.findViewById(R.id.imgLevel4);
+
+        imgLevelGlow1X = view2.findViewById(R.id.imgLevelGlow1);
+        imgLevelGlow2X = view2.findViewById(R.id.imgLevelGlow2);
+        imgLevelGlow3X = view2.findViewById(R.id.imgLevelGlow3);
+        imgLevel4GlowX = view2.findViewById(R.id.imgLevelGlow4);
+
+        imgLevel1X.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+                imgLevel1X.setVisibility(View.GONE);
+                imgLevelGlow1X.setVisibility(View.VISIBLE);
+                difficultyLevel = "Easy";
+                userReference.getRef().child("level").setValue(difficultyLevel);
+
+
+                CountDownTimer level1Timer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        dialog.dismiss();
+                        btnLevelEAX.setText("EASY");
+                        btnLevelEAX.getBackground().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_ATOP);
+
+                    }
+                }.start();
+
+            }
+        });
+
+        imgLevel2X.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                imgLevel2X.setVisibility(View.GONE);
+                imgLevelGlow2X.setVisibility(View.VISIBLE);
+                difficultyLevel = "NotEasy";
+                userReference.getRef().child("level").setValue(difficultyLevel);
+
+
+                CountDownTimer level2Timer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        dialog.dismiss();
+                        btnLevelEAX.setText("NOT SO EASY");
+                        btnLevelEAX.getBackground().setColorFilter(getResources().getColor(R.color.shieldfont), PorterDuff.Mode.SRC_ATOP);
+
+                    }
+                }.start();
+
+            }
+        });
+
+        imgLevel3X.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                imgLevel3X.setVisibility(View.GONE);
+                imgLevelGlow3X.setVisibility(View.VISIBLE);
+                difficultyLevel = "Hard";
+                userReference.getRef().child("level").setValue(difficultyLevel);
+
+                CountDownTimer level3Timer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        dialog.dismiss();
+                        btnLevelEAX.setText("REALLY HARD!!");
+                        btnLevelEAX.getBackground().setColorFilter(getResources().getColor(R.color.orange), PorterDuff.Mode.SRC_ATOP);
+
+                    }
+                }.start();
+
+            }
+        });
+
+        imgLevel4X.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                imgLevel4X.setVisibility(View.GONE);
+                imgLevel4GlowX.setVisibility(View.VISIBLE);
+                difficultyLevel = "VeryHard";
+                userReference.getRef().child("level").setValue(difficultyLevel);
+
+                CountDownTimer level2Timer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        dialog.dismiss();
+                        btnLevelEAX.setText("GET MAD HARD!!");
+                        btnLevelEAX.getBackground().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
+
+                    }
+                }.start();
+
+            }
+        });
+
+
+    }
+
+    /// on back pressed given choice to log out or go back
 
     @Override
     @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB

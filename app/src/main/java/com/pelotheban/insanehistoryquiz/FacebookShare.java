@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -170,6 +171,14 @@ public class FacebookShare extends AppCompatActivity {
                         userReference.getRef().child("coins").setValue(coinsOwned);
                         int coinsOwnedSort = - coinsOwned;
                         userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
+
+                        // reset insterstitial counter to 0 sharedpref to be picked up by game.java
+                        Log.i("INTERSTITIAL", "FB setting to 0");
+                        SharedPreferences sharedAdvertCounterGame;
+                        sharedAdvertCounterGame = getSharedPreferences("adSettingGame", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedAdvertCounterGame.edit();
+                        editor.putInt("CounterGame", 0);
+                        editor.apply(); // saves the value
 
                         LayoutInflater inflater = LayoutInflater.from(FacebookShare.this);
                         View view = inflater.inflate(R.layout.zzz_fbreward_dialog, null);

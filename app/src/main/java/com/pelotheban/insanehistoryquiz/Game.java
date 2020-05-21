@@ -59,7 +59,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
     // Game play UI elements and variables
 
-    private int maxNumber;
+    private int maxNumber, minRange, maxRange;
     private int randQuestionPre;
     private int randQuestion;
     private String [] questionList;
@@ -137,6 +137,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private int eraAnsweredEarlyModern;
     private int eraAnsweredModern;
     private int eraAnsweredContemporary;
+
+    private String difficultyLevel;
 
             //// badges start
 
@@ -229,7 +231,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         mRewardedAdGameScreenCoins = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedAdGameScreenCoins.setRewardedVideoAdListener(this);
         mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
-       //mRewardedAdGameScreenCoins.loadAd("ca-app-pub-1744081621312112/9832400365", new AdRequest.Builder().build()); // REAL
+        //mRewardedAdGameScreenCoins.loadAd("ca-app-pub-1744081621312112/9832400365", new AdRequest.Builder().build()); // REAL
 
         txtAdMessageX = findViewById(R.id.txtAdMessage);
 
@@ -479,6 +481,15 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         zzzInterstitialString = userDs.child("zzzinterstitial").getValue().toString();
                         zzzInterstitial = Integer.valueOf(zzzInterstitialString);
                     } catch (Exception e) {
+
+                    }
+
+                    try {
+
+                        difficultyLevel = userDs.child("level").getValue().toString();
+                        Log.i("Levels", difficultyLevel);
+
+                    }catch (Exception e){
 
                     }
 
@@ -1159,33 +1170,137 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
     private void  maxNumberGenerate() {
 
-        DatabaseReference quizQuestionsRef = FirebaseDatabase.getInstance().getReference().child("values").child("quizquestions");
-        Log.i("TIMING", quizQuestionsRef.toString());
-        quizQuestionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        if (difficultyLevel.equals("Easy")){
 
-                String maxNumberString = dataSnapshot.getValue().toString();
-                maxNumber = Integer.valueOf(maxNumberString);
+            minRange = 1;
 
-                Log.i("TIMING", "String:  " + maxNumberString);
+            Log.i("Levels", "in maxnumber IF min: " + minRange);
 
-                //prolly need to get rid of this if - since the ongoing query should get at this but then what happens if it is less
-                // actually just generating max number here but going to randQuestions from the coin query - keeping old code for ref below
-                if (coinsOwned > 1 ) {  // && sentFromQuery == 1
-                    Log.i("TIMING", "coins " + coinsOwned);
-                    // randQuestionSeclect();
+            DatabaseReference quizEasyRef = FirebaseDatabase.getInstance().getReference().child("values").child("noteasystart");
+            quizEasyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String noteasyStartString = dataSnapshot.getValue().toString();
+                    maxRange = Integer.valueOf(noteasyStartString) - 1;
+                    Log.i("Levels", "quizEasyRef IF min: " + minRange +" max: " + maxRange);
+                    randQuestionSeclect();
                 }
 
-                Log.i("TIMING", "did not detect coins? " +  coinsOwned);
-                randQuestionSeclect();
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
 
-            }
-        });
+
+
+        } else if(difficultyLevel.equals("NotEasy")){
+
+            DatabaseReference quizNotEasyRef1 = FirebaseDatabase.getInstance().getReference().child("values").child("noteasystart");
+            quizNotEasyRef1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String noteasyStartString = dataSnapshot.getValue().toString();
+                    minRange = Integer.valueOf(noteasyStartString);
+                    Log.i("Levels", "quizNotEasyRef1 IF min: " + minRange);
+
+                    DatabaseReference quizNotEasyRef2 = FirebaseDatabase.getInstance().getReference().child("values").child("hardstart");
+                    quizNotEasyRef2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
+                            String hardStartString = dataSnapshot2.getValue().toString();
+                            maxRange = Integer.valueOf(hardStartString) - 1;
+                            Log.i("Levels", "quizNotEasyRef2 IF min: " + minRange +" max: " + maxRange);
+                            randQuestionSeclect();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+
+        } else if(difficultyLevel.equals("Hard")){
+
+            DatabaseReference quizHardRef1 = FirebaseDatabase.getInstance().getReference().child("values").child("hardstart");
+            quizHardRef1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String hardStartString = dataSnapshot.getValue().toString();
+                    minRange = Integer.valueOf(hardStartString);
+                    Log.i("Levels", "quizHardRef1 IF min: " + minRange);
+
+                    DatabaseReference quizHardRef2 = FirebaseDatabase.getInstance().getReference().child("values").child("veryhardstart");
+                    quizHardRef2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
+                            String veryhardStartString = dataSnapshot2.getValue().toString();
+                            maxRange = Integer.valueOf(veryhardStartString) - 1;
+                            Log.i("Levels", "quizHardRef2 IF min: " + minRange +" max: " + maxRange);
+                            randQuestionSeclect();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+
+
+        else {
+
+            Log.i("Levels", "in the else");
+
+            DatabaseReference quizQuestionsRef = FirebaseDatabase.getInstance().getReference().child("values").child("quizquestions");
+            Log.i("TIMING", quizQuestionsRef.toString());
+            quizQuestionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    String maxNumberString = dataSnapshot.getValue().toString();
+                    maxNumber = Integer.valueOf(maxNumberString);
+
+
+                    minRange = 50;
+                    maxRange = 100;
+
+                    Log.i("Levels", "in the else min: " + minRange +" max: " + maxRange);
+
+                    Log.i("TIMING", "String:  " + maxNumberString);
+
+
+                    randQuestionSeclect();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
 
 
 
@@ -1194,7 +1309,13 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private void randQuestionSeclect() {
 
         Log.i("TIMING", "Number: " + maxNumber);
-        questionList = new String[maxNumber]; // setting size of our array
+        // *** // questionList = new String[maxNumber]; // setting size of our array
+
+        // xxxxxx ////
+        int maxNumber2 = maxRange - minRange;
+        questionList = new String[maxNumber2]; // setting size of our array
+        Log.i("Levels", "in randQuestionSelect maxNumber2 " + maxNumber2);
+        // XXXXXX ////
 
         //getting the array with question numbers asked to date from shared prefs as a string
         pastQuestionsShared = getSharedPreferences("pastQuestions", MODE_PRIVATE);
@@ -1204,14 +1325,23 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         questionList = questionListStringified.split(",");
 
         // getting the random question # for next round and setting it to string for comparisons to previously asked
-        randQuestionPre = new Random().nextInt(maxNumber) + 1; // random question number to be displayed
+        // *** // randQuestionPre = new Random().nextInt(maxNumber) + 1; // random question number to be displayed
+
+        //Xxxxxx ///
+        randQuestionPre = new Random().nextInt(maxRange-minRange + 1) + minRange; // [0, 60] + 20 => [20, 80]
+        Log.i("Levels", "randQustionPre: " + randQuestionPre);
+        //xxxx ////
+
         String randQuestionPreStr = String.valueOf(randQuestionPre);
+        Log.i("Levels", "randquestionPreStr: " + randQuestionPreStr);
 
         // checking to see if gone through all questions and if so resetting the shared pref array back to zero - so the questions asked comparison starts from scratch
-        if (questionList.length > (maxNumber-1)) {
+        if (questionList.length > (maxNumber2-1)) {
 
             String reset = "0,";
             questionList = reset.split(",");
+
+            Log.i("Levels", "resetting question list: " + minRange);
 
         }
 
@@ -1219,7 +1349,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         // into a loop which runs until an unasked question pops up
         if (Arrays.asList(questionList).contains(randQuestionPreStr)) {
 
-            Log.i("TIMING", "question repeated going to while");
+            Log.i("Levels", "question repeated going to while");
 
             //Toast.makeText(Game.this, "FREEZING", Toast.LENGTH_SHORT).show();
             int spinner = 1;
@@ -1227,7 +1357,10 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                 //for (int x = 0; x < 50; x++){
 
                 // within the loop generating new random numbers and checking them agasint the array and doing so as long as not unique
-                randQuestionPre = new Random().nextInt(maxNumber) + 1; // random question number to be displayed
+               //***// randQuestionPre = new Random().nextInt(maxNumber) + 1; // random question number to be displayed
+                //xxx///
+                randQuestionPre = new Random().nextInt(maxRange-minRange + 1) + minRange; // [0, 60] + 20 => [20, 80]
+                //xxx///
                 String randQuestionPreStr2 = String.valueOf(randQuestionPre);
 
                 if (Arrays.asList(questionList).contains(randQuestionPreStr2)) {
@@ -1238,6 +1371,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     //is updated and the action moves to the game methods
 
                     randQuestion = randQuestionPre;
+
+                    Log.i("Levels", "setting randQuestion in while: " + randQuestion);
 
                     String randQuestionStr = String.valueOf(randQuestion); // convert the number we just generated to a string to add to our array
 
@@ -1269,7 +1404,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         } else { // so if the List so far DOES NOT HAVE the number we just generated"
 
             randQuestion = randQuestionPre; // set the questions number to the number we just generated (that is used in game below)
-
+            Log.i("Levels", "setting randquestion without going into the while: " + randQuestion);
             String randQuestionStr = String.valueOf(randQuestion); // convert the number we just generated to a string to add to our array
 
             // now we add the new  question to our string

@@ -178,6 +178,8 @@
 
                 />
 
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -248,6 +250,41 @@
                     android:visibility="gone"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/leadersglow" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+
+
+                >
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLevelEA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EASY"
+                    android:backgroundTint="@color/green"
+                    android:fontFamily="@font/almendra_sc"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_15sdp"
+                    app:cornerRadius="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+
+                    />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDifficultyEA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CHANGE LEVEL"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:fontFamily="@font/almendra_sc"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_15sdp"
+                    app:cornerRadius="@dimen/_20sdp"
+                    />
 
             </LinearLayout>
 
