@@ -667,7 +667,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
                 try {
                     if (difficultyLevel.equals("Easy")) {
-                        btnLevelEAX.setText("EASY");
+                        btnLevelEAX.setText("EASY BREEZY");
                         btnLevelEAX.getBackground().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_ATOP);
 
                     } else if (difficultyLevel.equals("NotEasy")) {
@@ -680,7 +680,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
                     } else if (difficultyLevel.equals("VeryHard")) {
 
-                        btnLevelEAX.setText("GET MAD HARD!!");
+                        btnLevelEAX.setText("SAVAGELY HARD!!");
                         btnLevelEAX.getBackground().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
                     }
                 }catch (Exception e){
@@ -1530,7 +1530,7 @@ public class ExpandedAnswer extends AppCompatActivity {
                     @Override
                     public void onFinish() {
                         dialog.dismiss();
-                        btnLevelEAX.setText("EASY");
+                        btnLevelEAX.setText("EASY BREEZY");
                         btnLevelEAX.getBackground().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_ATOP);
 
                     }
@@ -1610,7 +1610,7 @@ public class ExpandedAnswer extends AppCompatActivity {
                     @Override
                     public void onFinish() {
                         dialog.dismiss();
-                        btnLevelEAX.setText("GET MAD HARD!!");
+                        btnLevelEAX.setText("SAVAGELY HARD!!");
                         btnLevelEAX.getBackground().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
 
                     }

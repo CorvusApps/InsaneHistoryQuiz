@@ -55,6 +55,20 @@
             android:fontFamily="@font/almendra_sc"
 
             />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLevelGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EASY"
+            android:backgroundTint="@color/green"
+            android:fontFamily="@font/almendra_sc"
+            android:textStyle="bold"
+            android:textSize="@dimen/_15sdp"
+            app:cornerRadius="@dimen/_22sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+
+            />
         <ImageView
             android:id="@+id/imgHPTimer"
             android:layout_marginTop="@dimen/_2sdp"

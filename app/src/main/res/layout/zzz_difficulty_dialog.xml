@@ -111,7 +111,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="EASY BREAZY:"
+                        android:text="EASY BREEZY:"
                         android:textColor="@color/colorPrimaryDark"
                         android:textStyle="bold"
                         android:layout_marginLeft="@dimen/_5sdp"
@@ -375,7 +375,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="YOU WILL HATE US:"
+                android:text="SAVAGELY HARD:"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
                 android:layout_marginLeft="@dimen/_5sdp"

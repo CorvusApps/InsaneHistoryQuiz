@@ -114,12 +114,33 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="4sp"
                         android:layout_marginRight="8dp"
-                        android:text="Press the big H whenever you see it to get started. It begins with displaying a statement (question). After a few seconds you're shown the FIRST of FIVE possible ANSWERS. If you think that answer is CORRECT press YES otherwise PRESS NO.
-The timer above tells you how much time you have left. This will continue until you make a mistake OR until you identify the CORRECT answer.
-You will then be taken to the Extended Answer Screen which will show you a few more fun facts. From there you can go to the next question at your leisure."
+                        android:text="Basic Game Play: Press the big H. The game displays a statement (question). After a few seconds you're shown the FIRST of FIVE possible ANSWERS. If you think that answer is CORRECT press YES otherwise PRESS NO.
+The timer above tells you how much time you have left. This will continue until you make a mistake OR until you identify the CORRECT answer."
                         android:textColor="@color/primaryShadow"
                         android:textSize="12sp" />
 
+
+                    <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginRight="8dp"
+                    android:text="What are the coins for?"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginRight="8dp"
+                        android:text="As long as you have coins you can keep playing. When you run out, we'll ask you to watch a quick ad to earn a 100 coins and rejoin the game."
+                        android:textColor="@color/primaryShadow"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -127,7 +148,7 @@ You will then be taken to the Extended Answer Screen which will show you a few m
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="10sp"
                         android:layout_marginRight="8dp"
-                        android:text="What are the coins for?"
+                        android:text="How do I earn coins?"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -139,7 +160,29 @@ You will then be taken to the Extended Answer Screen which will show you a few m
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="4sp"
                         android:layout_marginRight="8dp"
-                        android:text="As long as you have coins you can keep playing. When you run out, we'll ask you to watch a quick ad to earn a 100 coins and rejoin the game."
+                        android:text="You earn coins by answering questions correctly or sharing the game on Facebook"
+                        android:textColor="@color/primaryShadow"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="10sp"
+                        android:layout_marginRight="8dp"
+                        android:text="Are there different difficulty levels?"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginRight="8dp"
+                        android:text="Yes. You can change the level from the Extended Answer screen after each question. More difficult questions earn more coins."
                         android:textColor="@color/primaryShadow"
                         android:textSize="12sp" />
 
@@ -161,7 +204,7 @@ You will then be taken to the Extended Answer Screen which will show you a few m
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="4sp"
                         android:layout_marginRight="8dp"
-                        android:text="You get up to 5 coins for a correct answer: 1 coin for each time you correctly guess the shown answer is WRONG and a remainder of the 5 points for the question when you identify the CORRECT answer. You lose 10 coins when you make a mistake."
+                        android:text="A WRONG results in a 10 coins deduction."
                         android:textColor="@color/primaryShadow"
                         android:textSize="12sp" />
 
@@ -205,9 +248,9 @@ You will then be taken to the Extended Answer Screen which will show you a few m
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="4sp"
                         android:layout_marginRight="8dp"
-                        android:text="Yes! There are also BONUS questions which you get when you win one of the many achievement BADGES in the game. In these, you are shown a FAMOUS piece of art.
-Each artwork depicts a historical event. You then have a multiple choice options to identify the EVENT. If you do not know the artwork itself, look for clues in the work to link it to the event.
-The are always several CLUES which will identify the right answer!!! You get 10 coins for the right answer. NO coins are deducted for wrong answers."
+                        android:text="Yes! There are BONUS questions which you get when you win one of the many achievement BADGES. In these, you are shown a FAMOUS piece of art.
+Each artwork depicts a historical event. You then have a multiple choice options to identify the EVENT. If you do not know the artwork itself, look for historical clues in the work!
+You get 10 coins for the right answer. NO coins are deducted for wrong answers."
                         android:textColor="@color/primaryShadow"
                         android:textSize="12sp" />
 

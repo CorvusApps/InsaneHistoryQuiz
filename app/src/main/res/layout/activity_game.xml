@@ -52,35 +52,78 @@
 
     </LinearLayout>
 
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_gravity="center"
+       android:elevation="@dimen/_28sdp"
+
+       >
+    <TextView
+        android:id="@+id/txtQuestionValueReminder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get the remaing 5 coins for this question!"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:textColor="@color/colorPrimary"
+        android:elevation="@dimen/_28sdp"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        android:textStyle="bold"
+        android:textSize="@dimen/_20sdp"
+        android:fontFamily="@font/almendra_sc"
+
+        />
     <ImageView
         android:id="@+id/imgCorrectorCheck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_180sdp"
+        android:layout_height="@dimen/_200sdp"
         app:srcCompat="@drawable/check"
         android:elevation="@dimen/_28sdp"
-        android:layout_gravity="center"
+
+        android:layout_gravity="center_horizontal"
         android:visibility="gone"
         />
 
-    <ImageView
-        android:id="@+id/imgCorrectorXmark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/xmark"
-        android:elevation="@dimen/_28sdp"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        />
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imgCorrectorTimeout"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_200sdp"
-        app:srcCompat="@drawable/hourglassone"
-        android:elevation="@dimen/_14sdp"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        />
+           <ImageView
+               android:id="@+id/imgCorrectorXmark"
+               android:layout_width="@dimen/_180sdp"
+               android:layout_height="@dimen/_200sdp"
+               android:layout_gravity="center"
+               android:layout_marginStart="8dp"
+               android:layout_marginEnd="8dp"
+               android:elevation="@dimen/_28sdp"
+               android:visibility="gone"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintHorizontal_bias="0.488"
+               app:layout_constraintStart_toStartOf="parent"
+               app:srcCompat="@drawable/xmark" />
+
+           <ImageView
+               android:id="@+id/imgCorrectorTimeout"
+               android:layout_width="@dimen/_100sdp"
+               android:layout_height="@dimen/_200sdp"
+               android:layout_gravity="center"
+               android:layout_marginBottom="8dp"
+               android:elevation="@dimen/_14sdp"
+               android:visibility="gone"
+               app:layout_constraintBottom_toBottomOf="@+id/imgCorrectorXmark"
+               app:layout_constraintEnd_toEndOf="@+id/imgCorrectorXmark"
+               app:layout_constraintStart_toStartOf="@+id/imgCorrectorXmark"
+               app:layout_constraintTop_toTopOf="@+id/imgCorrectorXmark"
+               app:srcCompat="@drawable/hourglassone" />
+
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
+   </LinearLayout>
 
     <TextView
         android:id="@+id/txtAdMessage"

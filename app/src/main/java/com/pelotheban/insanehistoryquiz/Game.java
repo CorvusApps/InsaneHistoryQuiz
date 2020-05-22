@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -19,6 +20,7 @@ import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -92,6 +94,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         private ImageView imgCoinAwardX;
         private TextView txtCoinAwardX;
         private int rightAnswerTicker;
+        private TextView txtQuestionValueReminderX;
 
     //.............//// various score counters
 
@@ -139,6 +142,10 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private int eraAnsweredContemporary;
 
     private String difficultyLevel;
+    private int coinAwardNo, levelMultiplier;
+    private MaterialButton btnLevelGameX;
+
+
 
             //// badges start
 
@@ -305,6 +312,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         txtCoinCounterX = findViewById(R.id.txtCoinCounter);
         txtConStreakX = findViewById(R.id.txtConStreak);
         txtTestQCountX = findViewById(R.id.txtTestQCounter);
+        btnLevelGameX = findViewById(R.id.btnLevelGame);
 
 
         imgCorrectorCheckX = findViewById(R.id.imgCorrectorCheck);
@@ -313,6 +321,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         loutCoinAwardX = findViewById(R.id.loutCoinAward);
         imgCoinAwardX = findViewById(R.id.imgCoinAward);
         txtCoinAwardX = findViewById(R.id.txtCoinAward);
+        txtQuestionValueReminderX = findViewById(R.id.txtQuestionValueReminder);
         rightAnswerTicker = 0;
 
         // timesettings
@@ -610,10 +619,33 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     // First showing the user the implications of getting correct
 
+                    txtQuestionValueReminderX.setVisibility(View.GONE);
                     shadeX.setVisibility(View.VISIBLE);
                     imgCorrectorCheckX.setVisibility(View.VISIBLE);
                     loutCoinAwardX.setVisibility(View.VISIBLE);
-                    int coinAwardNo = 5 - rightAnswerTicker; // total award for correct is 5; this subtracts points already added for correctly guessing wrong answers
+
+                    //reflecting difficulty level in coinaward numbers
+                    if (difficultyLevel.equals("Easy")) {
+
+                        coinAwardNo = 5 - rightAnswerTicker; // total award for correct is 5; this subtracts points already added for correctly guessing wrong answers
+                        levelMultiplier = 1;
+                    } else if (difficultyLevel.equals("NotEasy")){
+
+                        coinAwardNo = 10 - rightAnswerTicker;
+                        levelMultiplier = 1;
+                    } else if (difficultyLevel.equals("Hard")){
+
+                        coinAwardNo = 15 - rightAnswerTicker;
+                        levelMultiplier = 2;
+                    } else if (difficultyLevel.equals("VeryHard")){
+
+                        coinAwardNo = 20 - rightAnswerTicker;
+                        levelMultiplier = 3;
+                    } else {
+
+                        coinAwardNo = 10; // catch all just in case there is no designation
+                    }
+
                     txtCoinAwardX.setText("+" + coinAwardNo);
 
                     CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
@@ -625,19 +657,19 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         @Override
                         public void onFinish() { // adjusting all counters - coins, streaks, category records, etc; writing to Firebase right away
 
-                            coinsOwned = coinsOwned + 5 - rightAnswerTicker;
+                            coinsOwned = coinsOwned + coinAwardNo;
                             String coinsOwnedZ = Integer.toString(coinsOwned);
                             txtCoinCounterX.setText(coinsOwnedZ);
                             userReference.getRef().child("coins").setValue(coinsOwned);
                             int coinsOwnedSort = - coinsOwned;
                             userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
-                            consStreak = consStreak + 1;
+                            consStreak = consStreak + (1*levelMultiplier);
                             String conStreakZ = Integer.toString(consStreak);
                             txtConStreakX.setText(conStreakZ);
                             userReference.getRef().child("constreak").setValue(consStreak);
 
-                            totalAnswered = totalAnswered + 1;
+                            totalAnswered = totalAnswered + (1*levelMultiplier);
                             userReference.getRef().child("totalanswered").setValue(totalAnswered);
                             int totalAnsweredSort = -totalAnswered;
                             userReference.getRef().child("totalansweredsort").setValue(totalAnsweredSort);
@@ -659,42 +691,42 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             userReference.getRef().child("longeststreaksort").setValue(longestStreakSort);
 
 
-                            totalQuestions = totalQuestions + 1;
+                            totalQuestions = totalQuestions + (1*levelMultiplier);
                             userReference.getRef().child("totalquestions").setValue(totalQuestions);
 
                             /// THESE HAVE TO BE ADJUSTED TO the final era settings
                             if (era.equals("Antiquity")) {
-                                eraAnsweredAntiquity = eraAnsweredAntiquity + 1;
+                                eraAnsweredAntiquity = eraAnsweredAntiquity + (1*levelMultiplier);
                                 userReference.getRef().child("eraansantiquity").setValue(eraAnsweredAntiquity);
                             }
 
                             if (era.equals("Middle Ages")) {
-                                eraAnsweredMiddleAges = eraAnsweredMiddleAges + 1;
+                                eraAnsweredMiddleAges = eraAnsweredMiddleAges + (1*levelMultiplier);
                                 userReference.getRef().child("eraansmiddle").setValue(eraAnsweredMiddleAges);
                             }
 
                             if (era.equals("Renaissance")) {
-                                eraAnsweredRenaissance = eraAnsweredRenaissance + 1;
+                                eraAnsweredRenaissance = eraAnsweredRenaissance + (1*levelMultiplier);
                                 userReference.getRef().child("eraansrenaissance").setValue(eraAnsweredRenaissance);
                             }
 
                             if (era.equals("Enlightenment")) {
-                                eraAnsweredEnlightenment = eraAnsweredEnlightenment + 1;
+                                eraAnsweredEnlightenment = eraAnsweredEnlightenment + (1*levelMultiplier);
                                 userReference.getRef().child("eraanselight").setValue(eraAnsweredEnlightenment);
                             }
 
                             if (era.equals("Early Modern")) {
-                                eraAnsweredEarlyModern = eraAnsweredEarlyModern + 1;
+                                eraAnsweredEarlyModern = eraAnsweredEarlyModern + (1*levelMultiplier);
                                 userReference.getRef().child("eraansearlymod").setValue(eraAnsweredEarlyModern);
                             }
 
                             if (era.equals("Modern")) {
-                                eraAnsweredModern = eraAnsweredModern + 1;
+                                eraAnsweredModern = eraAnsweredModern + (1*levelMultiplier);
                                 userReference.getRef().child("eraansmodern").setValue(eraAnsweredModern);
                             }
 
                             if (era.equals("Contemporary")) {
-                                eraAnsweredContemporary = eraAnsweredContemporary + 1;
+                                eraAnsweredContemporary = eraAnsweredContemporary + (1*levelMultiplier);
                                 userReference.getRef().child("eraanscontem").setValue(eraAnsweredContemporary);
                             }
 
@@ -711,6 +743,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     // This else basically means that the user pressed correct but the answer was not correct - ie they got it wrong
                     // section works just like the section for correct just with different implications - see above for explanations
 
+                    txtQuestionValueReminderX.setVisibility(View.GONE);
                     shadeX.setVisibility(View.VISIBLE);
                     imgCorrectorXmarkX.setVisibility(View.VISIBLE);
                     loutCoinAwardX.setVisibility(View.VISIBLE);
@@ -725,6 +758,24 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         @Override
                         public void onFinish() {
 
+                            //level multiplier needed for total questions metric
+                            if (difficultyLevel.equals("Easy")) {
+
+                                levelMultiplier = 1;
+                            } else if (difficultyLevel.equals("NotEasy")){
+
+                                levelMultiplier = 1;
+                            } else if (difficultyLevel.equals("Hard")){
+
+                                levelMultiplier = 2;
+                            } else if (difficultyLevel.equals("VeryHard")){
+
+                                levelMultiplier = 3;
+                            } else {
+
+                                levelMultiplier = 1;
+                            }
+
                             coinsOwned = coinsOwned - 10;
                             String coinsOwedZ = Integer.toString(coinsOwned);
                             txtCoinCounterX.setText(coinsOwedZ);
@@ -737,7 +788,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             txtConStreakX.setText(conStreakZ);
                             userReference.getRef().child("constreak").setValue(consStreak);
 
-                            totalQuestions = totalQuestions + 1;
+                            totalQuestions = totalQuestions + (1*levelMultiplier);
                             userReference.getRef().child("totalquestions").setValue(totalQuestions);
 
                             // adds one to the counter and its shared pref for interstitial ads
@@ -872,6 +923,26 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                 stopTimer();
 
+                //level multiplier needed for total questions metric - here should cover both wrong answer and right ticker
+                if (difficultyLevel.equals("Easy")) {
+
+                    levelMultiplier = 1;
+                    coinAwardNo = 5;
+                } else if (difficultyLevel.equals("NotEasy")){
+                    coinAwardNo = 10;
+                    levelMultiplier = 1;
+                } else if (difficultyLevel.equals("Hard")){
+                    coinAwardNo = 15;
+                    levelMultiplier = 2;
+                } else if (difficultyLevel.equals("VeryHard")){
+                    coinAwardNo = 20;
+                    levelMultiplier = 3;
+                } else {
+                    coinAwardNo = 20;
+                    levelMultiplier = 1;
+                }
+
+
                 btnWrongX.setVisibility(View.GONE);
                 btnWrongGlowX.setVisibility(View.VISIBLE);
 
@@ -890,6 +961,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     // sections work as above - see annotations there for explanations
 
+                    txtQuestionValueReminderX.setVisibility(View.GONE);
                     shadeX.setVisibility(View.VISIBLE);
                     imgCorrectorXmarkX.setVisibility(View.VISIBLE);
                     loutCoinAwardX.setVisibility(View.VISIBLE);
@@ -904,6 +976,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         @Override
                         public void onFinish() {
 
+
                             coinsOwned = coinsOwned - 10;
                             String coinsOwedZ = Integer.toString(coinsOwned);
                             txtCoinCounterX.setText(coinsOwedZ);
@@ -916,7 +989,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             txtConStreakX.setText(conStreakZ);
                             userReference.getRef().child("constreak").setValue(consStreak);
 
-                            totalQuestions = totalQuestions + 1;
+                            totalQuestions = totalQuestions + (1*levelMultiplier);
                             userReference.getRef().child("totalquestions").setValue(totalQuestions);
 
                             // adds one to the counter and its shared pref for interstitial ads
@@ -1048,8 +1121,13 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     shadeX.setVisibility(View.VISIBLE);
                     imgCorrectorCheckX.setVisibility(View.VISIBLE);
                     loutCoinAwardX.setVisibility(View.VISIBLE);
-                    txtCoinAwardX.setText("+1");
-                    rightAnswerTicker = rightAnswerTicker + 1;
+                    int fullTickerAward = 1 * levelMultiplier;
+                    String fullTickerAwardString = Integer.toString(fullTickerAward);
+                    txtCoinAwardX.setText("+" + fullTickerAwardString);
+                    rightAnswerTicker = rightAnswerTicker + (1*levelMultiplier);
+                    int remainingValue = coinAwardNo - rightAnswerTicker;
+                    txtQuestionValueReminderX.setText("Get the remaining  " + remainingValue + "  COINS for this question");
+                    txtQuestionValueReminderX.setVisibility(View.VISIBLE);
 
 
                     CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
@@ -1068,7 +1146,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 //                            btnWrongX.setVisibility(View.VISIBLE);
 
 
-                            coinsOwned = coinsOwned + 1;
+                            coinsOwned = coinsOwned + (1*levelMultiplier);
                             String coinsOwnedZ = Integer.toString(coinsOwned);
                             txtCoinCounterX.setText(coinsOwnedZ);
                             userReference.getRef().child("coins").setValue(coinsOwned);
@@ -1128,6 +1206,30 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         txtCoinCounterX.setText(coinsOwnedString); // IF there are any coins in the account will set the counter
         txtConStreakX.setText(consStreetString);
 
+        //reflecting difficulty level in coinaward numbers
+        try {
+            if (difficultyLevel.equals("Easy")) {
+                btnLevelGameX.setText("EASY BREEZY");
+                btnLevelGameX.getBackground().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_ATOP);
+
+            } else if (difficultyLevel.equals("NotEasy")) {
+                btnLevelGameX.setText("NOT SO EASY");
+                btnLevelGameX.getBackground().setColorFilter(getResources().getColor(R.color.shieldfont), PorterDuff.Mode.SRC_ATOP);
+
+            } else if (difficultyLevel.equals("Hard")) {
+                btnLevelGameX.setText("REALLY HARD");
+                btnLevelGameX.getBackground().setColorFilter(getResources().getColor(R.color.orange), PorterDuff.Mode.SRC_ATOP);
+
+            } else if (difficultyLevel.equals("VeryHard")) {
+
+                btnLevelGameX.setText("SAVAGELY HARD");
+                btnLevelGameX.getBackground().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
+            }
+        }catch (Exception e){
+
+        }
+
+
         try {
             if (coinsOwned > 0 | coinGrantToggle.equals("yes")) {
 
@@ -1164,7 +1266,6 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             userReference.getRef().child("coins").setValue(80);
             userReference.getRef().child("coinsgranttoggle").setValue("yes");
         }
-
 
     }
 
@@ -1266,7 +1367,42 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                 }
             });
 
-        }
+        } else if(difficultyLevel.equals("VeryHard")){
+
+        DatabaseReference quizVeryHardRef1 = FirebaseDatabase.getInstance().getReference().child("values").child("veryhardstart");
+        quizVeryHardRef1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String veryhardStartString = dataSnapshot.getValue().toString();
+                minRange = Integer.valueOf(veryhardStartString);
+                Log.i("Levels", "quizVeryHardRef1 IF min: " + minRange);
+
+                DatabaseReference quizVeryHardRef2 = FirebaseDatabase.getInstance().getReference().child("values").child("quizquestions");
+                quizVeryHardRef2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
+                        String quizQuestionsString = dataSnapshot2.getValue().toString();
+                        maxRange = Integer.valueOf(quizQuestionsString);
+                        Log.i("Levels", "quizVeryHardRef2 IF min: " + minRange +" max: " + maxRange);
+                        randQuestionSeclect();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
 
         else {
@@ -1392,7 +1528,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     editor.putString("questionList", sbString);
                     editor.apply(); // saves the value
 
-                  //  Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
+                    Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
                     gameStart();
 
                     break;
@@ -1423,7 +1559,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             editor.putString("questionList", sbString);
             editor.apply(); // saves the value
 
-         //   Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
+            Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
             gameStart();
 
         }
@@ -1952,6 +2088,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     imgCorrectorCheckX.setVisibility(View.GONE);
                     loutCoinAwardX.setVisibility(View.GONE);
                     btnWrongX.setVisibility(View.VISIBLE);
+                    txtQuestionValueReminderX.setVisibility(View.GONE);
 
                 }
 
@@ -1986,6 +2123,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                 if (ticksetting == 5000 & millisUntilFinished < 11000 & tickerToggle == 1) {  // making the counter  and hourglass visible at 5 seconds
 
                     tickerToggle = 2;
+                    btnLevelGameX.setVisibility(View.GONE);
                     txtTimerX.setVisibility(View.VISIBLE);
                     imgHPTimerX.setVisibility(View.VISIBLE);
 
