@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -136,7 +137,7 @@ public class LeaderBoard extends AppCompatActivity {
         String mSorting2 = sortSharedPrefLeaders.getString("Sort2", "longeststreaksort"); // where if no settings
 
         //sortLBQuery = lbReference.orderByChild("totalquestions");
-        sortLBQuery = lbReference.orderByChild(mSorting2).limitToFirst(100); // testing - later set to 25
+        sortLBQuery = lbReference.orderByChild(mSorting2).limitToFirst(15); // testing - later set to 25
 
         //counters for the current user that go on top of buttons - NOT the ones in recyclerview
 
@@ -493,31 +494,36 @@ public class LeaderBoard extends AppCompatActivity {
             protected void populateViewHolder(LeaderBoard.ZZZjcLBlongstreakViewHolder viewHolder, ZZZjcLBlongeststreak model, int position) {
 
                 viewHolder.setRank(position);
-                viewHolder.setProfilename(model.getProfilename(), profileName);
+
 
                 if (boardToggle.equals("1")) {
                     viewHolder.setLongeststreak(model.getLongeststreak());
+                    viewHolder.setProfilename(model.getProfilename(), profileName);
 
                 }
 
                 if (boardToggle.equals("2")) {
                     viewHolder.setTotalanswered(model.getTotalanswered());
+                    viewHolder.setProfilename(model.getProfilename(), profileName);
 
                 }
 
                 if (boardToggle.equals("3")) {
                     viewHolder.setCoins(model.getCoins());
+                    viewHolder.setProfilename(model.getProfilename(), profileName);
 
                 }
 
                 if (boardToggle.equals("4")) {
 
                     viewHolder.setZzzinterstitial(model.getZzzinterstitial());
+                    viewHolder.setUser(model.getUser());
                 }
 
                 if (boardToggle.equals("5")) {
 
                     viewHolder.setZzzreward(model.getZzzreward());
+                    viewHolder.setUser(model.getUser());
                 }
 
                 viewHolder.setImage(getApplicationContext(),model.getImagelink());
@@ -695,6 +701,17 @@ public class LeaderBoard extends AppCompatActivity {
             String score2 = String.valueOf(zzzreward);
 
             txtScoreX.setText(score2);
+
+        }
+
+        public void setUser (String user){
+
+            TextView txtPlayerX = (TextView)mView.findViewById(R.id.txtPlayer);
+
+            txtPlayerX.setText(user);
+            txtPlayerX.setTextSize(25);
+
+
 
         }
 

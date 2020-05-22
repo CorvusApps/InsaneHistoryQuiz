@@ -12,6 +12,7 @@ public class ZZZjcLBlongeststreak {
     private String imageflaglink;
     private int zzzinterstitial;
     private int zzzreward;
+    private String user;
 
 
 
@@ -19,7 +20,7 @@ public class ZZZjcLBlongeststreak {
 
 
     public ZZZjcLBlongeststreak(int longeststreak, String profilename, int totalanswered, int coins, String imagelink, String imageflaglink,
-                                int zzzinterstitial, int zzzreward) {
+                                int zzzinterstitial, int zzzreward, String user) {
 
 
         this.longeststreak = longeststreak;
@@ -30,6 +31,7 @@ public class ZZZjcLBlongeststreak {
         this.imageflaglink = imageflaglink;
         this.zzzinterstitial = zzzinterstitial;
         this.zzzreward = zzzreward;
+        this.user = user;
 
     }
 
@@ -103,6 +105,14 @@ public class ZZZjcLBlongeststreak {
 
     public void setZzzreward (int zzzreward) {
         this.zzzreward = zzzreward;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
 

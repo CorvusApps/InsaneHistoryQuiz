@@ -148,7 +148,7 @@ The timer above tells you how much time you have left. This will continue until 
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="10sp"
                         android:layout_marginRight="8dp"
-                        android:text="How do I earn coins?"
+                        android:text="How are coins awarded and taken away?"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -160,7 +160,7 @@ The timer above tells you how much time you have left. This will continue until 
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="4sp"
                         android:layout_marginRight="8dp"
-                        android:text="You earn coins by answering questions correctly or sharing the game on Facebook"
+                        android:text="You earn coins by answering questions correctly or sharing the game on Facebook. The amount of coins each question is worth depends on the difficulty level. There is a 10 coin deduction for a wrong answer irrespective of level."
                         android:textColor="@color/primaryShadow"
                         android:textSize="12sp" />
 
@@ -183,28 +183,6 @@ The timer above tells you how much time you have left. This will continue until 
                         android:layout_marginTop="4sp"
                         android:layout_marginRight="8dp"
                         android:text="Yes. You can change the level from the Extended Answer screen after each question. More difficult questions earn more coins."
-                        android:textColor="@color/primaryShadow"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="10sp"
-                        android:layout_marginRight="8dp"
-                        android:text="How are coins awarded and taken away?"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="4sp"
-                        android:layout_marginRight="8dp"
-                        android:text="A WRONG results in a 10 coins deduction."
                         android:textColor="@color/primaryShadow"
                         android:textSize="12sp" />
 
