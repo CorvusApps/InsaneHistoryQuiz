@@ -3,6 +3,7 @@ package com.pelotheban.insanehistoryquiz;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -120,6 +121,10 @@ public class ExpandedAnswer extends AppCompatActivity {
          private ImageView imgFBbadgeAwardX;
          private TextView txtFBaskX;
 
+    // Transfer to Guess the villain gameplay
+
+    private SharedPreferences sharedVillainGameplayCounter;
+    private int villainGameplayCounter;
 
     //pop up
 
@@ -145,6 +150,17 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         height2 = (int) Math.round(height);
         width2 = (int) Math.round(width);
+
+        // villain gameplay counter
+
+        sharedVillainGameplayCounter = getSharedPreferences("villainCounter", MODE_PRIVATE);
+        villainGameplayCounter = sharedVillainGameplayCounter.getInt("CounterVillainGameplay", 0);
+            // right after reading the counter we add to it everytime we enter Expanded
+
+            villainGameplayCounter = villainGameplayCounter +1;
+            SharedPreferences.Editor editor = sharedVillainGameplayCounter.edit();
+            editor.putInt("CounterVillainGameplay", villainGameplayCounter);
+            editor.apply(); // saves the value
 
         // pup up menu
 
@@ -1400,8 +1416,16 @@ public class ExpandedAnswer extends AppCompatActivity {
                     @Override
                     public void onFinish() {
 
-                        Intent intent = new Intent(ExpandedAnswer.this, Game.class);
-                        startActivity(intent);
+                        if (villainGameplayCounter > 1) {
+
+                            Intent intent = new Intent(ExpandedAnswer.this, GameVillain.class);
+                            startActivity(intent);
+                        } else {
+
+                            Intent intent = new Intent(ExpandedAnswer.this, Game.class);
+                            startActivity(intent);
+
+                        }
 
                     }
                 }.start();

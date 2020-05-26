@@ -2462,7 +2462,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     @Override
     public void onRewardedVideoStarted() {
 
-        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
+        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-1744081621312112/9832400365", new AdRequest.Builder().build());
         Log.i("ADMOB", "started");
     }
 
