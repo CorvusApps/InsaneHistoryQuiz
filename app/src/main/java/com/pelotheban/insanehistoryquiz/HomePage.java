@@ -154,6 +154,26 @@ public class HomePage extends AppCompatActivity {
                     txtConStreakX.setText(consStreetString);
 
                     try {
+
+                        String level = userDs.child("level").getValue().toString();
+
+                        try { if (level.equals(null)) {
+
+                            userReference.getRef().child("level").setValue("Easy");
+
+                            }
+
+                        } catch ( Exception e) {
+
+                            userReference.getRef().child("level").setValue("Easy");
+                        }
+
+                    } catch ( Exception e) {
+
+                        userReference.getRef().child("level").setValue("Easy");
+                    }
+
+                    try {
                         if (coinsOwned > 0 | coinGrantToggle.equals("yes")) {
 
                             // Toast.makeText(Game.this, "NOT GRANTING", Toast.LENGTH_SHORT).show();

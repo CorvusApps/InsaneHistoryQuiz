@@ -63,6 +63,9 @@ public class FacebookShare extends AppCompatActivity {
     private String coinsOwnedString;
     private int coinsOwned;
 
+    private String fbSharesString;
+    private int fbSharers;
+
     // for transfer back to home page
     private String badgeSortKeyFB;
 
@@ -99,7 +102,7 @@ public class FacebookShare extends AppCompatActivity {
 
         }
 
-        //draw in coin amount
+        //draw in coin amount and fbshares
 
         uid = FirebaseAuth.getInstance().getUid();
         userReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
@@ -113,6 +116,14 @@ public class FacebookShare extends AppCompatActivity {
                     try {
                         coinsOwnedString = userDs.child("coins").getValue().toString();
                         coinsOwned = Integer.valueOf(coinsOwnedString);
+
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        fbSharesString = userDs.child("fbshares").getValue().toString();
+                        fbSharers = Integer.valueOf(fbSharesString);
 
                     } catch (Exception e) {
 
@@ -171,6 +182,8 @@ public class FacebookShare extends AppCompatActivity {
                         userReference.getRef().child("coins").setValue(coinsOwned);
                         int coinsOwnedSort = - coinsOwned;
                         userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
+                        fbSharers = fbSharers + 1;
+                        userReference.getRef().child("fbshares").setValue(fbSharers);
 
                         // reset insterstitial counter to 0 sharedpref to be picked up by game.java
                         Log.i("INTERSTITIAL", "FB setting to 0");

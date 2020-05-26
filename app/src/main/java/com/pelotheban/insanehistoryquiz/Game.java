@@ -119,6 +119,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private String bonusQuestionsRightString;
     private int bonusQuestionsRight;
 
+    private String facebookSharesString;
+    private int facebookShares;
+
     private String zzzRewardString;
     private int zzzReward;
 
@@ -163,6 +166,11 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             private int badgebon;
             private int badgebonlev;
             private int newbadgebon;
+
+            private String badgeshaString;
+            private int badgesha;
+            private int badgeshalev;
+            private int newbadgesha;
 
             private int badgeAwardedToggle;
 
@@ -415,6 +423,13 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     }
 
+                    try {
+                        facebookSharesString = userDs.child("fbshares").getValue().toString();
+                        facebookShares = Integer.valueOf(facebookSharesString);
+                    } catch (Exception e) {
+
+                    }
+
 
 
                     try {
@@ -561,6 +576,12 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     try {
                         badgebonString = userDs.child("badgebon").getValue().toString();
                         badgebon = Integer.valueOf(badgebonString);
+                    } catch (Exception e) {
+                    }
+
+                    try {
+                        badgeshaString = userDs.child("badgesha").getValue().toString();
+                        badgesha = Integer.valueOf(badgeshaString);
                     } catch (Exception e) {
                     }
 
@@ -1528,7 +1549,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     editor.putString("questionList", sbString);
                     editor.apply(); // saves the value
 
-                    Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
+                   // Toast.makeText(Game.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
                     gameStart();
 
                     break;
@@ -1559,7 +1580,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             editor.putString("questionList", sbString);
             editor.apply(); // saves the value
 
-            Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
+           // Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
             gameStart();
 
         }
@@ -1737,6 +1758,15 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         } else {
             badgebonlev = 0;
+        }
+
+        if (facebookShares > 2) {
+
+            badgeshalev = 1;
+
+        } else {
+
+            badgeshalev = 0;
         }
 
 
@@ -1942,6 +1972,17 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         } catch (Exception e) {
         }
 
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgeshalev > badgesha) {
+                    newbadgesha = badgeshalev;
+                    userReference.getRef().child("badgesha").setValue(newbadgesha);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+
 
         /// trainsition to extended answer section
 
@@ -1970,6 +2011,10 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         if (newbadgebon > 0) {
             intent.putExtra("newbadgebon", newbadgebon);
+        }
+
+        if (newbadgesha > 0) {
+            intent.putExtra("newbadgesha", newbadgesha);
         }
 
         if (newbadgexant > 0) {

@@ -617,7 +617,7 @@
                     />
 
                 <ImageView
-                    android:id="@+id/imgBlankBadge2"
+                    android:id="@+id/imgFBShareBadge"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_100sdp"
                     android:layout_weight="1"

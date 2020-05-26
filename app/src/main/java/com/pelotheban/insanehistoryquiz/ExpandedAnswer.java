@@ -93,7 +93,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
     private int newbadgesup, newbadgestr, newbadgetrt, newbadgewin;
     private int newbadgexant, newbadgexmed, newbadgexren, newbadgexenl, newbadgexmod, newbadgexcon;
-    private int newbadgebon;
+    private int newbadgebon, newbadgesha;
     private LinearLayout loutBadgesX;
     private ImageView imgBadgeAwardX;
 
@@ -280,6 +280,7 @@ public class ExpandedAnswer extends AppCompatActivity {
         newbadgewin = getIntent().getIntExtra("newbadgewin", 0);
 
         newbadgebon = getIntent().getIntExtra("newbadgebon", 0);
+        newbadgesha = getIntent().getIntExtra("newbadgesha", 0);
 
 
         newbadgexant = getIntent().getIntExtra("newbadgexant", 0);
@@ -383,7 +384,10 @@ public class ExpandedAnswer extends AppCompatActivity {
             badgeAwardMsg = "You earned THE ART INSPECTOR BADGE for getting 10 Badge Bonus questions right!";
         }
 
-
+        if (newbadgesha == 1) {
+            badgeSortKey = "sha";
+            badgeAwardMsg = "You earned THE TOWN CRIER BADGE for 3 Facebook Shares!";
+        }
 
 
         if (newbadgexant == 1) {

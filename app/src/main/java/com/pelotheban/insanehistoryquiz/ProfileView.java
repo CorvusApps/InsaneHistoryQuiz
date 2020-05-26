@@ -146,10 +146,10 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
         // Ancilary badges
 
-    private ImageView imgArtBonusBadgeX;
-    private String artBonusBadgeLevelString;
-    private int artBonusBadgeLevel;
-    private String artBonusBadge;
+    private ImageView imgArtBonusBadgeX, imgFBShareBadgeX;
+    private String artBonusBadgeLevelString, fbShareBadgeLevelString;
+    private int artBonusBadgeLevel, fbShareBadgeLevel;
+    private String artBonusBadge, fbShareBadge;
 
         // badge views
 
@@ -529,9 +529,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         imgContemporaryBadgeX = findViewById(R.id.imgContemporaryBadge);
 
         imgArtBonusBadgeX = findViewById(R.id.imgArtBonusBadge);
-
-
-
+        imgFBShareBadgeX = findViewById(R.id.imgFBShareBadge);
 
         ///// POPULATING ALL THE COUNTERS BEGINS ////////////////////////////////////////////////////
 
@@ -675,6 +673,14 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
                         artBonusBadgeLevelString = userPs.child("badgebon").getValue().toString();
                         artBonusBadgeLevel = Integer.valueOf(artBonusBadgeLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+
+                        fbShareBadgeLevelString = userPs.child("badgesha").getValue().toString();
+                        fbShareBadgeLevel = Integer.valueOf(fbShareBadgeLevelString);
 
                     } catch (Exception e) {
                     }
@@ -865,6 +871,16 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             }
         });
 
+        imgFBShareBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                badgeView = "fbshare";
+                badgeViews(badgeView);
+
+            }
+        });
+
 
     }
 
@@ -967,6 +983,15 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
             if (badgeSortkey.equals("bon")) {
                 badgeProfileAwardMsg = "THE ART INSPECTOR BADGE for getting 10 Badge Bonus questions right!";
+            }
+        }
+
+        if (badgeView.equals("fbshare")) {
+
+            badgeSortkey = fbShareBadge;
+
+            if (badgeSortkey.equals("sha")) {
+                badgeProfileAwardMsg = "THE TOWN CRIER BADGE for 3 Facebook Shares!";
             }
         }
 
@@ -1711,6 +1736,11 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             artBonusBadge = "bon";
         }
 
+        fbShareBadge = "";
+        if (fbShareBadgeLevel == 1){
+            fbShareBadge = "sha";
+        }
+
         antiquityBadge ="";
         if (antiquityBadgeLevel == 1){
             antiquityBadge = "xant1";
@@ -1900,6 +1930,25 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                     if (artBonusBadgeLevel > 0) {
                         String imageBadgeProfLink = badges11.child("badgeimagelink").getValue().toString();
                         Picasso.get().load(imageBadgeProfLink).into(imgArtBonusBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        Query fbShareBadgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(fbShareBadge);
+        fbShareBadgeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges11: badgeProfSnapshot.getChildren()) {
+
+                    if (fbShareBadgeLevel > 0) {
+                        String imageBadgeProfLink = badges11.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgFBShareBadgeX);
 
                     }
                 }
