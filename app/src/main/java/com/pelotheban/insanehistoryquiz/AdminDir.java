@@ -11,6 +11,7 @@ public class AdminDir extends AppCompatActivity {
 
 
     Button btnManualX, btnExcelX, btnReviewX, btnAddBadgesX, btnAddPanelsX, btnAddPaintingsX, btnAddArtQuestionsManualX, btnAddArtQuestionsExcelX;
+    Button btnAddVillainsX, btnAddVillainQuestionsManualX, btnAddVillainQuestionsExcelX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,39 @@ public class AdminDir extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(AdminDir.this, ExcelPaint.class);
+                startActivity(intent);
+
+            }
+        });
+
+        btnAddVillainsX = findViewById(R.id.btnAddVillains);
+        btnAddVillainsX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(AdminDir.this, AddVillains.class);
+                startActivity(intent);
+
+            }
+        });
+
+        btnAddVillainQuestionsManualX = findViewById(R.id.btnAddVillainQuestionsManual);
+        btnAddVillainQuestionsManualX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(AdminDir.this, ManualVillainQInput.class);
+                startActivity(intent);
+
+            }
+        });
+
+        btnAddVillainQuestionsExcelX = findViewById(R.id.btnAddVillainQuestionsExcel);
+        btnAddVillainQuestionsExcelX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(AdminDir.this, ExcelVillain.class);
                 startActivity(intent);
 
             }

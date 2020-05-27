@@ -6,16 +6,33 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class GameVillain extends AppCompatActivity implements View.OnClickListener {
 
+
+    //main ui
+
+    private ImageView imgVillainPicX;
+    private TextView txtCoinVillainCounterX, txtCoinVillainAdderX;
+    private int coinVillainAdder;
 
     // shared preferences to / from Expanded
     private SharedPreferences sharedVillainGameplayCounter;
@@ -31,6 +48,20 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                  tile19pressed, tile20pressed, tile21pressed, tile22pressed, tile23pressed, tile24pressed, tile25pressed, tile26pressed;
 
 
+    //Firebase
+
+    private DatabaseReference gameVillainReference;
+
+    private String uid; // this is for the user account side
+    private DatabaseReference userVillainReference;
+    private Query sortUsersVillainQuery, villainQuestionQuery, villainsQuery;
+    private String coinsOwnedVillainString;
+    private int coinsOwnedVillain;
+    private FirebaseAuth mAuthV;
+
+    private String correctVillainAnsRec, wrongVillainAns1Rec, wrongVillainAns2Rec, wrongVillainAns3Rec, villainExpandedRec;
+    private String imageVillainLinkRec;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +76,16 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                         .setAction("Action", null).show();
             }
         });
+
+        // main ui
+
+        imgVillainPicX = findViewById(R.id.imgVillainPic);
+        txtCoinVillainCounterX = findViewById(R.id.txtCoinVillainCounter);
+        txtCoinVillainAdderX = findViewById(R.id.txtCoinVillainAdder);
+        coinVillainAdder = 30;
+        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+
+
 
         // villain gameplay counter
         sharedVillainGameplayCounter = getSharedPreferences("villainCounter", MODE_PRIVATE);
@@ -134,6 +175,69 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
         tile24pressed = 1;
         tile25pressed = 1;
 
+        // Firebase
+
+        uid = FirebaseAuth.getInstance().getUid();
+
+        userVillainReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
+
+        sortUsersVillainQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(uid);
+        sortUsersVillainQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+
+                for (DataSnapshot paintUsers : userSnapshot.getChildren()) {
+
+                    coinsOwnedVillainString = paintUsers.child("coins").getValue().toString();
+                    coinsOwnedVillain = Integer.parseInt(coinsOwnedVillainString);
+
+                    userStatsSet();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        String tempVillainName = "1";
+        villainsQuery = FirebaseDatabase.getInstance().getReference().child("villains").orderByChild("villainname").equalTo(tempVillainName);
+        villainsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot villainSnapshot) {
+
+                for (DataSnapshot villainImages : villainSnapshot.getChildren()) {
+
+                    imageVillainLinkRec = villainImages.child("villainimagelink").getValue().toString();
+
+                    viallainImageSet();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void userStatsSet() {
+
+        txtCoinVillainCounterX.setText(coinsOwnedVillainString);
+
+    }
+
+    public void viallainImageSet() {
+
+        Picasso.get().load(imageVillainLinkRec).into(imgVillainPicX);
+
+
     }
 
     @Override
@@ -155,6 +259,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile1X.animate().alpha(0f).setDuration(1000);
                     imgTile1X.animate().rotationY(180).setDuration(800);
                     tile1pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -165,6 +271,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile2X.animate().alpha(0f).setDuration(1000);
                     imgTile2X.animate().rotationY(180).setDuration(800);
                     tile2pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -175,6 +283,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile3X.animate().alpha(0f).setDuration(1000);
                     imgTile3X.animate().rotationY(180).setDuration(800);
                     tile3pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -185,6 +295,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile4X.animate().alpha(0f).setDuration(1000);
                     imgTile4X.animate().rotationY(180).setDuration(800);
                     tile4pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -195,6 +307,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile5X.animate().alpha(0f).setDuration(1000);
                     imgTile5X.animate().rotationY(180).setDuration(800);
                     tile5pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -205,6 +319,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile6X.animate().alpha(0f).setDuration(1000);
                     imgTile6X.animate().rotationY(180).setDuration(800);
                     tile6pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -215,6 +331,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile7X.animate().alpha(0f).setDuration(1000);
                     imgTile7X.animate().rotationY(180).setDuration(800);
                     tile7pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -225,6 +343,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile8X.animate().alpha(0f).setDuration(1000);
                     imgTile8X.animate().rotationY(180).setDuration(800);
                     tile8pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -235,6 +355,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile9X.animate().alpha(0f).setDuration(1000);
                     imgTile9X.animate().rotationY(180).setDuration(800);
                     tile9pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -245,6 +367,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile10X.animate().alpha(0f).setDuration(1000);
                     imgTile10X.animate().rotationY(180).setDuration(800);
                     tile10pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -255,6 +379,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile11X.animate().alpha(0f).setDuration(1000);
                     imgTile11X.animate().rotationY(180).setDuration(800);
                     tile11pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -265,6 +391,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile12X.animate().alpha(0f).setDuration(1000);
                     imgTile12X.animate().rotationY(180).setDuration(800);
                     tile12pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -275,6 +403,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile13X.animate().alpha(0f).setDuration(1000);
                     imgTile13X.animate().rotationY(180).setDuration(800);
                     tile13pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -285,6 +415,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile14X.animate().alpha(0f).setDuration(1000);
                     imgTile14X.animate().rotationY(180).setDuration(800);
                     tile14pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -295,6 +427,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile15X.animate().alpha(0f).setDuration(1000);
                     imgTile15X.animate().rotationY(180).setDuration(800);
                     tile15pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -305,6 +439,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile16X.animate().alpha(0f).setDuration(1000);
                     imgTile16X.animate().rotationY(180).setDuration(800);
                     tile16pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -315,6 +451,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile17X.animate().alpha(0f).setDuration(1000);
                     imgTile17X.animate().rotationY(180).setDuration(800);
                     tile17pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -325,6 +463,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile18X.animate().alpha(0f).setDuration(1000);
                     imgTile18X.animate().rotationY(180).setDuration(800);
                     tile18pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -335,6 +475,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile19X.animate().alpha(0f).setDuration(1000);
                     imgTile19X.animate().rotationY(180).setDuration(800);
                     tile19pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -345,6 +487,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile20X.animate().alpha(0f).setDuration(1000);
                     imgTile20X.animate().rotationY(180).setDuration(800);
                     tile20pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -355,6 +499,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile21X.animate().alpha(0f).setDuration(1000);
                     imgTile21X.animate().rotationY(180).setDuration(800);
                     tile21pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -365,6 +511,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile22X.animate().alpha(0f).setDuration(1000);
                     imgTile22X.animate().rotationY(180).setDuration(800);
                     tile22pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -375,6 +523,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile23X.animate().alpha(0f).setDuration(1000);
                     imgTile23X.animate().rotationY(180).setDuration(800);
                     tile23pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -385,6 +535,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile24X.animate().alpha(0f).setDuration(1000);
                     imgTile24X.animate().rotationY(180).setDuration(800);
                     tile24pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;
@@ -395,6 +547,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     imgTile25X.animate().alpha(0f).setDuration(1000);
                     imgTile25X.animate().rotationY(180).setDuration(800);
                     tile25pressed = 2;
+                    coinVillainAdder = coinVillainAdder -2;
+                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
                 }
 
                 break;

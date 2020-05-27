@@ -38,7 +38,7 @@
                     app:srcCompat="@drawable/goldcoinsicon" />
 
                 <TextView
-                    android:id="@+id/txtCoinPaintCounter"
+                    android:id="@+id/txtCoinVillainCounter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10"
@@ -116,7 +116,7 @@
                     android:visibility="invisible"
                     app:srcCompat="@drawable/lucius" />
                 <TextView
-                    android:id="@+id/txtCoinPaintAdder"
+                    android:id="@+id/txtCoinVillainAdder"
                     android:layout_width="@dimen/_50sdp"
                     android:layout_height="@dimen/_50sdp"
                     android:text="+30"

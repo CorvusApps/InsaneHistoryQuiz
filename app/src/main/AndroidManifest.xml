@@ -17,9 +17,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
+            android:name=".ExcelVillain"
+            android:label="@string/title_activity_excel_villain"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+        <activity android:name=".ManualVillainQInput" />
+        <activity android:name=".AddVillains" />
+        <activity
             android:name=".GameVillain"
             android:label="@string/title_activity_game_villain"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
