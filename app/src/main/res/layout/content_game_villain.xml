@@ -448,7 +448,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/txtSetQuestion"
+                android:id="@+id/txtSetVillainQuestion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Identify THIS infamous historical figure:"
@@ -670,7 +670,7 @@
 
 
             <LinearLayout
-                android:id="@+id/loutPaintExpanded"
+                android:id="@+id/loutVillainExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/panelold"
@@ -680,7 +680,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
                 <TextView
-                    android:id="@+id/txtPaintExpandedAnswerShow"
+                    android:id="@+id/txtVillainExpandedAnswerShow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/_17sdp"
@@ -700,7 +700,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/loutGamePaintButtons"
+                android:id="@+id/loutGameVillainButtons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -710,7 +710,7 @@
                 >
 
                 <ImageView
-                    android:id="@+id/btnPaintProfile"
+                    android:id="@+id/btnVillainProfile"
                     android:layout_marginLeft="@dimen/_8sdp"
                     android:layout_width="@dimen/_75sdp"
                     android:layout_height="@dimen/_75sdp"
@@ -720,7 +720,7 @@
                     app:srcCompat="@drawable/profile" />
 
                 <ImageView
-                    android:id="@+id/btnPaintProfileGlow"
+                    android:id="@+id/btnVillainProfileGlow"
                     android:layout_marginLeft="@dimen/_8sdp"
                     android:layout_width="@dimen/_75sdp"
                     android:layout_height="@dimen/_75sdp"
@@ -732,7 +732,7 @@
 
 
                 <ImageView
-                    android:id="@+id/btnPaintPlay"
+                    android:id="@+id/btnVillainPlay"
                     android:layout_width="@dimen/_105sdp"
                     android:layout_height="@dimen/_105sdp"
                     android:layout_weight="1"
@@ -742,7 +742,7 @@
 
 
                 <ImageView
-                    android:id="@+id/btnPaintPlayGlow"
+                    android:id="@+id/btnVillainPlayGlow"
                     android:layout_width="@dimen/_105sdp"
                     android:layout_height="@dimen/_105sdp"
                     android:layout_weight="1"
@@ -752,7 +752,7 @@
                     app:srcCompat="@drawable/playlargeglow" />
 
                 <ImageView
-                    android:id="@+id/btnPaintLeaders"
+                    android:id="@+id/btnVillainLeaders"
                     android:layout_marginRight="@dimen/_8sdp"
                     android:layout_width="@dimen/_75sdp"
                     android:layout_height="@dimen/_75sdp"
@@ -763,7 +763,7 @@
                     app:srcCompat="@drawable/leaders" />
 
                 <ImageView
-                    android:id="@+id/btnPaintLeadersGlow"
+                    android:id="@+id/btnVillainLeadersGlow"
                     android:layout_marginRight="@dimen/_8sdp"
                     android:layout_width="@dimen/_75sdp"
                     android:layout_height="@dimen/_75sdp"

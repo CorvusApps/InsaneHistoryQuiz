@@ -1,9 +1,14 @@
 package com.pelotheban.insanehistoryquiz;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,11 +24,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Random;
 
 public class GameVillain extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,9 +45,23 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
     private TextView txtCoinVillainCounterX, txtCoinVillainAdderX;
     private int coinVillainAdder;
 
+    private int height2;
+    private int width2;
+
     // shared preferences to / from Expanded
     private SharedPreferences sharedVillainGameplayCounter;
     private int villainGameplayCounter;
+
+    // buttons
+
+    private int randAnswer;
+
+    private LinearLayout loutShowVillainX;
+    private Button btnAnswer1X, btnAnswer2X, btnAnswer3X, btnAnswer4X;
+    private Button btnAnswer1XRed, btnAnswer2XRed, btnAnswer3XRed, btnAnswer4XRed;
+    private Button btnAnswer1XGreen, btnAnswer2XGreen, btnAnswer3XGreen, btnAnswer4XGreen;
+
+    String winner;
 
     //tiles
     private ImageView imgTile1X, imgTile2X, imgTile3X, imgTile4X, imgTile5X, imgTile6X, imgTile7X, imgTile8X, imgTile9X, imgTile10X,
@@ -47,6 +72,10 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                 tile10pressed, tile11pressed, tile12pressed, tile13pressed, tile14pressed, tile15pressed, tile16pressed, tile17pressed, tile18pressed,
                  tile19pressed, tile20pressed, tile21pressed, tile22pressed, tile23pressed, tile24pressed, tile25pressed, tile26pressed;
 
+    // Gold animation
+    private ImageView imgGoldCoinsX;
+    private LinearLayout loutGoldCoinsX;
+    private ImageView imgCoin1X, imgCoin2X, imgCoin3X, imgCoin4X, imgCoin5X, imgCoin6X, imgCoin7X, imgCoin8X, imgCoin9X, imgCoin10X;
 
     //Firebase
 
@@ -61,11 +90,34 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
 
     private String correctVillainAnsRec, wrongVillainAns1Rec, wrongVillainAns2Rec, wrongVillainAns3Rec, villainExpandedRec;
     private String imageVillainLinkRec;
+    private String villainID;
+
+    // Play on buttons
+
+    private LinearLayout loutVillainGameButtonsX;
+    private ImageView btnVillainProfileX, btnVillainPlayX, btnVillainLeaderX;
+    private ImageView btnVillainProfileGlowX, btnVillainPlayGlowX, btnVillainLeaderGlowX;
+
+    TextView txtSetVillainQuestion;
+
+    // Expanded answer
+
+    private LinearLayout loutVillainExpandedX;
+    private TextView txtVillainExpandedAnswerShowX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_villain);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        double height = size.y;
+
+        height2 = (int) Math.round(height);
+        width2 = (int) Math.round(width);
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -95,6 +147,23 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
             SharedPreferences.Editor editor = sharedVillainGameplayCounter.edit();
             editor.putInt("CounterVillainGameplay", villainGameplayCounter);
             editor.apply(); // saves the value
+
+        // Answer buttons
+
+        btnAnswer1X = findViewById(R.id.btnAnswer1);
+        btnAnswer2X = findViewById(R.id.btnAnswer2);
+        btnAnswer3X = findViewById(R.id.btnAnswer3);
+        btnAnswer4X = findViewById(R.id.btnAnswer4);
+
+        btnAnswer1XRed = findViewById(R.id.btnAnswer1Red);
+        btnAnswer2XRed = findViewById(R.id.btnAnswer2Red);
+        btnAnswer3XRed = findViewById(R.id.btnAnswer3Red);
+        btnAnswer4XRed = findViewById(R.id.btnAnswer4Red);
+
+        btnAnswer1XGreen = findViewById(R.id.btnAnswer1Green);
+        btnAnswer2XGreen = findViewById(R.id.btnAnswer2Green);
+        btnAnswer3XGreen = findViewById(R.id.btnAnswer3Green);
+        btnAnswer4XGreen = findViewById(R.id.btnAnswer4Green);
 
         // tiles
 
@@ -175,6 +244,38 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
         tile24pressed = 1;
         tile25pressed = 1;
 
+        // goldcoin animation
+
+        loutGoldCoinsX = findViewById(R.id.loutGoldCoins);
+        imgGoldCoinsX = findViewById(R.id.imgGoldCoins);
+        imgCoin1X = findViewById(R.id.imgCoin1);
+        imgCoin2X = findViewById(R.id.imgCoin2);
+        imgCoin3X = findViewById(R.id.imgCoin3);
+        imgCoin4X = findViewById(R.id.imgCoin4);
+        imgCoin5X = findViewById(R.id.imgCoin5);
+        imgCoin6X = findViewById(R.id.imgCoin6);
+        imgCoin7X = findViewById(R.id.imgCoin7);
+        imgCoin8X = findViewById(R.id.imgCoin8);
+        imgCoin9X = findViewById(R.id.imgCoin9);
+        imgCoin10X = findViewById(R.id.imgCoin10);
+
+        // play buttons
+
+        loutVillainGameButtonsX = findViewById(R.id.loutGameVillainButtons);
+
+        btnVillainProfileX = findViewById(R.id.btnVillainProfile);
+        btnVillainProfileGlowX = findViewById(R.id.btnVillainProfileGlow);
+        btnVillainPlayX = findViewById(R.id.btnVillainPlay);
+        btnVillainPlayGlowX = findViewById(R.id.btnVillainPlayGlow);
+        btnVillainLeaderX = findViewById(R.id.btnVillainLeaders);
+        btnVillainLeaderGlowX = findViewById(R.id.btnVillainLeadersGlow);
+
+        txtSetVillainQuestion = findViewById(R.id.txtSetVillainQuestion);
+
+        // Expanded answer
+        loutVillainExpandedX = findViewById(R.id.loutVillainExpanded);
+        txtVillainExpandedAnswerShowX = findViewById(R.id.txtVillainExpandedAnswerShow);
+
         // Firebase
 
         uid = FirebaseAuth.getInstance().getUid();
@@ -225,6 +326,270 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
             }
         });
 
+        villainID = "1"; //temp hardwire - NEEDS TO BE STRING
+        Log.i("VILLAIN", "id: " + villainID);
+
+        villainQuestionQuery = FirebaseDatabase.getInstance().getReference().child("villainquestions").orderByChild("aaavillainid").equalTo(villainID);
+        villainQuestionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot questionSnapshot) {
+
+                for (DataSnapshot villainQuestions : questionSnapshot.getChildren()) {
+
+                    correctVillainAnsRec = villainQuestions.child("bbbcorrectvillainansw").getValue().toString();
+                    wrongVillainAns1Rec = villainQuestions.child("cccwrongvillainans1").getValue().toString();
+                    wrongVillainAns2Rec = villainQuestions.child("dddwrongvillainans2").getValue().toString();
+                    wrongVillainAns3Rec = villainQuestions.child("eeewrongvillainans3").getValue().toString();
+                    villainExpandedRec = villainQuestions.child("fffvillainexpanded").getValue().toString();
+
+                    Log.i("VILLAIN", "correct: " + correctVillainAnsRec);
+
+                    buttonsSet();
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        btnAnswer1X.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (randAnswer == 1) {
+
+                    winner = "yes";
+                    btnAnswer1X.setVisibility(View.GONE);
+                    btnAnswer1XGreen.setVisibility(View.VISIBLE);
+
+                } else {
+
+                    winner = "no";
+
+                    btnAnswer1X.setVisibility(View.GONE);
+                    btnAnswer1XRed.setVisibility(View.VISIBLE);
+
+                    if (randAnswer == 2) {
+
+                        btnAnswer2X.setVisibility(View.GONE);
+                        btnAnswer2XGreen.setVisibility(View.VISIBLE);
+                    }
+
+                    if (randAnswer == 3) {
+                        btnAnswer3X.setVisibility(View.GONE);
+                        btnAnswer3XGreen.setVisibility(View.VISIBLE);
+
+                    }
+                    if (randAnswer == 4) {
+                        btnAnswer4X.setVisibility(View.GONE);
+                        btnAnswer4XGreen.setVisibility(View.VISIBLE);
+
+                    }
+                }
+
+                CountDownTimer correctorPaintTimer = new CountDownTimer(1000, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        if (winner.equals("yes")) {
+                            grantVillainCoins();
+                        } else {
+
+                            takeVillainCoins();
+                        }
+
+                        villainExpandedAnswer();
+                    }
+                }.start();
+
+
+
+            }
+        });
+
+        btnAnswer2X.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (randAnswer == 2) {
+                    winner = "yes";
+
+                    btnAnswer2X.setVisibility(View.GONE);
+                    btnAnswer2XGreen.setVisibility(View.VISIBLE);
+
+
+                } else {
+
+                    winner = "no";
+
+                    btnAnswer2X.setVisibility(View.GONE);
+                    btnAnswer2XRed.setVisibility(View.VISIBLE);
+
+                    if (randAnswer == 1) {
+
+                        btnAnswer1X.setVisibility(View.GONE);
+                        btnAnswer1XGreen.setVisibility(View.VISIBLE);
+                    }
+
+                    if (randAnswer == 3) {
+                        btnAnswer3X.setVisibility(View.GONE);
+                        btnAnswer3XGreen.setVisibility(View.VISIBLE);
+
+                    }
+                    if (randAnswer == 4) {
+                        btnAnswer4X.setVisibility(View.GONE);
+                        btnAnswer4XGreen.setVisibility(View.VISIBLE);
+
+                    }
+
+                }
+
+                CountDownTimer correctorPaintTimer = new CountDownTimer(1000, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        if (winner.equals("yes")) {
+                            grantVillainCoins();
+                        } else {
+
+                            takeVillainCoins();
+                        }
+                        villainExpandedAnswer();
+                    }
+                }.start();
+
+            }
+        });
+        btnAnswer3X.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (randAnswer == 3) {
+                    winner = "yes";
+
+                    btnAnswer3X.setVisibility(View.GONE);
+                    btnAnswer3XGreen.setVisibility(View.VISIBLE);
+
+                } else {
+
+                    winner = "no";
+
+                    btnAnswer3X.setVisibility(View.GONE);
+                    btnAnswer3XRed.setVisibility(View.VISIBLE);
+
+                    if (randAnswer == 2) {
+
+                        btnAnswer2X.setVisibility(View.GONE);
+                        btnAnswer2XGreen.setVisibility(View.VISIBLE);
+                    }
+
+                    if (randAnswer == 1) {
+                        btnAnswer1X.setVisibility(View.GONE);
+                        btnAnswer1XGreen.setVisibility(View.VISIBLE);
+
+                    }
+                    if (randAnswer == 4) {
+                        btnAnswer4X.setVisibility(View.GONE);
+                        btnAnswer4XGreen.setVisibility(View.VISIBLE);
+
+                    }
+
+                }
+
+                CountDownTimer correctorPaintTimer = new CountDownTimer(1000, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        if (winner.equals("yes")) {
+                            grantVillainCoins();
+                        } else {
+
+                            takeVillainCoins();
+                        }
+                        villainExpandedAnswer();
+                    }
+                }.start();
+
+            }
+        });
+        btnAnswer4X.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (randAnswer == 4) {
+                    winner = "yes";
+
+                    btnAnswer4X.setVisibility(View.GONE);
+                    btnAnswer4XGreen.setVisibility(View.VISIBLE);
+
+                } else {
+
+                    winner = "no";
+
+                    btnAnswer4X.setVisibility(View.GONE);
+                    btnAnswer4XRed.setVisibility(View.VISIBLE);
+
+                    if (randAnswer == 2) {
+
+                        btnAnswer2X.setVisibility(View.GONE);
+                        btnAnswer2XGreen.setVisibility(View.VISIBLE);
+                    }
+
+                    if (randAnswer == 3) {
+                        btnAnswer3X.setVisibility(View.GONE);
+                        btnAnswer3XGreen.setVisibility(View.VISIBLE);
+
+                    }
+                    if (randAnswer == 1) {
+                        btnAnswer1X.setVisibility(View.GONE);
+                        btnAnswer1XGreen.setVisibility(View.VISIBLE);
+
+                    }
+
+                }
+
+                CountDownTimer correctorPaintTimer = new CountDownTimer(1000, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        if (winner.equals("yes")) {
+                           grantVillainCoins();
+                        } else {
+
+                            takeVillainCoins();
+                        }
+                       villainExpandedAnswer();
+                    }
+                }.start();
+
+            }
+        });
+
     }
 
     private void userStatsSet() {
@@ -239,6 +604,568 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
 
 
     }
+
+    private void buttonsSet(){
+
+        randAnswer = new Random().nextInt(4) + 1;
+        Log.i("VILLAIN", "rand: " + randAnswer);
+
+        if (randAnswer == 1) {
+
+            Log.i("VILLAIN", "1 correct: " + correctVillainAnsRec);
+
+            btnAnswer1X.setText(correctVillainAnsRec);
+            btnAnswer2X.setText(wrongVillainAns1Rec);
+            btnAnswer3X.setText(wrongVillainAns2Rec);
+            btnAnswer4X.setText(wrongVillainAns3Rec);
+
+            btnAnswer1XRed.setText(correctVillainAnsRec);
+            btnAnswer2XRed.setText(wrongVillainAns1Rec);
+            btnAnswer3XRed.setText(wrongVillainAns2Rec);
+            btnAnswer4XRed.setText(wrongVillainAns3Rec);
+
+            btnAnswer1XGreen.setText(correctVillainAnsRec);
+
+
+        } else if (randAnswer == 2) {
+            Log.i("VILLAIN", "2 correct: " + correctVillainAnsRec);
+
+            btnAnswer2X.setText(correctVillainAnsRec);
+            btnAnswer4X.setText(wrongVillainAns1Rec);
+            btnAnswer3X.setText(wrongVillainAns2Rec);
+            btnAnswer1X.setText(wrongVillainAns3Rec);
+
+            btnAnswer2XRed.setText(correctVillainAnsRec);
+            btnAnswer4XRed.setText(wrongVillainAns1Rec);
+            btnAnswer3XRed.setText(wrongVillainAns2Rec);
+            btnAnswer1XRed.setText(wrongVillainAns3Rec);
+
+            btnAnswer2XGreen.setText(correctVillainAnsRec);
+
+
+
+        } else if (randAnswer == 3) {
+            Log.i("VILLAIN", "3 correct: " + correctVillainAnsRec);
+
+            btnAnswer3X.setText(correctVillainAnsRec);
+            btnAnswer1X.setText(wrongVillainAns1Rec);
+            btnAnswer2X.setText(wrongVillainAns2Rec);
+            btnAnswer4X.setText(wrongVillainAns3Rec);
+
+            btnAnswer3XRed.setText(correctVillainAnsRec);
+            btnAnswer1XRed.setText(wrongVillainAns1Rec);
+            btnAnswer2XRed.setText(wrongVillainAns2Rec);
+            btnAnswer4XRed.setText(wrongVillainAns3Rec);
+
+            btnAnswer3XGreen.setText(correctVillainAnsRec);
+
+
+
+        } else if (randAnswer == 4) {
+            Log.i("VILLAIN", "4 correct: " + correctVillainAnsRec);
+
+            btnAnswer4X.setText(correctVillainAnsRec);
+            btnAnswer3X.setText(wrongVillainAns1Rec);
+            btnAnswer2X.setText(wrongVillainAns2Rec);
+            btnAnswer1X.setText(wrongVillainAns3Rec);
+
+            btnAnswer4XRed.setText(correctVillainAnsRec);
+            btnAnswer3XRed.setText(wrongVillainAns1Rec);
+            btnAnswer2XRed.setText(wrongVillainAns2Rec);
+            btnAnswer1XRed.setText(wrongVillainAns3Rec);
+
+            btnAnswer4XGreen.setText(correctVillainAnsRec);
+
+
+        }
+    }
+
+    private void grantVillainCoins(){
+
+        coinsOwnedVillain = coinsOwnedVillain + coinVillainAdder;
+
+        userVillainReference.getRef().child("coins").setValue(coinsOwnedVillain);
+        int coinsOwnedSort = - coinsOwnedVillain;
+        userVillainReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
+
+        grantVillainCoinsAnimation();
+    }
+
+    private void takeVillainCoins() {
+
+        txtCoinVillainAdderX.setVisibility(View.GONE);
+        coinsOwnedVillain = coinsOwnedVillain -10;
+
+        userVillainReference.getRef().child("coins").setValue(coinsOwnedVillain);
+        int coinsOwnedSort = - coinsOwnedVillain;
+        userVillainReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
+
+        takeVillainCoinsAnimation();
+
+    }
+
+    private void takeVillainCoinsAnimation(){
+
+        imgGoldCoinsX.animate().scaleY(1.5f).scaleX(1.5f).setDuration(400);
+        txtCoinVillainCounterX.setTextSize(45);
+        txtCoinVillainCounterX.setText("-10");
+        txtCoinVillainCounterX.setTextColor(getResources().getColor(R.color.red));
+
+
+        CountDownTimer takeGoldTimer = new CountDownTimer(1500, 500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                imgGoldCoinsX.animate().scaleY(1).scaleX(1).setDuration(400);
+                txtCoinVillainCounterX.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                txtCoinVillainCounterX.setTextSize(30);
+                String coinsOwedZ = Integer.toString(coinsOwnedVillain);
+                txtCoinVillainCounterX.setText(coinsOwedZ);
+
+                tileFlip();
+            }
+        }.start();
+
+
+
+    }
+
+    private void grantVillainCoinsAnimation(){
+
+        imgGoldCoinsX.animate().scaleY(1.5f).scaleX(1.5f).setDuration(400);
+        txtCoinVillainCounterX.setVisibility(View.GONE);
+
+        //loutGoldCoinsX.animate().scaleY(1.15f);
+
+        imgCoin1X.setVisibility(View.VISIBLE);
+        imgCoin2X.setVisibility(View.VISIBLE);
+        imgCoin3X.setVisibility(View.VISIBLE);
+        imgCoin4X.setVisibility(View.VISIBLE);
+        imgCoin5X.setVisibility(View.VISIBLE);
+        imgCoin6X.setVisibility(View.VISIBLE);
+        imgCoin7X.setVisibility(View.VISIBLE);
+        imgCoin8X.setVisibility(View.VISIBLE);
+        imgCoin9X.setVisibility(View.VISIBLE);
+        imgCoin10X.setVisibility(View.VISIBLE);
+
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(50)
+                .repeat(0)
+                .playOn(imgCoin1X);
+
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(100)
+                .repeat(0)
+                .playOn(imgCoin2X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(150)
+                .repeat(0)
+                .playOn(imgCoin3X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(200)
+                .repeat(0)
+                .playOn(imgCoin4X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(250)
+                .repeat(0)
+                .playOn(imgCoin5X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(300)
+                .repeat(0)
+                .playOn(imgCoin6X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(350)
+                .repeat(0)
+                .playOn(imgCoin7X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(400)
+                .repeat(0)
+                .playOn(imgCoin8X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(450)
+                .repeat(0)
+                .playOn(imgCoin9X);
+        YoYo.with(Techniques.FadeIn)
+                .delay(0)
+                .duration(500)
+                .repeat(0)
+                .playOn(imgCoin10X);
+
+        imgCoin1X.animate().rotation(1440).setDuration(250);
+        imgCoin2X.animate().rotation(1440).setDuration(500);
+        imgCoin3X.animate().rotation(1440).setDuration(750);
+        imgCoin4X.animate().rotation(1440).setDuration(1000);
+        imgCoin5X.animate().rotation(1440).setDuration(1250);
+        imgCoin6X.animate().rotation(1440).setDuration(1500);
+        imgCoin7X.animate().rotation(1440).setDuration(1750);
+        imgCoin8X.animate().rotation(1440).setDuration(2000);
+        imgCoin9X.animate().rotation(1440).setDuration(2250);
+        imgCoin10X.animate().rotation(1440).setDuration(2500);
+
+        CountDownTimer goldAwardTimer = new CountDownTimer(3500, 50) {
+
+            int tickcounter = 0;
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+
+
+                if (millisUntilFinished <850) {
+
+                    imgCoin10X.setVisibility(View.GONE);
+                    if (tickcounter == 9) {
+
+                        //txtCoinPaintAdderX.setText("+10");
+                        tickcounter = 10;
+                    }
+
+
+                } else
+                if (millisUntilFinished <1100) {
+
+                    imgCoin9X.setVisibility(View.GONE);
+                    if (tickcounter == 8) {
+
+                       // txtCoinPaintAdderX.setText("+9");
+                        tickcounter = 9;
+                    }
+
+                }else
+                if (millisUntilFinished < 1350) {
+                    imgCoin8X.setVisibility(View.GONE);
+                    if (tickcounter == 7) {
+
+                       // txtCoinPaintAdderX.setText("+8");
+                        tickcounter = 8;
+                    }
+
+                } else
+                if (millisUntilFinished < 1600) {
+
+                    imgCoin7X.setVisibility(View.GONE);
+                    if (tickcounter == 6) {
+
+                      //  txtCoinPaintAdderX.setText("+7");
+                        tickcounter = 7;
+                    }
+
+                } else
+                if (millisUntilFinished < 1850) {
+                    imgCoin6X.setVisibility(View.GONE);
+                    if (tickcounter == 5) {
+
+                       // txtCoinPaintAdderX.setText("+6");
+                        tickcounter = 6;
+                    }
+
+
+                }
+
+                if (millisUntilFinished < 2100) {
+                    imgCoin5X.setVisibility(View.GONE);
+                    if (tickcounter == 4) {
+
+                      //  txtCoinPaintAdderX.setText("+5");
+                        tickcounter = 5;
+                    }
+
+
+                }
+
+                if (millisUntilFinished < 2350) {
+                    imgCoin4X.setVisibility(View.GONE);
+                    if (tickcounter == 3) {
+
+                       // txtCoinPaintAdderX.setText("+4");
+                        tickcounter = 4;
+                    }
+
+                } else
+                if (millisUntilFinished < 2600) {
+
+                    imgCoin3X.setVisibility(View.GONE);
+                    if (tickcounter == 2) {
+
+                      //  txtCoinPaintAdderX.setText("+3");
+                        tickcounter = 3;
+                    }
+
+                } else
+                if (millisUntilFinished < 2850) {
+                    imgCoin2X.setVisibility(View.GONE);
+                    if (tickcounter == 1) {
+
+                     //   txtCoinPaintAdderX.setText("+2");
+                        tickcounter = 2;
+                    }
+
+
+                }
+
+                if (millisUntilFinished < 3100) {
+                    imgCoin1X.setVisibility(View.GONE);
+                    if (tickcounter == 0) {
+
+                     //  txtCoinPaintAdderX.setText("+1");
+                        tickcounter = 1;
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                loutGoldCoinsX.animate().scaleY(1);
+                txtCoinVillainAdderX.setVisibility(View.GONE);
+                String coinsOwedZ = Integer.toString(coinsOwnedVillain);
+                txtCoinVillainCounterX.setText(coinsOwedZ);
+                txtCoinVillainCounterX.setVisibility(View.VISIBLE);
+
+                imgGoldCoinsX.animate().scaleY(1).scaleX(1).setDuration(400);
+
+                tileFlip();
+
+               // loutPaintGameButtonsX.setVisibility(View.VISIBLE);
+                //scvAGPBX.fullScroll(View.FOCUS_DOWN);
+               // Log.i("SCROLLTAG", "Final toggle = " + scrollToggle);
+                //scvAGPBX.smoothScrollBy(0,2000);
+
+//                CountDownTimer scrolltimer = new CountDownTimer(450, 50 ) {
+//                    @Override
+//                    public void onTick(long millisUntilFinished) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFinish() {
+//                        scvAGPBX.smoothScrollBy(0,2000);
+//                    }
+//                }.start();
+            }
+        }.start();
+    }
+
+    public void tileFlip(){
+
+        imgTile1X.animate().alpha(0f).setDuration(1000);
+        imgTile1X.animate().rotationY(180).setDuration(800);
+
+        imgTile2X.animate().alpha(0f).setDuration(1000);
+        imgTile2X.animate().rotationY(180).setDuration(800);
+
+        imgTile3X.animate().alpha(0f).setDuration(1000);
+        imgTile3X.animate().rotationY(180).setDuration(800);
+
+        imgTile4X.animate().alpha(0f).setDuration(1000);
+        imgTile4X.animate().rotationY(180).setDuration(800);
+
+        imgTile5X.animate().alpha(0f).setDuration(1000);
+        imgTile5X.animate().rotationY(180).setDuration(800);
+
+        imgTile6X.animate().alpha(0f).setDuration(1000);
+        imgTile6X.animate().rotationY(180).setDuration(800);
+
+        imgTile7X.animate().alpha(0f).setDuration(1000);
+        imgTile7X.animate().rotationY(180).setDuration(800);
+
+        imgTile8X.animate().alpha(0f).setDuration(1000);
+        imgTile8X.animate().rotationY(180).setDuration(800);
+
+        imgTile9X.animate().alpha(0f).setDuration(1000);
+        imgTile9X.animate().rotationY(180).setDuration(800);
+
+        imgTile10X.animate().alpha(0f).setDuration(1000);
+        imgTile10X.animate().rotationY(180).setDuration(800);
+
+        imgTile11X.animate().alpha(0f).setDuration(1000);
+        imgTile11X.animate().rotationY(180).setDuration(800);
+
+        imgTile12X.animate().alpha(0f).setDuration(1000);
+        imgTile12X.animate().rotationY(180).setDuration(800);
+
+        imgTile13X.animate().alpha(0f).setDuration(1000);
+        imgTile13X.animate().rotationY(180).setDuration(800);
+
+        imgTile14X.animate().alpha(0f).setDuration(1000);
+        imgTile14X.animate().rotationY(180).setDuration(800);
+
+        imgTile15X.animate().alpha(0f).setDuration(1000);
+        imgTile15X.animate().rotationY(180).setDuration(800);
+
+        imgTile16X.animate().alpha(0f).setDuration(1000);
+        imgTile16X.animate().rotationY(180).setDuration(800);
+
+        imgTile17X.animate().alpha(0f).setDuration(1000);
+        imgTile17X.animate().rotationY(180).setDuration(800);
+
+        imgTile18X.animate().alpha(0f).setDuration(1000);
+        imgTile18X.animate().rotationY(180).setDuration(800);
+
+        imgTile19X.animate().alpha(0f).setDuration(1000);
+        imgTile19X.animate().rotationY(180).setDuration(800);
+
+        imgTile20X.animate().alpha(0f).setDuration(1000);
+        imgTile20X.animate().rotationY(180).setDuration(800);
+
+        imgTile21X.animate().alpha(0f).setDuration(1000);
+        imgTile21X.animate().rotationY(180).setDuration(800);
+
+        imgTile22X.animate().alpha(0f).setDuration(1000);
+        imgTile22X.animate().rotationY(180).setDuration(800);
+
+        imgTile23X.animate().alpha(0f).setDuration(1000);
+        imgTile23X.animate().rotationY(180).setDuration(800);
+
+        imgTile24X.animate().alpha(0f).setDuration(1000);
+        imgTile24X.animate().rotationY(180).setDuration(800);
+
+        imgTile25X.animate().alpha(0f).setDuration(1000);
+        imgTile25X.animate().rotationY(180).setDuration(800);
+
+    }
+
+    private void villainExpandedAnswer(){
+
+        btnAnswer1X.setVisibility(View.GONE);
+        btnAnswer2X.setVisibility(View.GONE);
+        btnAnswer3X.setVisibility(View.GONE);
+        btnAnswer4X.setVisibility(View.GONE);
+
+        btnAnswer1XGreen.setVisibility(View.GONE);
+        btnAnswer2XGreen.setVisibility(View.GONE);
+        btnAnswer3XGreen.setVisibility(View.GONE);
+        btnAnswer4XGreen.setVisibility(View.GONE);
+
+        btnAnswer1XRed.setVisibility(View.GONE);
+        btnAnswer2XRed.setVisibility(View.GONE);
+        btnAnswer3XRed.setVisibility(View.GONE);
+        btnAnswer4XRed.setVisibility(View.GONE);
+
+        loutVillainGameButtonsX.setVisibility(View.VISIBLE);
+        btnVillainProfileX.setVisibility(View.VISIBLE);
+        btnVillainPlayX.setVisibility(View.VISIBLE);
+        btnVillainLeaderX.setVisibility(View.VISIBLE);
+        txtSetVillainQuestion.setVisibility(View.GONE);
+
+        btnVillainProfileX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                btnVillainProfileX.setVisibility(View.GONE);
+                btnVillainProfileGlowX.setVisibility(View.VISIBLE);
+
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        Intent intent = new Intent(GameVillain.this, ProfileView.class);
+                        startActivity(intent);
+                        btnVillainProfileX.setVisibility(View.VISIBLE);
+                        btnVillainProfileGlowX.setVisibility(View.GONE);
+
+                    }
+                }.start();
+
+            }
+        });
+
+        btnVillainPlayX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                btnVillainPlayX.setVisibility(View.GONE);
+                btnVillainPlayGlowX.setVisibility(View.VISIBLE);
+
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        Intent intent = new Intent(GameVillain.this, Game.class);
+                        startActivity(intent);
+
+                    }
+                }.start();
+
+            }
+        });
+
+        btnVillainLeaderX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                btnVillainLeaderX.setVisibility(View.GONE);
+                btnVillainLeaderGlowX.setVisibility(View.VISIBLE);
+
+                CountDownTimer glowTimer = new CountDownTimer(500, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        Intent intent = new Intent(GameVillain.this, LeaderBoard.class);
+                        startActivity(intent);
+                        btnVillainLeaderX.setVisibility(View.VISIBLE);
+                        btnVillainLeaderGlowX.setVisibility(View.GONE);
+
+                    }
+                }.start();
+
+            }
+        });
+
+        loutVillainExpandedX.setVisibility(View.VISIBLE);
+
+        if (width2 > 1500) { // changes in fot for tablet and then small format phone
+            Log.i("EXPTAG", "width = " + width2);
+
+            txtVillainExpandedAnswerShowX.setTextSize(30);
+            txtVillainExpandedAnswerShowX.setText(correctVillainAnsRec + " \n" + "------- \n" + villainExpandedRec);
+
+
+        } else if (height2 < 1300) {
+
+            Log.i("EXPTAG", "height = " + height2);
+            txtVillainExpandedAnswerShowX.setTextSize(17);
+            txtVillainExpandedAnswerShowX.setText(correctVillainAnsRec + " \n" + "------- \n" + villainExpandedRec);
+
+        } else {
+
+            txtVillainExpandedAnswerShowX.setText(correctVillainAnsRec + " \n" + "------- \n" + villainExpandedRec);
+
+        }
+
+    }
+
 
     @Override
     @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
