@@ -10,6 +10,121 @@
     android:background="@drawable/wallbackground"
     tools:context=".GameVillain">
 
+
+    <LinearLayout
+        android:id="@+id/loutGoldCoins"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        >
+
+        <ImageView
+            android:id="@+id/imgGoldCoins"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            app:srcCompat="@drawable/goldcoinsicon" />
+
+        <TextView
+            android:id="@+id/txtCoinVillainCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:textStyle="bold"
+            android:textSize="@dimen/_25sdp"
+            android:fontFamily="@font/almendra_sc"
+            />
+
+        <ImageView
+            android:id="@+id/imgCoin1"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/lucius" />
+
+        <ImageView
+            android:id="@+id/imgCoin2"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/lucius" />
+
+        <ImageView
+            android:id="@+id/imgCoin3"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/lucius" />
+
+        <ImageView
+            android:id="@+id/imgCoin4"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/lucius" />
+
+        <ImageView
+            android:id="@+id/imgCoin5"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/lucius" />
+
+        <ImageView
+            android:id="@+id/imgCoin6"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/lucius" />
+
+        <ImageView
+            android:id="@+id/imgCoin7"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/lucius" />
+
+        <ImageView
+            android:id="@+id/imgCoin8"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/lucius" />
+        <ImageView
+            android:id="@+id/imgCoin9"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/lucius" />
+        <ImageView
+            android:id="@+id/imgCoin10"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/lucius" />
+        <TextView
+            android:id="@+id/txtCoinVillainAdder"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:text="+30"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:textStyle="bold"
+            android:textSize="@dimen/_15sdp"
+            android:gravity="center"
+            android:background="@drawable/googleglow"
+            android:fontFamily="@font/almendra_sc"
+            android:textColor="@color/colorAccent"
+            android:visibility="visible"
+
+            />
+
+
+
+
+    </LinearLayout>
+
+
     <ScrollView
         android:id="@+id/scvAGPB"
         android:layout_width="match_parent"
@@ -21,120 +136,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
-
-
-            <LinearLayout
-                android:id="@+id/loutGoldCoins"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="@dimen/_16sdp"
-                >
-
-                <ImageView
-                    android:id="@+id/imgGoldCoins"
-                    android:layout_width="@dimen/_35sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_marginLeft="@dimen/_8sdp"
-                    app:srcCompat="@drawable/goldcoinsicon" />
-
-                <TextView
-                    android:id="@+id/txtCoinVillainCounter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10"
-                    android:layout_marginLeft="@dimen/_8sdp"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_25sdp"
-                    android:fontFamily="@font/almendra_sc"
-                    />
-
-                <ImageView
-                    android:id="@+id/imgCoin1"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:visibility="gone"
-                    app:srcCompat="@drawable/lucius" />
-
-                <ImageView
-                    android:id="@+id/imgCoin2"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:visibility="gone"
-                    app:srcCompat="@drawable/lucius" />
-
-                <ImageView
-                    android:id="@+id/imgCoin3"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:visibility="gone"
-                    app:srcCompat="@drawable/lucius" />
-
-                <ImageView
-                    android:id="@+id/imgCoin4"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:visibility="gone"
-                    app:srcCompat="@drawable/lucius" />
-
-                <ImageView
-                    android:id="@+id/imgCoin5"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:visibility="gone"
-                    app:srcCompat="@drawable/lucius" />
-
-                <ImageView
-                    android:id="@+id/imgCoin6"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:visibility="gone"
-                    app:srcCompat="@drawable/lucius" />
-
-                <ImageView
-                    android:id="@+id/imgCoin7"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:visibility="invisible"
-                    app:srcCompat="@drawable/lucius" />
-
-                <ImageView
-                    android:id="@+id/imgCoin8"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:visibility="invisible"
-                    app:srcCompat="@drawable/lucius" />
-                <ImageView
-                    android:id="@+id/imgCoin9"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:visibility="invisible"
-                    app:srcCompat="@drawable/lucius" />
-                <ImageView
-                    android:id="@+id/imgCoin10"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:visibility="invisible"
-                    app:srcCompat="@drawable/lucius" />
-                <TextView
-                    android:id="@+id/txtCoinVillainAdder"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:text="+30"
-                    android:layout_marginLeft="@dimen/_8sdp"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_15sdp"
-                    android:gravity="center"
-                    android:background="@drawable/googleglow"
-                    android:fontFamily="@font/almendra_sc"
-                    android:textColor="@color/colorAccent"
-                    android:visibility="visible"
-
-                    />
-
-
-
-
-            </LinearLayout>
 
 
 
