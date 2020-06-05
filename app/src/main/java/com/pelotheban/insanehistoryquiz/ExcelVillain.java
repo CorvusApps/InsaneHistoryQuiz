@@ -388,7 +388,7 @@ public class ExcelVillain extends AppCompatActivity {
         for(int i = 0; i< uploadData.size(); i++){
 
             String aaavillainid = uploadData.get(i).getAaavillainid();
-            String bbbcorrectvaillainansw = uploadData.get(i).getBbbcorrectvaillainansw();
+            String bbbcorrectvillainansw = uploadData.get(i).getBbbcorrectvillainansw();
             String cccwrongvillainsans1 = uploadData.get(i).getCccwrongvillainans1();
             String dddwrongvillainsans2 = uploadData.get(i).getDddwrongvillainans2();
             String eeewrongvillainsans3 = uploadData.get(i).getEeewrongvillainans3();
@@ -399,7 +399,7 @@ public class ExcelVillain extends AppCompatActivity {
             final int questionCounter = i +1; //coin counter for toast
 
 
-            Log.d(TAG, "printDataToLog: (aaavillainid, bbbcorrectvaillainansw, cccwrongvillainsans1, dddwrongvillainsans2, eeewrongvillainsans3, fffpaintexpanded): (" + aaavillainid + "," + bbbcorrectvaillainansw + ", " + cccwrongvillainsans1 + ", " + dddwrongvillainsans2 + ", " + eeewrongvillainsans3 + ")");
+            Log.d(TAG, "printDataToLog: (aaavillainid, bbbcorrectvillainansw, cccwrongvillainsans1, dddwrongvillainsans2, eeewrongvillainsans3, fffpaintexpanded): (" + aaavillainid + "," + bbbcorrectvillainansw + ", " + cccwrongvillainsans1 + ", " + dddwrongvillainsans2 + ", " + eeewrongvillainsans3 + ")");
 
             String uid = FirebaseAuth.getInstance().getUid();
 
@@ -413,15 +413,19 @@ public class ExcelVillain extends AppCompatActivity {
 
             // converting RIC input into integer or setting to zero to avoid crash if left empty
 
+            Float VillainNumber2 = Float.parseFloat(String.valueOf(aaavillainid));
+            int VillainNumber3 = (int)(Math.round(VillainNumber2));// getting id to be an int before uploading so sorting works well
+
+
 
             HashMap<String, Object> dataMap = new HashMap<>();
 
-            dataMap.put("aaabadgeid", aaavillainid);
-            dataMap.put("bbbcorrectpaintansw", bbbcorrectvaillainansw);
-            dataMap.put("cccwrongpaintans1", cccwrongvillainsans1);
-            dataMap.put("dddwrongpaintans2", dddwrongvillainsans2);
-            dataMap.put("eeewrongpaintans3", eeewrongvillainsans3);
-            dataMap.put("fffpaintexpanded", fffvillainexpanded);
+            dataMap.put("aaavillainid", VillainNumber3);
+            dataMap.put("bbbcorrectvillainansw", bbbcorrectvillainansw);
+            dataMap.put("cccwrongvillainsans1", cccwrongvillainsans1);
+            dataMap.put("dddwrongvillainsans2", dddwrongvillainsans2);
+            dataMap.put("eeewrongvillainsans3", eeewrongvillainsans3);
+            dataMap.put("fffvillainexpanded", fffvillainexpanded);
 
             //////
             dataMap.put("gggquid", questionUidX); // the unique question UID which we can then use to link back to this coin

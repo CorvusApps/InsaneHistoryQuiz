@@ -1,6 +1,7 @@
 package com.pelotheban.insanehistoryquiz;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
@@ -21,12 +22,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,12 +37,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class GameVillain extends AppCompatActivity implements View.OnClickListener {
 
 
     //main ui
+
+    private int maxNumber, minRange, maxRange;
+    private int randQuestionPre;
+    private int randQuestion;
+    private String [] questionListVillains;
+    private String breaker;
+    private SharedPreferences pastVillainQuestionsShared;
+    private String TestQCounterString;
+    private TextView txtTestQCountX;
 
     private ImageView imgVillainPicX;
     private TextView txtCoinVillainCounterX, txtCoinVillainAdderX;
@@ -90,7 +103,21 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
 
     private String correctVillainAnsRec, wrongVillainAns1Rec, wrongVillainAns2Rec, wrongVillainAns3Rec, villainExpandedRec;
     private String imageVillainLinkRec;
-    private String villainID;
+
+
+    private String consStreetVillainString;
+    private int consStreakVillain;
+
+    private String longestStreakVillainString;
+    private int longestStreakVillain;
+
+    private String totalAnsweredVillainString;
+    private int totalAnsweredVillain;
+
+    private String totalQuestionsVillainString;
+    private int totalQuestionsVillain;
+
+
 
     // Play on buttons
 
@@ -287,10 +314,51 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onDataChange(@NonNull DataSnapshot userSnapshot) {
 
-                for (DataSnapshot paintUsers : userSnapshot.getChildren()) {
+                for (DataSnapshot villainUsers : userSnapshot.getChildren()) {
 
-                    coinsOwnedVillainString = paintUsers.child("coins").getValue().toString();
+
+                    try {
+                    coinsOwnedVillainString = villainUsers.child("coins").getValue().toString();
                     coinsOwnedVillain = Integer.parseInt(coinsOwnedVillainString);
+
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        consStreetVillainString = villainUsers.child("constreak").getValue().toString();
+                        consStreakVillain = Integer.valueOf(consStreetVillainString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        totalAnsweredVillainString = villainUsers.child("totalanswered").getValue().toString();
+                        totalAnsweredVillain = Integer.valueOf(totalAnsweredVillainString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        longestStreakVillainString = villainUsers.child("longeststreak").getValue().toString();
+                        longestStreakVillain = Integer.valueOf(longestStreakVillainString);
+
+                        if (longestStreakVillain < consStreakVillain) {
+
+                            longestStreakVillain = consStreakVillain;
+
+                        }
+
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        totalQuestionsVillainString = villainUsers.child("totalquestions").getValue().toString();
+                        totalQuestionsVillain = Integer.valueOf(totalQuestionsVillainString);
+                    } catch (Exception e) {
+
+                    }
 
                     userStatsSet();
 
@@ -304,55 +372,24 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-        String tempVillainName = "1";
-        villainsQuery = FirebaseDatabase.getInstance().getReference().child("villains").orderByChild("villainname").equalTo(tempVillainName);
-        villainsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        //Log.i("TIMING", "Number: " + maxNumber);
+        // *** // questionList = new String[maxNumber]; // setting size of our array
+
+        maxRange = 44; // just in case query cancels
+        DatabaseReference quizVillainsRef = FirebaseDatabase.getInstance().getReference().child("values").child("villains");
+        quizVillainsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot villainSnapshot) {
-
-                for (DataSnapshot villainImages : villainSnapshot.getChildren()) {
-
-                    imageVillainLinkRec = villainImages.child("villainimagelink").getValue().toString();
-
-                    viallainImageSet();
-
-                }
-
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String maxRangeString = dataSnapshot.getValue().toString();
+                maxRange = Integer.valueOf(maxRangeString);
+                Log.i("Levels", "max range:  " + maxRange);
+                randQuestionSeclect();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
-        villainID = "1"; //temp hardwire - NEEDS TO BE STRING
-        Log.i("VILLAIN", "id: " + villainID);
-
-        villainQuestionQuery = FirebaseDatabase.getInstance().getReference().child("villainquestions").orderByChild("aaavillainid").equalTo(villainID);
-        villainQuestionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot questionSnapshot) {
-
-                for (DataSnapshot villainQuestions : questionSnapshot.getChildren()) {
-
-                    correctVillainAnsRec = villainQuestions.child("bbbcorrectvillainansw").getValue().toString();
-                    wrongVillainAns1Rec = villainQuestions.child("cccwrongvillainans1").getValue().toString();
-                    wrongVillainAns2Rec = villainQuestions.child("dddwrongvillainans2").getValue().toString();
-                    wrongVillainAns3Rec = villainQuestions.child("eeewrongvillainans3").getValue().toString();
-                    villainExpandedRec = villainQuestions.child("fffvillainexpanded").getValue().toString();
-
-                    Log.i("VILLAIN", "correct: " + correctVillainAnsRec);
-
-                    buttonsSet();
-
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                randQuestionSeclect();
 
             }
         });
@@ -678,6 +715,187 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
 
 
         }
+    }
+
+    private void randQuestionSeclect() {
+
+
+
+        // xxxxxx ////
+        int maxNumber2 = maxRange;
+        questionListVillains = new String[maxNumber2]; // setting size of our array
+        Log.i("Levels", "in randQuestionSelect maxNumber2 " + maxNumber2);
+        // XXXXXX ////
+
+        //getting the array with question numbers asked to date from shared prefs as a string
+        pastVillainQuestionsShared = getSharedPreferences("pastVillainQuestions", MODE_PRIVATE);
+        String questionListStringified = pastVillainQuestionsShared.getString("questionListVillains", "0"); // where if no settings
+
+        // taking the string from shared prefs and converting it back to array
+        questionListVillains = questionListStringified.split(",");
+
+        // getting the random question # for next round and setting it to string for comparisons to previously asked
+        // *** // randQuestionPre = new Random().nextInt(maxNumber) + 1; // random question number to be displayed
+
+        //Xxxxxx ///
+        randQuestionPre = new Random().nextInt(maxNumber2 + 1); // [0, 60] + 20 => [20, 80]
+        Log.i("Levels", "randQustionPre: " + randQuestionPre);
+        //xxxx ////
+
+        String randQuestionPreStr = String.valueOf(randQuestionPre);
+        Log.i("Levels", "randquestionPreStr: " + randQuestionPreStr);
+
+        // checking to see if gone through all questions and if so resetting the shared pref array back to zero - so the questions asked comparison starts from scratch
+        if (questionListVillains.length > (maxNumber2-1)) {
+
+            String reset = "0,";
+            questionListVillains = reset.split(",");
+
+            Log.i("Levels", "resetting question list: " + maxNumber2);
+
+        }
+
+        // checking to see if the random question has already been asked and no going below to get to game while if asked then getting
+        // into a loop which runs until an unasked question pops up
+        if (Arrays.asList(questionListVillains).contains(randQuestionPreStr)) {
+
+            Log.i("Levels", "question repeated going to while");
+
+            //Toast.makeText(Game.this, "FREEZING", Toast.LENGTH_SHORT).show();
+            int spinner = 1;
+            while (true) { // this should spin without going beyond in ASYNC way until break
+                //for (int x = 0; x < 50; x++){
+
+                // within the loop generating new random numbers and checking them agasint the array and doing so as long as not unique
+                //***// randQuestionPre = new Random().nextInt(maxNumber) + 1; // random question number to be displayed
+                //xxx///
+                randQuestionPre = new Random().nextInt(maxNumber2 + 1);
+                //xxx///
+                String randQuestionPreStr2 = String.valueOf(randQuestionPre);
+
+                if (Arrays.asList(questionListVillains).contains(randQuestionPreStr2)) {
+
+                    spinner = spinner +1;
+                }
+                else { // this else is activated when the random number is NOT in the array at which point the question is set, the shared preff
+                    //is updated and the action moves to the game methods
+
+                    randQuestion = randQuestionPre;
+
+                    Log.i("Levels", "setting randQuestion in while: " + randQuestion);
+
+                    String randQuestionStr = String.valueOf(randQuestion); // convert the number we just generated to a string to add to our array
+
+                    // now we add the new  question to our string
+
+                    StringBuilder sb = new StringBuilder(); // converting array back into string using string builder
+                    for (int i = 0; i < questionListVillains.length; i++) {  // create a string from playlist - so now sb is string from the array with comas between all the terms
+                        sb.append(questionListVillains[i]).append(",");
+                    }
+
+                    String sbString = sb.toString(); // convert our string builder to string
+                    // add the new question to the string from array
+
+                    sbString = sbString + randQuestionStr; // adding the question that made the cut to the array
+
+                    SharedPreferences.Editor editor = pastVillainQuestionsShared.edit();
+                    editor.putString("questionListVillains", sbString);
+                    editor.apply(); // saves the value
+
+                    Toast.makeText(GameVillain.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
+                    gameStart();
+
+                    break;
+                }
+
+
+            }
+
+        } else { // so if the List so far DOES NOT HAVE the number we just generated"
+
+            randQuestion = randQuestionPre; // set the questions number to the number we just generated (that is used in game below)
+            Log.i("Levels", "setting randquestion without going into the while: " + randQuestion);
+            String randQuestionStr = String.valueOf(randQuestion); // convert the number we just generated to a string to add to our array
+
+            // now we add the new  question to our string
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < questionListVillains.length; i++) {  // create a string from playlist - so now sb is string from the array with comas between all the terms
+                sb.append(questionListVillains[i]).append(",");
+            }
+
+            String sbString = sb.toString(); // convert our string builder to string
+            // add the new question to the string from array
+
+            sbString = sbString + randQuestionStr;
+
+            SharedPreferences.Editor editor = pastVillainQuestionsShared.edit();
+            editor.putString("questionListVillains", sbString);
+            editor.apply(); // saves the value
+
+            Toast.makeText(GameVillain.this, sbString, Toast.LENGTH_LONG).show();
+            gameStart();
+
+        }
+
+
+    }
+
+    private void gameStart(){
+
+        String randomQuestionString = String.valueOf(randQuestion);
+        villainsQuery = FirebaseDatabase.getInstance().getReference().child("villains").orderByChild("villainname").equalTo(randomQuestionString);
+        villainsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot villainSnapshot) {
+
+                for (DataSnapshot villainImages : villainSnapshot.getChildren()) {
+
+                    imageVillainLinkRec = villainImages.child("villainimagelink").getValue().toString();
+
+                    viallainImageSet();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        villainQuestionQuery = FirebaseDatabase.getInstance().getReference().child("villainquestions").orderByChild("aaavillainid").equalTo(randQuestion);
+        villainQuestionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot questionSnapshot) {
+
+                for (DataSnapshot villainQuestions : questionSnapshot.getChildren()) {
+
+                    correctVillainAnsRec = villainQuestions.child("bbbcorrectvillainansw").getValue().toString();
+                    wrongVillainAns1Rec = villainQuestions.child("cccwrongvillainsans1").getValue().toString();
+                    wrongVillainAns2Rec = villainQuestions.child("dddwrongvillainsans2").getValue().toString();
+                    wrongVillainAns3Rec = villainQuestions.child("eeewrongvillainsans3").getValue().toString();
+                    villainExpandedRec = villainQuestions.child("fffvillainexpanded").getValue().toString();
+
+                    Log.i("VILLAIN", "correct: " + correctVillainAnsRec);
+
+                    buttonsSet();
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     private void grantVillainCoins(){
@@ -1182,305 +1400,521 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
 
             case R.id.imgTile1:
 
-                if (tile1pressed == 1) {
-                    imgTile1X.animate().alpha(0f).setDuration(1000);
-                    imgTile1X.animate().rotationY(180).setDuration(800);
-                    tile1pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile1pressed == 1) {
+                        imgTile1X.animate().alpha(0f).setDuration(1000);
+                        imgTile1X.animate().rotationY(180).setDuration(800);
+                        tile1pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
+
                 }
 
                 break;
 
             case R.id.imgTile2:
 
-                if (tile2pressed == 1) {
-                    imgTile2X.animate().alpha(0f).setDuration(1000);
-                    imgTile2X.animate().rotationY(180).setDuration(800);
-                    tile2pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile2pressed == 1) {
+                        imgTile2X.animate().alpha(0f).setDuration(1000);
+                        imgTile2X.animate().rotationY(180).setDuration(800);
+                        tile2pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
+
                 }
 
                 break;
 
             case R.id.imgTile3:
 
-                if (tile3pressed == 1) {
-                    imgTile3X.animate().alpha(0f).setDuration(1000);
-                    imgTile3X.animate().rotationY(180).setDuration(800);
-                    tile3pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile3pressed == 1) {
+                        imgTile3X.animate().alpha(0f).setDuration(1000);
+                        imgTile3X.animate().rotationY(180).setDuration(800);
+                        tile3pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
+
                 }
 
                 break;
 
             case R.id.imgTile4:
 
-                if (tile4pressed == 1) {
-                    imgTile4X.animate().alpha(0f).setDuration(1000);
-                    imgTile4X.animate().rotationY(180).setDuration(800);
-                    tile4pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile4pressed == 1) {
+                        imgTile4X.animate().alpha(0f).setDuration(1000);
+                        imgTile4X.animate().rotationY(180).setDuration(800);
+                        tile4pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
+
                 }
 
                 break;
 
             case R.id.imgTile5:
 
-                if (tile5pressed == 1) {
-                    imgTile5X.animate().alpha(0f).setDuration(1000);
-                    imgTile5X.animate().rotationY(180).setDuration(800);
-                    tile5pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile5pressed == 1) {
+                        imgTile5X.animate().alpha(0f).setDuration(1000);
+                        imgTile5X.animate().rotationY(180).setDuration(800);
+                        tile5pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
+
                 }
 
                 break;
 
             case R.id.imgTile6:
 
-                if (tile6pressed == 1) {
-                    imgTile6X.animate().alpha(0f).setDuration(1000);
-                    imgTile6X.animate().rotationY(180).setDuration(800);
-                    tile6pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile6pressed == 1) {
+                        imgTile6X.animate().alpha(0f).setDuration(1000);
+                        imgTile6X.animate().rotationY(180).setDuration(800);
+                        tile6pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
+
                 }
 
                 break;
 
             case R.id.imgTile7:
 
-                if (tile7pressed == 1) {
-                    imgTile7X.animate().alpha(0f).setDuration(1000);
-                    imgTile7X.animate().rotationY(180).setDuration(800);
-                    tile7pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile7pressed == 1) {
+                        imgTile7X.animate().alpha(0f).setDuration(1000);
+                        imgTile7X.animate().rotationY(180).setDuration(800);
+                        tile7pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
+
                 }
 
                 break;
 
             case R.id.imgTile8:
 
-                if (tile8pressed == 1) {
-                    imgTile8X.animate().alpha(0f).setDuration(1000);
-                    imgTile8X.animate().rotationY(180).setDuration(800);
-                    tile8pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile8pressed == 1) {
+                        imgTile8X.animate().alpha(0f).setDuration(1000);
+                        imgTile8X.animate().rotationY(180).setDuration(800);
+                        tile8pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
+
                 }
 
                 break;
 
             case R.id.imgTile9:
 
-                if (tile9pressed == 1) {
-                    imgTile9X.animate().alpha(0f).setDuration(1000);
-                    imgTile9X.animate().rotationY(180).setDuration(800);
-                    tile9pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile9pressed == 1) {
+                        imgTile9X.animate().alpha(0f).setDuration(1000);
+                        imgTile9X.animate().rotationY(180).setDuration(800);
+                        tile9pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
+
                 }
 
                 break;
 
             case R.id.imgTile10:
 
-                if (tile10pressed == 1) {
-                    imgTile10X.animate().alpha(0f).setDuration(1000);
-                    imgTile10X.animate().rotationY(180).setDuration(800);
-                    tile10pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile10pressed == 1) {
+                        imgTile10X.animate().alpha(0f).setDuration(1000);
+                        imgTile10X.animate().rotationY(180).setDuration(800);
+                        tile10pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
+
                 }
 
                 break;
 
             case R.id.imgTile11:
 
-                if (tile11pressed == 1) {
-                    imgTile11X.animate().alpha(0f).setDuration(1000);
-                    imgTile11X.animate().rotationY(180).setDuration(800);
-                    tile11pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile11pressed == 1) {
+                        imgTile11X.animate().alpha(0f).setDuration(1000);
+                        imgTile11X.animate().rotationY(180).setDuration(800);
+                        tile11pressed = 2;
+                        coinVillainAdder = coinVillainAdder -2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
             case R.id.imgTile12:
 
-                if (tile12pressed == 1) {
-                    imgTile12X.animate().alpha(0f).setDuration(1000);
-                    imgTile12X.animate().rotationY(180).setDuration(800);
-                    tile12pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile12pressed == 1) {
+                        imgTile12X.animate().alpha(0f).setDuration(1000);
+                        imgTile12X.animate().rotationY(180).setDuration(800);
+                        tile12pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
             case R.id.imgTile13:
 
-                if (tile13pressed == 1) {
-                    imgTile13X.animate().alpha(0f).setDuration(1000);
-                    imgTile13X.animate().rotationY(180).setDuration(800);
-                    tile13pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile13pressed == 1) {
+                        imgTile13X.animate().alpha(0f).setDuration(1000);
+                        imgTile13X.animate().rotationY(180).setDuration(800);
+                        tile13pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
+
+
 
                 break;
 
             case R.id.imgTile14:
 
-                if (tile14pressed == 1) {
-                    imgTile14X.animate().alpha(0f).setDuration(1000);
-                    imgTile14X.animate().rotationY(180).setDuration(800);
-                    tile14pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile14pressed == 1) {
+                        imgTile14X.animate().alpha(0f).setDuration(1000);
+                        imgTile14X.animate().rotationY(180).setDuration(800);
+                        tile14pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
             case R.id.imgTile15:
 
-                if (tile15pressed == 1) {
-                    imgTile15X.animate().alpha(0f).setDuration(1000);
-                    imgTile15X.animate().rotationY(180).setDuration(800);
-                    tile15pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile15pressed == 1) {
+                        imgTile15X.animate().alpha(0f).setDuration(1000);
+                        imgTile15X.animate().rotationY(180).setDuration(800);
+                        tile15pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
             case R.id.imgTile16:
 
-                if (tile16pressed == 1) {
-                    imgTile16X.animate().alpha(0f).setDuration(1000);
-                    imgTile16X.animate().rotationY(180).setDuration(800);
-                    tile16pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile16pressed == 1) {
+                        imgTile16X.animate().alpha(0f).setDuration(1000);
+                        imgTile16X.animate().rotationY(180).setDuration(800);
+                        tile16pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
             case R.id.imgTile17:
 
-                if (tile17pressed == 1) {
-                    imgTile17X.animate().alpha(0f).setDuration(1000);
-                    imgTile17X.animate().rotationY(180).setDuration(800);
-                    tile17pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile17pressed == 1) {
+                        imgTile17X.animate().alpha(0f).setDuration(1000);
+                        imgTile17X.animate().rotationY(180).setDuration(800);
+                        tile17pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
             case R.id.imgTile18:
 
-                if (tile18pressed == 1) {
-                    imgTile18X.animate().alpha(0f).setDuration(1000);
-                    imgTile18X.animate().rotationY(180).setDuration(800);
-                    tile18pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile18pressed == 1) {
+                        imgTile18X.animate().alpha(0f).setDuration(1000);
+                        imgTile18X.animate().rotationY(180).setDuration(800);
+                        tile18pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
             case R.id.imgTile19:
 
-                if (tile19pressed == 1) {
-                    imgTile19X.animate().alpha(0f).setDuration(1000);
-                    imgTile19X.animate().rotationY(180).setDuration(800);
-                    tile19pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile19pressed == 1) {
+                        imgTile19X.animate().alpha(0f).setDuration(1000);
+                        imgTile19X.animate().rotationY(180).setDuration(800);
+                        tile19pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
             case R.id.imgTile20:
 
-                if (tile20pressed == 1) {
-                    imgTile20X.animate().alpha(0f).setDuration(1000);
-                    imgTile20X.animate().rotationY(180).setDuration(800);
-                    tile20pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile20pressed == 1) {
+                        imgTile20X.animate().alpha(0f).setDuration(1000);
+                        imgTile20X.animate().rotationY(180).setDuration(800);
+                        tile20pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
             case R.id.imgTile21:
 
-                if (tile21pressed == 1) {
-                    imgTile21X.animate().alpha(0f).setDuration(1000);
-                    imgTile21X.animate().rotationY(180).setDuration(800);
-                    tile21pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile21pressed == 1) {
+                        imgTile21X.animate().alpha(0f).setDuration(1000);
+                        imgTile21X.animate().rotationY(180).setDuration(800);
+                        tile21pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
             case R.id.imgTile22:
 
-                if (tile22pressed == 1) {
-                    imgTile22X.animate().alpha(0f).setDuration(1000);
-                    imgTile22X.animate().rotationY(180).setDuration(800);
-                    tile22pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile22pressed == 1) {
+                        imgTile22X.animate().alpha(0f).setDuration(1000);
+                        imgTile22X.animate().rotationY(180).setDuration(800);
+                        tile22pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
             case R.id.imgTile23:
 
-                if (tile23pressed == 1) {
-                    imgTile23X.animate().alpha(0f).setDuration(1000);
-                    imgTile23X.animate().rotationY(180).setDuration(800);
-                    tile23pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile23pressed == 1) {
+                        imgTile23X.animate().alpha(0f).setDuration(1000);
+                        imgTile23X.animate().rotationY(180).setDuration(800);
+                        tile23pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
             case R.id.imgTile24:
 
-                if (tile24pressed == 1) {
-                    imgTile24X.animate().alpha(0f).setDuration(1000);
-                    imgTile24X.animate().rotationY(180).setDuration(800);
-                    tile24pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile24pressed == 1) {
+                        imgTile24X.animate().alpha(0f).setDuration(1000);
+                        imgTile24X.animate().rotationY(180).setDuration(800);
+                        tile24pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
             case R.id.imgTile25:
 
-                if (tile25pressed == 1) {
-                    imgTile25X.animate().alpha(0f).setDuration(1000);
-                    imgTile25X.animate().rotationY(180).setDuration(800);
-                    tile25pressed = 2;
-                    coinVillainAdder = coinVillainAdder -2;
-                    txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                if (coinVillainAdder > 4) {
+
+                    if (tile25pressed == 1) {
+                        imgTile25X.animate().alpha(0f).setDuration(1000);
+                        imgTile25X.animate().rotationY(180).setDuration(800);
+                        tile25pressed = 2;
+                        coinVillainAdder = coinVillainAdder - 2;
+                        txtCoinVillainAdderX.setText("+" + coinVillainAdder);
+                    }
+
+                } else {
+
+                    maxTile();
                 }
 
                 break;
 
         }
+
+    }
+
+    private void maxTile (){
+
+        //Everything in this method is code for a custom dialog
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.zzz_dialog_tile, null);
+
+        final Dialog dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        dialog.show();
+
+        CountDownTimer tileDialogTimer = new CountDownTimer(1000, 500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                dialog.dismiss();
+
+            }
+        }.start();
+
 
     }
 }

@@ -684,7 +684,7 @@
                     android:id="@+id/txtVillainExpandedAnswerShow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/_17sdp"
+                    android:textSize="@dimen/_13sdp"
                     android:paddingRight="@dimen/_30sdp"
                     android:paddingLeft="@dimen/_30sdp"
                     android:paddingTop="@dimen/_40sdp"

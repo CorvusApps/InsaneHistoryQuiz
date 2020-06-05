@@ -114,7 +114,7 @@
                     android:paddingBottom="@dimen/_35sdp"
                     android:textColor="@color/colorPrimaryDark"
                     android:gravity="center"
-                    android:text="This is where the question will go it will be in small print and diff color"
+                    android:text="Question"
                     />
 
             </LinearLayout>
@@ -130,7 +130,7 @@
                     android:id="@+id/txtExpandedAnswerShow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/_17sdp"
+                    android:textSize="@dimen/_13sdp"
                     android:paddingRight="@dimen/_30sdp"
                     android:paddingLeft="@dimen/_30sdp"
                     android:paddingTop="@dimen/_40sdp"

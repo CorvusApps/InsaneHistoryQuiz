@@ -3,7 +3,7 @@ package com.pelotheban.insanehistoryquiz;
 public class ZZZjcVillainsExcel {
 
     private String aaavillainid;
-    private String bbbcorrectvaillainansw;
+    private String bbbcorrectvillainansw;
     private String cccwrongvillainans1;
     private String dddwrongvillainans2;
     private String eeewrongvillainans3;
@@ -12,11 +12,11 @@ public class ZZZjcVillainsExcel {
 
 
 
-    public ZZZjcVillainsExcel(String aaavillainid, String bbbcorrectvaillainansw, String cccwrongvillainans1, String dddwrongvillainans2, String eeewrongvillainans3,
+    public ZZZjcVillainsExcel(String aaavillainid, String bbbcorrectvillainansw, String cccwrongvillainans1, String dddwrongvillainans2, String eeewrongvillainans3,
                            String fffvillainexpanded) {
 
         this.aaavillainid = aaavillainid;
-        this.bbbcorrectvaillainansw = bbbcorrectvaillainansw;
+        this.bbbcorrectvillainansw = bbbcorrectvillainansw;
         this.cccwrongvillainans1 = cccwrongvillainans1;
         this.dddwrongvillainans2 = dddwrongvillainans2;
         this.eeewrongvillainans3 = eeewrongvillainans3;
@@ -32,12 +32,12 @@ public class ZZZjcVillainsExcel {
         this.aaavillainid = aaavillainid;
     }
 
-    public String getBbbcorrectvaillainansw() {
-        return bbbcorrectvaillainansw;
+    public String getBbbcorrectvillainansw() {
+        return bbbcorrectvillainansw;
     }
 
     public void setBbbcorrectvaillainansw(String bbbcorrectvaillainansw) {
-        this.bbbcorrectvaillainansw = bbbcorrectvaillainansw;
+        this.bbbcorrectvillainansw = bbbcorrectvillainansw;
     }
 
     public String getCccwrongvillainans1() {

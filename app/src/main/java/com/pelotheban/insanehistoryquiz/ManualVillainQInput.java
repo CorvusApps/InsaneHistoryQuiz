@@ -96,7 +96,7 @@ public class ManualVillainQInput extends AppCompatActivity {
                 DatabaseReference dbPushReference = dbReference.push();
                 String questionUidX = dbPushReference.getKey(); // this then is the key for the question
 
-
+                // the id should be int not string but not worth changing for not
                 VillainIDY = edtVillainIDX.getText().toString();
                 CorrectVillainAnswerY = edtCorrectVillainAnswerX.getText().toString();
                 WrongVillainAnswer1Y = edtWrongVillainAnswer1X.getText().toString();
