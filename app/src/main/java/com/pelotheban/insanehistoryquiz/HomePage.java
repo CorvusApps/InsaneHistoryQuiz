@@ -174,6 +174,27 @@ public class HomePage extends AppCompatActivity {
                     }
 
                     try {
+
+                        String fbshares = userDs.child("fbsharessort").getValue().toString();
+
+                        try { if (fbshares.equals(null)) {
+
+                            userReference.getRef().child("fbshaaressort").setValue(0);
+
+                        }
+
+                        } catch ( Exception e) {
+
+                            userReference.getRef().child("fbshaaressort").setValue(0);
+                        }
+
+                    } catch ( Exception e) {
+
+                        userReference.getRef().child("fbshaaressort").setValue(0);
+                    }
+
+
+                    try {
                         if (coinsOwned > 0 | coinGrantToggle.equals("yes")) {
 
                             // Toast.makeText(Game.this, "NOT GRANTING", Toast.LENGTH_SHORT).show();
@@ -193,6 +214,7 @@ public class HomePage extends AppCompatActivity {
                             userReference.getRef().child("zzzinterstitialsort").setValue(0);
                             userReference.getRef().child("zzzrewardsort").setValue(0);
 
+
                         }
 
                     } catch (Exception e) { // this is the catch of the if above and repeating the initial coin grant query as per notes above
@@ -207,6 +229,7 @@ public class HomePage extends AppCompatActivity {
                         userReference.getRef().child("coinsownedsort").setValue(-80);
                         userReference.getRef().child("zzzinterstitialsort").setValue(0);
                         userReference.getRef().child("zzzrewardsort").setValue(0);
+
 
 
                         //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();

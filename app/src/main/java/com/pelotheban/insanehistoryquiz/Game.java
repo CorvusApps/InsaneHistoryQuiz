@@ -90,9 +90,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         private View shadeX;
         private ImageView imgCorrectorCheckX, imgCorrectorXmarkX, imgCorrectorTimeoutX;
-        private LinearLayout loutCoinAwardX;
-        private ImageView imgCoinAwardX;
-        private TextView txtCoinAwardX;
+        private LinearLayout loutCoinAwardX, loutStreakAwardX;
+        private ImageView imgCoinAwardX, imgStreakAwardX;
+        private TextView txtCoinAwardX, txtStreakAwardX;
         private int rightAnswerTicker;
         private TextView txtQuestionValueReminderX;
 
@@ -329,6 +329,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         loutCoinAwardX = findViewById(R.id.loutCoinAward);
         imgCoinAwardX = findViewById(R.id.imgCoinAward);
         txtCoinAwardX = findViewById(R.id.txtCoinAward);
+        loutStreakAwardX = findViewById(R.id.loutStreakAward);
+        imgStreakAwardX = findViewById(R.id.imgStreakAward);
+        txtStreakAwardX = findViewById(R.id.txtStreakAward);
         txtQuestionValueReminderX = findViewById(R.id.txtQuestionValueReminder);
         rightAnswerTicker = 0;
 
@@ -644,6 +647,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     shadeX.setVisibility(View.VISIBLE);
                     imgCorrectorCheckX.setVisibility(View.VISIBLE);
                     loutCoinAwardX.setVisibility(View.VISIBLE);
+                    loutStreakAwardX.setVisibility(View.VISIBLE);
 
                     //reflecting difficulty level in coinaward numbers
                     if (difficultyLevel.equals("Easy")) {
@@ -668,6 +672,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     }
 
                     txtCoinAwardX.setText("+" + coinAwardNo);
+                    String streakAwardStr = String.valueOf(levelMultiplier);
+                    txtStreakAwardX.setText("+" + streakAwardStr);
 
                     CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
                         @Override
@@ -769,6 +775,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     imgCorrectorXmarkX.setVisibility(View.VISIBLE);
                     loutCoinAwardX.setVisibility(View.VISIBLE);
                     txtCoinAwardX.setText("-10");
+
+                    loutStreakAwardX.setVisibility(View.VISIBLE);
+                    txtStreakAwardX.setText("0");
 
                     CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
                         @Override
@@ -987,6 +996,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     imgCorrectorXmarkX.setVisibility(View.VISIBLE);
                     loutCoinAwardX.setVisibility(View.VISIBLE);
                     txtCoinAwardX.setText("-10");
+                    loutStreakAwardX.setVisibility(View.VISIBLE);
+                    txtStreakAwardX.setText("0");
 
                     CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
                         @Override
@@ -2287,6 +2298,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                 imgCorrectorTimeoutX.setVisibility(View.VISIBLE);
                 loutCoinAwardX.setVisibility(View.VISIBLE);
                 txtCoinAwardX.setText("-10");
+                loutStreakAwardX.setVisibility(View.VISIBLE);
+                txtStreakAwardX.setText("0");
 
                 CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
                     @Override

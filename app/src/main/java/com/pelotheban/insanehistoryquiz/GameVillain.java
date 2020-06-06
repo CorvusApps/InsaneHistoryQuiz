@@ -34,6 +34,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,8 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
 
     //main ui
 
+    private ScrollView scvAGPBX;
+
     private int maxNumber, minRange, maxRange;
     private int randQuestionPre;
     private int randQuestion;
@@ -55,7 +58,7 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
     private TextView txtTestQCountX;
 
     private ImageView imgVillainPicX;
-    private TextView txtCoinVillainCounterX, txtCoinVillainAdderX;
+    private TextView txtCoinVillainCounterX, txtCoinVillainAdderX, txtConStreakVillainX;
     private int coinVillainAdder;
 
     private int height2;
@@ -117,6 +120,9 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
     private String totalQuestionsVillainString;
     private int totalQuestionsVillain;
 
+    int mAdvertCounterGameVillain;
+    private SharedPreferences sharedAdvertCounterGame;
+
 
 
     // Play on buttons
@@ -146,6 +152,9 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
         height2 = (int) Math.round(height);
         width2 = (int) Math.round(width);
 
+        sharedAdvertCounterGame = getSharedPreferences("adSettingGame", MODE_PRIVATE);
+        mAdvertCounterGameVillain = sharedAdvertCounterGame.getInt("CounterGame", 0); // where if no settings
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -158,9 +167,12 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
 
         // main ui
 
+        scvAGPBX = findViewById(R.id.scvAGPB);
+
         imgVillainPicX = findViewById(R.id.imgVillainPic);
         txtCoinVillainCounterX = findViewById(R.id.txtCoinVillainCounter);
         txtCoinVillainAdderX = findViewById(R.id.txtCoinVillainAdder);
+        txtConStreakVillainX = findViewById(R.id.txtConStreakVillain);
         coinVillainAdder = 30;
         txtCoinVillainAdderX.setText("+" + coinVillainAdder);
 
@@ -632,6 +644,7 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
     private void userStatsSet() {
 
         txtCoinVillainCounterX.setText(coinsOwnedVillainString);
+        txtConStreakVillainX.setText(consStreetVillainString);
 
     }
 
@@ -907,6 +920,38 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
         userVillainReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
         grantVillainCoinsAnimation();
+
+        consStreakVillain = consStreakVillain + 1;
+        String conStreakZ = Integer.toString(consStreakVillain);
+        txtConStreakVillainX.setText(conStreakZ);
+        userVillainReference.getRef().child("constreak").setValue(consStreakVillain);
+
+        totalAnsweredVillain = totalAnsweredVillain + 1;
+        userVillainReference.getRef().child("totalanswered").setValue(totalAnsweredVillain);
+        int totalAnsweredSort = -totalAnsweredVillain;
+        userVillainReference.getRef().child("totalansweredsort").setValue(totalAnsweredSort);
+
+        // adds one to the counter and its shared pref for interstitial ads
+        Log.i("INTERSTITIAL", "Counter on Right = " + mAdvertCounterGameVillain);
+        mAdvertCounterGameVillain = mAdvertCounterGameVillain +1;
+        SharedPreferences.Editor editor = sharedAdvertCounterGame.edit();
+        editor.putInt("CounterGame", mAdvertCounterGameVillain); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+        editor.apply(); // saves the value
+
+        if (longestStreakVillain < consStreakVillain) {
+
+            longestStreakVillain = consStreakVillain;
+
+        }
+        userVillainReference.getRef().child("longeststreak").setValue(longestStreakVillain);
+        int longestStreakSort = -longestStreakVillain;
+        userVillainReference.getRef().child("longeststreaksort").setValue(longestStreakSort);
+
+
+        totalQuestionsVillain = totalQuestionsVillain + 1;
+        userVillainReference.getRef().child("totalquestions").setValue(totalQuestionsVillain);
+
+
     }
 
     private void takeVillainCoins() {
@@ -917,6 +962,21 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
         userVillainReference.getRef().child("coins").setValue(coinsOwnedVillain);
         int coinsOwnedSort = - coinsOwnedVillain;
         userVillainReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
+
+        consStreakVillain = 0;
+        String conStreakZ = Integer.toString(consStreakVillain);
+        txtConStreakVillainX.setText(conStreakZ);
+        userVillainReference.getRef().child("constreak").setValue(consStreakVillain);
+
+        // adds one to the counter and its shared pref for interstitial ads
+        Log.i("INTERSTITIAL", "Counter on Right = " + mAdvertCounterGameVillain);
+        mAdvertCounterGameVillain = mAdvertCounterGameVillain +1;
+        SharedPreferences.Editor editor = sharedAdvertCounterGame.edit();
+        editor.putInt("CounterGame", mAdvertCounterGameVillain); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+        editor.apply(); // saves the value
+
+        totalQuestionsVillain = totalQuestionsVillain + 1;
+        userVillainReference.getRef().child("totalquestions").setValue(totalQuestionsVillain);
 
         takeVillainCoinsAnimation();
 
@@ -946,6 +1006,17 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                 txtCoinVillainCounterX.setText(coinsOwedZ);
 
                 tileFlip();
+                CountDownTimer scrolltimer = new CountDownTimer(2000, 100 ) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        scvAGPBX.smoothScrollBy(0,4000);
+                    }
+                }.start();
             }
         }.start();
 
@@ -1159,6 +1230,20 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                 imgGoldCoinsX.animate().scaleY(1).scaleX(1).setDuration(400);
 
                 tileFlip();
+
+                CountDownTimer scrolltimer = new CountDownTimer(2000, 100 ) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        scvAGPBX.smoothScrollBy(0,4000);
+                    }
+                }.start();
+
+
 
                // loutPaintGameButtonsX.setVisibility(View.VISIBLE);
                 //scvAGPBX.fullScroll(View.FOCUS_DOWN);

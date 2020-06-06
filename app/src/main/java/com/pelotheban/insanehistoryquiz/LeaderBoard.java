@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +58,7 @@ public class LeaderBoard extends AppCompatActivity {
 
     //leader board selector buttons and recycler views
     private Button btnMostPlayedX, btnMostRightX, btnLongestStreakX, btnMostPlayed2X, btnMostRight2X, btnLongestStreak2X;
-    private Button btnInterstitialX, btnRewardedX, btnIntestitial2X, btnRewarded2X;
+    private Button btnInterstitialX, btnRewardedX, btnIntestitial2X, btnRewarded2X, btnFBSharesX, btnFBShares2X;
     private RecyclerView rcvLongestStreakX;
 
     private LinearLayoutManager layoutManagerLeaders;
@@ -337,6 +338,9 @@ public class LeaderBoard extends AppCompatActivity {
         btnIntestitial2X = findViewById(R.id.btnInterstitial2);
         btnRewarded2X = findViewById(R.id.btnReward2);
 
+        btnFBSharesX = findViewById(R.id.btnFBShares);
+        btnFBShares2X = findViewById(R.id.btnFBShares2);
+
         /// these button visibility combos play off the shared pref so work when user comes back to this screen at a later time
         if (boardToggle.equals("1")) {
             btnLongestStreakX.setVisibility(View.GONE);
@@ -379,6 +383,13 @@ public class LeaderBoard extends AppCompatActivity {
 
             btnRewardedX.setVisibility(View.GONE);
             btnRewarded2X.setVisibility(View.VISIBLE);
+
+        }
+
+        if (boardToggle.equals("6")) {
+
+            btnFBSharesX.setVisibility(View.GONE);
+            btnFBShares2X.setVisibility(View.VISIBLE);
 
         }
 
@@ -482,6 +493,24 @@ public class LeaderBoard extends AppCompatActivity {
             }
         });
 
+        btnFBSharesX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SharedPreferences.Editor editor = sortSharedPrefLeaders.edit();
+                editor.putString("Sort2", "fbsharessort");
+                editor.apply(); // saves the value
+
+                SharedPreferences.Editor editor2 = boardToggleSharedPrefLeaders.edit();
+                editor2.putString("BoardToggle2", "6");
+                editor2.apply(); // saves the value
+
+                recreate(); // restart activity to take effect
+
+
+            }
+        });
+
         /// note - eventhough rv called longstreak actually covers all the views - legacy name from earlier approach
         //////////////////////// START ------> ACTUAL RECYCLER VIEW COMPONENTS /////////////////////////////////////////////////////
         /////////////////// includes: viewholder, sort, expoloding card view dialog, functions from dialog //////////////////
@@ -526,6 +555,12 @@ public class LeaderBoard extends AppCompatActivity {
                     viewHolder.setUser(model.getUser());
                 }
 
+                if (boardToggle.equals("6")) {
+
+                    viewHolder.setFbshares(model.getFbshares());
+                    viewHolder.setUser(model.getUser());
+                }
+
                 viewHolder.setImage(getApplicationContext(),model.getImagelink());
                 viewHolder.setImageflag(getApplicationContext(),model.getImageflaglink());
 
@@ -539,7 +574,7 @@ public class LeaderBoard extends AppCompatActivity {
             @Override
             public LeaderBoard.ZZZjcLBlongstreakViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-                LeaderBoard.ZZZjcLBlongstreakViewHolder viewHolder = super.onCreateViewHolder(parent, viewType);
+                final LeaderBoard.ZZZjcLBlongstreakViewHolder viewHolder = super.onCreateViewHolder(parent, viewType);
 
                 viewHolder.setOnItemClickListener(new ZZZjcLBlongstreakViewHolder.OnItemClickListener() {
 
@@ -553,6 +588,37 @@ public class LeaderBoard extends AppCompatActivity {
                     // inflates card from recycler view to see fields not visible in base view
                     @Override
                     public void onItemClick(View view, int position) {
+
+                        TextView txtPlayerX = (TextView)view.findViewById(R.id.txtPlayer);
+                        String fbuser = txtPlayerX.getText().toString();
+
+                        Log.i("LISTENING", "here: " + lbReference.getRef());
+
+                        final DatabaseReference fbref = lbReference.child(fbuser);
+
+                        Log.i("LISTENING", "fbref " + fbref.getRef());
+
+                        Query fbQuery = fbref;
+
+                        fbQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                for (DataSnapshot userFB: dataSnapshot.getChildren()) {
+
+                                    fbref.getRef().child("fbsharessort").setValue(0);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+
+                       // DatabaseReference fbsetref = firebaseRecyclerAdapter.getRef(position);
+
 
                     }
 
@@ -710,8 +776,14 @@ public class LeaderBoard extends AppCompatActivity {
 
             txtPlayerX.setText(user);
             txtPlayerX.setTextSize(25);
+        }
 
+        public void setFbshares (int fbshares){
 
+            TextView txtScoreX = (TextView)mView.findViewById(R.id.txtScore);
+            String score2 = String.valueOf(fbshares);
+
+            txtScoreX.setText(score2);
 
         }
 

@@ -184,6 +184,9 @@ public class FacebookShare extends AppCompatActivity {
                         userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
                         fbSharers = fbSharers + 1;
                         userReference.getRef().child("fbshares").setValue(fbSharers);
+                        int fbSharesSort = - fbSharers;
+                        userReference.getRef().child("fbshaaressort").setValue(fbSharesSort);
+
 
                         // reset insterstitial counter to 0 sharedpref to be picked up by game.java
                         Log.i("INTERSTITIAL", "FB setting to 0");
