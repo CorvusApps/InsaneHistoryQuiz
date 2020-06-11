@@ -258,8 +258,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         mAdvertCounterGame = sharedAdvertCounterGame.getInt("CounterGame", 0); // where if no settings
 
         mInterstitialGame = new InterstitialAd(Game.this);
-        mInterstitialGame.setAdUnitId(getString(R.string.test_interstitial_ad));
-        //mInterstitialGame.setAdUnitId(getString(R.string.gamescreen_int));
+       mInterstitialGame.setAdUnitId(getString(R.string.test_interstitial_ad));
+       // mInterstitialGame.setAdUnitId(getString(R.string.gamescreen_int));
         mInterstitialGame.loadAd(new AdRequest.Builder().build());
 
         mInterstitialGame.setAdListener(new AdListener(){
@@ -894,7 +894,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 }.start();
 
 
-                            } else if (mAdvertCounterGame > 9) {
+                            } else if (mAdvertCounterGame > 5) {
 
                                 Log.i("INTERSTITIAL", "going to intesrtitial = " + mAdvertCounterGame);
 
@@ -1097,7 +1097,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 }.start();
 
 
-                            } else if (mAdvertCounterGame > 9) {
+                            } else if (mAdvertCounterGame > 5) {
 
                                 Log.i("INTERSTITIAL", "going to intesrtitial = " + mAdvertCounterGame);
 
@@ -1591,7 +1591,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             editor.putString("questionList", sbString);
             editor.apply(); // saves the value
 
-           // Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
+           //Toast.makeText(Game.this, sbString, Toast.LENGTH_LONG).show();
             gameStart();
 
         }
@@ -2500,8 +2500,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                 } else {
 
                     Log.i("ADMOB", "NOT LOADED rewarded, coins before reward  " + coinsOwned);
-
-                    coinsOwned = coinsOwned + 100;
+                    // this is here to give the user coins in case we can't load the ad
+                    coinsOwned = coinsOwned + 50;
                     String coinsOwnedZ = Integer.toString(coinsOwned);
                     txtCoinCounterX.setText(coinsOwnedZ);
                     userReference.getRef().child("coins").setValue(coinsOwned);
@@ -2547,7 +2547,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         Log.i("ADMOB", "rewarded, coins before reward  " + coinsOwned);
 
-        coinsOwned = coinsOwned + 100;
+        coinsOwned = coinsOwned + 50;
         String coinsOwnedZ = Integer.toString(coinsOwned);
         txtCoinCounterX.setText(coinsOwnedZ);
         userReference.getRef().child("coins").setValue(coinsOwned);
@@ -2649,8 +2649,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 } else {
 
                                     Log.i("ADMOB", "NOT LOADED rewarded, coins before reward  " + coinsOwned);
-
-                                    coinsOwned = coinsOwned + 100;
+                                    // giving the user coins in case the ad does not load
+                                    coinsOwned = coinsOwned + 50;
                                     String coinsOwnedZ = Integer.toString(coinsOwned);
                                     txtCoinCounterX.setText(coinsOwnedZ);
                                     userReference.getRef().child("coins").setValue(coinsOwned);

@@ -168,7 +168,7 @@
         android:id="@+id/txtAdMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You are out of coins. Please watch this short add to get 100 coins."
+        android:text="You are out of coins. Please watch this short add to get 50 coins."
         android:layout_gravity="center"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"

@@ -815,7 +815,7 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     editor.putString("questionListVillains", sbString);
                     editor.apply(); // saves the value
 
-                    Toast.makeText(GameVillain.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
+                   // Toast.makeText(GameVillain.this, sbString + "***" + spinner, Toast.LENGTH_LONG).show();
                     gameStart();
 
                     break;
@@ -846,7 +846,7 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
             editor.putString("questionListVillains", sbString);
             editor.apply(); // saves the value
 
-            Toast.makeText(GameVillain.this, sbString, Toast.LENGTH_LONG).show();
+          //  Toast.makeText(GameVillain.this, sbString, Toast.LENGTH_LONG).show();
             gameStart();
 
         }

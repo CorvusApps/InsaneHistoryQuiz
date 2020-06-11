@@ -114,8 +114,18 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="4sp"
                         android:layout_marginRight="8dp"
-                        android:text="Basic Game Play: Press the big H. The game displays a statement (question). After a few seconds you're shown the FIRST of FIVE possible ANSWERS. If you think that answer is CORRECT press YES otherwise PRESS NO.
+                        android:text="Basic Game Play #1: Press the big H. The game displays a statement (question). After a few seconds you're shown the FIRST of FIVE possible ANSWERS. If you think that answer is CORRECT press YES otherwise PRESS NO.
 The timer above tells you how much time you have left. This will continue until you make a mistake OR until you identify the CORRECT answer."
+                        android:textColor="@color/primaryShadow"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginRight="8dp"
+                        android:text="Basic Game Play #2: Press the big H. Some portion of questions will be of the 'Identify The Infamous Historical Figure' type. Press individual tiles to reveal more of the subject's face and select a multiple choice answer when ready. Each tile you reveal will reduce the coins you can earn."
                         android:textColor="@color/primaryShadow"
                         android:textSize="12sp" />
 

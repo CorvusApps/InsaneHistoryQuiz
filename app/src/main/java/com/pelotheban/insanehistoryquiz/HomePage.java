@@ -179,18 +179,18 @@ public class HomePage extends AppCompatActivity {
 
                         try { if (fbshares.equals(null)) {
 
-                            userReference.getRef().child("fbshaaressort").setValue(0);
+                            userReference.getRef().child("fbsharessort").setValue(0);
 
                         }
 
                         } catch ( Exception e) {
 
-                            userReference.getRef().child("fbshaaressort").setValue(0);
+                            userReference.getRef().child("fbsharessort").setValue(0);
                         }
 
                     } catch ( Exception e) {
 
-                        userReference.getRef().child("fbshaaressort").setValue(0);
+                        userReference.getRef().child("fbsharessort").setValue(0);
                     }
 
 
@@ -205,11 +205,11 @@ public class HomePage extends AppCompatActivity {
 
                             // Toast.makeText(Game.this, "Granting", Toast.LENGTH_SHORT).show();
 
-                            userReference.getRef().child("coins").setValue(80);
+                            userReference.getRef().child("coins").setValue(50);
                             userReference.getRef().child("coinsgranttoggle").setValue("yes");
                             userReference.getRef().child("totalansweredsort").setValue(1000);
                             userReference.getRef().child("longeststreaksort").setValue(1000);
-                            userReference.getRef().child("coinsownedsort").setValue(-80);
+                            userReference.getRef().child("coinsownedsort").setValue(-50);
                             txtCoinCounterX.setText("80");
                             userReference.getRef().child("zzzinterstitialsort").setValue(0);
                             userReference.getRef().child("zzzrewardsort").setValue(0);
@@ -221,12 +221,12 @@ public class HomePage extends AppCompatActivity {
 
                         //  Toast.makeText(Game.this, "Granting", Toast.LENGTH_SHORT).show();
 
-                        userReference.getRef().child("coins").setValue(80);
+                        userReference.getRef().child("coins").setValue(50);
                         userReference.getRef().child("coinsgranttoggle").setValue("yes");
                         txtCoinCounterX.setText("80");
                         userReference.getRef().child("totalansweredsort").setValue(1000);
                         userReference.getRef().child("longeststreaksort").setValue(1000);
-                        userReference.getRef().child("coinsownedsort").setValue(-80);
+                        userReference.getRef().child("coinsownedsort").setValue(-50);
                         userReference.getRef().child("zzzinterstitialsort").setValue(0);
                         userReference.getRef().child("zzzrewardsort").setValue(0);
 
