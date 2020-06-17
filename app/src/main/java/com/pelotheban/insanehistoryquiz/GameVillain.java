@@ -120,6 +120,9 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
     private String totalQuestionsVillainString;
     private int totalQuestionsVillain;
 
+    private String totalVillainsRevealedString;
+    private int totalVillainsRevealed;
+
     int mAdvertCounterGameVillain;
     private SharedPreferences sharedAdvertCounterGame;
 
@@ -368,6 +371,14 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                     try {
                         totalQuestionsVillainString = villainUsers.child("totalquestions").getValue().toString();
                         totalQuestionsVillain = Integer.valueOf(totalQuestionsVillainString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        totalVillainsRevealedString = villainUsers.child("totalvillainsrevealed").getValue().toString();
+                        totalVillainsRevealed = Integer.valueOf(totalVillainsRevealedString);
+
                     } catch (Exception e) {
 
                     }
@@ -931,6 +942,10 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
         int totalAnsweredSort = -totalAnsweredVillain;
         userVillainReference.getRef().child("totalansweredsort").setValue(totalAnsweredSort);
 
+        totalVillainsRevealed = totalVillainsRevealed +1;
+        userVillainReference.getRef().child("totalvillainsrevealed").setValue(totalVillainsRevealed);
+
+
         // adds one to the counter and its shared pref for interstitial ads
         Log.i("INTERSTITIAL", "Counter on Right = " + mAdvertCounterGameVillain);
         mAdvertCounterGameVillain = mAdvertCounterGameVillain +1;
@@ -985,7 +1000,23 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
     private void takeVillainCoinsAnimation(){
 
         imgGoldCoinsX.animate().scaleY(1.5f).scaleX(1.5f).setDuration(400);
-        txtCoinVillainCounterX.setTextSize(45);
+
+
+        if (width2 > 1500) { // changes in fot for tablet and then small format phone
+
+            txtCoinVillainCounterX.setTextSize(90);
+
+        } else if (height2 < 1300) {
+
+            txtCoinVillainCounterX.setTextSize(45);
+
+        } else {
+
+            txtCoinVillainCounterX.setTextSize(45);
+
+        }
+
+
         txtCoinVillainCounterX.setText("-10");
         txtCoinVillainCounterX.setTextColor(getResources().getColor(R.color.red));
 
@@ -1001,7 +1032,21 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
 
                 imgGoldCoinsX.animate().scaleY(1).scaleX(1).setDuration(400);
                 txtCoinVillainCounterX.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                txtCoinVillainCounterX.setTextSize(30);
+
+                if (width2 > 1500) { // changes in fot for tablet and then small format phone
+
+                    txtCoinVillainCounterX.setTextSize(60);
+
+                } else if (height2 < 1300) {
+
+                    txtCoinVillainCounterX.setTextSize(30);
+
+                } else {
+
+                    txtCoinVillainCounterX.setTextSize(30);
+
+                }
+
                 String coinsOwedZ = Integer.toString(coinsOwnedVillain);
                 txtCoinVillainCounterX.setText(coinsOwedZ);
 

@@ -28,10 +28,10 @@
 
         <TextView
 
-            android:id="@+id/txtProfileBadgeMessage"
+            android:id="@+id/txtRatingsAskMessage"
             android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
-            android:text="You are almost outt of coins... You can EARN 50 Coins by sharing"
+            android:text="Please rate us!  Help us get noticed! Tell us how to get better!"
             android:layout_gravity="center"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
@@ -51,18 +51,60 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:orientation="vertical"
             >
 
 
             <ImageView
-                android:id="@+id/imgProfileBadgeAwardD"
-                android:layout_width="@dimen/_120sdp"
-                android:layout_height="@dimen/_180sdp"
-                android:src="@drawable/badgeblank"
+                android:id="@+id/imgRatingAsk"
+                android:layout_width="@dimen/_180sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:src="@drawable/googleplay"
                 android:layout_marginBottom="@dimen/_5sdp"
 
                 android:layout_gravity="center"
                 android:visibility="visible"
+                />
+
+            <LinearLayout
+                android:layout_width="@dimen/_160sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                >
+
+                <Button
+                    android:id="@+id/btnRatingMaybe"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_weight="1"
+                    android:text="No - Maybe later"
+                    android:textSize="@dimen/_8sdp"
+                    />
+
+                <Button
+                    android:id="@+id/btnRatingNo"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_weight="1"
+                    android:text="No - Don't ask again"
+                    android:textSize="@dimen/_7sdp"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    />
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imgRatingAskNo"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:src="@drawable/xmark"
+                android:layout_marginBottom="@dimen/_5sdp"
+
+                android:layout_gravity="center"
+                android:visibility="invisible"
                 />
 
         </LinearLayout>

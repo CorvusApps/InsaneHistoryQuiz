@@ -122,6 +122,9 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private String facebookSharesString;
     private int facebookShares;
 
+    private String villainsRevealedString;
+    private int villainsRevealed;
+
     private String zzzRewardString;
     private int zzzReward;
 
@@ -171,6 +174,11 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             private int badgesha;
             private int badgeshalev;
             private int newbadgesha;
+
+            private String badgevilString;
+            private int badgevil;
+            private int badgevillev;
+            private int newbadgevil;
 
             private int badgeAwardedToggle;
 
@@ -433,6 +441,13 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     }
 
+                    try {
+                        villainsRevealedString = userDs.child("totalvillainsrevealed").getValue().toString();
+                        villainsRevealed = Integer.valueOf(villainsRevealedString);
+                    } catch (Exception e) {
+
+                    }
+
 
 
                     try {
@@ -585,6 +600,12 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     try {
                         badgeshaString = userDs.child("badgesha").getValue().toString();
                         badgesha = Integer.valueOf(badgeshaString);
+                    } catch (Exception e) {
+                    }
+
+                    try {
+                        badgevilString = userDs.child("badgevil").getValue().toString();
+                        badgevil = Integer.valueOf(badgevilString);
                     } catch (Exception e) {
                     }
 
@@ -1780,6 +1801,15 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             badgeshalev = 0;
         }
 
+        if (villainsRevealed > 4) {
+
+            badgevillev = 1;
+
+        } else {
+
+            badgevillev = 0;
+        }
+
 
         if (eraAnsweredAntiquity > 199) {
             badgexantlev = 5;
@@ -1994,6 +2024,17 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         } catch (Exception e) {
         }
 
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgevillev > badgevil) {
+                    newbadgevil = badgevillev;
+                    userReference.getRef().child("badgevil").setValue(newbadgevil);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+
 
         /// trainsition to extended answer section
 
@@ -2026,6 +2067,10 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         if (newbadgesha > 0) {
             intent.putExtra("newbadgesha", newbadgesha);
+        }
+
+        if (newbadgevil > 0) {
+            intent.putExtra("newbadgevil", newbadgevil);
         }
 
         if (newbadgexant > 0) {
@@ -2772,6 +2817,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                 intent.putExtra("lllepoch", ExpAnsEpochPut);
                 intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
                 intent.putExtra("cccquestion", ExpQuestionPut);
+                intent.putExtra("shownad" , "yes");
                 finish();
                 startActivity(intent);
 
@@ -2795,6 +2841,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                 intent.putExtra("lllepoch", ExpAnsEpochPut);
                 intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
                 intent.putExtra("cccquestion", ExpQuestionPut);
+                intent.putExtra("shownad" , "yes");
                 finish();
                 startActivity(intent);
 

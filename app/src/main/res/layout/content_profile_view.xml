@@ -627,7 +627,7 @@
                     />
 
                 <ImageView
-                    android:id="@+id/imgBlankBadge3"
+                    android:id="@+id/imgVillainsRevealedBadge"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_100sdp"
                     android:layout_weight="1"

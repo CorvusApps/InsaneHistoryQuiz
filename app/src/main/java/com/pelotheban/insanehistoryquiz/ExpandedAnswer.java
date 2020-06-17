@@ -1,6 +1,7 @@
 package com.pelotheban.insanehistoryquiz;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.button.MaterialButton;
@@ -32,6 +34,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.CountDownTimer;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -84,8 +87,8 @@ public class ExpandedAnswer extends AppCompatActivity {
     private String uid; // this is for the user account side
     private DatabaseReference userReference;
     private Query sortUsersQuery;
-    private String coinsOwnedString, consStreakString;
-    private int coinsOwned, consStreak;
+    private String coinsOwnedString, consStreakString, totalQuestionsString, ratingAskToggle;
+    private int coinsOwned, consStreak, totalQuestionss;
     private FirebaseAuth mAuthEA;
 
     // badges
@@ -94,7 +97,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
     private int newbadgesup, newbadgestr, newbadgetrt, newbadgewin;
     private int newbadgexant, newbadgexmed, newbadgexren, newbadgexenl, newbadgexmod, newbadgexcon;
-    private int newbadgebon, newbadgesha;
+    private int newbadgebon, newbadgesha, newbadgevil;
     private LinearLayout loutBadgesX;
     private ImageView imgBadgeAwardX;
 
@@ -105,6 +108,15 @@ public class ExpandedAnswer extends AppCompatActivity {
 
     private TextView txtBadgeAwardX;
     private String badgeAwardMsg;
+
+    //ratings dialog
+
+    private ImageView imgRatingAskX, imgRatingAskNoX;
+    private Button btnRatingMaybeX, btnRatingNoX;
+
+    //premium dialog and functionality
+    private String showPremiumDialogToggle, showPremiumDialogToggle2, goingToRatingsInsteadToggle, goingToBadgesinsteadToggle;
+
 
     //facebook sharing
     private FloatingActionButton fabShareEAX;
@@ -297,7 +309,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         newbadgebon = getIntent().getIntExtra("newbadgebon", 0);
         newbadgesha = getIntent().getIntExtra("newbadgesha", 0);
-
+        newbadgevil = getIntent().getIntExtra("newbadgevil", 0);
 
         newbadgexant = getIntent().getIntExtra("newbadgexant", 0);
         newbadgexmed = getIntent().getIntExtra("newbadgexmed", 0);
@@ -403,6 +415,11 @@ public class ExpandedAnswer extends AppCompatActivity {
         if (newbadgesha == 1) {
             badgeSortKey = "sha";
             badgeAwardMsg = "You earned THE TOWN CRIER BADGE for 3 Facebook Shares!";
+        }
+
+        if (newbadgevil == 1) {
+            badgeSortKey = "vil";
+            badgeAwardMsg = "You earned THE VILLAIN SPOTTER BADGE for 5 Revealed Villains!";
         }
 
 
@@ -555,6 +572,7 @@ public class ExpandedAnswer extends AppCompatActivity {
         txtFBaskX = findViewById(R.id.txtFBask);
         Log.i("ORDER", "Final: " + badgeSortKey);
         // did is set this up to essential execute query if badgeSortKey is not null?
+        goingToBadgesinsteadToggle = "no";
         badgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(badgeSortKey);
         badgeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -562,6 +580,7 @@ public class ExpandedAnswer extends AppCompatActivity {
 
                 for (DataSnapshot badges : badgeSnapshot.getChildren()) {
 
+                    goingToBadgesinsteadToggle = "yes";
                     loutBadgesX.setVisibility(View.VISIBLE);
                     fabPopUpEAX.setVisibility(View.GONE);
                     badgeImageLink = badges.child("badgeimagelink").getValue().toString();
@@ -641,6 +660,21 @@ public class ExpandedAnswer extends AppCompatActivity {
             }
         });
 
+        //bit of overkill with the nos but not sure what comes accross if the intent is blank - this should cover all bases and land on no unless a yes comes accross
+        ExpAnsShareToggleGet = "no";
+        try {
+
+            ExpAnsShareToggleGet = getIntent().getStringExtra("askforshare");
+            if (ExpAnsShareToggleGet.equals("")) {
+
+                ExpAnsShareToggleGet = "no";
+            }
+
+        } catch (Exception e) {
+
+            ExpAnsShareToggleGet = "no";
+        }
+
         ///// Initialize and populate counters and expanded answer BEGINS /////////////////////////////////////
         txtEACoinCounterX = findViewById(R.id.txtEACoinCounter);
         txtEAConStreakX = findViewById(R.id.txtEAConStreak);
@@ -681,6 +715,40 @@ public class ExpandedAnswer extends AppCompatActivity {
                     }catch (Exception e) {
 
                     }
+
+                    try {
+
+                        totalQuestionsString = userDs.child("totalquestions").getValue().toString();
+                        totalQuestionss = Integer.valueOf(totalQuestionsString);
+
+
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+
+                        ratingAskToggle = userDs.child("ratingasktoggle").getValue().toString();
+
+
+                    } catch (Exception e) {
+
+                        ratingAskToggle = "no";
+
+                    }
+
+                    try {
+
+                        showPremiumDialogToggle2 = userDs.child("premiumasktoggle").getValue().toString();
+
+
+                    } catch (Exception e) {
+
+                        showPremiumDialogToggle2 = "yes";
+
+                    }
+
+
                 }
                 txtEACoinCounterX.setText(coinsOwnedString); // IF there are any coins in the account will set the counter
                 txtEAConStreakX.setText(consStreakString);
@@ -707,6 +775,90 @@ public class ExpandedAnswer extends AppCompatActivity {
 
                 }
 
+                goingToRatingsInsteadToggle = "no";
+                try {
+
+                    if(ExpAnsShareToggleGet.equals("no") && totalQuestionss > 10 && ratingAskToggle.equals("no")) {
+
+                        ratingask();
+                        goingToRatingsInsteadToggle = "yes";
+
+                        userReference.child("ratingasktoggle").setValue("maybe");
+
+                    } else if (ExpAnsShareToggleGet.equals("no") && totalQuestionss > 50 && ratingAskToggle.equals("maybe") ) {
+
+                        ratingask();
+                        goingToRatingsInsteadToggle = "yes";
+
+                        userReference.child("ratingasktoggle").setValue("maybetwo");
+
+                    } else if (ExpAnsShareToggleGet.equals("no") && totalQuestionss > 100 && ratingAskToggle.equals("maybetwo")) {
+
+                        ratingask();
+                        goingToRatingsInsteadToggle = "yes";
+
+                        userReference.child("ratingasktoggle").setValue("never");
+
+
+                    }
+
+                } catch (Exception e){
+
+                }
+
+                showPremiumDialogToggle = "no";
+
+                try {
+
+                    showPremiumDialogToggle = getIntent().getStringExtra("shownad");
+
+                    Log.i("PREMIUM", "First - ExpAnsShareToggleGet: " + ExpAnsShareToggleGet);
+                    Log.i("PREMIUM", "First - goingToRatingsInstead: " + goingToRatingsInsteadToggle);
+                    Log.i("PREMIUM", "First - showPremiumDialogToggle: " + showPremiumDialogToggle);
+                    Log.i("PREMIUM", "First - showPremiumDialogToggle2: " + showPremiumDialogToggle2);
+                    Log.i("PREMIUM", "First - goingToBadgeinsteadToggle: " + goingToBadgesinsteadToggle);
+
+
+                    if(ExpAnsShareToggleGet.equals("no") && goingToRatingsInsteadToggle.equals("no")
+                            && showPremiumDialogToggle.equals("yes") && showPremiumDialogToggle2.equals("yes")
+                            && goingToBadgesinsteadToggle.equals("no")) {
+
+                        Toast.makeText(ExpandedAnswer.this, "Premium", Toast.LENGTH_LONG).show();
+
+                        premiumask();
+
+                        userReference.child("premiumasktoggle").setValue("maybe");
+
+
+                    } else if (ExpAnsShareToggleGet.equals("no") && goingToRatingsInsteadToggle.equals("no")
+                            && showPremiumDialogToggle.equals("yes") && showPremiumDialogToggle2.equals("maybe")
+                            && goingToBadgesinsteadToggle.equals("no")) {
+
+                        Toast.makeText(ExpandedAnswer.this, "Premium", Toast.LENGTH_LONG).show();
+
+                        premiumask();
+
+                        userReference.child("premiumasktoggle").setValue("maybetwo");
+
+                    } else if (ExpAnsShareToggleGet.equals("no") && goingToRatingsInsteadToggle.equals("no")
+                            && showPremiumDialogToggle.equals("yes") && showPremiumDialogToggle2.equals("maybetwo")
+                            && goingToBadgesinsteadToggle.equals("no")) {
+
+                        Toast.makeText(ExpandedAnswer.this, "Premium", Toast.LENGTH_LONG).show();
+
+                        premiumask();
+
+                        userReference.child("premiumasktoggle").setValue("never");
+
+
+                    }
+
+                } catch (Exception e){
+
+                }
+
+
+
             }
 
             @Override
@@ -718,20 +870,7 @@ public class ExpandedAnswer extends AppCompatActivity {
         // This was old code i believe so commenting but keeping to avoid surprises for now
         // expAnsBacgroundNo = 1; //default setting for background in case we miss a category or don't have a pic for it
 
-        //bit of overkill with the nos but not sure what comes accross if the intent is blank - this should cover all bases and land on no unless a yes comes accross
-        ExpAnsShareToggleGet = "no";
-        try {
 
-            ExpAnsShareToggleGet = getIntent().getStringExtra("askforshare");
-            if (ExpAnsShareToggleGet.equals("")) {
-
-                ExpAnsShareToggleGet = "no";
-            }
-
-        } catch (Exception e) {
-
-            ExpAnsShareToggleGet = "no";
-        }
 
         ExpQuestionGet = getIntent().getStringExtra("cccquestion");
         txtExpQuestionX = findViewById(R.id.txtEAQuestion);
@@ -1503,6 +1642,87 @@ public class ExpandedAnswer extends AppCompatActivity {
 
         //////////////////////////////////////////// END OF ONCREATE ////////////////////////////////////////////////
 
+    public void premiumask() {
+
+
+
+    }
+
+    public void ratingask() {
+
+        LayoutInflater inflater = LayoutInflater.from(ExpandedAnswer.this);
+        View view = inflater.inflate(R.layout.zzz_fbreminder_dialog, null); // just ussing this fb dialog for ratings
+
+        dialog = new AlertDialog.Builder(ExpandedAnswer.this)
+                .setView(view)
+                .create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+        double dialogWidth = width2*.75;
+        int dialogWidthFinal = (int) Math.round(dialogWidth);
+        double dialogHeight = dialogWidthFinal*1.5;
+        int dialogHeightFinal = (int) Math.round(dialogHeight);
+
+        dialog.getWindow().setLayout(dialogWidthFinal, dialogHeightFinal);
+
+
+        imgRatingAskX = view.findViewById(R.id.imgRatingAsk);
+        //imgFBShareGlowX = view.findViewById(R.id.imgFBShareGlow);
+        btnRatingMaybeX = view.findViewById(R.id.btnRatingMaybe);
+        btnRatingNoX = view.findViewById(R.id.btnRatingNo);
+
+
+        btnRatingMaybeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //userReference.child("ratingasktoggle").setValue("maybe");
+                dialog.dismiss();
+            }
+        });
+
+        btnRatingNoX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                userReference.child("ratingasktoggle").setValue("never");
+                dialog.dismiss();
+
+            }
+        });
+
+        imgRatingAskX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                userReference.child("ratingasktoggle").setValue("rated");
+
+                try {
+                    startActivity(new Intent (Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=" + getPackageName())));
+
+                    dialog.dismiss();
+
+
+
+                } catch (ActivityNotFoundException e) {
+
+                    startActivity(new Intent (Intent.ACTION_VIEW,
+                            Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+
+                    dialog.dismiss();
+
+                }
+
+            }
+        });
+
+
+
+
+    }
 
     public void DifficultyLevel() {
 

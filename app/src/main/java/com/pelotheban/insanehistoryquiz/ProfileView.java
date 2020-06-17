@@ -146,10 +146,10 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
         // Ancilary badges
 
-    private ImageView imgArtBonusBadgeX, imgFBShareBadgeX;
-    private String artBonusBadgeLevelString, fbShareBadgeLevelString;
-    private int artBonusBadgeLevel, fbShareBadgeLevel;
-    private String artBonusBadge, fbShareBadge;
+    private ImageView imgArtBonusBadgeX, imgFBShareBadgeX, imgVillainsRevealedBadgeX;
+    private String artBonusBadgeLevelString, fbShareBadgeLevelString, villainsRevealedString;
+    private int artBonusBadgeLevel, fbShareBadgeLevel, villainsRevealedLevel;
+    private String artBonusBadge, fbShareBadge, villainsRevealedBadge;
 
         // badge views
 
@@ -530,6 +530,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
         imgArtBonusBadgeX = findViewById(R.id.imgArtBonusBadge);
         imgFBShareBadgeX = findViewById(R.id.imgFBShareBadge);
+        imgVillainsRevealedBadgeX = findViewById(R.id.imgVillainsRevealedBadge);
 
         ///// POPULATING ALL THE COUNTERS BEGINS ////////////////////////////////////////////////////
 
@@ -681,6 +682,14 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
                         fbShareBadgeLevelString = userPs.child("badgesha").getValue().toString();
                         fbShareBadgeLevel = Integer.valueOf(fbShareBadgeLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+
+                        villainsRevealedString = userPs.child("badgevil").getValue().toString();
+                        villainsRevealedLevel = Integer.valueOf(villainsRevealedString);
 
                     } catch (Exception e) {
                     }
@@ -881,6 +890,16 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             }
         });
 
+        imgVillainsRevealedBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                badgeView = "villains";
+                badgeViews(badgeView);
+
+            }
+        });
+
+
 
     }
 
@@ -992,6 +1011,15 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
             if (badgeSortkey.equals("sha")) {
                 badgeProfileAwardMsg = "THE TOWN CRIER BADGE for 3 Facebook Shares!";
+            }
+        }
+
+        if (badgeView.equals("villains")) {
+
+            badgeSortkey = villainsRevealedBadge;
+
+            if (badgeSortkey.equals("vil")) {
+                badgeProfileAwardMsg = "THE VILLAIN SPOTTER BADGE for 5 Revealed Villains!";
             }
         }
 
@@ -1741,6 +1769,11 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             fbShareBadge = "sha";
         }
 
+        villainsRevealedBadge = "";
+        if (villainsRevealedLevel == 1){
+            villainsRevealedBadge = "vil";
+        }
+
         antiquityBadge ="";
         if (antiquityBadgeLevel == 1){
             antiquityBadge = "xant1";
@@ -1949,6 +1982,25 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                     if (fbShareBadgeLevel > 0) {
                         String imageBadgeProfLink = badges11.child("badgeimagelink").getValue().toString();
                         Picasso.get().load(imageBadgeProfLink).into(imgFBShareBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        Query villainsRevealedQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(villainsRevealedBadge);
+        villainsRevealedQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges12: badgeProfSnapshot.getChildren()) {
+
+                    if (villainsRevealedLevel > 0) {
+                        String imageBadgeProfLink = badges12.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgVillainsRevealedBadgeX);
 
                     }
                 }
