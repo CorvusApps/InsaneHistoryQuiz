@@ -123,7 +123,7 @@
 
         android:layout_weight="1"
         android:foreground="?android:attr/selectableItemBackground"
-        android:visibility="visible"
+        android:visibility="gone"
         app:srcCompat="@drawable/play" />
 
     </LinearLayout>

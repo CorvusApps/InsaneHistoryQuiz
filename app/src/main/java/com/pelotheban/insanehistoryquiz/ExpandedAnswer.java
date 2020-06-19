@@ -15,6 +15,15 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.SkuDetailsParams;
+import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -29,6 +38,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -50,8 +60,10 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ExpandedAnswer extends AppCompatActivity {
+public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdatedListener {
 
    // Primary UI components
     private ImageView btnPlayAgainX, btnEAProfileX, btnLeadersX, btnPlayAgainGlowX, btnEAProfileGlowX, btnELeadersGlowX, btnTestX;
@@ -114,8 +126,6 @@ public class ExpandedAnswer extends AppCompatActivity {
     private ImageView imgRatingAskX, imgRatingAskNoX;
     private Button btnRatingMaybeX, btnRatingNoX;
 
-    //premium dialog and functionality
-    private String showPremiumDialogToggle, showPremiumDialogToggle2, goingToRatingsInsteadToggle, goingToBadgesinsteadToggle;
 
 
     //facebook sharing
@@ -141,16 +151,33 @@ public class ExpandedAnswer extends AppCompatActivity {
     //pop up
 
     String popupMenuToggle;
-    FloatingActionButton fabPopUpEAX, fabPopUpCollEAX, fabPopUpFAQminiEAtX, fabPopUpLogOutminiEAX;
-    TextView txtFAQButtonEAX, txtLogoutButtonEAX;
+    FloatingActionButton fabPopUpEAX, fabPopUpCollEAX, fabPopUpFAQminiEAtX, fabPopUpLogOutminiEAX, fabPopUpPremiumminiEAX;
+    TextView txtFAQButtonEAX, txtLogoutButtonEAX, txtPremiumButtonEAX;
     private View shadeX; // to shade the background when menu out
     private AlertDialog dialogEA;
+
+    //premium dialog and functionality
+    private String showPremiumDialogToggle, showPremiumDialogToggle2, goingToRatingsInsteadToggle, goingToBadgesinsteadToggle;
+
+    private ImageView imgPremiumAskX, imgPremiumAskNoX;
+    private Button btnPremiumMaybeX, btnPremiumNoX;
+
+        //in-app purchases
+        private BillingClient billingClient;
+        private List skuList = new ArrayList();
+        private String sku = "premium_version";
+        private SkuDetails skuDetails;
 
     @Override
     @SuppressLint("RestrictedApi") // suppresses the issue with not being able to use visibility with the FAB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expanded_answer);
+
+        // in-app purchases BEGINS   //////////////////////////////////////////
+
+        skuList.add(sku);
+        setupBillingClient();
 
         /// sizing the display to have both the question and then the answer mostly in the center
 
@@ -189,9 +216,11 @@ public class ExpandedAnswer extends AppCompatActivity {
         fabPopUpCollEAX = findViewById(R.id.fabPopUpCollEA);
         fabPopUpFAQminiEAtX = findViewById(R.id.fabPopUpFAQminiEA);
         fabPopUpLogOutminiEAX = findViewById(R.id.fabPopUpLogOutminiEA);
+        fabPopUpPremiumminiEAX = findViewById(R.id.fabPopUpPremiumminiEA);
 
         txtFAQButtonEAX = findViewById(R.id.txtFAQButtonEA);
         txtLogoutButtonEAX = findViewById(R.id.txtLogoutButtonEA);
+        txtPremiumButtonEAX = findViewById(R.id.txtPremiumButtonEA);
 
         shadeX = findViewById(R.id.shade);
 
@@ -857,6 +886,36 @@ public class ExpandedAnswer extends AppCompatActivity {
 
                 }
 
+                try {
+
+                    Log.i("PREMIUM", "First - showPremiumDialogToggle2 AT IF: " + showPremiumDialogToggle2);
+                    if (showPremiumDialogToggle2.equals("bought")) {
+
+                    } else {
+
+                        if (ExpAnsShareToggleGet.equals("yes")) {
+
+                            CountDownTimer beforeshareTimer = new CountDownTimer(8000, 1000) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+
+                                }
+
+                                @Override
+                                public void onFinish() {
+
+                                    fabShareEAX.performClick();
+
+                                }
+                            }.start();
+
+                        }
+                    }
+
+                } catch (Exception e) {
+
+                }
+
 
 
             }
@@ -866,9 +925,6 @@ public class ExpandedAnswer extends AppCompatActivity {
 
             }
         });
-
-        // This was old code i believe so commenting but keeping to avoid surprises for now
-        // expAnsBacgroundNo = 1; //default setting for background in case we miss a category or don't have a pic for it
 
 
 
@@ -884,23 +940,7 @@ public class ExpandedAnswer extends AppCompatActivity {
         txtExpandedAnswerShowX = findViewById(R.id.txtExpandedAnswerShow);
         txtExpandedAnswerShowX.setText(ExpCorrectAnsGet + " \n" +"------- \n" + ExpandedAnswerGet);
 
-        if (ExpAnsShareToggleGet.equals("yes")) {
 
-            CountDownTimer beforeshareTimer = new CountDownTimer(8000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-
-                }
-
-                @Override
-                public void onFinish() {
-
-                    fabShareEAX.performClick();
-
-                }
-            }.start();
-
-        }
 
         if (width2 > 1500) { // changes in fot for tablet and then small format phone
 
@@ -1636,16 +1676,83 @@ public class ExpandedAnswer extends AppCompatActivity {
 
             // BUTTONS FOR GOING TO DIFFERENT SCREENS ENDS //////////////////////////////////
 
+
+
     }
 
 
 
-        //////////////////////////////////////////// END OF ONCREATE ////////////////////////////////////////////////
+
+    //////////////////////////////////////////// END OF ONCREATE ////////////////////////////////////////////////
+
 
     public void premiumask() {
 
+        LayoutInflater inflater = LayoutInflater.from(ExpandedAnswer.this);
+        View view = inflater.inflate(R.layout.zzz_premiumask_dialog, null); // just ussing this fb dialog for ratings
+
+        dialog = new AlertDialog.Builder(ExpandedAnswer.this)
+                .setView(view)
+                .create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+        double dialogWidth = width2*.75;
+        int dialogWidthFinal = (int) Math.round(dialogWidth);
+        double dialogHeight = dialogWidthFinal*1.5;
+        int dialogHeightFinal = (int) Math.round(dialogHeight);
+
+        dialog.getWindow().setLayout(dialogWidthFinal, dialogHeightFinal);
 
 
+        imgPremiumAskX = view.findViewById(R.id.imgPremiumAsk);
+        //imgFBShareGlowX = view.findViewById(R.id.imgFBShareGlow);
+        btnPremiumMaybeX = view.findViewById(R.id.btnPremiumMaybe);
+        btnPremiumNoX = view.findViewById(R.id.btnPremiumNo);
+
+
+        btnPremiumMaybeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //don't want to move to maybe here because can also be maybetwo - and that is handled automatically upfront
+                dialog.dismiss();
+            }
+        });
+
+        btnPremiumNoX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                userReference.child("premiumasktoggle").setValue("never");
+                dialog.dismiss();
+
+            }
+        });
+
+        imgPremiumAskX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(ExpandedAnswer.this, "BUYING", Toast.LENGTH_LONG).show();
+
+                dialog.dismiss();
+                purchasePremium();
+
+            }
+        });
+    }
+
+    public void purchasePremium(){
+
+        //Toast.makeText(ExpandedAnswer.this, "SORRY THE PREMIUM FEATURE IS IN DEVELOPMENT AND SHOULD BE READY SHORTHLY", Toast.LENGTH_LONG).show();
+
+        BillingFlowParams params = BillingFlowParams
+                .newBuilder()
+                .setSkuDetails(skuDetails)
+                .build();
+        billingClient.launchBillingFlow(ExpandedAnswer.this, params);
     }
 
     public void ratingask() {
@@ -1920,9 +2027,11 @@ public class ExpandedAnswer extends AppCompatActivity {
         fabPopUpCollEAX.setVisibility(View.VISIBLE);
         fabPopUpFAQminiEAtX.setVisibility(View.VISIBLE);
         fabPopUpLogOutminiEAX.setVisibility(View.VISIBLE);
+        fabPopUpPremiumminiEAX.setVisibility(View.VISIBLE);
 
         txtFAQButtonEAX.setVisibility(View.VISIBLE);
         txtLogoutButtonEAX.setVisibility(View.VISIBLE);
+        txtPremiumButtonEAX.setVisibility(View.VISIBLE);
 
         fabPopUpLogOutminiEAX.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1934,9 +2043,11 @@ public class ExpandedAnswer extends AppCompatActivity {
                 fabPopUpCollEAX.setVisibility(View.GONE);
                 fabPopUpFAQminiEAtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiEAX.setVisibility(View.GONE);
+                fabPopUpPremiumminiEAX.setVisibility(View.GONE);
 
                 txtFAQButtonEAX.setVisibility(View.GONE);
                 txtLogoutButtonEAX.setVisibility(View.GONE);
+                txtPremiumButtonEAX.setVisibility(View.GONE);
 
                 shadeX.setVisibility(View.GONE);
 
@@ -1955,9 +2066,11 @@ public class ExpandedAnswer extends AppCompatActivity {
                 fabPopUpCollEAX.setVisibility(View.GONE);
                 fabPopUpFAQminiEAtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiEAX.setVisibility(View.GONE);
+                fabPopUpPremiumminiEAX.setVisibility(View.GONE);
 
                 txtFAQButtonEAX.setVisibility(View.GONE);
                 txtLogoutButtonEAX.setVisibility(View.GONE);
+                txtPremiumButtonEAX.setVisibility(View.GONE);
 
                 shadeX.setVisibility(View.GONE);
 
@@ -1978,11 +2091,43 @@ public class ExpandedAnswer extends AppCompatActivity {
                 fabPopUpCollEAX.setVisibility(View.GONE);
                 fabPopUpFAQminiEAtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiEAX.setVisibility(View.GONE);
+                fabPopUpPremiumminiEAX.setVisibility(View.GONE);
 
                 txtFAQButtonEAX.setVisibility(View.GONE);
                 txtLogoutButtonEAX.setVisibility(View.GONE);
+                txtPremiumButtonEAX.setVisibility(View.GONE);
 
                 shadeX.setVisibility(View.GONE);
+
+            }
+        });
+
+        fabPopUpPremiumminiEAX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                popupMenuToggle = "Not";
+
+                fabPopUpEAX.setVisibility(View.VISIBLE);
+                fabPopUpCollEAX.setVisibility(View.GONE);
+                fabPopUpFAQminiEAtX.setVisibility(View.GONE);
+                fabPopUpLogOutminiEAX.setVisibility(View.GONE);
+                fabPopUpPremiumminiEAX.setVisibility(View.GONE);
+
+                txtFAQButtonEAX.setVisibility(View.GONE);
+                txtLogoutButtonEAX.setVisibility(View.GONE);
+                txtPremiumButtonEAX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
+                if(showPremiumDialogToggle2.equals("bought")) {
+
+                    Toast.makeText(ExpandedAnswer.this, "You are already a PREMIUM member", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    premiumask();
+                }
 
             }
         });
@@ -2105,5 +2250,137 @@ public class ExpandedAnswer extends AppCompatActivity {
     }
 
     ////////////////////// END OF POP UP and downstream methods like log out ///////////////////////////////////
+
+    private void setupBillingClient() {
+
+        billingClient = BillingClient.newBuilder(ExpandedAnswer.this).enablePendingPurchases().setListener(this).build();
+        billingClient.startConnection(new BillingClientStateListener() {
+            @Override
+            public void onBillingSetupFinished(BillingResult billingResult) {
+                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK){
+                    //billing client set up properly so we can load SKUs
+                    loadAllSKUs();
+
+
+                }
+            }
+
+            @Override
+            public void onBillingServiceDisconnected() {
+
+            }
+        });
+
+    }
+
+    private void loadAllSKUs(){
+
+        if(billingClient.isReady()){
+
+            SkuDetailsParams params = SkuDetailsParams.newBuilder()
+                    .setSkusList(skuList)
+                    .setType(BillingClient.SkuType.INAPP)
+                    .build();
+
+            billingClient.querySkuDetailsAsync(params, new SkuDetailsResponseListener() {
+                @Override
+                public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
+                    if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK){
+
+                        for (Object skuDetailsObject : skuDetailsList) {
+
+                            skuDetails = (SkuDetails) skuDetailsObject;
+                            // this was originally set up as a local variable and called final
+                            // but because i don't have the functionality in the if but in a different method called from a different place made it universal - may be a problem
+                            if (skuDetails.getSku().equals(sku)) {
+
+                                // tutorial had the buy button activate here
+                                // i think we are fine as is as long as all these methods called first on on creaet
+
+                            } // add else ifs here if we  have other products
+                        }
+
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> purchases) {
+
+        int responseCode = billingResult.getResponseCode();
+
+        if (responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
+
+            // no ads and no need to purchase again
+            // i think this for statement is not necessary for having this one sku but keeping as it doesn't hurt and for later ref
+
+            for (Purchase purchase : purchases) {
+
+                handlePurchase();
+            }
+
+        } else if (responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED ) {
+
+            // should not need this because in DB as purchased
+
+        } else if (responseCode == BillingClient.BillingResponseCode.USER_CANCELED)  {
+
+        }
+
+    }
+
+    private void handlePurchase(){
+
+        // set to bought which should mean the ask to buy should never be triggered again
+        userReference.child("premiumasktoggle").setValue("bought");
+
+        // In Game using this to stop interstitial and rewarded from being triggered
+
+        // should also have reward trigger the showad; later we will have a button so that the reward add can be stopped
+        //hoping this executed
+
+
+        loutBadgesX.setVisibility(View.VISIBLE);
+        //fabPopUpEAX.setVisibility(View.GONE);
+
+        userReference.getRef().child("badgepre").setValue(1);
+
+        txtBadgeAwardX.setText("Thank you for becoming a PREMIUM member! No more ADS for YOU!!!");
+        // need to make the game buttons below the view disappar and reappear because for some reason accessible
+        btnEAProfileX.setVisibility(View.GONE);
+        btnLeadersX.setVisibility(View.GONE);
+        btnPlayAgainX.setVisibility(View.GONE);
+        btnBadgeBonusX.setVisibility(View.GONE);
+        btnDifficultyEAX.setVisibility(View.GONE);
+        imgFBbadgeAwardX.setVisibility(View.GONE);
+        txtFBaskX.setVisibility(View.GONE);
+
+        try {
+
+            CountDownTimer badgeAwardTimer = new CountDownTimer(10000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
+
+                @Override
+                public void onFinish() {
+                    loutBadgesX.setVisibility(View.GONE);
+                   //fabPopUpEAX.setVisibility(View.VISIBLE);
+                    btnEAProfileX.setVisibility(View.VISIBLE);
+                    btnLeadersX.setVisibility(View.VISIBLE);
+                    btnPlayAgainX.setVisibility(View.VISIBLE);
+                    btnDifficultyEAX.setVisibility(View.VISIBLE);
+                }
+            }.start();
+
+        } catch (Exception e) {
+        }
+
+
+    }
+
+
 
 }

@@ -146,10 +146,10 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
         // Ancilary badges
 
-    private ImageView imgArtBonusBadgeX, imgFBShareBadgeX, imgVillainsRevealedBadgeX;
-    private String artBonusBadgeLevelString, fbShareBadgeLevelString, villainsRevealedString;
-    private int artBonusBadgeLevel, fbShareBadgeLevel, villainsRevealedLevel;
-    private String artBonusBadge, fbShareBadge, villainsRevealedBadge;
+    private ImageView imgArtBonusBadgeX, imgFBShareBadgeX, imgVillainsRevealedBadgeX, imgPremiumBadgeX;
+    private String artBonusBadgeLevelString, fbShareBadgeLevelString, villainsRevealedString, premiumLevelString;
+    private int artBonusBadgeLevel, fbShareBadgeLevel, villainsRevealedLevel, premiumLevel;
+    private String artBonusBadge, fbShareBadge, villainsRevealedBadge, premiumBadge;
 
         // badge views
 
@@ -531,6 +531,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         imgArtBonusBadgeX = findViewById(R.id.imgArtBonusBadge);
         imgFBShareBadgeX = findViewById(R.id.imgFBShareBadge);
         imgVillainsRevealedBadgeX = findViewById(R.id.imgVillainsRevealedBadge);
+        imgPremiumBadgeX = findViewById(R.id.imgPremiumBadge);
 
         ///// POPULATING ALL THE COUNTERS BEGINS ////////////////////////////////////////////////////
 
@@ -690,6 +691,14 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
                         villainsRevealedString = userPs.child("badgevil").getValue().toString();
                         villainsRevealedLevel = Integer.valueOf(villainsRevealedString);
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+
+                        premiumLevelString = userPs.child("badgepre").getValue().toString();
+                        premiumLevel = Integer.valueOf(premiumLevelString);
 
                     } catch (Exception e) {
                     }
@@ -899,6 +908,15 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             }
         });
 
+        imgPremiumBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                badgeView = "premium";
+                badgeViews(badgeView);
+
+            }
+        });
+
 
 
     }
@@ -1020,6 +1038,15 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
             if (badgeSortkey.equals("vil")) {
                 badgeProfileAwardMsg = "THE VILLAIN SPOTTER BADGE for 5 Revealed Villains!";
+            }
+        }
+
+        if (badgeView.equals("premium")) {
+
+            badgeSortkey = premiumBadge;
+
+            if (badgeSortkey.equals("pre")) {
+                badgeProfileAwardMsg = "THE PREMIUM HISTORIAN BADGE for supporting our QUIZ!";
             }
         }
 
@@ -1774,6 +1801,11 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             villainsRevealedBadge = "vil";
         }
 
+        premiumBadge = "";
+        if (premiumLevel == 1){
+            premiumBadge = "pre";
+        }
+
         antiquityBadge ="";
         if (antiquityBadgeLevel == 1){
             antiquityBadge = "xant1";
@@ -2001,6 +2033,25 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                     if (villainsRevealedLevel > 0) {
                         String imageBadgeProfLink = badges12.child("badgeimagelink").getValue().toString();
                         Picasso.get().load(imageBadgeProfLink).into(imgVillainsRevealedBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        Query premiumQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(premiumBadge);
+        premiumQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges13: badgeProfSnapshot.getChildren()) {
+
+                    if (premiumLevel > 0) {
+                        String imageBadgeProfLink = badges13.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgPremiumBadgeX);
 
                     }
                 }

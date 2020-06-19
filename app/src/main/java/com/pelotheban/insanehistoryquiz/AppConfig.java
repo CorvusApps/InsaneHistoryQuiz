@@ -1,0 +1,7 @@
+package com.pelotheban.insanehistoryquiz;
+
+public class AppConfig {
+
+    public static final String LICENSE_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnvqoCtHmkESzx4OQwJeO+Ct9gBj4zBSV4pKrapJsGsr4cCdwB0ychhY+MVi5SsaAeueY2Qv5MoUFnsR6pJvJDy3pEDkFq16xdqnHjqwO6Vv0h9xBb+HSGFHo1fULuXSoaa+k5giCP+eZMe9b9fEY/N+4pm0z3DIkN/JhhRQYsQLvK3Npas55sG0VUlvzCKYS08QKaSicUws99poKQ127YdkzlcGcbc4YFKCENDiW+6fggTWU9ECS+KwNUn9cNDz9QdZVK+kUShGTMCAOEeDn3G8Iz5RlePmoYBZU4Xnm8XeAF9S5Jsi3NuehxKu/vZ8f6PwCQI3aCl/mqXlzhI7/hwIDAQAB";
+
+}

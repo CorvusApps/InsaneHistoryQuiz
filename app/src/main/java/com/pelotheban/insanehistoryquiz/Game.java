@@ -131,6 +131,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private String zzzInterstitialString;
     private int zzzInterstitial;
 
+    private String premiumBoughtString;
+
     private String eraAnsweredAntiquityString;
     private String eraAnsweredMiddleAgesString;
     private String eraAnsweredRenaissanceString;
@@ -609,9 +611,13 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     } catch (Exception e) {
                     }
 
+                    try {
+                        premiumBoughtString = userDs.child("premiumasktoggle").getValue().toString();
 
+                    } catch (Exception e) {
 
-
+                        premiumBoughtString = "bought";
+                    }
 
 
                    Log.i ("TIMING" , "coinGrantToggle in query: " + coinGrantToggle);
@@ -620,9 +626,6 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     }
                 }
-
-
-
             }
 
             @Override
@@ -850,81 +853,84 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             editor.apply(); // saves the value
 
 
-                            if (coinsOwned < 1) { // if the wrong answer drops user to 0 or fewer coins go to reward add first being shown the message to this effect for a few seconds
 
-                                imgCorrectorXmarkX.setVisibility(View.GONE);
-                                txtAdMessageX.setVisibility(View.VISIBLE);
+                            if (coinsOwned < 1 && !"bought".equals(premiumBoughtString)) { // if the wrong answer drops user to 0 or fewer coins go to reward add first being shown the message to this effect for a few seconds
 
-                                // resets the counter for interstitial ads
-                                mAdvertCounterGame = 0;
-                                SharedPreferences.Editor editor2 = sharedAdvertCounterGame.edit();
-                                editor2.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
-                                editor2.apply(); // saves the value
-                                Log.i("INTERSTITIAL", "Counter on reset = " + mAdvertCounterGame);
+                                    imgCorrectorXmarkX.setVisibility(View.GONE);
+                                    txtAdMessageX.setVisibility(View.VISIBLE);
 
-                                CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
-                                    @Override
-                                    public void onTick(long millisUntilFinished) {
+                                    // resets the counter for interstitial ads
+                                    mAdvertCounterGame = 0;
+                                    SharedPreferences.Editor editor2 = sharedAdvertCounterGame.edit();
+                                    editor2.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                                    editor2.apply(); // saves the value
+                                    Log.i("INTERSTITIAL", "Counter on reset = " + mAdvertCounterGame);
 
-                                    }
+                                    CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
 
-                                    @Override
-                                    public void onFinish() {
-                                        if (mRewardedAdGameScreenCoins.isLoaded()) {
-                                            mRewardedAdGameScreenCoins.show();
-                                        } else {
+                                        }
 
-                                            Log.i("ADMOB", "NOT LOADED rewarded, coins before reward  " + coinsOwned);
-
-                                            coinsOwned = coinsOwned + 100;
-                                            String coinsOwnedZ = Integer.toString(coinsOwned);
-                                            txtCoinCounterX.setText(coinsOwnedZ);
-                                            userReference.getRef().child("coins").setValue(coinsOwned);
-                                            int coinsOwnedSort = - coinsOwned;
-                                            userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
-
-                                            Log.i("ADMOB", "NOT LOADED rewarded, coins AFTER reward  " + coinsOwned + "  and toggle = " + adMobToggle);
-
-                                            if (adMobToggle == 1) { // toggles is 1 when sent here from oncreate vs. a wrong answer so restarting game activity instead of going to expanded answer
-                                                // Log.i("TIMING", "Final toggle: " + adMobToggle);
-                                                shadeX.setVisibility(View.GONE);
-                                                txtAdMessageX.setVisibility(View.GONE);
-                                                Log.i("ADMOB", "NOT LOADED rewarded, going to oncreate");
-                                                finish();
-                                                startActivity(getIntent());
-
+                                        @Override
+                                        public void onFinish() {
+                                            if (mRewardedAdGameScreenCoins.isLoaded()) {
+                                                mRewardedAdGameScreenCoins.show();
                                             } else {
 
-                                                Log.i("ADMOB", "NOT LOADED rewarded, going to expanded");
+                                                Log.i("ADMOB", "NOT LOADED rewarded, coins before reward  " + coinsOwned);
 
-                                                Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                                                intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
-                                                intent.putExtra("iiiexpanded", ExpandedAnswerPut);
-                                                intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                                                intent.putExtra("lllepoch", ExpAnsEpochPut);
-                                                intent.putExtra("cccquestion", ExpQuestionPut);
-                                                finish();
-                                                startActivity(intent);
+                                                coinsOwned = coinsOwned + 100;
+                                                String coinsOwnedZ = Integer.toString(coinsOwned);
+                                                txtCoinCounterX.setText(coinsOwnedZ);
+                                                userReference.getRef().child("coins").setValue(coinsOwned);
+                                                int coinsOwnedSort = -coinsOwned;
+                                                userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
+                                                Log.i("ADMOB", "NOT LOADED rewarded, coins AFTER reward  " + coinsOwned + "  and toggle = " + adMobToggle);
+
+                                                if (adMobToggle == 1) { // toggles is 1 when sent here from oncreate vs. a wrong answer so restarting game activity instead of going to expanded answer
+                                                    // Log.i("TIMING", "Final toggle: " + adMobToggle);
+                                                    shadeX.setVisibility(View.GONE);
+                                                    txtAdMessageX.setVisibility(View.GONE);
+                                                    Log.i("ADMOB", "NOT LOADED rewarded, going to oncreate");
+                                                    finish();
+                                                    startActivity(getIntent());
+
+                                                } else {
+
+                                                    Log.i("ADMOB", "NOT LOADED rewarded, going to expanded");
+
+                                                    Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                                                    intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                                                    intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                                                    intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                                                    intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                                    intent.putExtra("cccquestion", ExpQuestionPut);
+                                                    finish();
+                                                    startActivity(intent);
+
+
+                                                }
 
                                             }
 
                                         }
 
-                                    }
-                                }.start();
+                                    }.start();
 
 
-                            } else if (mAdvertCounterGame > 5) {
 
-                                Log.i("INTERSTITIAL", "going to intesrtitial = " + mAdvertCounterGame);
+                            } else if (mAdvertCounterGame > 5 && !"bought".equals(premiumBoughtString)) {
 
-                                interstitialAdvert();
+                                    Log.i("INTERSTITIAL", "going to intesrtitial = " + mAdvertCounterGame);
+
+                                    interstitialAdvert();
 
 
                             } else if (coinsOwned < 11) { // for reminder to facebook
 
-                                                                        Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                                        Intent intent = new Intent(Game.this, ExpandedAnswer.class);
                                         intent.putExtra("iiiexpanded", ExpandedAnswerPut);
                                         intent.putExtra("bbbcategory", ExpAnsCategoryPut);
                                         intent.putExtra("lllepoch", ExpAnsEpochPut);
@@ -1053,76 +1059,76 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             editor.apply(); // saves the value
 
 
-                            if (coinsOwned < 1) {
+                            if (coinsOwned < 1 && !"bought".equals(premiumBoughtString)) {
 
-                                imgCorrectorXmarkX.setVisibility(View.GONE);
-                                txtAdMessageX.setVisibility(View.VISIBLE);
+                                    imgCorrectorXmarkX.setVisibility(View.GONE);
+                                    txtAdMessageX.setVisibility(View.VISIBLE);
 
-                                // resets the counter for interstitial ads
-                                mAdvertCounterGame = 0;
-                                SharedPreferences.Editor editor2 = sharedAdvertCounterGame.edit();
-                                editor2.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
-                                editor2.apply(); // saves the value
-                                Log.i("INTERSTITIAL", "Counter on reset = " + mAdvertCounterGame);
+                                    // resets the counter for interstitial ads
+                                    mAdvertCounterGame = 0;
+                                    SharedPreferences.Editor editor2 = sharedAdvertCounterGame.edit();
+                                    editor2.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                                    editor2.apply(); // saves the value
+                                    Log.i("INTERSTITIAL", "Counter on reset = " + mAdvertCounterGame);
 
-                                CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
-                                    @Override
-                                    public void onTick(long millisUntilFinished) {
+                                    CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void onFinish() {
-                                        if (mRewardedAdGameScreenCoins.isLoaded()) {
-                                            mRewardedAdGameScreenCoins.show();
-                                        } else {
-
-                                            Log.i("ADMOB", "NOT LOADED rewarded, coins before reward  " + coinsOwned);
-
-                                            coinsOwned = coinsOwned + 100;
-                                            String coinsOwnedZ = Integer.toString(coinsOwned);
-                                            txtCoinCounterX.setText(coinsOwnedZ);
-                                            userReference.getRef().child("coins").setValue(coinsOwned);
-                                            int coinsOwnedSort = - coinsOwned;
-                                            userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
-
-                                            Log.i("ADMOB", "NOT LOADED rewarded, coins AFTER reward  " + coinsOwned + "  and toggle = " + adMobToggle);
-
-                                            if (adMobToggle == 1) { // toggles is 1 when sent here from oncreate vs. a wrong answer so restarting game activity instead of going to expanded answer
-                                                // Log.i("TIMING", "Final toggle: " + adMobToggle);
-                                                shadeX.setVisibility(View.GONE);
-                                                txtAdMessageX.setVisibility(View.GONE);
-                                                Log.i("ADMOB", "NOT LOADED rewarded, going to oncreate");
-                                                finish();
-                                                startActivity(getIntent());
-
+                                        @Override
+                                        public void onFinish() {
+                                            if (mRewardedAdGameScreenCoins.isLoaded()) {
+                                                mRewardedAdGameScreenCoins.show();
                                             } else {
 
-                                                Log.i("ADMOB", "NOT LOADED rewarded, going to expanded");
+                                                Log.i("ADMOB", "NOT LOADED rewarded, coins before reward  " + coinsOwned);
 
-                                                Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                                                intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
-                                                intent.putExtra("iiiexpanded", ExpandedAnswerPut);
-                                                intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                                                intent.putExtra("lllepoch", ExpAnsEpochPut);
-                                                intent.putExtra("cccquestion", ExpQuestionPut);
-                                                finish();
-                                                startActivity(intent);
+                                                coinsOwned = coinsOwned + 100;
+                                                String coinsOwnedZ = Integer.toString(coinsOwned);
+                                                txtCoinCounterX.setText(coinsOwnedZ);
+                                                userReference.getRef().child("coins").setValue(coinsOwned);
+                                                int coinsOwnedSort = -coinsOwned;
+                                                userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
+                                                Log.i("ADMOB", "NOT LOADED rewarded, coins AFTER reward  " + coinsOwned + "  and toggle = " + adMobToggle);
+
+                                                if (adMobToggle == 1) { // toggles is 1 when sent here from oncreate vs. a wrong answer so restarting game activity instead of going to expanded answer
+                                                    // Log.i("TIMING", "Final toggle: " + adMobToggle);
+                                                    shadeX.setVisibility(View.GONE);
+                                                    txtAdMessageX.setVisibility(View.GONE);
+                                                    Log.i("ADMOB", "NOT LOADED rewarded, going to oncreate");
+                                                    finish();
+                                                    startActivity(getIntent());
+
+                                                } else {
+
+                                                    Log.i("ADMOB", "NOT LOADED rewarded, going to expanded");
+
+                                                    Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                                                    intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                                                    intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                                                    intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                                                    intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                                    intent.putExtra("cccquestion", ExpQuestionPut);
+                                                    finish();
+                                                    startActivity(intent);
+
+
+                                                }
 
                                             }
 
                                         }
+                                    }.start();
 
-                                    }
-                                }.start();
+                            // the else here is to the correctness of the answer if correct go to expand if not correct check the if
+                            } else if (mAdvertCounterGame > 5 && !"bought".equals(premiumBoughtString)) {
 
+                                    Log.i("INTERSTITIAL", "going to intesrtitial = " + mAdvertCounterGame);
 
-                            } else if (mAdvertCounterGame > 5) {
-
-                                Log.i("INTERSTITIAL", "going to intesrtitial = " + mAdvertCounterGame);
-
-                                interstitialAdvert();
+                                    interstitialAdvert();
 
 
                             } else if (coinsOwned < 11) { // for reminder to facebook
@@ -1288,11 +1294,12 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                 Log.i ("TIMING" , "coinGrantToggle in if: " + coinGrantToggle);
 
-                if (coinsOwned<1) {
+                if (coinsOwned < 1 && !"bought".equals(premiumBoughtString)) {
 
-                    adMobToggle = 1;
-                    Log.i("TIMING", "withinTXTcoincounter " + adMobToggle);
-                    gotoAd();
+                        adMobToggle = 1;
+                        Log.i("TIMING", "withinTXTcoincounter " + adMobToggle);
+                        gotoAd();
+
                 } else {
 
                     Log.i ("TIMING" , "in the new else coins: " + coinsOwned);
@@ -2378,71 +2385,71 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         editor.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
                         editor.apply(); // saves the value
 
-                        if (coinsOwned < 1) {
+                        if (coinsOwned < 1 && !"bought".equals(premiumBoughtString)) {
 
-                            // resets the counter for interstitial ads
-                            mAdvertCounterGame = 0;
-                            SharedPreferences.Editor editor2 = sharedAdvertCounterGame.edit();
-                            editor2.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
-                            editor2.apply(); // saves the value
-                            Log.i("INTERSTITIAL", "Counter on reset = " + mAdvertCounterGame);
+                                // resets the counter for interstitial ads
+                                mAdvertCounterGame = 0;
+                                SharedPreferences.Editor editor2 = sharedAdvertCounterGame.edit();
+                                editor2.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                                editor2.apply(); // saves the value
+                                Log.i("INTERSTITIAL", "Counter on reset = " + mAdvertCounterGame);
 
-                            imgCorrectorXmarkX.setVisibility(View.GONE);
-                            imgCorrectorTimeoutX.setVisibility(View.GONE);
-                            txtAdMessageX.setVisibility(View.VISIBLE);
+                                imgCorrectorXmarkX.setVisibility(View.GONE);
+                                imgCorrectorTimeoutX.setVisibility(View.GONE);
+                                txtAdMessageX.setVisibility(View.VISIBLE);
 
-                            CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
+                                CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
+                                    @Override
+                                    public void onTick(long millisUntilFinished) {
 
-                                }
+                                    }
 
-                                @Override
-                                public void onFinish() {
-                                    if (mRewardedAdGameScreenCoins.isLoaded()) {
-                                        Log.i("TIMER", "From timeout to ad toggle:  " + adMobToggle);
-                                        mRewardedAdGameScreenCoins.show();
-                                    } else {
-
-                                        Log.i("ADMOB", "NOT LOADED rewarded, coins before reward  " + coinsOwned);
-
-                                        coinsOwned = coinsOwned + 100;
-                                        String coinsOwnedZ = Integer.toString(coinsOwned);
-                                        txtCoinCounterX.setText(coinsOwnedZ);
-                                        userReference.getRef().child("coins").setValue(coinsOwned);
-                                        int coinsOwnedSort = - coinsOwned;
-                                        userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
-
-                                        Log.i("ADMOB", "NOT LOADED rewarded, coins AFTER reward  " + coinsOwned + "  and toggle = " + adMobToggle);
-
-                                        if (adMobToggle == 1) { // toggles is 1 when sent here from oncreate vs. a wrong answer so restarting game activity instead of going to expanded answer
-                                            // Log.i("TIMING", "Final toggle: " + adMobToggle);
-                                            shadeX.setVisibility(View.GONE);
-                                            txtAdMessageX.setVisibility(View.GONE);
-                                            Log.i("ADMOB", "NOT LOADED rewarded, going to oncreate");
-                                            finish();
-                                            startActivity(getIntent());
-
+                                    @Override
+                                    public void onFinish() {
+                                        if (mRewardedAdGameScreenCoins.isLoaded()) {
+                                            Log.i("TIMER", "From timeout to ad toggle:  " + adMobToggle);
+                                            mRewardedAdGameScreenCoins.show();
                                         } else {
 
-                                            Log.i("ADMOB", "NOT LOADED rewarded, going to expanded");
+                                            Log.i("ADMOB", "NOT LOADED rewarded, coins before reward  " + coinsOwned);
 
-                                            Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                                            intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
-                                            intent.putExtra("iiiexpanded", ExpandedAnswerPut);
-                                            intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                                            intent.putExtra("lllepoch", ExpAnsEpochPut);
-                                            intent.putExtra("cccquestion", ExpQuestionPut);
-                                            finish();
-                                            startActivity(intent);
+                                            coinsOwned = coinsOwned + 100;
+                                            String coinsOwnedZ = Integer.toString(coinsOwned);
+                                            txtCoinCounterX.setText(coinsOwnedZ);
+                                            userReference.getRef().child("coins").setValue(coinsOwned);
+                                            int coinsOwnedSort = -coinsOwned;
+                                            userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
+                                            Log.i("ADMOB", "NOT LOADED rewarded, coins AFTER reward  " + coinsOwned + "  and toggle = " + adMobToggle);
+
+                                            if (adMobToggle == 1) { // toggles is 1 when sent here from oncreate vs. a wrong answer so restarting game activity instead of going to expanded answer
+                                                // Log.i("TIMING", "Final toggle: " + adMobToggle);
+                                                shadeX.setVisibility(View.GONE);
+                                                txtAdMessageX.setVisibility(View.GONE);
+                                                Log.i("ADMOB", "NOT LOADED rewarded, going to oncreate");
+                                                finish();
+                                                startActivity(getIntent());
+
+                                            } else {
+
+                                                Log.i("ADMOB", "NOT LOADED rewarded, going to expanded");
+
+                                                Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                                                intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                                                intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                                                intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                                                intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                                intent.putExtra("cccquestion", ExpQuestionPut);
+                                                finish();
+                                                startActivity(intent);
+
+
+                                            }
 
                                         }
 
                                     }
-
-                                }
-                            }.start();
+                                }.start();
 
 
                         } else if (coinsOwned < 11) { // for reminder to facebook
@@ -2624,6 +2631,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             intent.putExtra("bbbcategory", ExpAnsCategoryPut);
             intent.putExtra("lllepoch", ExpAnsEpochPut);
             intent.putExtra("cccquestion", ExpQuestionPut);
+            intent.putExtra("shownad" , "yes");
             finish();
             startActivity(intent);
 
@@ -2655,89 +2663,89 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     // sent here if have 0 or less coins on-create... needed to signal to onrewared with the admobtoggle on where to send user after ad watched
     public void gotoAd() { // could probably put the toggle right in on-create and even if sending here avoid this if statement but some extra protection so leaving...
 
-        if (coinsOwned < 1) {
+        if (coinsOwned < 1 && !"bought".equals(premiumBoughtString)) {
 
-            //Log.i("TIMING", "Go to add Toggle  " + adMobToggle);
+                //Log.i("TIMING", "Go to add Toggle  " + adMobToggle);
 
-            shadeX.setVisibility(View.VISIBLE);
-            txtAdMessageX.setVisibility(View.VISIBLE);
+                shadeX.setVisibility(View.VISIBLE);
+                txtAdMessageX.setVisibility(View.VISIBLE);
 
-            // resets the counter for interstitial ads
-            mAdvertCounterGame = 0;
-            SharedPreferences.Editor editor2 = sharedAdvertCounterGame.edit();
-            editor2.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
-            editor2.apply(); // saves the value
-            Log.i("INTERSTITIAL", "Counter on reset = " + mAdvertCounterGame);
+                // resets the counter for interstitial ads
+                mAdvertCounterGame = 0;
+                SharedPreferences.Editor editor2 = sharedAdvertCounterGame.edit();
+                editor2.putInt("CounterGame", mAdvertCounterGame); // this only kicks in on next on create so need to set actual mAdvertCounter to 0 below so the add does not loop
+                editor2.apply(); // saves the value
+                Log.i("INTERSTITIAL", "Counter on reset = " + mAdvertCounterGame);
 
-            CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
-                @Override
-                public void onTick(long millisUntilFinished) {
+                CountDownTimer admsgTimer = new CountDownTimer(2000, 500) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
 
-                }
+                    }
 
-                @Override
-                public void onFinish() {
-                    if (mRewardedAdGameScreenCoins.isLoaded()) {
-                        mRewardedAdGameScreenCoins.show();
-                    } else {
+                    @Override
+                    public void onFinish() {
+                        if (mRewardedAdGameScreenCoins.isLoaded()) {
+                            mRewardedAdGameScreenCoins.show();
+                        } else {
 
-                        CountDownTimer slowaddLoad = new CountDownTimer(5000, 1000) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
+                            CountDownTimer slowaddLoad = new CountDownTimer(5000, 1000) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onFinish() {
-                                if (mRewardedAdGameScreenCoins.isLoaded()) {
-                                    mRewardedAdGameScreenCoins.show();
-                                } else {
-
-                                    Log.i("ADMOB", "NOT LOADED rewarded, coins before reward  " + coinsOwned);
-                                    // giving the user coins in case the ad does not load
-                                    coinsOwned = coinsOwned + 50;
-                                    String coinsOwnedZ = Integer.toString(coinsOwned);
-                                    txtCoinCounterX.setText(coinsOwnedZ);
-                                    userReference.getRef().child("coins").setValue(coinsOwned);
-                                    int coinsOwnedSort = - coinsOwned;
-                                    userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
-
-                                    Log.i("ADMOB", "NOT LOADED rewarded, coins AFTER reward  " + coinsOwned + "  and toggle = " + adMobToggle);
-
-                                    if (adMobToggle == 1) { // toggles is 1 when sent here from oncreate vs. a wrong answer so restarting game activity instead of going to expanded answer
-                                        // Log.i("TIMING", "Final toggle: " + adMobToggle);
-                                        shadeX.setVisibility(View.GONE);
-                                        txtAdMessageX.setVisibility(View.GONE);
-                                        Log.i("ADMOB", "NOT LOADED rewarded, going to oncreate");
-                                        finish();
-                                        startActivity(getIntent());
-
+                                @Override
+                                public void onFinish() {
+                                    if (mRewardedAdGameScreenCoins.isLoaded()) {
+                                        mRewardedAdGameScreenCoins.show();
                                     } else {
 
-                                        Log.i("ADMOB", "NOT LOADED rewarded, going to expanded");
+                                        Log.i("ADMOB", "NOT LOADED rewarded, coins before reward  " + coinsOwned);
+                                        // giving the user coins in case the ad does not load
+                                        coinsOwned = coinsOwned + 50;
+                                        String coinsOwnedZ = Integer.toString(coinsOwned);
+                                        txtCoinCounterX.setText(coinsOwnedZ);
+                                        userReference.getRef().child("coins").setValue(coinsOwned);
+                                        int coinsOwnedSort = -coinsOwned;
+                                        userReference.getRef().child("coinsownedsort").setValue(coinsOwnedSort);
 
-                                        Intent intent = new Intent(Game.this, ExpandedAnswer.class);
-                                        intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
-                                        intent.putExtra("iiiexpanded", ExpandedAnswerPut);
-                                        intent.putExtra("bbbcategory", ExpAnsCategoryPut);
-                                        intent.putExtra("lllepoch", ExpAnsEpochPut);
-                                        intent.putExtra("cccquestion", ExpQuestionPut);
+                                        Log.i("ADMOB", "NOT LOADED rewarded, coins AFTER reward  " + coinsOwned + "  and toggle = " + adMobToggle);
 
-                                        finish();
-                                        startActivity(intent);
+                                        if (adMobToggle == 1) { // toggles is 1 when sent here from oncreate vs. a wrong answer so restarting game activity instead of going to expanded answer
+                                            // Log.i("TIMING", "Final toggle: " + adMobToggle);
+                                            shadeX.setVisibility(View.GONE);
+                                            txtAdMessageX.setVisibility(View.GONE);
+                                            Log.i("ADMOB", "NOT LOADED rewarded, going to oncreate");
+                                            finish();
+                                            startActivity(getIntent());
 
+                                        } else {
+
+                                            Log.i("ADMOB", "NOT LOADED rewarded, going to expanded");
+
+                                            Intent intent = new Intent(Game.this, ExpandedAnswer.class);
+                                            intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
+                                            intent.putExtra("iiiexpanded", ExpandedAnswerPut);
+                                            intent.putExtra("bbbcategory", ExpAnsCategoryPut);
+                                            intent.putExtra("lllepoch", ExpAnsEpochPut);
+                                            intent.putExtra("cccquestion", ExpQuestionPut);
+
+                                            finish();
+                                            startActivity(intent);
+
+
+                                        }
 
                                     }
 
                                 }
+                            }.start();
 
-                            }
-                        }.start();
+                        }
 
                     }
-
-                }
-            }.start();
+                }.start();
 
 
         }
