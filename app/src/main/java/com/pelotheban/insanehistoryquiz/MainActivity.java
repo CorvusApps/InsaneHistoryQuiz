@@ -78,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
     TextView txtPlacehoderX;
     String randomProfileName;
 
+    //anonymous login
+
+    private TextView txtEmailSignInX;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -227,6 +231,16 @@ public class MainActivity extends AppCompatActivity {
 
               //  Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
 
+
+            }
+        });
+
+        txtEmailSignInX = findViewById(R.id.txtEmailSignIn);
+        txtEmailSignInX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(MainActivity.this, "Email Login", Toast.LENGTH_LONG).show();
 
             }
         });

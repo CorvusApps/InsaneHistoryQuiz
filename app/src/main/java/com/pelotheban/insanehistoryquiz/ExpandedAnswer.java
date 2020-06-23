@@ -3,6 +3,7 @@ package com.pelotheban.insanehistoryquiz;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -118,7 +119,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
     private String badgeImageLink;
     private String badgeSortKey;
 
-    private TextView txtBadgeAwardX;
+    private TextView txtBadgeAwardX, txtBadgeMessageOldX;
     private String badgeAwardMsg;
 
     //ratings dialog
@@ -330,6 +331,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
         loutBadgesX = findViewById(R.id.loutBadges);
         imgBadgeAwardX = findViewById(R.id.imgBadgeAward);
         txtBadgeAwardX = findViewById(R.id.txtBadgeMessage);
+        txtBadgeMessageOldX = findViewById(R.id.txtBadgeMessageOld);
 
         newbadgesup = getIntent().getIntExtra("newbadgesup", 0);
         newbadgestr = getIntent().getIntExtra("newbadgestr", 0);
@@ -807,21 +809,24 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
                 goingToRatingsInsteadToggle = "no";
                 try {
 
-                    if(ExpAnsShareToggleGet.equals("no") && totalQuestionss > 10 && ratingAskToggle.equals("no")) {
+                    if(ExpAnsShareToggleGet.equals("no") && totalQuestionss > 10
+                            && ratingAskToggle.equals("no") && goingToBadgesinsteadToggle.equals("no")) {
 
                         ratingask();
                         goingToRatingsInsteadToggle = "yes";
 
                         userReference.child("ratingasktoggle").setValue("maybe");
 
-                    } else if (ExpAnsShareToggleGet.equals("no") && totalQuestionss > 50 && ratingAskToggle.equals("maybe") ) {
+                    } else if (ExpAnsShareToggleGet.equals("no") && totalQuestionss > 50
+                            && ratingAskToggle.equals("maybe") && goingToBadgesinsteadToggle.equals("no")) {
 
                         ratingask();
                         goingToRatingsInsteadToggle = "yes";
 
                         userReference.child("ratingasktoggle").setValue("maybetwo");
 
-                    } else if (ExpAnsShareToggleGet.equals("no") && totalQuestionss > 100 && ratingAskToggle.equals("maybetwo")) {
+                    } else if (ExpAnsShareToggleGet.equals("no") && totalQuestionss > 100
+                            && ratingAskToggle.equals("maybetwo") && goingToBadgesinsteadToggle.equals("no")) {
 
                         ratingask();
                         goingToRatingsInsteadToggle = "yes";
@@ -1742,6 +1747,8 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
             }
         });
+
+
     }
 
     public void purchasePremium(){
@@ -2120,14 +2127,44 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
                 shadeX.setVisibility(View.GONE);
 
+//                sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                        for (DataSnapshot fabDs : dataSnapshot.getChildren()) {
+//                            // need the try because if new account will return null
+//
+//                            try {
+//                                showPremiumDialogToggle2 = fabDs.child("premiumasktoggle").getValue().toString();
+//
+//                            } catch (Exception e) {
+//
+//                                //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
+//                            }
+//
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
+
+                // put that query in there because thought the if didn't work if backing in from leader or profile but apparently it does so commenting out for no
+
                 if(showPremiumDialogToggle2.equals("bought")) {
 
                     Toast.makeText(ExpandedAnswer.this, "You are already a PREMIUM member", Toast.LENGTH_LONG).show();
 
                 } else {
 
-                    premiumask();
+                    Intent intent = new Intent(ExpandedAnswer.this, Premium.class);
+                    startActivity(intent);
                 }
+
+
 
             }
         });
@@ -2327,6 +2364,8 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
         } else if (responseCode == BillingClient.BillingResponseCode.USER_CANCELED)  {
 
+            finish();
+
         }
 
     }
@@ -2348,6 +2387,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
         userReference.getRef().child("badgepre").setValue(1);
 
         txtBadgeAwardX.setText("Thank you for becoming a PREMIUM member! No more ADS for YOU!!!");
+        txtBadgeMessageOldX.setVisibility(View.VISIBLE);
         // need to make the game buttons below the view disappar and reappear because for some reason accessible
         btnEAProfileX.setVisibility(View.GONE);
         btnLeadersX.setVisibility(View.GONE);
@@ -2359,7 +2399,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
         try {
 
-            CountDownTimer badgeAwardTimer = new CountDownTimer(10000, 1000) {
+            CountDownTimer badgeAwardTimer = new CountDownTimer(5000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                 }

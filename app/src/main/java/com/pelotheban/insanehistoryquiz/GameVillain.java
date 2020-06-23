@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -661,7 +662,15 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
 
     public void viallainImageSet() {
 
-        Picasso.get().load(imageVillainLinkRec).into(imgVillainPicX);
+       // Picasso.get().load(imageVillainLinkRec).into(imgVillainPicX);
+
+       // String randomQuestionString = String.valueOf(randQuestion);
+        String randomQuestionString = "v" + randQuestion;
+        Resources resources = getResources();
+        final int resourceId = resources.getIdentifier(randomQuestionString,
+                "drawable", getPackageName());
+
+        imgVillainPicX.setImageResource(resourceId);
 
 
     }
@@ -867,27 +876,29 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
 
     private void gameStart(){
 
-        String randomQuestionString = String.valueOf(randQuestion);
-        villainsQuery = FirebaseDatabase.getInstance().getReference().child("villains").orderByChild("villainname").equalTo(randomQuestionString);
-        villainsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot villainSnapshot) {
+//        String randomQuestionString = String.valueOf(randQuestion);
+//        villainsQuery = FirebaseDatabase.getInstance().getReference().child("villains").orderByChild("villainname").equalTo(randomQuestionString);
+//        villainsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot villainSnapshot) {
+//
+//                for (DataSnapshot villainImages : villainSnapshot.getChildren()) {
+//
+//                    imageVillainLinkRec = villainImages.child("villainimagelink").getValue().toString();
+//
+//                    viallainImageSet();
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
-                for (DataSnapshot villainImages : villainSnapshot.getChildren()) {
-
-                    imageVillainLinkRec = villainImages.child("villainimagelink").getValue().toString();
-
-                    viallainImageSet();
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        viallainImageSet();
 
 
 

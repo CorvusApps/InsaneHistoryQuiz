@@ -2,6 +2,8 @@ package com.pelotheban.insanehistoryquiz;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 
@@ -24,6 +26,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -33,6 +36,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class HomePage extends AppCompatActivity {
 
@@ -49,8 +54,8 @@ public class HomePage extends AppCompatActivity {
     //Pop-up Menu
 
     private String popupMenuToggle;
-    private FloatingActionButton fabPopUpHPX, fabPopUpCollHPX, fabPopUpFAQminiHPtX, fabPopUpLogOutminiHPX;
-    private TextView txtFAQButtonHPX, txtLogoutButtonHPX;
+    private FloatingActionButton fabPopUpHPX, fabPopUpCollHPX, fabPopUpFAQminiHPtX, fabPopUpLogOutminiHPX, fabPopUpPremiumminiHPX;
+    private TextView txtFAQButtonHPX, txtLogoutButtonHPX, txtPremiumButtonHPX;
     private View shadeX; // to shade the background when menu out
 
     // Firebase
@@ -71,10 +76,17 @@ public class HomePage extends AppCompatActivity {
     private String consStreetString;
     private int consStreak;
 
+    private String homepagestartsString;
+    private int homepagestarts;
+
     // badge bonus
 
     private Button btnBadgeBonusHPX;
     private String badgeSortKeyHP;
+
+    // premium
+
+    private String showPremiumDialogToggle2;
 
 
 
@@ -103,10 +115,12 @@ public class HomePage extends AppCompatActivity {
         fabPopUpCollHPX = findViewById(R.id.fabPopUpCollHP);
         fabPopUpFAQminiHPtX = findViewById(R.id.fabPopUpFAQminiHP);
         fabPopUpLogOutminiHPX = findViewById(R.id.fabPopUpLogOutminiHP);
+        fabPopUpPremiumminiHPX = findViewById(R.id.fabPopUpPremiumminiHP);
 
 
         txtFAQButtonHPX = findViewById(R.id.txtFAQButtonHP);
         txtLogoutButtonHPX = findViewById(R.id.txtLogoutButtonHP);
+        txtPremiumButtonHPX = findViewById(R.id.txtPremiumButtonHP);
 
         shadeX = findViewById(R.id.shade);
 
@@ -120,6 +134,11 @@ public class HomePage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         uid = mAuth.getUid();
         userReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
+
+        // initial logs for fbrecrods on sign in
+
+        int version = BuildConfig.VERSION_CODE;
+        userReference.getRef().child("zzzzversioncode").setValue(version);
 
         sortUsersQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(uid);
         sortUsersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -193,6 +212,16 @@ public class HomePage extends AppCompatActivity {
                         userReference.getRef().child("fbsharessort").setValue(0);
                     }
 
+                    try {
+
+                        showPremiumDialogToggle2 = userDs.child("premiumasktoggle").getValue().toString();
+
+                    } catch (Exception e) {
+
+                        showPremiumDialogToggle2 = "catch";
+                    }
+
+
 
                     try {
                         if (coinsOwned > 0 | coinGrantToggle.equals("yes")) {
@@ -210,7 +239,7 @@ public class HomePage extends AppCompatActivity {
                             userReference.getRef().child("totalansweredsort").setValue(1000);
                             userReference.getRef().child("longeststreaksort").setValue(1000);
                             userReference.getRef().child("coinsownedsort").setValue(-50);
-                            txtCoinCounterX.setText("80");
+                            txtCoinCounterX.setText("50");
                             userReference.getRef().child("zzzinterstitialsort").setValue(0);
                             userReference.getRef().child("zzzrewardsort").setValue(0);
 
@@ -223,7 +252,7 @@ public class HomePage extends AppCompatActivity {
 
                         userReference.getRef().child("coins").setValue(50);
                         userReference.getRef().child("coinsgranttoggle").setValue("yes");
-                        txtCoinCounterX.setText("80");
+                        txtCoinCounterX.setText("50");
                         userReference.getRef().child("totalansweredsort").setValue(1000);
                         userReference.getRef().child("longeststreaksort").setValue(1000);
                         userReference.getRef().child("coinsownedsort").setValue(-50);
@@ -235,7 +264,57 @@ public class HomePage extends AppCompatActivity {
                         //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
 
-                }
+                    // initial logs for fbrecrods on sign in
+
+                        //version code
+                        int version = BuildConfig.VERSION_CODE;
+                        userReference.getRef().child("zzzzversioncode").setValue(version);
+
+                        //last login date
+                        Long timeStamp = System.currentTimeMillis();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTimeInMillis(timeStamp);
+
+                        int mYear = calendar.get(Calendar.YEAR);
+                        int mMonth = calendar.get(Calendar.MONTH);
+                        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+                        String date = mYear + "/" + mMonth + "/" + mDay;
+                        userReference.getRef().child("zzzzlastlogin").setValue(date);
+
+                        try {
+
+                            homepagestartsString = userDs.child("zzzzhpstarts").getValue().toString();
+                            homepagestarts = Integer.valueOf(homepagestartsString);
+
+                            try { if (homepagestartsString.equals(null)) {
+
+                                homepagestarts = 0;
+
+                                }
+
+                            } catch ( Exception e) {
+
+                                homepagestarts = 0;
+                            }
+
+                        } catch ( Exception e) {
+
+                            homepagestarts = 0;
+                        }
+
+
+                    }
+
+                    try {
+
+                        homepagestarts = homepagestarts +1;
+                        userReference.getRef().child("zzzzhpstarts").setValue(homepagestarts);
+
+                    } catch (Exception e) {
+
+
+                    }
 
             }
 
@@ -472,9 +551,11 @@ public class HomePage extends AppCompatActivity {
         fabPopUpCollHPX.setVisibility(View.VISIBLE);
         fabPopUpFAQminiHPtX.setVisibility(View.VISIBLE);
         fabPopUpLogOutminiHPX.setVisibility(View.VISIBLE);
+        fabPopUpPremiumminiHPX.setVisibility(View.VISIBLE);
 
         txtFAQButtonHPX.setVisibility(View.VISIBLE);
         txtLogoutButtonHPX.setVisibility(View.VISIBLE);
+        txtPremiumButtonHPX.setVisibility(View.VISIBLE);
 
         fabPopUpLogOutminiHPX.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -486,9 +567,11 @@ public class HomePage extends AppCompatActivity {
                 fabPopUpCollHPX.setVisibility(View.GONE);
                 fabPopUpFAQminiHPtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiHPX.setVisibility(View.GONE);
+                fabPopUpPremiumminiHPX.setVisibility(View.GONE);
 
                 txtFAQButtonHPX.setVisibility(View.GONE);
                 txtLogoutButtonHPX.setVisibility(View.GONE);
+                txtPremiumButtonHPX.setVisibility(View.GONE);
 
                 shadeX.setVisibility(View.GONE);
 
@@ -507,9 +590,12 @@ public class HomePage extends AppCompatActivity {
                 fabPopUpCollHPX.setVisibility(View.GONE);
                 fabPopUpFAQminiHPtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiHPX.setVisibility(View.GONE);
+                fabPopUpPremiumminiHPX.setVisibility(View.GONE);
 
                 txtFAQButtonHPX.setVisibility(View.GONE);
                 txtLogoutButtonHPX.setVisibility(View.GONE);
+                txtPremiumButtonHPX.setVisibility(View.GONE);
+
 
                 shadeX.setVisibility(View.GONE);
 
@@ -530,11 +616,46 @@ public class HomePage extends AppCompatActivity {
                 fabPopUpCollHPX.setVisibility(View.GONE);
                 fabPopUpFAQminiHPtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiHPX.setVisibility(View.GONE);
+                fabPopUpPremiumminiHPX.setVisibility(View.GONE);
 
                 txtFAQButtonHPX.setVisibility(View.GONE);
                 txtLogoutButtonHPX.setVisibility(View.GONE);
+                txtPremiumButtonHPX.setVisibility(View.GONE);
 
                 shadeX.setVisibility(View.GONE);
+
+            }
+        });
+
+        fabPopUpPremiumminiHPX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                popupMenuToggle = "Not";
+
+                fabPopUpHPX.setVisibility(View.VISIBLE);
+                fabPopUpCollHPX.setVisibility(View.GONE);
+                fabPopUpFAQminiHPtX.setVisibility(View.GONE);
+                fabPopUpLogOutminiHPX.setVisibility(View.GONE);
+                fabPopUpPremiumminiHPX.setVisibility(View.GONE);
+
+
+                txtFAQButtonHPX.setVisibility(View.GONE);
+                txtLogoutButtonHPX.setVisibility(View.GONE);
+                txtPremiumButtonHPX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
+                Log.i("PREMIUM", "before if show = " + showPremiumDialogToggle2);
+                if(showPremiumDialogToggle2.equals("bought")) {
+
+                    Toast.makeText(HomePage.this, "You are already a PREMIUM member", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    Intent intent = new Intent(HomePage.this, Premium.class);
+                    startActivity(intent);
+                }
 
             }
         });

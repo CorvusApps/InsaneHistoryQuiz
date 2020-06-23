@@ -99,6 +99,34 @@
         android:visibility="gone"
         android:src="@drawable/logout"/>
 
+    <TextView
+        android:id="@+id/txtPremiumButtonPF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="170dp"
+        android:layout_marginRight="70dp"
+        android:text="Ad-free Premium"
+        android:gravity="right"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:textColor="#FFFFFF"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPopUpPremiumminiPF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="160dp"
+        android:layout_marginRight="24dp"
+        app:rippleColor="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:visibility="gone"
+        android:src="@drawable/admin"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabSharePF"
         android:layout_width="wrap_content"

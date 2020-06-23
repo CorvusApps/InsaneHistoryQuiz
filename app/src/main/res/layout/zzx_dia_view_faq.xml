@@ -180,6 +180,28 @@ The timer above tells you how much time you have left. This will continue until 
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="10sp"
                         android:layout_marginRight="8dp"
+                        android:text="Can I purchse an ad-free version?"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginRight="8dp"
+                        android:text="Yes. The option to buy an ad-free version for ~$2 (USD) is available from the drop down menu available on most screens. Premium status allows you to continue playing even when your coin count is below zero."
+                        android:textColor="@color/primaryShadow"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="10sp"
+                        android:layout_marginRight="8dp"
                         android:text="Are there different difficulty levels?"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="12sp"

@@ -49,6 +49,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 import android.os.CountDownTimer;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
@@ -94,8 +95,8 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
     private AlertDialog dialog;
 
     private String popupMenuToggle;
-    private FloatingActionButton fabPopUpPFX, fabPopUpCollPFX, fabPopUpFAQminiPFtX, fabPopUpLogOutminiPFX;
-    private TextView txtFAQButtonPFX, txtLogoutButtonPFX;
+    private FloatingActionButton fabPopUpPFX, fabPopUpCollPFX, fabPopUpFAQminiPFtX, fabPopUpLogOutminiPFX, fabPopUpPremiumminiPFX;
+    private TextView txtFAQButtonPFX, txtLogoutButtonPFX, txtPremiumButtonPFX;
     private View shadeX; // to shade the background when menu out
 
     // Tracker panel UI Elements
@@ -173,6 +174,10 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         private ImageView imgTestScreenshotX;
         private View main;
         private String filename;
+
+    // premium
+
+    private String showPremiumDialogToggle2;
 
 
     @Override
@@ -397,9 +402,11 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         fabPopUpCollPFX = findViewById(R.id.fabPopUpCollPF);
         fabPopUpFAQminiPFtX = findViewById(R.id.fabPopUpFAQminiPF);
         fabPopUpLogOutminiPFX = findViewById(R.id.fabPopUpLogOutminiPF);
+        fabPopUpPremiumminiPFX = findViewById(R.id.fabPopUpPremiumminiPF);
 
         txtFAQButtonPFX = findViewById(R.id.txtFAQButtonPF);
         txtLogoutButtonPFX = findViewById(R.id.txtLogoutButtonPF);
+        txtPremiumButtonPFX = findViewById(R.id.txtPremiumButtonPF);
 
         shadeX = findViewById(R.id.shade);
 
@@ -635,6 +642,15 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                     } catch (Exception e) {
 
                         txtCountryX.setText("Global Citizen"); // populates the text box
+                    }
+
+                    try {
+
+                        showPremiumDialogToggle2 = userPs.child("premiumasktoggle").getValue().toString();
+
+                    } catch (Exception e) {
+
+                        showPremiumDialogToggle2 = "catch";
                     }
 
                     /////badges////////////////////////////////////////
@@ -1305,6 +1321,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         fabPopUpFAQminiPFtX.setVisibility(View.VISIBLE);
         fabPopUpLogOutminiPFX.setVisibility(View.VISIBLE);
         fabSharePFX.setVisibility(View.GONE);
+        fabPopUpPremiumminiPFX.setVisibility(View.VISIBLE);
 
        // txtFAQButtonPFX.setVisibility(View.VISIBLE);
        // txtLogoutButtonPFX.setVisibility(View.VISIBLE);
@@ -1320,9 +1337,11 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                 fabPopUpFAQminiPFtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiPFX.setVisibility(View.GONE);
                 fabSharePFX.setVisibility(View.VISIBLE);
+                fabPopUpPremiumminiPFX.setVisibility(View.GONE);
 
                 txtFAQButtonPFX.setVisibility(View.GONE);
                 txtLogoutButtonPFX.setVisibility(View.GONE);
+                txtPremiumButtonPFX.setVisibility(View.GONE);
 
                 shadeX.setVisibility(View.GONE);
 
@@ -1342,9 +1361,11 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                 fabPopUpFAQminiPFtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiPFX.setVisibility(View.GONE);
                 fabSharePFX.setVisibility(View.VISIBLE);
+                fabPopUpPremiumminiPFX.setVisibility(View.GONE);
 
                 txtFAQButtonPFX.setVisibility(View.GONE);
                 txtLogoutButtonPFX.setVisibility(View.GONE);
+                txtPremiumButtonPFX.setVisibility(View.GONE);
 
                 shadeX.setVisibility(View.GONE);
 
@@ -1366,11 +1387,47 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                 fabPopUpFAQminiPFtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiPFX.setVisibility(View.GONE);
                 fabSharePFX.setVisibility(View.VISIBLE);
+                fabPopUpPremiumminiPFX.setVisibility(View.GONE);
+
 
                 txtFAQButtonPFX.setVisibility(View.GONE);
                 txtLogoutButtonPFX.setVisibility(View.GONE);
+                txtPremiumButtonPFX.setVisibility(View.GONE);
 
                 shadeX.setVisibility(View.GONE);
+
+            }
+        });
+
+        fabPopUpPremiumminiPFX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                popupMenuToggle = "Not";
+
+                fabPopUpPFX.setVisibility(View.VISIBLE);
+                fabPopUpCollPFX.setVisibility(View.GONE);
+                fabPopUpFAQminiPFtX.setVisibility(View.GONE);
+                fabPopUpLogOutminiPFX.setVisibility(View.GONE);
+                fabPopUpPremiumminiPFX.setVisibility(View.GONE);
+                fabSharePFX.setVisibility(View.VISIBLE);
+
+                txtFAQButtonPFX.setVisibility(View.GONE);
+                txtLogoutButtonPFX.setVisibility(View.GONE);
+                txtPremiumButtonPFX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
+                Log.i("PREMIUM", "before if show = " + showPremiumDialogToggle2);
+                if(showPremiumDialogToggle2.equals("bought")) {
+
+                    Toast.makeText(ProfileView.this, "You are already a PREMIUM member", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    Intent intent = new Intent(ProfileView.this, Premium.class);
+                    startActivity(intent);
+                }
 
             }
         });

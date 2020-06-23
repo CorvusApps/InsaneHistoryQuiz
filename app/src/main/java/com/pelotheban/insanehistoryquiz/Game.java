@@ -616,7 +616,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     } catch (Exception e) {
 
-                        premiumBoughtString = "bought";
+                     //   premiumBoughtString = "bought";
                     }
 
 
@@ -1317,14 +1317,19 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                 // THE GRANT IS OBSOLETE AS WE NOW DO IT ON HOME PAGE ON FIRST LOGIN BUT KEEPING HERE AS BACK STOP
                 // IN THE CURRENT GRANT also setting up initial sort value defaults but no bothering to add here as this section is unlikely to ever be used
 
-                userReference.getRef().child("coins").setValue(80);
+
+                // SHIT SHIT SHIT - winding up here sometimes because this used to say 80 (mistake) but kept seeing it come up; oddly sort was in
+                // maybe get sent down here before coinsowned is populated in the query... but the call is at the end in data change so sholdn't happen
+                userReference.getRef().child("coins").setValue(50);
                 userReference.getRef().child("coinsgranttoggle").setValue("yes");
+                userReference.getRef().child("zzzzwierdone").setValue("yes");
             }
 
         } catch (Exception e) { // this is the catch of the if above and repeating the initial coin grant query as per notes above
 
-            userReference.getRef().child("coins").setValue(80);
+            userReference.getRef().child("coins").setValue(50);
             userReference.getRef().child("coinsgranttoggle").setValue("yes");
+            userReference.getRef().child("zzzzwierdtwo").setValue("yes");
         }
 
     }
@@ -2534,7 +2539,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     @Override
     public void onRewardedVideoAdClosed() {
 
-        Log.i("ADMOB", "closed");
+        Log.i("PREMIUM", "closed");
 
         // if user closes add the display defaults back to the screen showing the message they need to watch and then it times out and puts up the ad again
         CountDownTimer rewatchTimer = new CountDownTimer(3000, 500) {
@@ -2572,7 +2577,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     } else {
 
-                        Log.i("ADMOB", "NOT LOADED rewarded, going to expanded");
+                        Log.i("PREMIUM", "NOT LOADED rewarded, going to expanded");
 
                         Intent intent = new Intent(Game.this, ExpandedAnswer.class);
                         intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
@@ -2611,19 +2616,20 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         userReference.getRef().child("zzzreward").setValue(zzzReward);
         userReference.getRef().child("zzzrewardsort").setValue(zzzRewardsort);
 
-        Log.i("ADMOB", "rewarded, coins AFTER reward  " + coinsOwned + "  and toggle = " + adMobToggle);
+        Log.i("PREMIUM", "rewarded, coins AFTER reward  " + coinsOwned + "  and toggle = " + adMobToggle);
 
         if (adMobToggle == 1) { // toggles is 1 when sent here from oncreate vs. a wrong answer so restarting game activity instead of going to expanded answer
            // Log.i("TIMING", "Final toggle: " + adMobToggle);
             shadeX.setVisibility(View.GONE);
             txtAdMessageX.setVisibility(View.GONE);
-            Log.i("ADMOB", "rewarded, going to oncreate");
+            Log.i("PREMIUM", "rewarded, going to oncreate");
             finish();
             startActivity(getIntent());
+            //this won't get he premium ask because it doesn't go to extended answer - fine, ok...
 
         } else {
 
-            Log.i("ADMOB", "rewarded, going to expanded");
+            Log.i("PREMIUM", "rewarded, going to expanded");
 
             Intent intent = new Intent(Game.this, ExpandedAnswer.class);
             intent.putExtra("dddcorrectansw", ExpCorrectAnsPut);
@@ -2634,6 +2640,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             intent.putExtra("shownad" , "yes");
             finish();
             startActivity(intent);
+
+            Log.i("PREMIUM", "in else with shownad");
 
 
         }
@@ -2687,6 +2695,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     public void onFinish() {
                         if (mRewardedAdGameScreenCoins.isLoaded()) {
                             mRewardedAdGameScreenCoins.show();
+                            Log.i("PREMIUM", "run rewarded from first try");
                         } else {
 
                             CountDownTimer slowaddLoad = new CountDownTimer(5000, 1000) {
@@ -2699,6 +2708,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                                 public void onFinish() {
                                     if (mRewardedAdGameScreenCoins.isLoaded()) {
                                         mRewardedAdGameScreenCoins.show();
+                                        Log.i("PREMIUM", "run rewarded from second try");
                                     } else {
 
                                         Log.i("ADMOB", "NOT LOADED rewarded, coins before reward  " + coinsOwned);

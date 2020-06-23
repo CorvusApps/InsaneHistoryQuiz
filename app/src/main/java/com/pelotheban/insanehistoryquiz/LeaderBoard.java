@@ -68,8 +68,8 @@ public class LeaderBoard extends AppCompatActivity {
     //popUp Menu
 
     private String popupMenuToggle;
-    private FloatingActionButton fabPopUpLBX, fabPopUpCollLBX, fabPopUpFAQminiLBtX, fabPopUpLogOutminiLBX;
-    private TextView txtFAQButtonLBX, txtLogoutButtonLBX;
+    private FloatingActionButton fabPopUpLBX, fabPopUpCollLBX, fabPopUpFAQminiLBtX, fabPopUpLogOutminiLBX, fabPopUpPremiumminiLBX;
+    private TextView txtFAQButtonLBX, txtLogoutButtonLBX, txtPremiumButtonLBX;
     private View shadeX; // to shade the background when menu out
 
 
@@ -109,7 +109,8 @@ public class LeaderBoard extends AppCompatActivity {
         private View main;
         private String filename;
 
-
+    // premium
+    private String showPremiumDialogToggle2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +139,7 @@ public class LeaderBoard extends AppCompatActivity {
         String mSorting2 = sortSharedPrefLeaders.getString("Sort2", "longeststreaksort"); // where if no settings
 
         //sortLBQuery = lbReference.orderByChild("totalquestions");
-        sortLBQuery = lbReference.orderByChild(mSorting2).limitToFirst(15); // testing - later set to 25
+        sortLBQuery = lbReference.orderByChild(mSorting2).startAt(-10000).limitToFirst(15);
 
         //counters for the current user that go on top of buttons - NOT the ones in recyclerview
 
@@ -178,11 +179,24 @@ public class LeaderBoard extends AppCompatActivity {
                     lbTxtCoinCounterX.setText(coinsOwnedString);
                     lbTxtMostRightX.setText(totalAnsweredString);
                     lbTxtLongestStreak.setText(longestStreakString);
+                    Log.i("PREMIUM", " other diagnsotic lbtxtlongstreak= " + longestStreakString);
+                    Log.i("PREMIUM", " other diagnsotic coins= " + coinsOwnedString);
 
                     try {
                         profileName = userDs.child("profilename").getValue().toString();
 
                     } catch (Exception e) {
+
+                    }
+
+                    try {
+                        showPremiumDialogToggle2 = userDs.child("premiumasktoggle").getValue().toString();
+                        Log.i("PREMIUM", " in try showp= " + showPremiumDialogToggle2);
+
+                    } catch (Exception e) {
+
+                        showPremiumDialogToggle2 = "catch";
+                        Log.i("PREMIUM", " in catch showp= " + showPremiumDialogToggle2);
 
                     }
                 }
@@ -210,9 +224,11 @@ public class LeaderBoard extends AppCompatActivity {
         fabPopUpCollLBX = findViewById(R.id.fabPopUpCollLB);
         fabPopUpFAQminiLBtX = findViewById(R.id.fabPopUpFAQminiLB);
         fabPopUpLogOutminiLBX = findViewById(R.id.fabPopUpLogOutminiLB);
+        fabPopUpPremiumminiLBX = findViewById(R.id.fabPopUpPremiumminiLB);
 
         txtFAQButtonLBX = findViewById(R.id.txtFAQButtonLB);
         txtLogoutButtonLBX = findViewById(R.id.txtLogoutButtonLB);
+        txtPremiumButtonLBX = findViewById(R.id.txtPremiumButtonLB);
 
         shadeX = findViewById(R.id.shade);
 
@@ -821,6 +837,7 @@ public class LeaderBoard extends AppCompatActivity {
         fabPopUpCollLBX.setVisibility(View.VISIBLE);
         fabPopUpFAQminiLBtX.setVisibility(View.VISIBLE);
         fabPopUpLogOutminiLBX.setVisibility(View.VISIBLE);
+        fabPopUpPremiumminiLBX.setVisibility(View.VISIBLE);
 
         txtFAQButtonLBX.setVisibility(View.GONE);
         txtLogoutButtonLBX.setVisibility(View.GONE);
@@ -835,6 +852,7 @@ public class LeaderBoard extends AppCompatActivity {
                 fabPopUpCollLBX.setVisibility(View.GONE);
                 fabPopUpFAQminiLBtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiLBX.setVisibility(View.GONE);
+                fabPopUpPremiumminiLBX.setVisibility(View.GONE);
 
                 txtFAQButtonLBX.setVisibility(View.GONE);
                 txtLogoutButtonLBX.setVisibility(View.GONE);
@@ -856,6 +874,7 @@ public class LeaderBoard extends AppCompatActivity {
                 fabPopUpCollLBX.setVisibility(View.GONE);
                 fabPopUpFAQminiLBtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiLBX.setVisibility(View.GONE);
+                fabPopUpPremiumminiLBX.setVisibility(View.GONE);
 
                 txtFAQButtonLBX.setVisibility(View.GONE);
                 txtLogoutButtonLBX.setVisibility(View.GONE);
@@ -879,11 +898,50 @@ public class LeaderBoard extends AppCompatActivity {
                 fabPopUpCollLBX.setVisibility(View.GONE);
                 fabPopUpFAQminiLBtX.setVisibility(View.GONE);
                 fabPopUpLogOutminiLBX.setVisibility(View.GONE);
+                fabPopUpPremiumminiLBX.setVisibility(View.GONE);
 
                 txtFAQButtonLBX.setVisibility(View.GONE);
                 txtLogoutButtonLBX.setVisibility(View.GONE);
 
                 shadeX.setVisibility(View.GONE);
+
+            }
+        });
+
+        fabPopUpPremiumminiLBX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                popupMenuToggle = "Not";
+
+                fabPopUpLBX.setVisibility(View.VISIBLE);
+                fabPopUpCollLBX.setVisibility(View.GONE);
+                fabPopUpFAQminiLBtX.setVisibility(View.GONE);
+                fabPopUpLogOutminiLBX.setVisibility(View.GONE);
+                fabPopUpPremiumminiLBX.setVisibility(View.GONE);
+                fabShareLBX.setVisibility(View.VISIBLE);
+
+                txtFAQButtonLBX.setVisibility(View.GONE);
+                txtLogoutButtonLBX.setVisibility(View.GONE);
+                txtPremiumButtonLBX.setVisibility(View.GONE);
+
+                shadeX.setVisibility(View.GONE);
+
+                Log.i("PREMIUM", " beforer if showp= " + showPremiumDialogToggle2);
+
+                if(showPremiumDialogToggle2.equals("bought")) {
+
+                    Toast.makeText(LeaderBoard.this, "You are already a PREMIUM member", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    Intent intent = new Intent(LeaderBoard.this, Premium.class);
+                    startActivity(intent);
+                }
+
+
+
+
 
             }
         });
