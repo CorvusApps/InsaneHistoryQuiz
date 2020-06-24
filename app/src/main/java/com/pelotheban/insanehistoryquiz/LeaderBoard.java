@@ -139,7 +139,7 @@ public class LeaderBoard extends AppCompatActivity {
         String mSorting2 = sortSharedPrefLeaders.getString("Sort2", "longeststreaksort"); // where if no settings
 
         //sortLBQuery = lbReference.orderByChild("totalquestions");
-        sortLBQuery = lbReference.orderByChild(mSorting2).startAt(-10000).limitToFirst(15);
+        sortLBQuery = lbReference.orderByChild(mSorting2).startAt(-100000).limitToFirst(15);
 
         //counters for the current user that go on top of buttons - NOT the ones in recyclerview
 
@@ -605,32 +605,34 @@ public class LeaderBoard extends AppCompatActivity {
                     @Override
                     public void onItemClick(View view, int position) {
 
-                        TextView txtPlayerX = (TextView)view.findViewById(R.id.txtPlayer);
-                        String fbuser = txtPlayerX.getText().toString();
-
-                        Log.i("LISTENING", "here: " + lbReference.getRef());
-
-                        final DatabaseReference fbref = lbReference.child(fbuser);
-
-                        Log.i("LISTENING", "fbref " + fbref.getRef());
-
-                        Query fbQuery = fbref;
-
-                        fbQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                for (DataSnapshot userFB: dataSnapshot.getChildren()) {
-
-                                    fbref.getRef().child("fbsharessort").setValue(0);
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
+                        //All this functionality was to allow FB to be reset to zero if you click on any person on leaderboard to 0
+                        // no longer necessary as eliminated leaderboards capturing partial logins
+//                        TextView txtPlayerX = (TextView)view.findViewById(R.id.txtPlayer);
+//                        String fbuser = txtPlayerX.getText().toString();
+//
+//                        Log.i("LISTENING", "here: " + lbReference.getRef());
+//
+//                        final DatabaseReference fbref = lbReference.child(fbuser);
+//
+//                        Log.i("LISTENING", "fbref " + fbref.getRef());
+//
+//                        Query fbQuery = fbref;
+//
+//                        fbQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                                for (DataSnapshot userFB: dataSnapshot.getChildren()) {
+//
+//                                    fbref.getRef().child("fbsharessort").setValue(0);
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                            }
+//                        });
 
 
                        // DatabaseReference fbsetref = firebaseRecyclerAdapter.getRef(position);
@@ -931,7 +933,7 @@ public class LeaderBoard extends AppCompatActivity {
 
                 if(showPremiumDialogToggle2.equals("bought")) {
 
-                    Toast.makeText(LeaderBoard.this, "You are already a PREMIUM member", Toast.LENGTH_LONG).show();
+                    alreadyPremiumSnackbar();
 
                 } else {
 
@@ -939,13 +941,8 @@ public class LeaderBoard extends AppCompatActivity {
                     startActivity(intent);
                 }
 
-
-
-
-
             }
         });
-
 
     }
 
@@ -1065,7 +1062,23 @@ public class LeaderBoard extends AppCompatActivity {
 
 
     /////////////////////////////// END OF POP and downstream methods like logout /////////////////////////
+    private void alreadyPremiumSnackbar(){
 
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutLeaderBoardX, "You are already a Premium Member", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+
+    }
 
 
 }

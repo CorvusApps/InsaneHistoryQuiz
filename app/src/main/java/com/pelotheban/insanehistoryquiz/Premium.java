@@ -169,8 +169,6 @@ public class Premium extends AppCompatActivity implements PurchasesUpdatedListen
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(Premium.this, "BUYING 22222", Toast.LENGTH_LONG).show();
-
                 dialog.dismiss();
                 purchasePremium();
 

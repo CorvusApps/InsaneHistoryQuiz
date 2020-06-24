@@ -84,6 +84,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:outlineProvider="none"
+                android:layout_marginRight="@dimen/_10sdp"
                 android:text="Yes" />
 
             <Button
@@ -93,6 +94,7 @@
                 android:textSize="18sp"
                 android:textStyle="normal"
                 android:outlineProvider="none"
+                android:layout_marginRight="@dimen/_10sdp"
                 android:text="No" />
         </LinearLayout>
     </LinearLayout>

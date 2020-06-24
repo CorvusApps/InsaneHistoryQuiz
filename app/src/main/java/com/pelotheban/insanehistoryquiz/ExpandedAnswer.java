@@ -857,8 +857,6 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
                             && showPremiumDialogToggle.equals("yes") && showPremiumDialogToggle2.equals("yes")
                             && goingToBadgesinsteadToggle.equals("no")) {
 
-                        Toast.makeText(ExpandedAnswer.this, "Premium", Toast.LENGTH_LONG).show();
-
                         premiumask();
 
                         userReference.child("premiumasktoggle").setValue("maybe");
@@ -868,8 +866,6 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
                             && showPremiumDialogToggle.equals("yes") && showPremiumDialogToggle2.equals("maybe")
                             && goingToBadgesinsteadToggle.equals("no")) {
 
-                        Toast.makeText(ExpandedAnswer.this, "Premium", Toast.LENGTH_LONG).show();
-
                         premiumask();
 
                         userReference.child("premiumasktoggle").setValue("maybetwo");
@@ -877,8 +873,6 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
                     } else if (ExpAnsShareToggleGet.equals("no") && goingToRatingsInsteadToggle.equals("no")
                             && showPremiumDialogToggle.equals("yes") && showPremiumDialogToggle2.equals("maybetwo")
                             && goingToBadgesinsteadToggle.equals("no")) {
-
-                        Toast.makeText(ExpandedAnswer.this, "Premium", Toast.LENGTH_LONG).show();
 
                         premiumask();
 
@@ -1740,8 +1734,6 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(ExpandedAnswer.this, "BUYING", Toast.LENGTH_LONG).show();
-
                 dialog.dismiss();
                 purchasePremium();
 
@@ -2156,7 +2148,8 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
                 if(showPremiumDialogToggle2.equals("bought")) {
 
-                    Toast.makeText(ExpandedAnswer.this, "You are already a PREMIUM member", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(ExpandedAnswer.this, "You are already a PREMIUM member", Toast.LENGTH_LONG).show();
+                    alreadyPremiumSnackbar();
 
                 } else {
 
@@ -2242,6 +2235,24 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getColor(R.color.colorPrimaryDark));
+
+        snackbar.show();
+
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+
+    }
+
+    private void alreadyPremiumSnackbar(){
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutEApanelX, "You are already a Premium Member", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
 
         snackbar.show();
 

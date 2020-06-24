@@ -221,7 +221,39 @@ public class HomePage extends AppCompatActivity {
                         showPremiumDialogToggle2 = "catch";
                     }
 
+                    try {
 
+                        homepagestartsString = userDs.child("zzzzhpstarts").getValue().toString();
+                        homepagestarts = Integer.valueOf(homepagestartsString);
+
+                        try { if (homepagestartsString.equals(null)) {
+
+                            homepagestarts = 0;
+
+                            }
+
+                        } catch ( Exception e) {
+
+                            homepagestarts = 0;
+                        }
+
+                    } catch ( Exception e) {
+
+                        homepagestarts = 0;
+                    }
+
+
+                }
+
+                    try {
+
+                        homepagestarts = homepagestarts +1;
+                        userReference.getRef().child("zzzzhpstarts").setValue(homepagestarts);
+
+                    } catch (Exception e) {
+
+
+                        }
 
                     try {
                         if (coinsOwned > 0 | coinGrantToggle.equals("yes")) {
@@ -264,57 +296,23 @@ public class HomePage extends AppCompatActivity {
                         //Toast.makeText(Game.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
 
-                    // initial logs for fbrecrods on sign in
+                // initial logs for fbrecrods on sign in
 
-                        //version code
-                        int version = BuildConfig.VERSION_CODE;
-                        userReference.getRef().child("zzzzversioncode").setValue(version);
+                //version code
+                int version = BuildConfig.VERSION_CODE;
+                userReference.getRef().child("zzzzversioncode").setValue(version);
 
-                        //last login date
-                        Long timeStamp = System.currentTimeMillis();
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTimeInMillis(timeStamp);
+                //last login date
+                Long timeStamp = System.currentTimeMillis();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(timeStamp);
 
-                        int mYear = calendar.get(Calendar.YEAR);
-                        int mMonth = calendar.get(Calendar.MONTH);
-                        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+                int mYear = calendar.get(Calendar.YEAR);
+                int mMonth = calendar.get(Calendar.MONTH);
+                int mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
-                        String date = mYear + "/" + mMonth + "/" + mDay;
-                        userReference.getRef().child("zzzzlastlogin").setValue(date);
-
-                        try {
-
-                            homepagestartsString = userDs.child("zzzzhpstarts").getValue().toString();
-                            homepagestarts = Integer.valueOf(homepagestartsString);
-
-                            try { if (homepagestartsString.equals(null)) {
-
-                                homepagestarts = 0;
-
-                                }
-
-                            } catch ( Exception e) {
-
-                                homepagestarts = 0;
-                            }
-
-                        } catch ( Exception e) {
-
-                            homepagestarts = 0;
-                        }
-
-
-                    }
-
-                    try {
-
-                        homepagestarts = homepagestarts +1;
-                        userReference.getRef().child("zzzzhpstarts").setValue(homepagestarts);
-
-                    } catch (Exception e) {
-
-
-                    }
+                String date = mYear + "/" + mMonth + "/" + mDay;
+                userReference.getRef().child("zzzzlastlogin").setValue(date);
 
             }
 
@@ -649,7 +647,7 @@ public class HomePage extends AppCompatActivity {
                 Log.i("PREMIUM", "before if show = " + showPremiumDialogToggle2);
                 if(showPremiumDialogToggle2.equals("bought")) {
 
-                    Toast.makeText(HomePage.this, "You are already a PREMIUM member", Toast.LENGTH_LONG).show();
+                    alreadyPremiumSnackbar();
 
                 } else {
 
@@ -776,5 +774,24 @@ public class HomePage extends AppCompatActivity {
 
     }
 /////////////////// END of POP UP MENU ///////////////////////////////////////////////////
+
+    private void alreadyPremiumSnackbar(){
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutHomePageX, "You are already a Premium Member", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
+
+    }
+
 
 }

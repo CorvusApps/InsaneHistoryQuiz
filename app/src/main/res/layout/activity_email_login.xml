@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loutEmailLogin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/wallbackground"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".EmailLogin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_350sdp"
+        android:gravity="center"
+        android:background="@drawable/scrollbackground"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/almendra_sc"
+            android:textSize="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:text="Your unique User Name will be used to retrieve your performance data and for Leaderboard display."
+            android:gravity="center"
+
+
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_38sdp"
+            android:layout_marginRight="@dimen/_38sdp"
+
+            android:hint="User Name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nextFocusForward="@+id/edtCategory"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/almendra_sc"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                android:maxLength="12"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_38sdp"
+            android:layout_marginRight="@dimen/_38sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+
+            android:hint="Password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nextFocusForward="@+id/edtCategory"
+                android:inputType="textPassword"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/almendra_sc"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRegister"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_marginLeft="@dimen/_38sdp"
+                android:layout_gravity="left"
+                android:text="Register NEW  User"
+                android:fontFamily="@font/almendra_sc"
+                android:textSize="@dimen/_13sdp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/_20sdp"
+
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLogin"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_gravity="right"
+                android:text="Log in"
+                android:fontFamily="@font/almendra_sc"
+                android:textSize="@dimen/_13sdp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/_20sdp"
+                android:backgroundTint="@color/colorPrimaryDark"
+
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

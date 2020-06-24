@@ -240,7 +240,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(MainActivity.this, "Email Login", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, EmailLogin.class);
+                startActivity(intent);
 
             }
         });

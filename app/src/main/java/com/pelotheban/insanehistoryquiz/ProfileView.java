@@ -1421,7 +1421,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                 Log.i("PREMIUM", "before if show = " + showPremiumDialogToggle2);
                 if(showPremiumDialogToggle2.equals("bought")) {
 
-                    Toast.makeText(ProfileView.this, "You are already a PREMIUM member", Toast.LENGTH_LONG).show();
+                    alreadyPremiumSnackbar();
 
                 } else {
 
@@ -2399,6 +2399,24 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             finish();
 
         }
+
+    }
+
+    private void alreadyPremiumSnackbar(){
+
+        Snackbar snackbar;
+
+        snackbar = Snackbar.make(loutProfileViewX, "You are already a Premium Member", Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getColor(R.color.colorAccent));
+
+        snackbar.show();
+
+
+        int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+        TextView textView = (TextView)snackbarView.findViewById(snackbarTextId);
+        textView.setTextSize(18);
 
     }
 
