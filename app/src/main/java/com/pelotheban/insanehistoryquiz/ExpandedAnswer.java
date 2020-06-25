@@ -603,7 +603,24 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
         txtFBaskX = findViewById(R.id.txtFBask);
         Log.i("ORDER", "Final: " + badgeSortKey);
         // did is set this up to essential execute query if badgeSortKey is not null?
-        goingToBadgesinsteadToggle = "no";
+        try {
+
+            if (badgeSortKey != null) {
+                goingToBadgesinsteadToggle = "yes";
+                Log.i("PREMIUM", "if not null - goingToBadgeinsteadToggle: " + goingToBadgesinsteadToggle);
+            } else {
+                goingToBadgesinsteadToggle = "no";
+                Log.i("PREMIUM", "if null - goingToBadgeinsteadToggle: " + goingToBadgesinsteadToggle);
+            }
+
+        } catch (Exception e){
+
+            goingToBadgesinsteadToggle = "no";
+            Log.i("PREMIUM", "catch - goingToBadgeinsteadToggle: " + goingToBadgesinsteadToggle);
+        }
+
+
+        Log.i("PREMIUM", "before badgeQuery - goingToBadgeinsteadToggle: " + goingToBadgesinsteadToggle);
         badgeQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(badgeSortKey);
         badgeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -612,6 +629,8 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
                 for (DataSnapshot badges : badgeSnapshot.getChildren()) {
 
                     goingToBadgesinsteadToggle = "yes";
+                    Log.i("PREMIUM", "Query - goingToBadgeinsteadToggle: " + goingToBadgesinsteadToggle);
+
                     loutBadgesX.setVisibility(View.VISIBLE);
                     fabPopUpEAX.setVisibility(View.GONE);
                     badgeImageLink = badges.child("badgeimagelink").getValue().toString();
@@ -712,7 +731,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
         mAuthEA = FirebaseAuth.getInstance();
 
-
+        Log.i("PREMIUM", "before sortQuery - goingToBadgeinsteadToggle: " + goingToBadgesinsteadToggle);
         uid = FirebaseAuth.getInstance().getUid();
         userReference = FirebaseDatabase.getInstance().getReference().child("my_users").child(uid);
         sortUsersQuery = FirebaseDatabase.getInstance().getReference().child("my_users").orderByChild("user").equalTo(uid);
@@ -722,6 +741,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
                 for (DataSnapshot userDs : dataSnapshot.getChildren()) {
                     // need the try because if new account will return null
+                    Log.i("PREMIUM", "in sortQuery - goingToBadgeinsteadToggle: " + goingToBadgesinsteadToggle);
 
                     try {
                         coinsOwnedString = userDs.child("coins").getValue().toString();
@@ -807,6 +827,11 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
                 }
 
                 goingToRatingsInsteadToggle = "no";
+                Log.i("PREMIUM", "First - ExpAnsShareToggleGet: " + ExpAnsShareToggleGet);
+                Log.i("PREMIUM", "First - goingToRatingsInstead: " + goingToRatingsInsteadToggle);
+                Log.i("PREMIUM", "First - showPremiumDialogToggle: " + showPremiumDialogToggle);
+                Log.i("PREMIUM", "First - showPremiumDialogToggle2: " + showPremiumDialogToggle2);
+                Log.i("PREMIUM", "First - goingToBadgeinsteadToggle: " + goingToBadgesinsteadToggle);
                 try {
 
                     if(ExpAnsShareToggleGet.equals("no") && totalQuestionss > 10
@@ -846,11 +871,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
                     showPremiumDialogToggle = getIntent().getStringExtra("shownad");
 
-                    Log.i("PREMIUM", "First - ExpAnsShareToggleGet: " + ExpAnsShareToggleGet);
-                    Log.i("PREMIUM", "First - goingToRatingsInstead: " + goingToRatingsInsteadToggle);
-                    Log.i("PREMIUM", "First - showPremiumDialogToggle: " + showPremiumDialogToggle);
-                    Log.i("PREMIUM", "First - showPremiumDialogToggle2: " + showPremiumDialogToggle2);
-                    Log.i("PREMIUM", "First - goingToBadgeinsteadToggle: " + goingToBadgesinsteadToggle);
+
 
 
                     if(ExpAnsShareToggleGet.equals("no") && goingToRatingsInsteadToggle.equals("no")
@@ -960,7 +981,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
             @Override
             public void onFinish() {
-                scvExpandedAnswerX.smoothScrollBy(0,4000);
+                scvExpandedAnswerX.smoothScrollBy(0,6000);
             }
         }.start();
 
@@ -1710,6 +1731,16 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
         btnPremiumMaybeX = view.findViewById(R.id.btnPremiumMaybe);
         btnPremiumNoX = view.findViewById(R.id.btnPremiumNo);
 
+        if (width2 > 1500) { // changes in fot for tablet and then small format phone
+
+
+
+        } else if (height2 < 1300) {
+
+            btnPremiumMaybeX.setTextSize(13);
+
+        }
+
 
         btnPremiumMaybeX.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1778,6 +1809,16 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
         //imgFBShareGlowX = view.findViewById(R.id.imgFBShareGlow);
         btnRatingMaybeX = view.findViewById(R.id.btnRatingMaybe);
         btnRatingNoX = view.findViewById(R.id.btnRatingNo);
+
+        if (width2 > 1500) { // changes in fot for tablet and then small format phone
+
+
+
+        } else if (height2 < 1300) {
+
+            btnRatingMaybeX.setTextSize(8);
+
+        }
 
 
         btnRatingMaybeX.setOnClickListener(new View.OnClickListener() {
@@ -2375,7 +2416,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
         } else if (responseCode == BillingClient.BillingResponseCode.USER_CANCELED)  {
 
-            finish();
+           // finish(); //there is a finish in premium class because there have to get back... here if cancel should just land back in extended
 
         }
 
@@ -2385,6 +2426,8 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
         // set to bought which should mean the ask to buy should never be triggered again
         userReference.child("premiumasktoggle").setValue("bought");
+        showPremiumDialogToggle2 = "bought"; // just in case user tries to buy from menu during this instance without refreshing the query
+
 
         // In Game using this to stop interstitial and rewarded from being triggered
 

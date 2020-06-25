@@ -247,6 +247,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         sentFromQuery = 1;
 
         Log.i ("TIMING" , "On-create = " + adMobToggle);
+        Log.i("INTERSTITIAL", "in oncreate = " + mAdvertCounterGame);
 
         MobileAds.initialize(this, "ca-app-pub-1744081621312112~9212279801");
             /// Reward video
@@ -646,6 +647,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         btnCorrectX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("INTERSTITIAL", "in btn right = " + mAdvertCounterGame);
 
                 stopTimer(); // stop the clock as soon as button pressed to avoid ASYNC issues
 
@@ -977,6 +979,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         btnWrongX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("INTERSTITIAL", "in btn wrong = " + mAdvertCounterGame);
 
                 stopTimer();
 

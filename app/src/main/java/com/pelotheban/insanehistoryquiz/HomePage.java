@@ -78,6 +78,7 @@ public class HomePage extends AppCompatActivity {
 
     private String homepagestartsString;
     private int homepagestarts;
+    private String homepageVisitedToggle;
 
     // badge bonus
 
@@ -95,6 +96,8 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        homepageVisitedToggle = "no";
 
         // Basic UI components
         loutHomePageX = findViewById(R.id.loutHomePage);
@@ -247,8 +250,13 @@ public class HomePage extends AppCompatActivity {
 
                     try {
 
-                        homepagestarts = homepagestarts +1;
-                        userReference.getRef().child("zzzzhpstarts").setValue(homepagestarts);
+                        if (homepageVisitedToggle.equals("no")) {
+
+                            homepagestarts = homepagestarts + 1;
+                            userReference.getRef().child("zzzzhpstarts").setValue(homepagestarts);
+                            homepageVisitedToggle = "yes";
+
+                        }
 
                     } catch (Exception e) {
 
