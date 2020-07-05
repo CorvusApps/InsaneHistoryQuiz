@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 //                    startActivity(intent);
 //                    finish();
                     transitionToHome(); // this implements a timer that allows snackbar if logging in vs. just returning
+
                 } else {
                     // User is signed out
                     Log.i("LOGIN", "onAuthStateChanged:signed_out");
@@ -240,8 +241,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                mAuth.removeAuthStateListener(mAuthListener); // for some reason this does not work here had to put it in onstop to remove it as it caused double homepage blasts if login in via email
                 Intent intent = new Intent(MainActivity.this, EmailLogin.class);
                 startActivity(intent);
+                finish();
+
 
             }
         });
@@ -253,10 +257,19 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         mAuth.addAuthStateListener(mAuthListener);
+        Log.i("LOGIN", "in on start");
 
     }
 
-///////////////////// BEGIN GOOGLE SIGN IN METHODS ///////////////////////////////////
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        mAuth.removeAuthStateListener(mAuthListener);
+        Log.i("LOGIN", "in onstop");
+    }
+
+    ///////////////////// BEGIN GOOGLE SIGN IN METHODS ///////////////////////////////////
     private void googleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, 101);
@@ -388,6 +401,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, HomePage.class);
                 startActivity(intent);
                 finish();
+                Log.i("HPSTARTS", "Main intent 1");
+
             }
         }.start();
 

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -46,6 +47,8 @@ public class EmailLogin extends AppCompatActivity {
 
     private String tempUserId;
 
+    private SharedPreferences UserPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +57,18 @@ public class EmailLogin extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         userLoginReference = FirebaseDatabase.getInstance().getReference().child("my_users");
 
+        try {
+
+            UserPref = getSharedPreferences("sharedidsetting", MODE_PRIVATE);
+            tempUserId = UserPref.getString("shuserid", "");
+
+        } catch(Exception e) {
+
+        }
+
 
         edtUserNameX = findViewById(R.id.edtUserName);
+        edtUserNameX.setText(tempUserId);
         edtUserNameX.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
         edtPasswordX = findViewById(R.id.edtPassword);
@@ -115,6 +128,10 @@ public class EmailLogin extends AppCompatActivity {
 
                                 duplicateIDSnackbar();
                             } else {
+
+                                SharedPreferences.Editor editor = UserPref.edit();
+                                editor.putString("shuserid", tempUserId);
+                                editor.apply(); // saves the value
 
                                 corvusEmail = edtUserNameX.getText().toString() + "@corvus.com";
                                 signUp();
@@ -258,6 +275,7 @@ public class EmailLogin extends AppCompatActivity {
 
         Intent intent = new Intent(EmailLogin.this, HomePage.class);
         startActivity(intent);
+        Log.i("HPSTARTS", "Email intent");
 
 
     }

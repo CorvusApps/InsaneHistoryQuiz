@@ -153,6 +153,12 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
     private int coinAwardNo, levelMultiplier;
     private MaterialButton btnLevelGameX;
 
+    private String trueTotalQuestionsString, trueEasyString, trueChallengingString, trueHardString, trueVeryHardString;
+    private int trueTotalQuestions, trueEasy, trueChallenging, trueHard, trueVeryHard;
+
+    private String trueTotalQuestionsAnsString, trueEasyAnsString, trueChallengingAnsString, trueHardAnsString, trueVeryHardAnsString;
+    private int trueTotalQuestionsAns, trueEasyAns, trueChallengingAns, trueHardAns, trueVeryHardAns;
+
 
 
             //// badges start
@@ -269,8 +275,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         mAdvertCounterGame = sharedAdvertCounterGame.getInt("CounterGame", 0); // where if no settings
 
         mInterstitialGame = new InterstitialAd(Game.this);
-       mInterstitialGame.setAdUnitId(getString(R.string.test_interstitial_ad));
-       // mInterstitialGame.setAdUnitId(getString(R.string.gamescreen_int));
+        mInterstitialGame.setAdUnitId(getString(R.string.test_interstitial_ad));
+        //mInterstitialGame.setAdUnitId(getString(R.string.gamescreen_int));
         mInterstitialGame.loadAd(new AdRequest.Builder().build());
 
         mInterstitialGame.setAdListener(new AdListener(){
@@ -538,6 +544,76 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     }
 
+                    try {
+                        trueTotalQuestionsString = userDs.child("truetotalquestions").getValue().toString();
+                        trueTotalQuestions = Integer.valueOf(trueTotalQuestionsString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        trueEasyString = userDs.child("trueeasy").getValue().toString();
+                        trueEasy = Integer.valueOf(trueEasyString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        trueChallengingString = userDs.child("truechallenging").getValue().toString();
+                        trueChallenging = Integer.valueOf(trueChallengingString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        trueHardString = userDs.child("truehard").getValue().toString();
+                        trueHard = Integer.valueOf(trueHardString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        trueVeryHardString = userDs.child("trueveryhard").getValue().toString();
+                        trueVeryHard = Integer.valueOf(trueVeryHardString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        trueTotalQuestionsAnsString = userDs.child("truetotalquestionsans").getValue().toString();
+                        trueTotalQuestionsAns = Integer.valueOf(trueTotalQuestionsAnsString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        trueEasyAnsString = userDs.child("trueeasyans").getValue().toString();
+                        trueEasyAns = Integer.valueOf(trueEasyAnsString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        trueChallengingAnsString = userDs.child("truechallengingans").getValue().toString();
+                        trueChallengingAns = Integer.valueOf(trueChallengingAnsString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        trueHardAnsString = userDs.child("truehardans").getValue().toString();
+                        trueHardAns = Integer.valueOf(trueHardAnsString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        trueVeryHardAnsString = userDs.child("trueveryhardans").getValue().toString();
+                        trueVeryHardAns = Integer.valueOf(trueVeryHardAnsString);
+                    } catch (Exception e) {
+
+                    }
+
 
 
                     //// CURRENT badge checks - get value in firebase for later comparison to what uwer should have after last right answer
@@ -680,18 +756,37 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                         coinAwardNo = 5 - rightAnswerTicker; // total award for correct is 5; this subtracts points already added for correctly guessing wrong answers
                         levelMultiplier = 1;
+                        trueEasy = trueEasy + 1;
+                        userReference.getRef().child("trueeasy").setValue(trueEasy);
+                        trueEasyAns = trueEasyAns + 1;
+                        userReference.getRef().child("trueeasyans").setValue(trueEasyAns);
                     } else if (difficultyLevel.equals("NotEasy")){
 
                         coinAwardNo = 10 - rightAnswerTicker;
                         levelMultiplier = 1;
+                        trueChallenging = trueChallenging + 1;
+                        userReference.getRef().child("truechallenging").setValue(trueChallenging);
+                        trueChallengingAns = trueChallengingAns + 1;
+                        userReference.getRef().child("truechallengingans").setValue(trueChallengingAns);
+
                     } else if (difficultyLevel.equals("Hard")){
 
                         coinAwardNo = 15 - rightAnswerTicker;
                         levelMultiplier = 2;
+                        trueHard = trueHard + 1;
+                        userReference.getRef().child("truehard").setValue(trueHard);
+                        trueHardAns = trueHardAns + 1;
+                        userReference.getRef().child("truehardans").setValue(trueHardAns);
+
                     } else if (difficultyLevel.equals("VeryHard")){
 
                         coinAwardNo = 20 - rightAnswerTicker;
                         levelMultiplier = 3;
+                        trueVeryHard = trueVeryHard + 1;
+                        userReference.getRef().child("trueveryhard").setValue(trueVeryHard);
+                        trueVeryHardAns = trueVeryHardAns + 1;
+                        userReference.getRef().child("trueveryhardans").setValue(trueVeryHardAns);
+
                     } else {
 
                         coinAwardNo = 10; // catch all just in case there is no designation
@@ -746,6 +841,10 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                             totalQuestions = totalQuestions + (1*levelMultiplier);
                             userReference.getRef().child("totalquestions").setValue(totalQuestions);
+                            trueTotalQuestions = trueTotalQuestions + 1;
+                            userReference.getRef().child("truetotalquestions").setValue(trueTotalQuestions);
+                            trueTotalQuestionsAns = trueTotalQuestionsAns + 1;
+                            userReference.getRef().child("truetotalquestionsans").setValue(trueTotalQuestionsAns);
 
                             /// THESE HAVE TO BE ADJUSTED TO the final era settings
                             if (era.equals("Antiquity")) {
@@ -818,15 +917,26 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                             if (difficultyLevel.equals("Easy")) {
 
                                 levelMultiplier = 1;
+                                trueEasy = trueEasy + 1;
+                                userReference.getRef().child("trueeasy").setValue(trueEasy);
+
                             } else if (difficultyLevel.equals("NotEasy")){
 
                                 levelMultiplier = 1;
+                                trueChallenging = trueChallenging + 1;
+                                userReference.getRef().child("truechallenging").setValue(trueChallenging);
+
                             } else if (difficultyLevel.equals("Hard")){
 
                                 levelMultiplier = 2;
+                                trueHard = trueHard + 1;
+                                userReference.getRef().child("truehard").setValue(trueHard);
+
                             } else if (difficultyLevel.equals("VeryHard")){
 
                                 levelMultiplier = 3;
+                                trueVeryHard = trueVeryHard + 1;
+                                userReference.getRef().child("trueveryhard").setValue(trueVeryHard);
                             } else {
 
                                 levelMultiplier = 1;
@@ -846,6 +956,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                             totalQuestions = totalQuestions + (1*levelMultiplier);
                             userReference.getRef().child("totalquestions").setValue(totalQuestions);
+                            trueTotalQuestions = trueTotalQuestions + 1;
+                            userReference.getRef().child("truetotalquestions").setValue(trueTotalQuestions);
 
                             // adds one to the counter and its shared pref for interstitial ads
                             Log.i("INTERSTITIAL", "Counter on Wrong = " + mAdvertCounterGame);
@@ -882,7 +994,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                                                 Log.i("ADMOB", "NOT LOADED rewarded, coins before reward  " + coinsOwned);
 
-                                                coinsOwned = coinsOwned + 100;
+                                                coinsOwned = coinsOwned + 50;
                                                 String coinsOwnedZ = Integer.toString(coinsOwned);
                                                 txtCoinCounterX.setText(coinsOwnedZ);
                                                 userReference.getRef().child("coins").setValue(coinsOwned);
@@ -988,15 +1100,27 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     levelMultiplier = 1;
                     coinAwardNo = 5;
+                    trueEasy = trueEasy + 1;
+                    userReference.getRef().child("trueeasy").setValue(trueEasy);
+
                 } else if (difficultyLevel.equals("NotEasy")){
                     coinAwardNo = 10;
                     levelMultiplier = 1;
+                    trueChallenging = trueChallenging + 1;
+                    userReference.getRef().child("truechallenging").setValue(trueChallenging);
+
                 } else if (difficultyLevel.equals("Hard")){
                     coinAwardNo = 15;
                     levelMultiplier = 2;
+                    trueHard = trueHard + 1;
+                    userReference.getRef().child("truehard").setValue(trueHard);
+
                 } else if (difficultyLevel.equals("VeryHard")){
                     coinAwardNo = 20;
                     levelMultiplier = 3;
+                    trueVeryHard = trueVeryHard + 1;
+                    userReference.getRef().child("trueveryhard").setValue(trueVeryHard);
+
                 } else {
                     coinAwardNo = 20;
                     levelMultiplier = 1;
@@ -1053,6 +1177,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                             totalQuestions = totalQuestions + (1*levelMultiplier);
                             userReference.getRef().child("totalquestions").setValue(totalQuestions);
+                            trueTotalQuestions = trueTotalQuestions + 1;
+                            userReference.getRef().child("truetotalquestions").setValue(trueTotalQuestions);
 
                             // adds one to the counter and its shared pref for interstitial ads
                             Log.i("INTERSTITIAL", "Counter on Wrong = " + mAdvertCounterGame);
@@ -2370,6 +2496,37 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     @Override
                     public void onFinish() {
 
+                        if (difficultyLevel.equals("Easy")) {
+
+                            levelMultiplier = 1;
+
+                            trueEasy = trueEasy + 1;
+                            userReference.getRef().child("trueeasy").setValue(trueEasy);
+
+                        } else if (difficultyLevel.equals("NotEasy")){
+
+                            levelMultiplier = 1;
+                            trueChallenging = trueChallenging + 1;
+                            userReference.getRef().child("truechallenging").setValue(trueChallenging);
+
+                        } else if (difficultyLevel.equals("Hard")){
+
+                            levelMultiplier = 2;
+                            trueHard = trueHard + 1;
+                            userReference.getRef().child("truehard").setValue(trueHard);
+
+                        } else if (difficultyLevel.equals("VeryHard")){
+
+                            levelMultiplier = 3;
+                            trueVeryHard = trueVeryHard + 1;
+                            userReference.getRef().child("trueveryhard").setValue(trueVeryHard);
+
+                        } else {
+
+                            levelMultiplier = 1;
+                        }
+
+
                         //Log.i("QUIZQ", "On Finish Corrector");
                         coinsOwned = coinsOwned - 10;
                         String coinsOwedZ = Integer.toString(coinsOwned);
@@ -2383,8 +2540,11 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                         txtConStreakX.setText(conStreakZ);
                         userReference.getRef().child("constreak").setValue(consStreak);
 
-                        totalQuestions = totalQuestions + 1;
+                        totalQuestions = totalQuestions + (1*levelMultiplier);
                         userReference.getRef().child("totalquestions").setValue(totalQuestions);
+                        trueTotalQuestions = trueTotalQuestions + 1;
+                        userReference.getRef().child("truetotalquestions").setValue(trueTotalQuestions);
+
 
                         // adds one to the counter and its shared pref for interstitial ads
                         Log.i("INTERSTITIAL", "Counter on timeout = " + mAdvertCounterGame);

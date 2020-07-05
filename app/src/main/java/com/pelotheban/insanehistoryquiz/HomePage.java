@@ -96,6 +96,7 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+        Log.i("HPSTARTS", "in beginning of oncreate");
 
         homepageVisitedToggle = "no";
 
@@ -255,6 +256,7 @@ public class HomePage extends AppCompatActivity {
                             homepagestarts = homepagestarts + 1;
                             userReference.getRef().child("zzzzhpstarts").setValue(homepagestarts);
                             homepageVisitedToggle = "yes";
+                            Log.i("HPSTARTS", "in the if");
 
                         }
 

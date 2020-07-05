@@ -127,6 +127,12 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
     int mAdvertCounterGameVillain;
     private SharedPreferences sharedAdvertCounterGame;
 
+    private String trueTotalQuestionsString;
+    private int trueTotalQuestions;
+
+    private String trueTotalQuestionsAnsString;
+    private int trueTotalQuestionsAns;
+
 
 
     // Play on buttons
@@ -380,6 +386,20 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
                         totalVillainsRevealedString = villainUsers.child("totalvillainsrevealed").getValue().toString();
                         totalVillainsRevealed = Integer.valueOf(totalVillainsRevealedString);
 
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        trueTotalQuestionsString = villainUsers.child("truetotalquestions").getValue().toString();
+                        trueTotalQuestions = Integer.valueOf(trueTotalQuestionsString);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        trueTotalQuestionsAnsString = villainUsers.child("truetotalquestionsans").getValue().toString();
+                        trueTotalQuestionsAns = Integer.valueOf(trueTotalQuestionsAnsString);
                     } catch (Exception e) {
 
                     }

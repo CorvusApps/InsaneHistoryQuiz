@@ -1737,7 +1737,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
         } else if (height2 < 1300) {
 
-            btnPremiumMaybeX.setTextSize(13);
+            btnPremiumMaybeX.setTextSize(8);
 
         }
 
