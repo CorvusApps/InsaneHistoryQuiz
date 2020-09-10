@@ -577,7 +577,10 @@ public class LeaderBoard extends AppCompatActivity {
                     viewHolder.setUser(model.getUser());
                 }
 
+                viewHolder.setImageStock();
                 viewHolder.setImage(getApplicationContext(),model.getImagelink());
+
+                viewHolder.setImageflagStock();
                 viewHolder.setImageflag(getApplicationContext(),model.getImageflaglink());
 
 
@@ -742,6 +745,13 @@ public class LeaderBoard extends AppCompatActivity {
 
         }
 
+        public void setImageStock(){
+
+            ImageView imgRVProfileX = (ImageView) mView.findViewById(R.id.imgRVProfile);
+            imgRVProfileX.setBackgroundResource(R.drawable.profile);
+
+        }
+
         public void setImage(Context ctx, final String imageLink){
 
             if (imageLink != "" && imageLink != null) {
@@ -755,15 +765,31 @@ public class LeaderBoard extends AppCompatActivity {
             }
 
         }
+        public void setImageflagStock(){
+
+            ImageView imgRVFlagX = (ImageView) mView.findViewById(R.id.imgRVFlag);
+            imgRVFlagX.setBackgroundResource(R.drawable.unflag);
+
+        }
 
         public void setImageflag(Context ctx, final String imageflagLink){
 
-            if (imageflagLink != "" && imageflagLink != null) {
-                ImageView imgRVFlagX = (ImageView) mView.findViewById(R.id.imgRVFlag);
-                Picasso.get().load(imageflagLink).into(imgRVFlagX); //tutorial had with which got renamed to get but with took ctx as parameter...
-            } else {
 
-                ImageView imgRVFlagX = (ImageView) mView.findViewById(R.id.imgRVFlag);
+          ImageView imgRVFlagX = (ImageView) mView.findViewById(R.id.imgRVFlag);
+          //  imgRVFlagX.setBackgroundResource(R.drawable.unflag);
+
+            try {
+                if (imageflagLink != "") {
+                   // ImageView imgRVFlagX = (ImageView) mView.findViewById(R.id.imgRVFlag);
+                    Picasso.get().load(imageflagLink).into(imgRVFlagX); //tutorial had with which got renamed to get but with took ctx as parameter...
+                } else {
+
+                   // ImageView imgRVFlagX = (ImageView) mView.findViewById(R.id.imgRVFlag);
+                    imgRVFlagX.setBackgroundResource(R.drawable.unflag);
+                }
+            } catch (Exception e) {
+
+                //ImageView imgRVFlagX = (ImageView) mView.findViewById(R.id.imgRVFlag);
                 imgRVFlagX.setBackgroundResource(R.drawable.unflag);
 
             }

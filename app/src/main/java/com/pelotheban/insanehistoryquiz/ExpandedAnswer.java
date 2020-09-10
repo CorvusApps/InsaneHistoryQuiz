@@ -110,7 +110,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
     private int newbadgesup, newbadgestr, newbadgetrt, newbadgewin;
     private int newbadgexant, newbadgexmed, newbadgexren, newbadgexenl, newbadgexmod, newbadgexcon;
-    private int newbadgebon, newbadgesha, newbadgevil;
+    private int newbadgebon, newbadgesha, newbadgevil, newbadgespe;
     private LinearLayout loutBadgesX;
     private ImageView imgBadgeAwardX;
 
@@ -341,6 +341,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
         newbadgebon = getIntent().getIntExtra("newbadgebon", 0);
         newbadgesha = getIntent().getIntExtra("newbadgesha", 0);
         newbadgevil = getIntent().getIntExtra("newbadgevil", 0);
+        newbadgespe = getIntent().getIntExtra("newbadgespe", 0);
 
         newbadgexant = getIntent().getIntExtra("newbadgexant", 0);
         newbadgexmed = getIntent().getIntExtra("newbadgexmed", 0);
@@ -451,6 +452,11 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
         if (newbadgevil == 1) {
             badgeSortKey = "vil";
             badgeAwardMsg = "You earned THE VILLAIN SPOTTER BADGE for 5 Revealed Villains!";
+        }
+
+        if (newbadgespe == 1) {
+            badgeSortKey = "spe";
+            badgeAwardMsg = "You earned THE SPECTRUM BADGE for 5 Correct Answers at each DIFFICULTY Level!";
         }
 
 
@@ -885,7 +891,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
                     } else if (ExpAnsShareToggleGet.equals("no") && goingToRatingsInsteadToggle.equals("no")
                             && showPremiumDialogToggle.equals("yes") && showPremiumDialogToggle2.equals("maybe")
-                            && goingToBadgesinsteadToggle.equals("no")) {
+                            && goingToBadgesinsteadToggle.equals("no") && totalQuestionss > 25) {
 
                         premiumask();
 
@@ -893,7 +899,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
 
                     } else if (ExpAnsShareToggleGet.equals("no") && goingToRatingsInsteadToggle.equals("no")
                             && showPremiumDialogToggle.equals("yes") && showPremiumDialogToggle2.equals("maybetwo")
-                            && goingToBadgesinsteadToggle.equals("no")) {
+                            && goingToBadgesinsteadToggle.equals("no") && totalQuestionss > 50) {
 
                         premiumask();
 
@@ -1709,7 +1715,7 @@ public class ExpandedAnswer extends AppCompatActivity implements PurchasesUpdate
     public void premiumask() {
 
         LayoutInflater inflater = LayoutInflater.from(ExpandedAnswer.this);
-        View view = inflater.inflate(R.layout.zzz_premiumask_dialog, null); // just ussing this fb dialog for ratings
+        View view = inflater.inflate(R.layout.zzz_premiumask_dialog, null);
 
         dialog = new AlertDialog.Builder(ExpandedAnswer.this)
                 .setView(view)

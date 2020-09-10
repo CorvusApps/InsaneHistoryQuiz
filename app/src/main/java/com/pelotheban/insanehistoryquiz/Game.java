@@ -188,6 +188,12 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             private int badgevillev;
             private int newbadgevil;
 
+            private String badgespeString; // spectrum badge
+            private int badgespe;
+            private int badgespelev;
+            private int newbadgespe;
+
+
             private int badgeAwardedToggle;
 
 
@@ -262,8 +268,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         mRewardedAdGameScreenCoins = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedAdGameScreenCoins.setRewardedVideoAdListener(this);
-        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
-        //mRewardedAdGameScreenCoins.loadAd("ca-app-pub-1744081621312112/9832400365", new AdRequest.Builder().build()); // REAL
+        //mRewardedAdGameScreenCoins.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build()); // TEST
+        mRewardedAdGameScreenCoins.loadAd("ca-app-pub-1744081621312112/9832400365", new AdRequest.Builder().build()); // REAL
 
         txtAdMessageX = findViewById(R.id.txtAdMessage);
 
@@ -275,8 +281,8 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         mAdvertCounterGame = sharedAdvertCounterGame.getInt("CounterGame", 0); // where if no settings
 
         mInterstitialGame = new InterstitialAd(Game.this);
-        mInterstitialGame.setAdUnitId(getString(R.string.test_interstitial_ad));
-        //mInterstitialGame.setAdUnitId(getString(R.string.gamescreen_int));
+        //mInterstitialGame.setAdUnitId(getString(R.string.test_interstitial_ad));
+        mInterstitialGame.setAdUnitId(getString(R.string.gamescreen_int));
         mInterstitialGame.loadAd(new AdRequest.Builder().build());
 
         mInterstitialGame.setAdListener(new AdListener(){
@@ -685,6 +691,12 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     try {
                         badgevilString = userDs.child("badgevil").getValue().toString();
                         badgevil = Integer.valueOf(badgevilString);
+                    } catch (Exception e) {
+                    }
+
+                    try {
+                        badgespeString = userDs.child("badgespe").getValue().toString();
+                        badgespe = Integer.valueOf(badgespeString);
                     } catch (Exception e) {
                     }
 
@@ -1100,26 +1112,22 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                     levelMultiplier = 1;
                     coinAwardNo = 5;
-                    trueEasy = trueEasy + 1;
-                    userReference.getRef().child("trueeasy").setValue(trueEasy);
+
 
                 } else if (difficultyLevel.equals("NotEasy")){
                     coinAwardNo = 10;
                     levelMultiplier = 1;
-                    trueChallenging = trueChallenging + 1;
-                    userReference.getRef().child("truechallenging").setValue(trueChallenging);
+
 
                 } else if (difficultyLevel.equals("Hard")){
                     coinAwardNo = 15;
                     levelMultiplier = 2;
-                    trueHard = trueHard + 1;
-                    userReference.getRef().child("truehard").setValue(trueHard);
+
 
                 } else if (difficultyLevel.equals("VeryHard")){
                     coinAwardNo = 20;
                     levelMultiplier = 3;
-                    trueVeryHard = trueVeryHard + 1;
-                    userReference.getRef().child("trueveryhard").setValue(trueVeryHard);
+
 
                 } else {
                     coinAwardNo = 20;
@@ -1152,6 +1160,29 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
                     txtCoinAwardX.setText("-10");
                     loutStreakAwardX.setVisibility(View.VISIBLE);
                     txtStreakAwardX.setText("0");
+
+                    if (difficultyLevel.equals("Easy")) {
+
+
+                        trueEasy = trueEasy + 1;
+                        userReference.getRef().child("trueeasy").setValue(trueEasy);
+
+                    } else if (difficultyLevel.equals("NotEasy")){
+
+                        trueChallenging = trueChallenging + 1;
+                        userReference.getRef().child("truechallenging").setValue(trueChallenging);
+
+                    } else if (difficultyLevel.equals("Hard")){
+
+                        trueHard = trueHard + 1;
+                        userReference.getRef().child("truehard").setValue(trueHard);
+
+                    } else if (difficultyLevel.equals("VeryHard")){
+
+                        trueVeryHard = trueVeryHard + 1;
+                        userReference.getRef().child("trueveryhard").setValue(trueVeryHard);
+
+                    }
 
                     CountDownTimer correctorTimer = new CountDownTimer(1500, 500) {
                         @Override
@@ -1951,6 +1982,15 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
             badgevillev = 0;
         }
 
+        if (trueEasyAns > 4 && trueChallengingAns > 4 && trueHardAns > 4 && trueVeryHardAns > 4) {
+
+            badgespelev = 1;
+
+        } else {
+
+            badgespelev = 0;
+        }
+
 
         if (eraAnsweredAntiquity > 199) {
             badgexantlev = 5;
@@ -2176,6 +2216,17 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
         } catch (Exception e) {
         }
 
+        try {
+            if (badgeAwardedToggle == 1) {
+                if (badgespelev > badgespe) {
+                    newbadgespe = badgespelev;
+                    userReference.getRef().child("badgespe").setValue(newbadgespe);
+                    badgeAwardedToggle = 2;
+                }
+            }
+        } catch (Exception e) {
+        }
+
 
         /// trainsition to extended answer section
 
@@ -2212,6 +2263,10 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
         if (newbadgevil > 0) {
             intent.putExtra("newbadgevil", newbadgevil);
+        }
+
+        if (newbadgespe > 0) {
+            intent.putExtra("newbadgespe", newbadgespe);
         }
 
         if (newbadgexant > 0) {
@@ -2581,7 +2636,7 @@ public class Game extends AppCompatActivity implements RewardedVideoAdListener {
 
                                             Log.i("ADMOB", "NOT LOADED rewarded, coins before reward  " + coinsOwned);
 
-                                            coinsOwned = coinsOwned + 100;
+                                            coinsOwned = coinsOwned + 50;
                                             String coinsOwnedZ = Integer.toString(coinsOwned);
                                             txtCoinCounterX.setText(coinsOwnedZ);
                                             userReference.getRef().child("coins").setValue(coinsOwned);

@@ -976,6 +976,11 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
         totalVillainsRevealed = totalVillainsRevealed +1;
         userVillainReference.getRef().child("totalvillainsrevealed").setValue(totalVillainsRevealed);
 
+        trueTotalQuestions = trueTotalQuestions + 1;
+        userVillainReference.getRef().child("truetotalquestions").setValue(trueTotalQuestions);
+        trueTotalQuestionsAns = trueTotalQuestionsAns + 1;
+        userVillainReference.getRef().child("truetotalquestionsans").setValue(trueTotalQuestionsAns);
+
 
         // adds one to the counter and its shared pref for interstitial ads
         Log.i("INTERSTITIAL", "Counter on Right = " + mAdvertCounterGameVillain);
@@ -1023,6 +1028,10 @@ public class GameVillain extends AppCompatActivity implements View.OnClickListen
 
         totalQuestionsVillain = totalQuestionsVillain + 1;
         userVillainReference.getRef().child("totalquestions").setValue(totalQuestionsVillain);
+
+        trueTotalQuestions = trueTotalQuestions + 1;
+        userVillainReference.getRef().child("truetotalquestions").setValue(trueTotalQuestions);
+
 
         takeVillainCoinsAnimation();
 

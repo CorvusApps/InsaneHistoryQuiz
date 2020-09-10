@@ -147,10 +147,10 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
         // Ancilary badges
 
-    private ImageView imgArtBonusBadgeX, imgFBShareBadgeX, imgVillainsRevealedBadgeX, imgPremiumBadgeX;
-    private String artBonusBadgeLevelString, fbShareBadgeLevelString, villainsRevealedString, premiumLevelString;
-    private int artBonusBadgeLevel, fbShareBadgeLevel, villainsRevealedLevel, premiumLevel;
-    private String artBonusBadge, fbShareBadge, villainsRevealedBadge, premiumBadge;
+    private ImageView imgArtBonusBadgeX, imgFBShareBadgeX, imgVillainsRevealedBadgeX, imgPremiumBadgeX, imgSpectrumBadgeX;
+    private String artBonusBadgeLevelString, fbShareBadgeLevelString, villainsRevealedString, premiumLevelString, spectrumLevelString;
+    private int artBonusBadgeLevel, fbShareBadgeLevel, villainsRevealedLevel, premiumLevel, spectrumLevel;
+    private String artBonusBadge, fbShareBadge, villainsRevealedBadge, premiumBadge, spectrumBadge;
 
         // badge views
 
@@ -539,6 +539,7 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
         imgFBShareBadgeX = findViewById(R.id.imgFBShareBadge);
         imgVillainsRevealedBadgeX = findViewById(R.id.imgVillainsRevealedBadge);
         imgPremiumBadgeX = findViewById(R.id.imgPremiumBadge);
+        imgSpectrumBadgeX = findViewById(R.id.imgSpectrumbadge);
 
         ///// POPULATING ALL THE COUNTERS BEGINS ////////////////////////////////////////////////////
 
@@ -715,6 +716,14 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
                         premiumLevelString = userPs.child("badgepre").getValue().toString();
                         premiumLevel = Integer.valueOf(premiumLevelString);
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+
+                        spectrumLevelString = userPs.child("badgespe").getValue().toString();
+                        spectrumLevel = Integer.valueOf(spectrumLevelString);
 
                     } catch (Exception e) {
                     }
@@ -933,6 +942,14 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             }
         });
 
+        imgSpectrumBadgeX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                badgeView = "spectrum";
+                badgeViews(badgeView);
+            }
+        });
+
 
 
     }
@@ -1063,6 +1080,15 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
 
             if (badgeSortkey.equals("pre")) {
                 badgeProfileAwardMsg = "THE PREMIUM HISTORIAN BADGE for supporting our QUIZ!";
+            }
+        }
+
+        if (badgeView.equals("spectrum")) {
+
+            badgeSortkey = spectrumBadge;
+
+            if (badgeSortkey.equals("spe")) {
+                badgeProfileAwardMsg = "THE SPECTRUM BADGE for 5 Correct Answers at each DIFFICULTY Level!";
             }
         }
 
@@ -1863,6 +1889,11 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
             premiumBadge = "pre";
         }
 
+        spectrumBadge = "";
+        if (spectrumLevel == 1) {
+            spectrumBadge = "spe";
+        }
+
         antiquityBadge ="";
         if (antiquityBadgeLevel == 1){
             antiquityBadge = "xant1";
@@ -2109,6 +2140,25 @@ public class ProfileView extends AppCompatActivity implements OnCountryPickerLis
                     if (premiumLevel > 0) {
                         String imageBadgeProfLink = badges13.child("badgeimagelink").getValue().toString();
                         Picasso.get().load(imageBadgeProfLink).into(imgPremiumBadgeX);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        Query spectrumQuery = FirebaseDatabase.getInstance().getReference().child("badges").orderByChild("badgename").equalTo(spectrumBadge);
+        spectrumQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot badgeProfSnapshot) {
+                for (DataSnapshot badges14: badgeProfSnapshot.getChildren()) {
+
+                    if (spectrumLevel > 0) {
+                        String imageBadgeProfLink = badges14.child("badgeimagelink").getValue().toString();
+                        Picasso.get().load(imageBadgeProfLink).into(imgSpectrumBadgeX);
 
                     }
                 }
