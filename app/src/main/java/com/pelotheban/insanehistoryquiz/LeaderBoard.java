@@ -56,6 +56,7 @@ public class LeaderBoard extends AppCompatActivity {
     private TextView txtScoreX;
     private int width2;
 
+
     //leader board selector buttons and recycler views
     private Button btnMostPlayedX, btnMostRightX, btnLongestStreakX, btnMostPlayed2X, btnMostRight2X, btnLongestStreak2X;
     private Button btnInterstitialX, btnRewardedX, btnIntestitial2X, btnRewarded2X, btnFBSharesX, btnFBShares2X;
