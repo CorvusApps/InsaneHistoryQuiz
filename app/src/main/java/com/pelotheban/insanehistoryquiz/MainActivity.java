@@ -264,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
+        // this is needed because the authstate listener stays active after leaving this class and causes trouble
         mAuth.removeAuthStateListener(mAuthListener);
         Log.i("LOGIN", "in onstop");
     }
