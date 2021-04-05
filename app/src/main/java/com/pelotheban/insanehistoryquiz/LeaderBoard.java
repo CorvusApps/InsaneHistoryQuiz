@@ -61,6 +61,7 @@ public class LeaderBoard extends AppCompatActivity {
     private Button btnInterstitialX, btnRewardedX, btnIntestitial2X, btnRewarded2X, btnFBSharesX, btnFBShares2X;
     private RecyclerView rcvLongestStreakX;
 
+
     private LinearLayoutManager layoutManagerLeaders;
 
     private String boardToggle;
