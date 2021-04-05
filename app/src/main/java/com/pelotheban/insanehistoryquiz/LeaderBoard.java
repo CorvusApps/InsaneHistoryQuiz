@@ -63,7 +63,6 @@ public class LeaderBoard extends AppCompatActivity {
 
     private LinearLayoutManager layoutManagerLeaders;
 
-
     private String boardToggle;
 
     //popUp Menu
