@@ -65,6 +65,7 @@ public class LeaderBoard extends AppCompatActivity {
 
     private String boardToggle;
 
+
     //popUp Menu
 
     private String popupMenuToggle;
