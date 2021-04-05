@@ -73,7 +73,6 @@ public class LeaderBoard extends AppCompatActivity {
     private TextView txtFAQButtonLBX, txtLogoutButtonLBX, txtPremiumButtonLBX;
     private View shadeX; // to shade the background when menu out
 
-
     //Firebase
 
     private FirebaseAuth mAuthLB;
